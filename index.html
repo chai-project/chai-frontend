@@ -61,10 +61,10 @@
             <h2>Ut Cursus</h2>
 
             <div class="chart-container" style="height:30vh; width:40vw">
-                <canvas id="randomChart"></canvas>
+                <canvas id="dayChart"></canvas>
             </div>
 
-            <p id="randomConsole"></p>
+            <p id="dayConsole"></p>
 
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non tincidunt lorem. Sed pellentesque iaculis ornare. Praesent congue finibus justo non convallis. Donec consectetur maximus ante, sit amet auctor enim porttitor non. Curabitur lacinia, nisl a blandit luctus, lectus magna vulputate ipsum, imperdiet eleifend lectus ante at diam. Morbi eu elit elit. Praesent elementum massa ex, sed egestas odio venenatis id. Fusce imperdiet nisl eu dui malesuada, ut ultrices elit venenatis. Nam tincidunt, dolor at commodo consequat, felis velit tempor ligula, a ultrices risus diam vitae quam. Sed ut sapien dignissim, ornare nunc quis, vulputate nisi. Pellentesque vel commodo nulla. Nullam non mi sed nibh iaculis rhoncus.</p>
         </article>
@@ -73,10 +73,10 @@
             <h2>Morbi Quis</h2>
 
             <div class="chart-container" style="height:30vh; width:40vw">
-                <canvas id="databaseChart"></canvas>
+                <canvas id="hourChart"></canvas>
             </div>
 
-            <p id="databaseConsole"></p>
+            <p id="hourConsole"></p>
 
             <p>In hac habitasse platea dictumst. Duis iaculis odio nec molestie venenatis. Pellentesque luctus a est nec vestibulum. Pellentesque vel porta augue. Maecenas at dapibus tellus. Integer sit amet nibh id massa lacinia tempor. Suspendisse ac felis lacus. Fusce in congue nisi. Donec congue tortor ac posuere hendrerit. Ut placerat sagittis turpis at posuere. Cras pulvinar quis elit id iaculis. Nam interdum risus a felis dignissim iaculis.</p>
         </article>
@@ -89,16 +89,19 @@
     </section>
 
     <footer>
+        <p id="footerConsole"></p>
         <p>Copyright © 2021 CHAI</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+    const api_host = "http://" + window.location.hostname + ":8080"
+
     Chart.defaults.font.family = "Arial";
     Chart.defaults.font.size = 11;
     Chart.defaults.font.color = "black";
 
-    function makeChart(id, type) {
+    function makeChart(id, type, y_max) {
         return new Chart(
             document.getElementById(id).getContext("2d"),
             {
@@ -139,7 +142,7 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 50
+                            max: y_max
                         }
                     }
                 }
@@ -147,13 +150,92 @@
         );
     }
 
-    function updateChart(chart, url, console) {
+    let dayChart = new Chart(
+        document.getElementById("dayChart").getContext("2d"),
+        {
+            type: "bar",
+            data: {
+                labels: ["", "", "", "", "", "", ""],
+                datasets: [
+                    {
+                        label: "Monthly Results",
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 0.2)",
+                            "rgba(255, 159, 64, 0.2)",
+                            "rgba(255, 205, 86, 0.2)",
+                            "rgba(75, 192, 192, 0.2)",
+                            "rgba(54, 162, 235, 0.2)",
+                            "rgba(153, 102, 255, 0.2)",
+                            "rgba(201, 203, 207, 0.2)"
+                        ],
+                        borderColor: [
+                            "rgb(255, 99, 132)",
+                            "rgb(255, 159, 64)",
+                            "rgb(255, 205, 86)",
+                            "rgb(75, 192, 192)",
+                            "rgb(54, 162, 235)",
+                            "rgb(153, 102, 255)",
+                            "rgb(201, 203, 207)"
+                        ],
+                        borderWidth: 1,
+                        data: [0, 0, 0, 0, 0, 0, 0]
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: false
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        }
+    );
+
+    let hourChart = new Chart(
+        document.getElementById("hourChart").getContext("2d"),
+        {
+            type: "line",
+            data: {
+                labels: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+                datasets: [
+                    {
+                        label: "Daily Results",
+                        backgroundColor: "rgba(255, 99, 132, 0.2)",
+                        borderColor: "rgba(255, 99, 132)",
+                        borderWidth: 1,
+                        fill: true,
+                        data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: false
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1.0
+                    }
+                }
+            }
+        }
+    );
+
+    function updateChart(chart, url, keys, console) {
         fetch(url).then(
             function(response) {
                 if (response.status == 200) {
                     response.json().then(
                         function(data) {
-                            chart.data.labels = data["labels"];
+                            chart.data.labels = data[keys];
                             chart.data.datasets[0].data = data["values"];
                             chart.update();
                         }
@@ -167,16 +249,19 @@
         )
     }
 
-    let randomChart = makeChart("randomChart", "bar");
-    let databaseChart = makeChart("databaseChart", "line");
-
-    function updateCharts() {
-        updateChart(randomChart, "http://localhost:8080/random", "randomConsole");
-        updateChart(databaseChart, "http://localhost:8080/database", "databaseConsole");
+    function updateDayChart() {
+        updateChart(dayChart, api_host + "/day", "days", "dayConsole");
     }
 
-    updateCharts();
-    setInterval(updateCharts, 1500);
+    function updateHourChart() {
+        updateChart(hourChart, api_host + "/hour", "hours", "hourConsole");
+    }
+
+    updateDayChart();
+    updateHourChart();
+
+    setInterval(updateDayChart, 3000);
+    setInterval(updateHourChart, 1500);
     </script>
 </body>
 </html>
