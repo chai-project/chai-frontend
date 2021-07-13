@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>CHAPP | Home</title>
+    <link rel="icon" href="https://project-chai.org/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anaheim%7cQuattrocento&#43;Sans:400,700&amp;display=swap">
     <style>
     html {
-        font-family: arial, sans-serif;
-        background: rgb(250, 250, 250);
+        /* Verdana, Trebuchet MS, Arial, Helvetica, Tahoma */
+        font-family: "quattrocento sans", sans-serif;
+        background-color: #252b31;
+    	color: #afbac4
     }
 
     body {
@@ -15,6 +19,29 @@
 
     header {
         height: 100px;
+        background-color: #1d2024;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    header img {
+        vertical-align: center;
+    }
+
+    header h1 {
+        text-align: center;
+        font-size: 3.2rem;
+        color: #ffffff;
+    }
+
+    h2 {
+        font-size: 1.0rem;
+        color: #57cbcc;
+    }
+
+    h1, h2 {
+        font-weight: 400;
     }
 
     footer {
@@ -23,42 +50,39 @@
         font-size: 0.8rem;
     }
 
-    h1 {
-        text-align: center;
-        line-height: 100px;
-        margin: 0;
-        font-size: 2.4rem;
-        font-family: "Arial Black";
-    }
-
-    h2 {
-        font-size: 1.0rem;
-    }
-
-    article {
-        padding: 10px;
-        margin: 10px;
-        background: white;
-        flex: 200px;
-    }
-
     section {
         display: flex;
         flex-flow: row wrap;
         font-size: 0.9rem;
+        margin: 10px;
+    }
+
+    article {
+        background: #353b43;
+        flex: 200px;
+        padding: 25px;
+        margin: 10px;
+    }
+
+    .chart-container {
+        height: 300px;
+        flex: 0 0 auto;
+        width: 95%;
     }
     </style>
 </head>
 <body>
     <header>
+        <p></p>
         <h1>CHAPP</h1>
+        <img src="https://project-chai.org/images/logo.png" alt="CHAI Project" height="42"/>
     </header>
 
     <section>
         <article>
             <h2>Ut Cursus</h2>
 
-            <div class="chart-container" style="height:30vh; width:40vw">
+            <div class="chart-container">
                 <canvas id="dayChart"></canvas>
             </div>
 
@@ -70,7 +94,7 @@
         <article>
             <h2>Morbi Quis</h2>
 
-            <div class="chart-container" style="height:30vh; width:40vw">
+            <div class="chart-container">
                 <canvas id="hourChart"></canvas>
             </div>
 
@@ -88,16 +112,17 @@
 
     <footer>
         <p id="footerConsole"></p>
-        <p>Copyright © 2021 CHAI</p>
+        <p>Copyright © 2021 CHAI Project</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     const api_host = "http://" + window.location.hostname + ":8080"
 
-    Chart.defaults.font.family = "Arial";
+    Chart.defaults.font.family = "quattrocento sans";
     Chart.defaults.font.size = 11;
-    Chart.defaults.font.color = "black";
+    Chart.defaults.borderColor = "#1d2024";
+    Chart.defaults.color = "#afbac4";
 
     let dayChart = new Chart(
         document.getElementById("dayChart").getContext("2d"),
