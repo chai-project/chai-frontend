@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>CHApp | Home</title>
     <link rel="icon" href="https://project-chai.org/images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anaheim%7cQuattrocento&#43;Sans:400,700&amp;display=swap">
@@ -31,12 +32,13 @@
 
     header h1 {
         text-align: center;
-        font-size: 3.2rem;
+        font-size: 2.8rem;
         color: #ffffff;
+        font-weight: 700;
     }
 
     h2 {
-        font-size: 1.0rem;
+        font-size: 1.6rem;
         color: #57cbcc;
     }
 
@@ -53,7 +55,7 @@
     section {
         display: flex;
         flex-flow: row wrap;
-        font-size: 0.9rem;
+        font-size: 1.0rem;
         margin: 10px;
     }
 
@@ -73,7 +75,6 @@
 </head>
 <body>
     <header>
-        <p></p>
         <h1>CHApp</h1>
         <img src="https://project-chai.org/images/logo.png" alt="CHAI Project" height="42"/>
     </header>
@@ -120,7 +121,7 @@
     const api_host = "http://" + window.location.hostname + ":8080"
 
     Chart.defaults.font.family = "quattrocento sans";
-    Chart.defaults.font.size = 11;
+    Chart.defaults.font.size = 12;
     Chart.defaults.borderColor = "#1d2024";
     Chart.defaults.color = "#afbac4";
 
