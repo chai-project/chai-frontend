@@ -84,10 +84,10 @@
             <h2>Ut Cursus</h2>
 
             <div class="chart-container">
-                <canvas id="dayChart"></canvas>
+                <canvas id="daysChart"></canvas>
             </div>
 
-            <p id="dayConsole"></p>
+            <p id="daysConsole"></p>
 
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non tincidunt lorem. Sed pellentesque iaculis ornare. Praesent congue finibus justo non convallis. Donec consectetur maximus ante, sit amet auctor enim porttitor non. Curabitur lacinia, nisl a blandit luctus, lectus magna vulputate ipsum, imperdiet eleifend lectus ante at diam. Morbi eu elit elit. Praesent elementum massa ex, sed egestas odio venenatis id. Fusce imperdiet nisl eu dui malesuada, ut ultrices elit venenatis. Nam tincidunt, dolor at commodo consequat, felis velit tempor ligula, a ultrices risus diam vitae quam. Sed ut sapien dignissim, ornare nunc quis, vulputate nisi. Pellentesque vel commodo nulla. Nullam non mi sed nibh iaculis rhoncus.</p>
         </article>
@@ -96,16 +96,22 @@
             <h2>Morbi Quis</h2>
 
             <div class="chart-container">
-                <canvas id="hourChart"></canvas>
+                <canvas id="hoursChart"></canvas>
             </div>
 
-            <p id="hourConsole"></p>
+            <p id="hoursConsole"></p>
 
             <p>In hac habitasse platea dictumst. Duis iaculis odio nec molestie venenatis. Pellentesque luctus a est nec vestibulum. Pellentesque vel porta augue. Maecenas at dapibus tellus. Integer sit amet nibh id massa lacinia tempor. Suspendisse ac felis lacus. Fusce in congue nisi. Donec congue tortor ac posuere hendrerit. Ut placerat sagittis turpis at posuere. Cras pulvinar quis elit id iaculis. Nam interdum risus a felis dignissim iaculis.</p>
         </article>
 
         <article>
             <h2>Curabitur Dictum</h2>
+
+            <div class="chart-container">
+                <canvas id="calendarChart"></canvas>
+            </div>
+
+            <p id="calendarConsole"></p>
 
             <p>Proin eget varius neque, ac tempor lacus. Aenean et sagittis lacus, in fringilla turpis. Aenean efficitur vitae diam sit amet porttitor. Maecenas vestibulum diam eu urna viverra, et sagittis mauris suscipit. Donec id velit ornare, tincidunt ligula eget, dictum magna. Phasellus finibus ac odio non rutrum. Aenean imperdiet leo sed congue dictum. Donec tristique, nisi eget ultrices viverra, dolor lorem bibendum tortor, vel tincidunt orci augue id tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi varius lorem urna, in tincidunt turpis porta nec. Aenean ornare mollis odio sit amet auctor. Mauris ac metus a ex ultricies maximus.</p>
         </article>
@@ -116,7 +122,10 @@
         <p>Copyright © 2021 CHAI Project</p>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
     const api_host = "http://" + window.location.hostname + ":8080"
 
@@ -125,8 +134,8 @@
     Chart.defaults.borderColor = "#1d2024";
     Chart.defaults.color = "#afbac4";
 
-    let dayChart = new Chart(
-        document.getElementById("dayChart").getContext("2d"),
+    let daysChart = new Chart(
+        document.getElementById("daysChart").getContext("2d"),
         {
             type: "bar",
             data: {
@@ -153,27 +162,27 @@
                             "rgb(201, 203, 207)"
                         ],
                         borderWidth: 1,
-                        data: [0, 0, 0, 0, 0, 0, 0]
+                        data: [0, 0, 0, 0, 0, 0, 0],
                     }
                 ]
             },
             options: {
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: false
+                    legend: false,
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
                         max: 100
                     }
-                }
+                },
             }
         }
     );
 
-    let hourChart = new Chart(
-        document.getElementById("hourChart").getContext("2d"),
+    let hoursChart = new Chart(
+        document.getElementById("hoursChart").getContext("2d"),
         {
             type: "line",
             data: {
@@ -204,13 +213,141 @@
         }
     );
 
-    function updateChart(chart, url, keys, console) {
+    let ctx = document.getElementById("calendarChart").getContext("2d");
+    var calendarChart = new Chart(ctx, {
+        plugins: [ChartDataLabels],
+        type: "scatter",
+        data: {
+            datasets: [
+                {
+                    label: "Monday",
+                    data: [{x: "07:30", y: "Monday", z: 23.2}, {x: "09:00", y: "Monday", z: 18.6}, {x: "17:30", y: "Monday", z: 21.5}, {x: "22:00", y: "Monday", z: 19.2}],
+                    backgroundColor: "rgba(255, 99, 132, 0.2)",
+                    borderColor: "rgba(255, 99, 132)",
+                    datalabels: {
+                        color: "rgba(255, 99, 132)"
+                    }
+                },
+                {
+                    label: "Tuesday",
+                    data: [{x: "07:30", y: "Tuesday", z: 23.2}, {x: "09:00", y: "Tuesday", z: 18.6}, {x: "17:30", y: "Tuesday", z: 21.5}, {x: "22:00", y: "Tuesday", z: 19.2}],
+                    backgroundColor: "rgba(255, 159, 64, 0.2)",
+                    borderColor: "rgba(255, 159, 64)",
+                    datalabels: {
+                        color: "rgba(255, 159, 64)"
+                    }
+                },
+                {
+                    label: "Wednesday",
+                    data: [{x: "07:30", y: "Wednesday", z: 23.2}, {x: "09:00", y: "Wednesday", z: 18.6}, {x: "17:30", y: "Wednesday", z: 21.5}, {x: "22:00", y: "Wednesday", z: 19.2}],
+                    backgroundColor: "rgba(255, 205, 86, 0.2)",
+                    borderColor: "rgba(255, 205, 86)",
+                    datalabels: {
+                        color: "rgba(255, 205, 86)"
+                    }
+                },
+                {
+                    label: "Thursday",
+                    data: [{x: "07:30", y: "Thursday", z: 23.2}, {x: "09:00", y: "Thursday", z: 18.6}, {x: "17:30", y: "Thursday", z: 21.5}, {x: "22:00", y: "Thursday", z: 19.2}],
+                    backgroundColor: "rgba(75, 192, 192, 0.2)",
+                    borderColor: "rgba(75, 192, 192)",
+                    datalabels: {
+                        color: "rgba(75, 192, 192)"
+                    }
+                },
+                {
+                    label: "Friday",
+                    data: [{x: "07:30", y: "Friday", z: 23.2}, {x: "09:00", y: "Friday", z: 18.6}, {x: "17:30", y: "Friday", z: 21.5}, {x: "22:00", y: "Friday", z: 19.2}],
+                    backgroundColor: "rgba(54, 162, 235, 0.2)",
+                    borderColor: "rgba(54, 162, 235)",
+                    datalabels: {
+                        color: "rgba(54, 162, 235)"
+                    }
+                },
+                {
+                    label: "Saturday",
+                    data: [{x: "09:00", y: "Saturday", z: 21.5}, {x: "23:00", y: "Saturday", z: 19.2}],
+                    backgroundColor: "rgba(153, 102, 255, 0.2)",
+                    borderColor: "rgba(153, 102, 255)",
+                    datalabels: {
+                        color: "rgba(153, 102, 255)"
+                    }
+                },
+                {
+                    label: "Sunday",
+                    data: [{x: "09:00", y: "Sunday", z: 21.5}, {x: "23:00", y: "Sunday", z: 19.2}],
+                    backgroundColor: "rgba(201, 203, 207, 0.2)",
+                    borderColor: "rgba(201, 203, 207)",
+                    datalabels: {
+                        color: "rgba(201, 203, 207)"
+                    }
+                },
+            ]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        parser: "HH:mm",
+                        unit: "minutes",
+                        tooltipFormat: "HH:mm",
+                        displayFormats: {
+                            "minutes": "HH:mm"
+                        },
+                        unitStepSize: 60
+                    },
+                    min: "00:00",
+                    max: "23:59"
+                },
+                y: {
+                    type: 'category',
+                    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+                }
+            },
+            layout: {
+                padding: {
+                    top: 18
+                }
+            },
+            plugins: {
+                legend: false,
+                datalabels: {
+                    // align: "top",
+                    // offset: 1,
+                    formatter: function(value, context) {
+                        return value.z;
+                    }
+                },
+                tooltip: {
+                    usePointStyle: true,
+                    callbacks: {
+                        label: function(context) {
+                            return " set to " + context.raw.z + " °C at " + context.raw.x + " on " + context.raw.y;
+                        },
+                        labelPointStyle: function(context) {
+                            return {
+                                pointStyle: 'circle'
+                            };
+                        }
+                    }
+                }
+            },
+            radius: 15,
+            hoverRadius: 0,
+            hitRadius: 3
+        }
+    });
+
+    function updateChart(chart, route, console) {
+        let url = api_host + "/" + route;
         fetch(url).then(
             function(response) {
                 if (response.status == 200) {
                     response.json().then(
                         function(data) {
-                            chart.data.labels = data[keys];
+                            chart.data.labels = data[route];
                             chart.data.datasets[0].data = data["values"];
                             chart.update();
                         }
@@ -224,19 +361,19 @@
         )
     }
 
-    function updateDayChart() {
-        updateChart(dayChart, api_host + "/day", "days", "dayConsole");
+    function updateDaysChart() {
+        updateChart(daysChart, "days", "daysConsole");
     }
 
-    function updateHourChart() {
-        updateChart(hourChart, api_host + "/hour", "hours", "hourConsole");
+    function updateHoursChart() {
+        updateChart(hoursChart, "hours", "hoursConsole");
     }
 
-    updateDayChart();
-    updateHourChart();
+    updateDaysChart();
+    updateHoursChart();
 
-    setInterval(updateDayChart, 3000);
-    setInterval(updateHourChart, 1500);
+    setInterval(updateDaysChart, 3000);
+    setInterval(updateHoursChart, 1500);
     </script>
 </body>
 </html>
