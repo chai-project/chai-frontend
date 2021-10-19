@@ -61,7 +61,7 @@
 
     article {
         background: #353b43;
-        flex: 200px;
+        flex: 1400px;
         padding: 25px;
         margin: 10px;
     }
@@ -80,7 +80,7 @@
     </header>
 
     <section>
-        <article>
+        <!-- <article>
             <h2>Ut Cursus</h2>
 
             <div class="chart-container">
@@ -90,21 +90,33 @@
             <p id="daysConsole"></p>
 
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non tincidunt lorem. Sed pellentesque iaculis ornare. Praesent congue finibus justo non convallis. Donec consectetur maximus ante, sit amet auctor enim porttitor non. Curabitur lacinia, nisl a blandit luctus, lectus magna vulputate ipsum, imperdiet eleifend lectus ante at diam. Morbi eu elit elit. Praesent elementum massa ex, sed egestas odio venenatis id. Fusce imperdiet nisl eu dui malesuada, ut ultrices elit venenatis. Nam tincidunt, dolor at commodo consequat, felis velit tempor ligula, a ultrices risus diam vitae quam. Sed ut sapien dignissim, ornare nunc quis, vulputate nisi. Pellentesque vel commodo nulla. Nullam non mi sed nibh iaculis rhoncus.</p>
-        </article>
+        </article> -->
 
         <article>
-            <h2>Morbi Quis</h2>
+            <h2>Electricity</h2>
 
             <div class="chart-container">
-                <canvas id="hoursChart"></canvas>
+                <canvas id="electricityChart"></canvas>
             </div>
 
-            <p id="hoursConsole"></p>
+            <p id="electricityConsole"></p>
 
             <p>In hac habitasse platea dictumst. Duis iaculis odio nec molestie venenatis. Pellentesque luctus a est nec vestibulum. Pellentesque vel porta augue. Maecenas at dapibus tellus. Integer sit amet nibh id massa lacinia tempor. Suspendisse ac felis lacus. Fusce in congue nisi. Donec congue tortor ac posuere hendrerit. Ut placerat sagittis turpis at posuere. Cras pulvinar quis elit id iaculis. Nam interdum risus a felis dignissim iaculis.</p>
         </article>
 
         <article>
+            <h2>Battery</h2>
+
+            <div class="chart-container">
+                <canvas id="batteryChart"></canvas>
+            </div>
+
+            <p id="batteryConsole"></p>
+
+            <p>Proin eget varius neque, ac tempor lacus. Aenean et sagittis lacus, in fringilla turpis. Aenean efficitur vitae diam sit amet porttitor. Maecenas vestibulum diam eu urna viverra, et sagittis mauris suscipit. Donec id velit ornare, tincidunt ligula eget, dictum magna. Phasellus finibus ac odio non rutrum. Aenean imperdiet leo sed congue dictum. Donec tristique, nisi eget ultrices viverra, dolor lorem bibendum tortor, vel tincidunt orci augue id tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi varius lorem urna, in tincidunt turpis porta nec. Aenean ornare mollis odio sit amet auctor. Mauris ac metus a ex ultricies maximus.</p>
+        </article>
+
+        <!-- <article>
             <h2>Curabitur Dictum</h2>
 
             <div class="chart-container">
@@ -114,7 +126,7 @@
             <p id="calendarConsole"></p>
 
             <p>Proin eget varius neque, ac tempor lacus. Aenean et sagittis lacus, in fringilla turpis. Aenean efficitur vitae diam sit amet porttitor. Maecenas vestibulum diam eu urna viverra, et sagittis mauris suscipit. Donec id velit ornare, tincidunt ligula eget, dictum magna. Phasellus finibus ac odio non rutrum. Aenean imperdiet leo sed congue dictum. Donec tristique, nisi eget ultrices viverra, dolor lorem bibendum tortor, vel tincidunt orci augue id tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi varius lorem urna, in tincidunt turpis porta nec. Aenean ornare mollis odio sit amet auctor. Mauris ac metus a ex ultricies maximus.</p>
-        </article>
+        </article> -->
     </section>
 
     <footer>
@@ -128,290 +140,481 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
     const api_host = "http://" + window.location.hostname + ":8080"
+    // const api_host = "http://192.168.0.43:8080"
+    // const api_host = "http://0.0.0.0:8080"
 
     Chart.defaults.font.family = "quattrocento sans";
     Chart.defaults.font.size = 12;
     Chart.defaults.borderColor = "#1d2024";
     Chart.defaults.color = "#afbac4";
 
-    let daysChart = new Chart(
-        document.getElementById("daysChart").getContext("2d"),
-        {
-            type: "bar",
-            data: {
-                labels: ["", "", "", "", "", "", ""],
-                datasets: [
-                    {
-                        label: "Values",
-                        backgroundColor: [
-                            "rgba(255, 99, 132, 0.2)",
-                            "rgba(255, 159, 64, 0.2)",
-                            "rgba(255, 205, 86, 0.2)",
-                            "rgba(75, 192, 192, 0.2)",
-                            "rgba(54, 162, 235, 0.2)",
-                            "rgba(153, 102, 255, 0.2)",
-                            "rgba(201, 203, 207, 0.2)"
-                        ],
-                        borderColor: [
-                            "rgb(255, 99, 132)",
-                            "rgb(255, 159, 64)",
-                            "rgb(255, 205, 86)",
-                            "rgb(75, 192, 192)",
-                            "rgb(54, 162, 235)",
-                            "rgb(153, 102, 255)",
-                            "rgb(201, 203, 207)"
-                        ],
-                        borderWidth: 1,
-                        data: [0, 0, 0, 0, 0, 0, 0],
-                    }
-                ]
-            },
-            options: {
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: false,
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100
-                    }
-                },
-            }
-        }
-    );
+    // let daysChart = new Chart(
+    //     document.getElementById("daysChart").getContext("2d"),
+    //     {
+    //         type: "bar",
+    //         data: {
+    //             labels: ["", "", "", "", "", "", ""],
+    //             datasets: [
+    //                 {
+    //                     label: "Values",
+    //                     backgroundColor: [
+    //                         "rgba(255, 99, 132, 0.2)",
+    //                         "rgba(255, 159, 64, 0.2)",
+    //                         "rgba(255, 205, 86, 0.2)",
+    //                         "rgba(75, 192, 192, 0.2)",
+    //                         "rgba(54, 162, 235, 0.2)",
+    //                         "rgba(153, 102, 255, 0.2)",
+    //                         "rgba(201, 203, 207, 0.2)"
+    //                     ],
+    //                     borderColor: [
+    //                         "rgb(255, 99, 132)",
+    //                         "rgb(255, 159, 64)",
+    //                         "rgb(255, 205, 86)",
+    //                         "rgb(75, 192, 192)",
+    //                         "rgb(54, 162, 235)",
+    //                         "rgb(153, 102, 255)",
+    //                         "rgb(201, 203, 207)"
+    //                     ],
+    //                     borderWidth: 1,
+    //                     data: [0, 0, 0, 0, 0, 0, 0],
+    //                 }
+    //             ]
+    //         },
+    //         options: {
+    //             maintainAspectRatio: false,
+    //             plugins: {
+    //                 legend: false,
+    //             },
+    //             scales: {
+    //                 y: {
+    //                     beginAtZero: true,
+    //                     max: 100
+    //                 }
+    //             },
+    //         }
+    //     }
+    // );
 
-    let hoursChart = new Chart(
-        document.getElementById("hoursChart").getContext("2d"),
+    let electricityChart = new Chart(
+        document.getElementById("electricityChart").getContext("2d"),
         {
             type: "line",
             data: {
-                labels: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+                labels: [],
                 datasets: [
                     {
-                        label: "Values",
+                        label: "Import price - actual (p/kWh)",
+                        yAxisID: "A",
+                        data: [],
+                        fill: true,
                         backgroundColor: "rgba(255, 99, 132, 0.2)",
                         borderColor: "rgba(255, 99, 132)",
-                        borderWidth: 1,
+                        stepped: "middle",
+                        pointRadius: 2,
+                    },
+                    {
+                        label: "Import price - predicted (p/kWh)",
+                        yAxisID: "A",
+                        data: [],
                         fill: true,
-                        data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        borderColor: "rgba(75, 192, 192)",
+                        stepped: "middle",
+                        pointRadius: 2,
+                    },
+                    {
+                        label: "Export price - actual (p/kWh)",
+                        yAxisID: "A",
+                        data: [],
+                        fill: true,
+                        backgroundColor: "rgba(54, 162, 235, 0.2)",
+                        borderColor: "rgba(54, 162, 235)",
+                        stepped: "middle",
+                        pointRadius: 2,
+                    },
+                    {
+                        label: "Export price - predicted (p/kWh)",
+                        yAxisID: "A",
+                        data: [],
+                        fill: true,
+                        backgroundColor: "rgba(153, 102, 255, 0.2)",
+                        borderColor: "rgba(153, 102, 255)",
+                        stepped: "middle",
+                        pointRadius: 2,
+                    },
+                    {
+                        label: "Consumption (kWh)",
+                        yAxisID: "B",
+                        data: [],
+                        fill: true,
+                        backgroundColor: "rgba(255, 159, 64, 0.2)",
+                        borderColor: "rgba(255, 159, 64)",
+                        type: "bar",
+                        borderWidth: 1,
                     }
                 ]
             },
             options: {
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: false
-                },
                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 1.0
+                    x: {
+                        type: "time",
+                        time: {
+                            unit: "day",
+                            stepSize: 1,
+                            tooltipFormat: "HH:mm, ddd D MMM YYYY",
+                            displayFormats: {
+                                "day": "ddd D MMM"
+                            }
+                        }
+                    },
+                    A: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            text: "p/kWh",
+                            display: true
+                        }
+                    },
+                    B: {
+                        type: "linear",
+                        position: "right",
+                        title: {
+                            text: "kWh",
+                            display: true
+                        }
                     }
                 }
             }
         }
     );
 
-    let ctx = document.getElementById("calendarChart").getContext("2d");
-    var calendarChart = new Chart(ctx, {
-        plugins: [ChartDataLabels],
-        type: "scatter",
-        data: {
-            datasets: [
-                {
-                    label: "Monday",
-                    data: [],
-                    backgroundColor: "rgba(255, 99, 132, 0.2)",
-                    borderColor: "rgba(255, 99, 132)",
-                    datalabels: {
-                        color: "rgba(255, 99, 132)"
+    let batteryChart = new Chart(
+        document.getElementById("batteryChart").getContext("2d"),
+        {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: "Battery charge - planned (kWh)",
+                        yAxisID: "A",
+                        data: [],
+                        fill: true,
+                        backgroundColor: "rgba(255, 99, 132, 0.2)",
+                        borderColor: "rgba(255, 99, 132)",
+                        stepped: "middle",
+                        pointRadius: 2,
                     }
-                },
-                {
-                    label: "Tuesday",
-                    data: [],
-                    backgroundColor: "rgba(255, 159, 64, 0.2)",
-                    borderColor: "rgba(255, 159, 64)",
-                    datalabels: {
-                        color: "rgba(255, 159, 64)"
-                    }
-                },
-                {
-                    label: "Wednesday",
-                    data: [],
-                    backgroundColor: "rgba(255, 205, 86, 0.2)",
-                    borderColor: "rgba(255, 205, 86)",
-                    datalabels: {
-                        color: "rgba(255, 205, 86)"
-                    }
-                },
-                {
-                    label: "Thursday",
-                    data: [],
-                    backgroundColor: "rgba(75, 192, 192, 0.2)",
-                    borderColor: "rgba(75, 192, 192)",
-                    datalabels: {
-                        color: "rgba(75, 192, 192)"
-                    }
-                },
-                {
-                    label: "Friday",
-                    data: [],
-                    backgroundColor: "rgba(54, 162, 235, 0.2)",
-                    borderColor: "rgba(54, 162, 235)",
-                    datalabels: {
-                        color: "rgba(54, 162, 235)"
-                    }
-                },
-                {
-                    label: "Saturday",
-                    data: [],
-                    backgroundColor: "rgba(153, 102, 255, 0.2)",
-                    borderColor: "rgba(153, 102, 255)",
-                    datalabels: {
-                        color: "rgba(153, 102, 255)"
-                    }
-                },
-                {
-                    label: "Sunday",
-                    data: [],
-                    backgroundColor: "rgba(201, 203, 207, 0.2)",
-                    borderColor: "rgba(201, 203, 207)",
-                    datalabels: {
-                        color: "rgba(201, 203, 207)"
-                    }
-                },
-            ]
-        },
-        options: {
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    type: 'time',
-                    time: {
-                        parser: "HH:mm",
-                        unit: "minutes",
-                        tooltipFormat: "HH:mm",
-                        displayFormats: {
-                            "minutes": "HH:mm"
-                        },
-                        unitStepSize: 60
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: "time",
+                        time: {
+                            unit: "day",
+                            stepSize: 1,
+                            tooltipFormat: "HH:mm, ddd D MMM YYYY",
+                            displayFormats: {
+                                "day": "ddd D MMM"
+                            }
+                        }
                     },
-                    min: "00:00",
-                    max: "23:59"
-                },
-                y: {
-                    type: 'category',
-                    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-                }
-            },
-            layout: {
-                padding: {
-                    top: 18
-                }
-            },
-            plugins: {
-                legend: false,
-                datalabels: {
-                    // align: "top",
-                    // offset: 1,
-                    formatter: function(value, context) {
-                        return value.z.toFixed(1);
-                    }
-                },
-                tooltip: {
-                    usePointStyle: true,
-                    callbacks: {
-                        label: function(context) {
-                            return " set to " + context.raw.z.toFixed(2) + " °C at " + context.raw.x + " on " + context.raw.y;
-                        },
-                        labelPointStyle: function(context) {
-                            return {
-                                pointStyle: 'circle'
-                            };
+                    A: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            text: "kWh",
+                            display: true
                         }
                     }
                 }
-            },
-            radius: 15,
-            hoverRadius: 0,
-            hitRadius: 3
+            }
         }
-    });
+    );
 
-    function updateChart(chart, route, console) {
+    // let ctx = document.getElementById("calendarChart").getContext("2d");
+    // var calendarChart = new Chart(ctx, {
+    //     plugins: [ChartDataLabels],
+    //     type: "scatter",
+    //     data: {
+    //         datasets: [
+    //             {
+    //                 label: "Monday",
+    //                 data: [],
+    //                 backgroundColor: "rgba(255, 99, 132, 0.2)",
+    //                 borderColor: "rgba(255, 99, 132)",
+    //                 datalabels: {
+    //                     color: "rgba(255, 99, 132)"
+    //                 }
+    //             },
+    //             {
+    //                 label: "Tuesday",
+    //                 data: [],
+    //                 backgroundColor: "rgba(255, 159, 64, 0.2)",
+    //                 borderColor: "rgba(255, 159, 64)",
+    //                 datalabels: {
+    //                     color: "rgba(255, 159, 64)"
+    //                 }
+    //             },
+    //             {
+    //                 label: "Wednesday",
+    //                 data: [],
+    //                 backgroundColor: "rgba(255, 205, 86, 0.2)",
+    //                 borderColor: "rgba(255, 205, 86)",
+    //                 datalabels: {
+    //                     color: "rgba(255, 205, 86)"
+    //                 }
+    //             },
+    //             {
+    //                 label: "Thursday",
+    //                 data: [],
+    //                 backgroundColor: "rgba(75, 192, 192, 0.2)",
+    //                 borderColor: "rgba(75, 192, 192)",
+    //                 datalabels: {
+    //                     color: "rgba(75, 192, 192)"
+    //                 }
+    //             },
+    //             {
+    //                 label: "Friday",
+    //                 data: [],
+    //                 backgroundColor: "rgba(54, 162, 235, 0.2)",
+    //                 borderColor: "rgba(54, 162, 235)",
+    //                 datalabels: {
+    //                     color: "rgba(54, 162, 235)"
+    //                 }
+    //             },
+    //             {
+    //                 label: "Saturday",
+    //                 data: [],
+    //                 backgroundColor: "rgba(153, 102, 255, 0.2)",
+    //                 borderColor: "rgba(153, 102, 255)",
+    //                 datalabels: {
+    //                     color: "rgba(153, 102, 255)"
+    //                 }
+    //             },
+    //             {
+    //                 label: "Sunday",
+    //                 data: [],
+    //                 backgroundColor: "rgba(201, 203, 207, 0.2)",
+    //                 borderColor: "rgba(201, 203, 207)",
+    //                 datalabels: {
+    //                     color: "rgba(201, 203, 207)"
+    //                 }
+    //             },
+    //         ]
+    //     },
+    //     options: {
+    //         maintainAspectRatio: false,
+    //         scales: {
+    //             x: {
+    //                 type: "time",
+    //                 time: {
+    //                     parser: "HH:mm",
+    //                     unit: "minutes",
+    //                     tooltipFormat: "HH:mm",
+    //                     displayFormats: {
+    //                         "minutes": "HH:mm"
+    //                     },
+    //                     unitStepSize: 60
+    //                 },
+    //                 min: "00:00",
+    //                 max: "23:59"
+    //             },
+    //             y: {
+    //                 type: "category",
+    //                 labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    //             }
+    //         },
+    //         layout: {
+    //             padding: {
+    //                 top: 18
+    //             }
+    //         },
+    //         plugins: {
+    //             legend: false,
+    //             datalabels: {
+    //                 // align: "top",
+    //                 // offset: 1,
+    //                 formatter: function(value, context) {
+    //                     return value.z.toFixed(1);
+    //                 }
+    //             },
+    //             tooltip: {
+    //                 usePointStyle: true,
+    //                 callbacks: {
+    //                     label: function(context) {
+    //                         return " set to " + context.raw.z.toFixed(2) + " °C at " + context.raw.x + " on " + context.raw.y;
+    //                     },
+    //                     labelPointStyle: function(context) {
+    //                         return {
+    //                             pointStyle: "circle"
+    //                         };
+    //                     }
+    //                 }
+    //             }
+    //         },
+    //         radius: 15,
+    //         hoverRadius: 0,
+    //         hitRadius: 3
+    //     }
+    // });
+    //
+    // function updateDaysChart() {
+    //     let route = "days";
+    //     let url = api_host + "/" + route;
+    //     fetch(url).then(
+    //         function(response) {
+    //             if (response.status == 200) {
+    //                 response.json().then(
+    //                     function(data) {
+    //                         daysChart.data.labels = data[route];
+    //                         daysChart.data.datasets[0].data = data["values"];
+    //                         daysChart.update();
+    //                     }
+    //                 );
+    //             }
+    //         }
+    //     ).catch(
+    //         function(err) {
+    //             document.getElementById("daysConsole").innerHTML = "Error = " + err;
+    //         }
+    //     )
+    // }
+
+    function updateElectricityChart() {
+        let route = "";
         let url = api_host + "/" + route;
         fetch(url).then(
             function(response) {
                 if (response.status == 200) {
                     response.json().then(
                         function(data) {
-                            chart.data.labels = data[route];
-                            chart.data.datasets[0].data = data["values"];
-                            chart.update();
-                        }
-                    );
-                }
-            }
-        ).catch(
-            function(err) {
-                document.getElementById(console).innerHTML = "Error = " + err;
-            }
-        )
-    }
-
-    function updateDaysChart() {
-        updateChart(daysChart, "days", "daysConsole");
-    }
-
-    function updateHoursChart() {
-        updateChart(hoursChart, "hours", "hoursConsole");
-    }
-
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-    function updateCalendarChart() {
-        let route = "calendar";
-        let url = api_host + "/" + route;
-        fetch(url).then(
-            function(response) {
-                if (response.status == 200) {
-                    response.json().then(
-                        function(data) {
-                            for (let i = 0; i < days.length; i++) {
-                                var day = days[i];
-                                var day_items = data[day];
-                                var day_data = [];
-                                for (var j = 0; j < day_items.length; j++) {
-                                    var item = day_items[j];
-                                    day_data.push({
-                                        x: item["time"],
-                                        y: day,
-                                        z: item["value"]
+                            var import_price_data = [];
+                            var predicted_import_price_data = [];
+                            var export_price_data = [];
+                            var predicted_export_price_data = [];
+                            var consumption_data = [];
+                            for (let i = 0; i < 672; i++) {
+                                x_i = data[i]["timestamp"];
+                                if (data[i]["import_price"]["type"] == "actual") {
+                                    import_price_data.push({
+                                        x: x_i,
+                                        y: data[i]["import_price"]["value"]
+                                    });
+                                } else {
+                                    predicted_import_price_data.push({
+                                        x: x_i,
+                                        y: data[i]["import_price"]["value"]
                                     });
                                 }
-                                calendarChart.data.datasets[i].data = day_data;
+                                if (data[i]["import_price"]["type"] == "actual") {
+                                    export_price_data.push({
+                                        x: x_i,
+                                        y: data[i]["export_price"]["value"]
+                                    });
+                                } else {
+                                    predicted_export_price_data.push({
+                                        x: x_i,
+                                        y: data[i]["export_price"]["value"]
+                                    });
+                                }
+                                consumption_data.push({
+                                    x: x_i,
+                                    y: data[i]["consumption"]["value"]
+                                });
                             }
-                            calendarChart.update();
+                            electricityChart.data.datasets[0].data = import_price_data;
+                            electricityChart.data.datasets[1].data = predicted_import_price_data;
+                            electricityChart.data.datasets[2].data = export_price_data;
+                            electricityChart.data.datasets[3].data = predicted_export_price_data;
+                            electricityChart.data.datasets[4].data = consumption_data;
+                            electricityChart.update();
                         }
                     );
                 }
             }
         ).catch(
             function(err) {
-                document.getElementById("calendarConsole").innerHTML = "Error = " + err;
+                document.getElementById("electricityConsole").innerHTML = "Error = " + err;
             }
         )
     }
 
-    updateDaysChart();
-    updateHoursChart();
-    updateCalendarChart();
+    function updateBatteryChart() {
+        let route = "battery";
+        let url = api_host + "/" + route;
+        fetch(url).then(
+            function(response) {
+                if (response.status == 200) {
+                    response.json().then(
+                        function(data) {
+                            var battery_data = [];
+                            for (let i = 0; i < data.length; i++) {
+                                battery_data.push({
+                                    x: data[i]["timestamp"],
+                                    y: data[i]["charge"]
+                                });
+                            }
+                            batteryChart.data.datasets[0].data = battery_data;
+                            batteryChart.update();
+                        }
+                    );
+                }
+            }
+        ).catch(
+            function(err) {
+                document.getElementById("batteryConsole").innerHTML = "Error = " + err;
+            }
+        )
+    }
 
-    setInterval(updateDaysChart, 3000);
-    setInterval(updateHoursChart, 1500);
-    setInterval(updateCalendarChart, 4500);
+    // const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    //
+    // function updateCalendarChart() {
+    //     let route = "calendar";
+    //     let url = api_host + "/" + route;
+    //     fetch(url).then(
+    //         function(response) {
+    //             if (response.status == 200) {
+    //                 response.json().then(
+    //                     function(data) {
+    //                         for (let i = 0; i < days.length; i++) {
+    //                             var day = days[i];
+    //                             var day_items = data[day];
+    //                             var day_data = [];
+    //                             for (var j = 0; j < day_items.length; j++) {
+    //                                 var item = day_items[j];
+    //                                 day_data.push({
+    //                                     x: item["time"],
+    //                                     y: day,
+    //                                     z: item["value"]
+    //                                 });
+    //                             }
+    //                             calendarChart.data.datasets[i].data = day_data;
+    //                         }
+    //                         calendarChart.update();
+    //                     }
+    //                 );
+    //             }
+    //         }
+    //     ).catch(
+    //         function(err) {
+    //             document.getElementById("calendarConsole").innerHTML = "Error = " + err;
+    //         }
+    //     )
+    // }
+
+    // updateDaysChart();
+    updateElectricityChart();
+    updateBatteryChart();
+    // updateCalendarChart();
+
+    // setInterval(updateDaysChart, 3000);
+    setInterval(updateElectricityChart, 180000);
+    // setInterval(updateCalendarChart, 4500);
     </script>
 </body>
 </html>
