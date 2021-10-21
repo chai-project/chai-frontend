@@ -140,7 +140,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
     const api_host = "http://" + window.location.hostname + ":8080"
-    // const api_host = "http://192.168.0.43:8080"
+    // const api_host = "http://192.168.0.44:8080"
     // const api_host = "http://0.0.0.0:8080"
 
     Chart.defaults.font.family = "quattrocento sans";
@@ -243,12 +243,22 @@
                         pointRadius: 2,
                     },
                     {
-                        label: "Consumption (kWh)",
+                        label: "Consumption - actual (kWh)",
                         yAxisID: "B",
                         data: [],
                         fill: true,
                         backgroundColor: "rgba(255, 159, 64, 0.2)",
                         borderColor: "rgba(255, 159, 64)",
+                        type: "bar",
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "Consumption - predicted (kWh)",
+                        yAxisID: "B",
+                        data: [],
+                        fill: true,
+                        backgroundColor: "rgba(201, 203, 207, 0.2)",
+                        borderColor: "rgba(201, 203, 207)",
                         type: "bar",
                         borderWidth: 1,
                     }
@@ -492,45 +502,63 @@
                 if (response.status == 200) {
                     response.json().then(
                         function(data) {
-                            var import_price_data = [];
-                            var predicted_import_price_data = [];
-                            var export_price_data = [];
-                            var predicted_export_price_data = [];
-                            var consumption_data = [];
+                            var actual_import_prices = [];
+                            var predicted_import_prices = [];
+                            var actual_export_prices = [];
+                            var predicted_export_prices = [];
+                            var actual_consumptions = [];
+                            var predicted_consumptions = [];
                             for (let i = 0; i < 672; i++) {
-                                x_i = data[i]["timestamp"];
-                                if (data[i]["import_price"]["type"] == "actual") {
-                                    import_price_data.push({
-                                        x: x_i,
-                                        y: data[i]["import_price"]["value"]
-                                    });
-                                } else {
-                                    predicted_import_price_data.push({
-                                        x: x_i,
-                                        y: data[i]["import_price"]["value"]
-                                    });
+                                var timestamp = data[i]["timestamp"];
+                                var import_price = data[i]["import_price"];
+                                if (import_price != null && import_price["value"] != null) {
+                                    if (import_price["type"] == "actual") {
+                                        actual_import_prices.push({
+                                            x: timestamp,
+                                            y: import_price["value"]
+                                        });
+                                    } else if (import_price["type"] == "prediction") {
+                                        predicted_import_prices.push({
+                                            x: timestamp,
+                                            y: import_price["value"]
+                                        });
+                                    }
                                 }
-                                if (data[i]["import_price"]["type"] == "actual") {
-                                    export_price_data.push({
-                                        x: x_i,
-                                        y: data[i]["export_price"]["value"]
-                                    });
-                                } else {
-                                    predicted_export_price_data.push({
-                                        x: x_i,
-                                        y: data[i]["export_price"]["value"]
-                                    });
+                                var export_price = data[i]["export_price"];
+                                if (export_price != null && export_price["value"] != null) {
+                                    if (export_price["type"] == "actual") {
+                                        actual_export_prices.push({
+                                            x: timestamp,
+                                            y: export_price["value"]
+                                        });
+                                    } else if (export_price["type"] == "prediction") {
+                                        predicted_export_prices.push({
+                                            x: timestamp,
+                                            y: export_price["value"]
+                                        });
+                                    }
                                 }
-                                consumption_data.push({
-                                    x: x_i,
-                                    y: data[i]["consumption"]["value"]
-                                });
+                                var consumption = data[i]["consumption"];
+                                if (consumption != null && consumption["value"] != null) {
+                                    if (consumption["type"] == "actual") {
+                                        actual_consumptions.push({
+                                            x: timestamp,
+                                            y: consumption["value"]
+                                        });
+                                    } else if (consumption["type"] == "prediction") {
+                                        predicted_consumptions.push({
+                                            x: timestamp,
+                                            y: consumption["value"]
+                                        });
+                                    }
+                                }
                             }
-                            electricityChart.data.datasets[0].data = import_price_data;
-                            electricityChart.data.datasets[1].data = predicted_import_price_data;
-                            electricityChart.data.datasets[2].data = export_price_data;
-                            electricityChart.data.datasets[3].data = predicted_export_price_data;
-                            electricityChart.data.datasets[4].data = consumption_data;
+                            electricityChart.data.datasets[0].data = actual_import_prices;
+                            electricityChart.data.datasets[1].data = predicted_import_prices;
+                            electricityChart.data.datasets[2].data = actual_export_prices;
+                            electricityChart.data.datasets[3].data = predicted_export_prices;
+                            electricityChart.data.datasets[4].data = actual_consumptions;
+                            electricityChart.data.datasets[5].data = predicted_consumptions;
                             electricityChart.update();
                         }
                     );
