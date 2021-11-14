@@ -563,8 +563,8 @@
                             }
                             costChart.data.datasets[0].data = standard_cost;
                             costChart.data.datasets[1].data = optimised_cost;
-                            costChart.data.datasets[0].label += " (£" + toPounds(standard_cost_total) + ")";
-                            costChart.data.datasets[1].label += " (£" + toPounds(optimised_cost_total) + ")";
+                            costChart.data.datasets[0].label = "Standard (£" + toPounds(standard_cost_total) + ")";
+                            costChart.data.datasets[1].label = "Optimised (£" + toPounds(optimised_cost_total) + ")";
                             costChart.update();
                         }
                     );
