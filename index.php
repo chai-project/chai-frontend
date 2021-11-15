@@ -71,6 +71,22 @@
         flex: 0 0 auto;
         width: 95%;
     }
+
+    .status {
+        height: 10px;
+        width: 10px;
+        background-color: #afbac4;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .status.online {
+        background-color: #00ff00;
+    }
+
+    .status.offline {
+        background-color: #ff0000;
+    }
     </style>
 </head>
 <body>
@@ -130,6 +146,30 @@
     </section>
 
     <footer>
+        <p>
+        <?php
+            $output = shell_exec("pgrep -a 'python'");
+
+            function status($name) {
+            	global $output;
+                echo "$name <span class=";
+            	if (strpos($output, $name) !== false) {
+            		echo "'status online'";
+            	} else {
+            		echo "'status offline'";
+            	}
+            	echo "></span>";
+            }
+
+            status("chapp-battery");
+            echo "&nbsp;&nbsp";
+            status("chapp-api");
+            echo "&nbsp;&nbsp";
+            status("chapp-plug/service");
+            echo "&nbsp;&nbsp";
+            status("chapp-plug/api");
+        ?>
+        </p>
         <p id="footerConsole"></p>
         <p>Copyright © 2021 CHAI Project</p>
     </footer>
