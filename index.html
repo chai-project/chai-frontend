@@ -164,7 +164,7 @@
                 labels: [],
                 datasets: [
                     {
-                        label: "Import: Actual",
+                        label: "Import (Actual)",
                         yAxisID: "A",
                         data: [],
                         // fill: true,
@@ -175,7 +175,7 @@
                         pointRadius: 1,
                     },
                     {
-                        label: "Import: Forecast",
+                        label: "Import (Forecast)",
                         yAxisID: "A",
                         data: [],
                         // fill: true,
@@ -186,7 +186,7 @@
                         pointRadius: 1,
                     },
                     {
-                        label: "Export: Actual",
+                        label: "Export (Actual)",
                         yAxisID: "A",
                         data: [],
                         fill: true,
@@ -197,7 +197,7 @@
                         pointRadius: 1,
                     },
                     {
-                        label: "Export: Forecast",
+                        label: "Export (Forecast)",
                         yAxisID: "A",
                         data: [],
                         fill: true,
@@ -229,6 +229,23 @@
                         title: {
                             text: "p/kWh",
                             display: true
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.dataset.label || "";
+
+                                if (label) {
+                                    label += ": ";
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(2) + "p/kWh";
+                                }
+                                return label;
+                            }
                         }
                     }
                 }
@@ -289,6 +306,23 @@
                             display: true
                         }
                     }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.dataset.label || "";
+
+                                if (label) {
+                                    label += ": ";
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(5) + " kWh";
+                                }
+                                return label;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -347,6 +381,23 @@
                             display: true
                         }
                     }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.dataset.label || "";
+
+                                if (label) {
+                                    label += ": ";
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(2) + " kWh";
+                                }
+                                return label;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -403,6 +454,23 @@
                         title: {
                             text: "p",
                             display: true
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.dataset.label.split(" ")[0] || "";
+
+                                if (label) {
+                                    label += ": ";
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(2) + "p";
+                                }
+                                return label;
+                            }
                         }
                     }
                 }
