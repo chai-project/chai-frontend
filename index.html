@@ -506,59 +506,37 @@
         )
     }
 
-    function updateBatteryChart() {
-        fetch(api_host + "/battery").then(
-            function(response) {
-                if (response.status == 200) {
-                    response.json().then(
-                        function(data) {
-                            var actual_battery = [];
-                            var planned_battery = [];
-                            for (let i = 0; i < data.length; i++) {
-                                var timestamp = data[i]["timestamp"];
-                                var charge = data[i]["charge"];
-                                if (charge["type"] == "actual") {
-                                    actual_battery.push({
-                                        x: timestamp,
-                                        y: charge["value"]
-                                    });
-                                } else if (charge["type"] == "planned") {
-                                    planned_battery.push({
-                                        x: timestamp,
-                                        y: charge["value"]
-                                    });
-                                }
-                            }
-                            batteryChart.data.datasets[0].data = actual_battery;
-                            batteryChart.data.datasets[1].data = planned_battery;
-                            batteryChart.update();
-                        }
-                    );
-                }
-            }
-        ).catch(
-            function(err) {
-                document.getElementById("batteryConsole").innerHTML = "Error = " + err;
-            }
-        )
-    }
-
     function toPounds(pence) {
         return +(Math.round((pence / 100) + "e+2")  + "e-2");
     }
 
-    function updateCostChart() {
+    function updatePlanningCharts() {
         fetch(api_host + "/planning").then(
             function(response) {
                 if (response.status == 200) {
                     response.json().then(
                         function(data) {
+                            var actual_battery_level = [];
+                            var planned_battery_level = [];
                             var standard_cost = [];
                             var optimised_cost = [];
                             var standard_cost_total = 0;
                             var optimised_cost_total = 0;
                             for (let i = 0; i < data.length; i++) {
                                 var timestamp = data[i]["timestamp"];
+                                var type = data[i]["type"];
+                                var battery_level = data[i]["battery_level"];
+                                if (type == "actual") {
+                                    actual_battery_level.push({
+                                        x: timestamp,
+                                        y: battery_level
+                                    });
+                                } else if (type == "planned") {
+                                    planned_battery_level.push({
+                                        x: timestamp,
+                                        y: battery_level
+                                    });
+                                }
                                 var cost = data[i]["cost"];
                                 standard_cost.push({
                                     x: timestamp,
@@ -571,6 +549,9 @@
                                 standard_cost_total += cost["standard"];
                                 optimised_cost_total += cost["optimised"];
                             }
+                            batteryChart.data.datasets[0].data = actual_battery_level;
+                            batteryChart.data.datasets[1].data = planned_battery_level;
+                            batteryChart.update();
                             costChart.data.datasets[0].data = standard_cost;
                             costChart.data.datasets[1].data = optimised_cost;
                             costChart.data.datasets[0].label = "Standard (£" + toPounds(standard_cost_total) + ")";
@@ -582,6 +563,7 @@
             }
         ).catch(
             function(err) {
+                document.getElementById("batteryConsole").innerHTML = "Error = " + err;
                 document.getElementById("costConsole").innerHTML = "Error = " + err;
             }
         )
@@ -589,13 +571,11 @@
 
     updatePriceChart();
     updateConsumptionChart();
-    updateBatteryChart();
-    updateCostChart();
+    updatePlanningCharts();
 
     setInterval(updatePriceChart, 1800000); // 1000*60*30
     setInterval(updateConsumptionChart, 300000); // 1000*60*5
-    setInterval(updateBatteryChart, 300000); // 1000*60*5
-    setInterval(updateCostChart, 300000); // 1000*60*5
+    setInterval(updatePlanningCharts, 300000); // 1000*60*5
     </script>
 </body>
 </html>
