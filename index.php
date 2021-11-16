@@ -633,7 +633,7 @@
                             for (let i = 0; i < data.length; i++) {
                                 var timestamp = data[i]["timestamp"];
                                 var type = data[i]["type"];
-                                var battery_level = data[i]["battery_level"];
+                                var battery_level = data[i]["battery_level"]["start"];
                                 if (type == "actual") {
                                     actual_battery_level.push({
                                         x: timestamp,
