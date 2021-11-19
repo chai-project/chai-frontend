@@ -146,30 +146,6 @@
     </section>
 
     <footer>
-        <p>
-        <?php
-            $output = shell_exec("pgrep -a 'python'");
-
-            function status($name) {
-            	global $output;
-                echo "$name <span class=";
-            	if (strpos($output, $name) !== false) {
-            		echo "'status online'";
-            	} else {
-            		echo "'status offline'";
-            	}
-            	echo "></span>";
-            }
-
-            status("chapp-battery");
-            echo "&nbsp;&nbsp";
-            status("chapp-api");
-            echo "&nbsp;&nbsp";
-            status("chapp-plug/service");
-            echo "&nbsp;&nbsp";
-            status("chapp-plug/api");
-        ?>
-        </p>
         <p id="footerConsole"></p>
         <p>Copyright © 2021 CHAI Project</p>
     </footer>
@@ -529,7 +505,7 @@
                             var actual_export_prices = [];
                             var forecast_export_prices = [];
                             for (let i = 0; i < data.length; i++) {
-                                var timestamp = data[i]["timestamp"];
+                                var timestamp = data[i]["interval"]["start"];
                                 var import_price = data[i]["import_price"];
                                 if (import_price != null && import_price["value"] != null) {
                                     if (import_price["type"] == "actual") {
@@ -584,7 +560,7 @@
                             var actual_consumptions = [];
                             var forecast_consumptions = [];
                             for (let i = 0; i < data.length; i++) {
-                                var timestamp = data[i]["timestamp"];
+                                var timestamp = data[i]["interval"]["start"];
                                 var consumption = data[i]["consumption"];
                                 if (consumption != null && consumption["value"] != null) {
                                     if (consumption["type"] == "actual") {
@@ -619,7 +595,7 @@
     }
 
     function updatePlanningCharts() {
-        fetch(api_host + "/planning").then(
+        fetch(api_host + "/battery").then(
             function(response) {
                 if (response.status == 200) {
                     response.json().then(
@@ -630,8 +606,25 @@
                             var optimised_cost = [];
                             var standard_cost_total = 0;
                             var optimised_cost_total = 0;
+
+                            // first item in order of latest-earliest
+                            var timestamp = data[0]["interval"]["end"];
+                            var type = data[0]["type"];
+                            var battery_level = data[0]["battery_level"]["end"];
+                            if (type == "actual") {
+                                actual_battery_level.push({
+                                    x: timestamp,
+                                    y: battery_level
+                                });
+                            } else if (type == "planned") {
+                                planned_battery_level.push({
+                                    x: timestamp,
+                                    y: battery_level
+                                });
+                            }
+
                             for (let i = 0; i < data.length; i++) {
-                                var timestamp = data[i]["timestamp"];
+                                var timestamp = data[i]["interval"]["start"];
                                 var type = data[i]["type"];
                                 var battery_level = data[i]["battery_level"]["start"];
                                 if (type == "actual") {
@@ -657,6 +650,8 @@
                                 standard_cost_total += cost["standard"];
                                 optimised_cost_total += cost["optimised"];
                             }
+
+                            document.getElementById("batteryConsole").innerHTML = JSON.stringify(data[0]);
                             batteryChart.data.datasets[0].data = actual_battery_level;
                             batteryChart.data.datasets[1].data = planned_battery_level;
                             batteryChart.update();
