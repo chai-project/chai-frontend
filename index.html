@@ -651,7 +651,6 @@
                                 optimised_cost_total += cost["optimised"];
                             }
 
-                            document.getElementById("batteryConsole").innerHTML = JSON.stringify(data[0]);
                             batteryChart.data.datasets[0].data = actual_battery_level;
                             batteryChart.data.datasets[1].data = planned_battery_level;
                             batteryChart.update();
