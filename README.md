@@ -8,9 +8,9 @@ old version old-chapp-ui
 
 - [How To Run It](#how-to-run-it)
 - [Description](#description)
-- [References](#references)
-- [License](#test2)
-- [Author Info](#author-info)
+- [Documentation](#Documentation)
+- [License](#License)
+- [Author](#author)
 
 ---
 
