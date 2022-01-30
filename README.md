@@ -40,7 +40,7 @@ CHAI UI
 - MUI (Material ui)
 - Axios
 
-[Back To The Top](#read-me-template)
+[Back To The Top](#chai-ui)
 
 ---
 ## Documentation
@@ -88,4 +88,4 @@ Copyright (c) [2022] [CHAI](https://project-chai.org)
 
 [project-chai.org](https://project-chai.org)
 
-[Back To The Top](#read-me-template)
+[Back To The Top](#chai-ui)
