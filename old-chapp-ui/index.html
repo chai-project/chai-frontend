@@ -10,7 +10,7 @@
     html {
         /* Verdana, Trebuchet MS, Arial, Helvetica, Tahoma */
         font-family: "quattrocento sans", sans-serif;
-        background-color: #252b31;
+        background-color: #252b31; /* sita spalva*/
     	color: #afbac4
     }
 
@@ -87,16 +87,192 @@
     .status.offline {
         background-color: #ff0000;
     }
-    </style>
+
+    /*Menu bar button */
+
+    .menu_icon {
+        display: inline-block;
+        cursor:pointer;
+    }
+
+    .bar1, .bar2, .bar3 {
+        width: 35px;
+        height: 5px;
+        background-color: white;
+        margin: 6px 0;
+        transition: 0.4s;
+    }
+
+    .active .bar1 {
+        -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+        transform: rotate(-45deg) translate(-9px, 6px);
+    }
+
+    .active .bar2 {
+        opacity:0;
+    }
+
+    .active .bar3 {
+        -webkit-transform: rotate(45deg) translate(-8px, -8px);
+        transform: rotate(45deg) translate(-8px, -8px);
+    }
+
+
+    /*Menu bar navigation */
+
+    .headeris {
+        z-index: 2;
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    .spacer {
+        width: 100%;
+        height: 95px;
+    }
+
+    .menu_bar{
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #1d2024;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 120px;
+    }
+
+    .menu_bar div {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .menu_bar div:hover {
+        color: #f1f1f1;
+    }
+
+    @media screen and (max-height: 450px){
+        .menu_bar {padding-top: 15px;}
+        .menu_bar div {font-size: 18px;}
+    }
+
+    /* slider checkbox */
+
+    .switch_div {
+        display:flex;
+        justify-content: space-between
+    }
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        justify-content: space-between
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 34px;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        border-radius: 50%;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    </style> 
 </head>
 <body>
-    <header>
+    <header class="headeris">
+        <div class="menu_icon" onclick="openMenuBar(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
         <h1>CHApp</h1>
         <img src="https://project-chai.org/images/logo.png" alt="CHAI Project" height="42"/>
     </header>
+    <div class="spacer"></div>
+    <div id="menuBar" class="menu_bar">
+        <!-- <a href="javascript:void(0);">Electricity prices</a>
+        <a href="javascript:void(0);">Electricity consumption</a>
+        <a href="javascript:void(0);">Battery charge</a>
+        <a href="javascript:void(0);">Electricity cost</a> -->
+        <div class="switch_div">
+            <label class="switch">
+                <input type="checkbox" id="electricity_prices" class="electricityPrices" onclick="showChart(this)" checked>
+                <span class="slider"></span>
+            </label>
+            <label for="electricity_prices" >Electricity prices</label>
+        </div>
+        <div class="switch_div">
+            <label class="switch">
+                <input type="checkbox" id="electricity_consumption" class="electricityConsumption" onclick="showChart(this)" checked>
+                <span class="slider"></span>
+            </label>
+            <label for="electricity_consumption" >Electricity consumption</label>
+        </div>
+        <div class="switch_div">
+            <label class="switch">
+                <input type="checkbox" id="battery_charge" class="batteryCharge" onclick="showChart(this)" checked>
+                <span class="slider"></span>
+            </label>
+            <label for="battery_charge" >Battery charge</label>
+        </div>
+        <div class="switch_div">
+            <label class="switch">
+                <input type="checkbox" id="electricity_cost" class="electricityCost" onclick="showChart(this)" checked>
+                <span class="slider"></span>
+            </label>
+            <label for="electricity_cost" >Electricity cost</label>
+        </div>
+    </div>
 
     <section>
-        <article>
+        <article id="priceChartArticle">
             <h2>Electricity Prices</h2>
 
             <div class="chart-container">
@@ -108,7 +284,7 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rhoncus ipsum viverra ante imperdiet, non venenatis erat egestas. Phasellus sed consectetur nibh. Fusce eu laoreet velit, non molestie justo. Maecenas non est fermentum, consequat magna vel, tincidunt libero. Curabitur venenatis lorem ultrices lorem malesuada commodo. Pellentesque vel nisi vel arcu efficitur venenatis. Sed finibus, mauris ac congue pellentesque, ligula leo faucibus elit, quis convallis odio massa nec purus. Cras vestibulum, tellus sit amet ultricies accumsan, augue sapien cursus tellus, sed posuere quam nisi sed elit. Aliquam sed lacinia nisl. In maximus consectetur tempor. Curabitur sed felis at mi pulvinar dapibus vitae quis mi. Sed justo nulla, tempor sit amet rutrum ac, consectetur ac quam.</p>
         </article>
 
-        <article>
+        <article id="electricityConsumptionArticle">
             <h2>Electricity Consumption</h2>
 
             <div class="chart-container">
@@ -120,7 +296,7 @@
             <p>In lorem nunc, dapibus ac euismod sit amet, bibendum id augue. Donec sed libero non metus facilisis tincidunt. Donec vel elit vel ante suscipit scelerisque. Proin eu consectetur leo. Duis porta tempor lectus, nec sagittis sapien vestibulum et. Phasellus cursus volutpat orci. Sed blandit euismod elementum. Morbi quis nunc nisi. Vestibulum quis varius nunc. Praesent leo quam, bibendum vitae nisi non, finibus posuere erat. Ut malesuada purus ligula, vitae mattis risus accumsan id. Donec nec velit ut sem feugiat vestibulum. Nulla sagittis tortor in diam interdum varius. Sed aliquet accumsan tempus. Sed sed metus nec ipsum eleifend consectetur in et libero. Integer tellus ipsum, semper a tincidunt vitae, maximus et ante.</p>
         </article>
 
-        <article>
+        <article id="batteryChargeArticle">
             <h2>Battery Charge</h2>
 
             <div class="chart-container">
@@ -132,7 +308,7 @@
             <p>Vestibulum facilisis dolor et quam luctus, et scelerisque dui maximus. Aenean in venenatis lacus. Sed libero mauris, consectetur vestibulum varius a, efficitur id diam. Maecenas at dui sit amet eros convallis volutpat. Donec a eleifend tellus. Sed convallis sapien non vestibulum feugiat. Donec ac velit magna. Vivamus vestibulum euismod nisl, imperdiet gravida mi. Morbi quis sollicitudin risus, quis feugiat urna. Pellentesque eget consectetur ipsum. Ut ut aliquam elit, et eleifend lacus. Sed semper ipsum a massa hendrerit, non luctus arcu semper.</p>
         </article>
 
-        <article>
+        <article id="electricityCostsArticle">
             <h2>Electricity Costs</h2>
 
             <div class="chart-container">
@@ -155,7 +331,42 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
-    const api_host = "http://" + window.location.hostname + ":8080"
+
+        function openMenuBar(x) {
+            x.classList.toggle("active");
+            if (x.className === "menu_icon") {
+                document.getElementById("menuBar").style.width = "0";
+            } else {
+                document.getElementById("menuBar").style.width = "400px";
+            }
+        }
+  
+        function showChart(x) {
+            if (x.className === "electricityPrices" && !x.checked) {
+                document.getElementById("priceChartArticle").style.display = "none";
+            }else if (x.className === "electricityPrices" && x.checked){
+                document.getElementById("priceChartArticle").style.display = "block";
+            }else if ( x.className === "electricityConsumption" && !x.checked){
+                document.getElementById("electricityConsumptionArticle").style.display = "none";
+            }else if ( x.className === "electricityConsumption" && x.checked){
+                document.getElementById("electricityConsumptionArticle").style.display = "block";
+            }else if (x.className === "batteryCharge" && !x.checked){
+                document.getElementById("batteryChargeArticle").style.display = "none";
+            }else if (x.className === "batteryCharge" && x.checked){
+                document.getElementById("batteryChargeArticle").style.display = "block";
+            }else if (x.className === "electricityCost" && !x.checked) {
+                document.getElementById("electricityCostsArticle").style.display = "none";
+            }else if (x.className === "electricityCost" && x.checked) {
+                document.getElementById("electricityCostsArticle").style.display = "block";
+            }
+            
+        }
+    </script>
+    <script>
+    const api_host = "http://94.237.58.28:8080"
+
+	//"http://" + window.location.hostname + ":8080"
+     //http://94.237.58.28:8080
     // const api_host = "http://192.168.0.44:8080"
     // const api_host = "http://0.0.0.0:8080"
 
