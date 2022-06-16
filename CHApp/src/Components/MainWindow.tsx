@@ -15,22 +15,20 @@ import {useSelector, useDispatch} from 'react-redux'
 import chartDataType from '../Types/types'
 
 //components
-import SwitchButton from '../Components/SwitchButton';
+import SwitchButton from './Buttons/SwitchButton';
 
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
-       boxSizing: 'border-box',
-       position: 'absolute',
-       width: '65%',
-       height: '80%',
-       background: '#CFD8DC',
-       border: '1px solid #000000',
-       borderRadius: '4px',
-       left: '4%',
-       top: '10%',
+      //  boxSizing: 'border-box',
+       position: 'absolute', //sitas!!!
+       width: '100%',
+       height: '100%',
+      //  background: '#CFD8DC',
+      //  left: '4%',
+      //  top: '10%',
     },
   }),
 );
@@ -46,8 +44,7 @@ const MainWindow: React.FC = () => {
 
   return (
     <div className={classes.main}>
-          <h1>main window</h1>
-          <Paper>swx</Paper>
+      <h1>main window</h1>
     </div>
   );
 };

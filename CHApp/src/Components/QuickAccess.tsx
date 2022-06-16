@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-
+//mui 
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { CssBaseline, Button, Paper } from '@mui/material/';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
@@ -17,15 +18,13 @@ import chartDataType from '../Types/types'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
-       boxSizing: 'border-box',
-       position: 'absolute',
-       width: '25%',
-       height: '90%',
-       background: '#CFD8DC',
-       border: '1px solid #000000',
-       borderRadius: '4px',
-       right: '4%',
-       top: '5%',
+      //  boxSizing: 'border-box',
+       position: 'absolute', //sita iskelti i app.tsx css
+       width: '100%',
+       height: '100%',
+      //  background: '#CFD8DC', // Paper has to go to app
+      //  right: '4%',
+      //  top: '5%',
     },
     logo: {
         position: 'relative',
@@ -48,7 +47,8 @@ const QuickAccess: React.FC = () => {
 
   return (
     <div className={classes.main}>
-          <img className={classes.logo} src={Logo}></img>
+      <img className={classes.logo} src={Logo}></img>
+      <h1>quick access</h1>
     </div>
   );
 };

@@ -75,11 +75,6 @@ const IOSSwitch = styled((props: SwitchProps) => (
   const SwitchButton: React.FC<{labelLeft: String, labelRight: String, action: () => void}> = ({labelLeft, labelRight, action}) => {
 
     const classes = useStyles();
-    // const dispatch = useDispatch()
-
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
 
   return (
     <div>
