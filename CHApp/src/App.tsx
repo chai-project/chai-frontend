@@ -32,10 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
       //  boxSizing: 'border-box', // kas cia ??
       position: 'absolute',
       width: '65%',
-      height: '80%',
+      height: '600px',
       left: '4%',
-      top: '10%',
-      border: '1px solid #000000',
+      // top: '0%',
+      border: '1px solid #5ACBCC',
       borderRadius: '4px',
       [theme.breakpoints.up('xs')]: {
         
@@ -45,20 +45,85 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     quickAccess: {
-      boxSizing: 'border-box',
+      // boxSizing: 'border-box',
       position: 'absolute', //sita iskelti i app.tsx css
-      right: '4%',
-      top: '10%',
+      left: '50%',
+      top: '50%',
+      // -webkit-transform: translate(-50%, -50%);
+      WebkitTransform: 'translate(-50%, -50%)',
+      transform: 'translate(-50%, -50%)',
+      // right: '4%',
+      // top: '0%',
       width: '25%',
-      height: '80%',
-             border: '1px solid #000000',
-       borderRadius: '4px',
+      height: '90%',
+      border: '1px solid #5ACBCC',
+      borderRadius: '4px',
+      zIndex: theme.zIndex.appBar + 1,
       [theme.breakpoints.down('md')]: {
         display: 'none',
       }
     },
     container:{
-
+      position: 'relative', //sita iskelti i app.tsx css
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: '#5ACBCC',
+      border: '1px solid #000000'
+    },
+    testContainer: {
+      // backgroundColor: '#5ACBCC',
+      position: 'absolute', //sita iskelti i app.tsx css
+      left: '50%',
+      top: '50%',
+      height: '100%',
+      width: '90%',
+      // -webkit-transform: translate(-50%, -50%);
+      transform: 'translate(-50%, -50%)',
+      WebkitTransform: 'translate(-50%, -50%)',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+      }
+    },
+    testQA:{
+      position: 'absolute',
+      width: '25%',
+      height: '92%',
+      backgroundColor: '#F4E19B',
+      right: '-9%',
+      top: '48%',
+      WebkitTransform: 'translate(-50%, -50%)',
+      transform: 'translate(-50%, -50%)',
+      zIndex: theme.zIndex.appBar + 1, // kazkas su situ padayrt ????
+    },
+    testMainW: {
+      position: 'absolute',
+      width: '65%',
+      height: ' 92%',
+      // backgroundColor: '#CC57B9',
+      left: '36%',
+      top: '48%',
+      WebkitTransform: 'translate(-50%, -50%)',
+      transform: 'translate(-50%, -50%)',
+    },
+    testBottomoNavbar: {
+      position: 'absolute',
+      bottom: '-2%',
+      left: '36%',
+      WebkitTransform: 'translate(-50%, -50%)',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: '#CC57B9',
+      width: '65%',
+      height: '5%'
+    },
+    testNotification:{
+      position: 'absolute',
+      right: '-9%',
+      bottom: '-2%',
+      WebkitTransform: 'translate(-50%, -50%)',
+      transform: 'translate(-50%, -50%)',
+      width: '25%',
+      height: '5%',
+      backgroundColor: '#CC57B9',
     }
   }),
 );
@@ -81,11 +146,10 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme ? light : dark}>
       <CssBaseline/>
       <NavbarTop/>
-      <SwitchButton labelLeft='Dark' labelRight="Light" action={()=>{toogleTheme()}}></SwitchButton>
       {/* <Button variant='contained' color='primary' onClick={()=>{toogleTheme()}}>yes</Button>
       <Button variant='contained' color='secondary' onClick={()=>{console.log(theme)}}>no</Button> */}
       <div className="App">
-        <div className={classes.container}>
+        {/* <div className={classes.container}>
           <Paper className={classes.mainWindow}>
             <MainWindow/>
           </Paper>
@@ -93,13 +157,31 @@ const App: React.FC = () => {
           <Paper className={classes.quickAccess}>
             <QuickAccess/>
           </Paper>
-        </div>
-        {/* <div className={classes.mainWindow}>
-          <MainWindow/>
-        </div>
-        <div className={classes.quickAccess}>
-          <QuickAccess/>
         </div> */}
+        {/* <Grid container direction="column" alignItems="center" justifyContent="center" className={classes.container}>
+          <Grid item>
+            <Paper className={classes.mainWindow}>
+              <MainWindow/>
+            </Paper>
+          </Grid>
+          <Grid item>
+            <Paper className={classes.quickAccess}>
+              <QuickAccess/>
+              <SwitchButton labelLeft='Dark' labelRight="Light" action={()=>{toogleTheme()}}></SwitchButton>
+            </Paper>
+          </Grid>
+        </Grid> */}
+        <div className={classes.testContainer}>
+            <Paper className={classes.testMainW}>
+              <MainWindow/>
+            </Paper>
+            <div className={classes.testBottomoNavbar}>bottom nav bar</div>
+            <Paper className={classes.testQA}>
+              <QuickAccess/>
+              <SwitchButton labelLeft='Dark' labelRight="Light" action={()=>{toogleTheme()}}></SwitchButton>
+            </Paper>
+          <div className={classes.testNotification}> notification</div>
+        </div>
       </div>
     </ThemeProvider>
   );

@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex', // sita nutrinti jeigu noresi
+      [theme.breakpoints.up('lg')]: {
+        display: 'none',
+      }
     },
     drawer: {
       width: '100vh',

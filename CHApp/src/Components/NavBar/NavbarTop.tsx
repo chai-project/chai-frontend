@@ -5,6 +5,7 @@ import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, AppBar, Toolbar, IconButton, Stack} from '@mui/material/';
   //icons
   import MenuIcon from '@mui/icons-material/Menu';
+  import CloseIcon from '@mui/icons-material/Close';
   import SettingsIcon from '@mui/icons-material/Settings';
 
 
@@ -31,6 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawer:{
 
+    },
+    menuButton: {
+      [theme.breakpoints.up('lg')]: {
+        display: 'none',
+      }
     }
   }),
 );
@@ -50,9 +56,11 @@ const NavbarTop: React.FC = () => {
         <AppBar className={classes.appbar} color="transparent" elevation={1} position='fixed'>
           <Toolbar>
             <Stack direction='row' >
-              <IconButton size='small' edge='start' color='primary' onClick={() => setDrawerOpenState(!drawerOpenState)}>
-                <MenuIcon/>
-              </IconButton>
+              <div className={classes.menuButton}>
+                <IconButton size='small' edge='start' color='primary' onClick={() => setDrawerOpenState(!drawerOpenState)}>
+                  {drawerOpenState ? <CloseIcon/> : <MenuIcon/> }
+                </IconButton>
+              </div>
               <IconButton size='small' color='primary'>
                 <SettingsIcon/>
               </IconButton>
