@@ -12,10 +12,10 @@ import {useSelector, useDispatch} from 'react-redux'
 
 
 //types
-import chartDataType from '../Types/types'
+import chartDataType from '../../Types/types'
 
 //components
-import SwitchButton from './Buttons/SwitchButton';
+import SwitchButton from '../Buttons/SwitchButton';
 
 // Styles 
 

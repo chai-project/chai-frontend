@@ -64,24 +64,47 @@ const IOSSwitch = styled((props: SwitchProps) => (
 
   const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    label: {
-        opacity: '0.7'
+    root:{
+      margin: 3
     },
+    labelLeft: {
+      position: 'relative',
+      width: '70px',
+      opacity: '0.7',
+      textAlign:'right',
+      // border: '2px solid red',
+    },
+    labelRight:{
+      position: 'relative',
+      width: '70px',
+      opacity: '0.7',
+      textAlign:'left',
+      // border: '2px solid red',
+    }
   }),
 );
 
 
 
-  const SwitchButton: React.FC<{labelLeft: String, labelRight: String, action: () => void}> = ({labelLeft, labelRight, action}) => {
+  const SwitchButton: React.FC<{labelLeft: String, labelRight: String, action: (event:any) => void , status: boolean, disabled: boolean}> = ({labelLeft, labelRight, action, status, disabled}) => {
 
     const classes = useStyles();
 
+    const toogle = (event:any) =>{
+      action(event)
+      console.log(event.target.checked)
+    }
+
   return (
-    <div>
+    <div className={classes.root}>
         <Stack direction="row" spacing={1} alignItems="center">
-            <Typography className={classes.label} color='textSecondary'>{labelLeft}</Typography>
-            <IOSSwitch sx={{ m: 1 }} defaultChecked onClick={()=>{action()}}/>
-            <Typography  className={classes.label} color='textSecondary'>{labelRight}</Typography>
+          <div className={classes.labelLeft}>
+            <Typography variant="subtitle2" color='textSecondary'>{labelLeft}</Typography>
+          </div>
+          <IOSSwitch sx={{ m: 1 }} disabled={disabled} checked={status} onChange={toogle}/>
+          <div className={classes.labelRight}>
+            <Typography  variant="subtitle2" color='textSecondary'>{labelRight}</Typography>
+          </div>
         </Stack>
     </div>
   );

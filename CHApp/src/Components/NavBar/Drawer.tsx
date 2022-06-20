@@ -15,7 +15,7 @@ import { Paper, Drawer, Grid } from '@mui/material/';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
 //components
-import QuickAccess from '../QuickAccess';
+import QuickAccess from '../QuickAccess/QuickAccess';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,18 +42,24 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     drawerContainer: {
-      height: '100%',
+      height: '100vh',
+      position: 'relative',
+      // border: '10px solid red',
       // overflow: 'auto',
       // alignItems: 'center',
       // width: '100vw',
 
     },
     content: {
+      // border: '10px solid pink',
       position: 'absolute',
-      height: '100vh',
+      // height: '100vh', // cia buvo klaida!!!
       width: '420px',
-      boxShadow: "none"
-      // top:'5%'
+      boxShadow: "none",
+      left: '50%',
+      top: '50%',
+      WebkitTransform: 'translate(-50%, -50%)',
+      transform: 'translate(-50%, -50%)',
     },
     formControl: {
       margin: theme.spacing(1),

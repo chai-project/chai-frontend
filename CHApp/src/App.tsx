@@ -17,8 +17,8 @@ import chartDataType from './Types/types'
 // components
 import NavbarTop from './Components/NavBar/NavbarTop';
 import DrawerComponent from './Components/NavBar/Drawer';
-import MainWindow from './Components/MainWindow';
-import QuickAccess from './Components/QuickAccess';
+import MainWindow from './Components/MainWindow/MainWindow';
+import QuickAccess from './Components/QuickAccess/QuickAccess';
 import SwitchButton from './Components/Buttons/SwitchButton';
 
 // theme
@@ -28,54 +28,16 @@ import { dark, light } from './Themes/themes'
 //styles
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    mainWindow: {
-      //  boxSizing: 'border-box', // kas cia ??
-      position: 'absolute',
-      width: '65%',
-      height: '600px',
-      left: '4%',
-      // top: '0%',
-      border: '1px solid #5ACBCC',
-      borderRadius: '4px',
-      [theme.breakpoints.up('xs')]: {
-        
-      },
-      [theme.breakpoints.up('sm')]: {
-        
-      }
+    root:{
+      position:"relative",
+      height: '100vh'
     },
-    quickAccess: {
-      // boxSizing: 'border-box',
+    container: {
       position: 'absolute', //sita iskelti i app.tsx css
       left: '50%',
-      top: '50%',
-      // -webkit-transform: translate(-50%, -50%);
-      WebkitTransform: 'translate(-50%, -50%)',
-      transform: 'translate(-50%, -50%)',
-      // right: '4%',
-      // top: '0%',
-      width: '25%',
-      height: '90%',
-      border: '1px solid #5ACBCC',
-      borderRadius: '4px',
-      zIndex: theme.zIndex.appBar + 1,
-      [theme.breakpoints.down('md')]: {
-        display: 'none',
-      }
-    },
-    container:{
-      position: 'relative', //sita iskelti i app.tsx css
-      width: '100vw',
+      top: '48%', // 50% geriau atrodo!
       height: '100vh',
-      backgroundColor: '#5ACBCC',
-      border: '1px solid #000000'
-    },
-    testContainer: {
-      // backgroundColor: '#5ACBCC',
-      position: 'absolute', //sita iskelti i app.tsx css
-      left: '50%',
-      top: '50%',
-      height: '100%',
+      maxHeight: '900px', // negali but ausktesnis negu 900 px
       width: '90%',
       // -webkit-transform: translate(-50%, -50%);
       transform: 'translate(-50%, -50%)',
@@ -84,46 +46,61 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '100%',
       }
     },
-    testQA:{
+    quickAccess:{ // need min max width
       position: 'absolute',
       width: '25%',
-      height: '92%',
-      backgroundColor: '#F4E19B',
+      height: '85%',
       right: '-9%',
-      top: '48%',
+      top: '50%',
       WebkitTransform: 'translate(-50%, -50%)',
       transform: 'translate(-50%, -50%)',
+      border: '1px solid #5ACBCC',
       zIndex: theme.zIndex.appBar + 1, // kazkas su situ padayrt ????
+      [theme.breakpoints.down('md')]: {
+        display: 'none',
+      }
     },
-    testMainW: {
+    mainWindow: { // need min max width
       position: 'absolute',
       width: '65%',
-      height: ' 92%',
-      // backgroundColor: '#CC57B9',
+      height: ' 85%',
       left: '36%',
-      top: '48%',
+      top: '50%',
       WebkitTransform: 'translate(-50%, -50%)',
       transform: 'translate(-50%, -50%)',
+      border: '1px solid #5ACBCC',
+      [theme.breakpoints.down('md')]: {
+        width: '97%',
+        left: ' 50%',
+      }
     },
-    testBottomoNavbar: {
+    bottomNavigation: {
       position: 'absolute',
-      bottom: '-2%',
+      bottom: '-1%',
       left: '36%',
       WebkitTransform: 'translate(-50%, -50%)',
       transform: 'translate(-50%, -50%)',
       backgroundColor: '#CC57B9',
       width: '65%',
-      height: '5%'
+      height: '5%',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+        left: '50%',
+      }
     },
-    testNotification:{
+    notificationWindow:{
       position: 'absolute',
       right: '-9%',
-      bottom: '-2%',
+      bottom: '-1%',
       WebkitTransform: 'translate(-50%, -50%)',
       transform: 'translate(-50%, -50%)',
       width: '25%',
       height: '5%',
       backgroundColor: '#CC57B9',
+      [theme.breakpoints.down('md')]: {
+        bottom: '91%',
+        left: '50%',
+        width: '55%',      }
     }
   }),
 );
@@ -148,39 +125,17 @@ const App: React.FC = () => {
       <NavbarTop/>
       {/* <Button variant='contained' color='primary' onClick={()=>{toogleTheme()}}>yes</Button>
       <Button variant='contained' color='secondary' onClick={()=>{console.log(theme)}}>no</Button> */}
-      <div className="App">
-        {/* <div className={classes.container}>
-          <Paper className={classes.mainWindow}>
-            <MainWindow/>
-          </Paper>
-          <div>navbar bottom</div>
-          <Paper className={classes.quickAccess}>
-            <QuickAccess/>
-          </Paper>
-        </div> */}
-        {/* <Grid container direction="column" alignItems="center" justifyContent="center" className={classes.container}>
-          <Grid item>
+      <div className={classes.root}>
+        <div className={classes.container}>
             <Paper className={classes.mainWindow}>
               <MainWindow/>
             </Paper>
-          </Grid>
-          <Grid item>
+            <div className={classes.bottomNavigation}>bottom nav bar</div>
             <Paper className={classes.quickAccess}>
               <QuickAccess/>
-              <SwitchButton labelLeft='Dark' labelRight="Light" action={()=>{toogleTheme()}}></SwitchButton>
+              {/* <SwitchButton labelLeft='Dark' labelRight="Light" action={()=>{toogleTheme()}}></SwitchButton> */}
             </Paper>
-          </Grid>
-        </Grid> */}
-        <div className={classes.testContainer}>
-            <Paper className={classes.testMainW}>
-              <MainWindow/>
-            </Paper>
-            <div className={classes.testBottomoNavbar}>bottom nav bar</div>
-            <Paper className={classes.testQA}>
-              <QuickAccess/>
-              <SwitchButton labelLeft='Dark' labelRight="Light" action={()=>{toogleTheme()}}></SwitchButton>
-            </Paper>
-          <div className={classes.testNotification}> notification</div>
+          <div className={classes.notificationWindow}> notification</div>
         </div>
       </div>
     </ThemeProvider>

@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 export const dark = createTheme({
     palette: {
       primary:{
-        main: '#57CBCC'
+        main: '#5ACBCC'
       },
       secondary: {
         main: '#FE6262'
@@ -18,12 +18,23 @@ export const dark = createTheme({
         disabled: 'rgba(255, 255, 255, 0.60)'
       }
     },
+    typography:{
+      subtitle2:{
+        fontSize: '14px'
+      },
+      h6:{
+        fontSize: '15px'
+      },
+      h5:{
+        fontSize: '16px'
+      }
+    }
   });
   
 export const light = createTheme({
     palette: {
       primary:{
-        main: '#57CBCC'
+        main: '#5ACBCC'
       },
       secondary: {
         main: '#FE6262'
@@ -38,5 +49,16 @@ export const light = createTheme({
         disabled: 'rgba(0, 0, 0, 0.60)'
       }
       
+    },
+    typography:{
+      subtitle2:{
+        fontSize: '14px'
+      },
+      h6:{
+        fontSize: '15px'
+      },
+      h5:{
+        fontSize: '16px'
+      }
     }
   });

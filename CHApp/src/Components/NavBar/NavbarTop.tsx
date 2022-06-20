@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, AppBar, Toolbar, IconButton, Stack} from '@mui/material/';
+import { CssBaseline, AppBar, Toolbar, IconButton, Stack, Link} from '@mui/material/';
   //icons
   import MenuIcon from '@mui/icons-material/Menu';
   import CloseIcon from '@mui/icons-material/Close';
@@ -24,7 +24,8 @@ import DrawerComponent from './Drawer';
 
 
 // Styles 
-
+    //Logo
+    import Logo from '../../IMG/logo.png'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appbar: {
@@ -35,6 +36,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       [theme.breakpoints.up('lg')]: {
+        display: 'none',
+      }
+    },
+    logo:{
+      height: '50px',
+      [theme.breakpoints.up('md')]: {
         display: 'none',
       }
     }
@@ -53,9 +60,9 @@ const NavbarTop: React.FC = () => {
 
   return (
     <div>
-        <AppBar className={classes.appbar} color="transparent" elevation={1} position='fixed'>
+        <AppBar className={classes.appbar} color="transparent" elevation={0} position='fixed'>
           <Toolbar>
-            <Stack direction='row' >
+            <Stack direction='row' sx={{ flexGrow: 1}}>
               <div className={classes.menuButton}>
                 <IconButton size='small' edge='start' color='primary' onClick={() => setDrawerOpenState(!drawerOpenState)}>
                   {drawerOpenState ? <CloseIcon/> : <MenuIcon/> }
@@ -65,6 +72,9 @@ const NavbarTop: React.FC = () => {
                 <SettingsIcon/>
               </IconButton>
             </Stack>
+            <Link href="/">
+              <img className={classes.logo} src={Logo}></img>
+            </Link>
           </Toolbar>
         </AppBar>
         <DrawerComponent drawerOpenState={drawerOpenState}/>
