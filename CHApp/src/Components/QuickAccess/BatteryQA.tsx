@@ -31,7 +31,7 @@ import {useSelector, useDispatch} from 'react-redux'
 //components
 
 import SwitchButton from '../Buttons/SwitchButton';
-
+import BatteryIcon from './BatteryIcon';
 
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
@@ -139,14 +139,15 @@ const tootgleChargingMode = (event:any) => {
         <Grid container direction="row" alignItems='center' justifyContent="center">
             <Grid item container xs={4} direction="column" alignItems='center' justifyContent="center">
                 <Grid item className={classes.column}>
-                    <div className={classes.iconRoot}>
+                    <BatteryIcon batteryLevel={batteryLevel} batteryStatus={batteryStatus}/>
+                    {/* <div className={classes.iconRoot}>
                         <Battery20Icon className={classes.icon} style={{ fontSize: 100 }} color='primary'/>
                         <Typography className={classes.batteryLevel} variant='h5'><b>{batteryLevel}%</b></Typography>
                         <div className={classes.batteryStatus}>
                             <Typography variant='h5'><b>80 kWh</b> </Typography>
                             <Typography variant='h6'>{batteryStatus} </Typography>
                         </div>
-                    </div>
+                    </div> */}
                 </Grid>
             {/* <div className={classes.iconRoot}>
                             <Battery20Icon className={classes.icon} style={{ fontSize: 100 }} color='primary'/>
@@ -183,7 +184,7 @@ const tootgleChargingMode = (event:any) => {
                     <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleBatteryOn} status={batteryOn} disabled={!batteryManualMode ? true : false }/>
                 </Grid>
                 <Grid item>
-                    <SwitchButton labelLeft={'Discharge'} labelRight={'Charge'} action={tootgleChargingMode} status={batteryChargingMode} disabled={!batteryOn ? true : false}/>
+                    <SwitchButton labelLeft={'Discharge'} labelRight={'Charge'} action={tootgleChargingMode} status={batteryChargingMode} disabled={!batteryOn || !batteryManualMode ? true : false}/>
                 </Grid>
             </Grid>
         </Grid>
