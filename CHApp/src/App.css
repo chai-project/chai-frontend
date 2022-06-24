@@ -6,6 +6,9 @@
   /* background:#ECEFF1; */
 }
 
+.MuiSlider-thumbColorPrimary{
+  display: hidden
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

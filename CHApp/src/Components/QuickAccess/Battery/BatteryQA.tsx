@@ -30,7 +30,7 @@ import {useSelector, useDispatch} from 'react-redux'
 
 //components
 
-import SwitchButton from '../Buttons/SwitchButton';
+import SwitchButton from '../../Buttons/SwitchButton';
 import BatteryIcon from './BatteryIcon';
 
 // Styles 
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const BatteryQA: React.FC = () => {
 
-    const [batteryManualMode, setBatteryManualMode] = useState<boolean>(true) // i redux!
+    const [batteryAutoMode, setBatteryAutoMode] = useState<boolean>(true) // i redux!
     const [batteryOn, setBateryOn] = useState<boolean>(false) // i redux!
     const [batteryChargingMode, setBatteryChargingMode] = useState<boolean>(false) // i redux!
 
@@ -115,7 +115,7 @@ const toogleMode = () => {
 
 //auto manual switch
 const toogleBatteryManualMode = (event:any) => {
-    setBatteryManualMode(event.target.checked)
+    setBatteryAutoMode(event.target.checked)
     console.log('viduj',event.target.checked)
 }
 
@@ -133,7 +133,7 @@ const tootgleChargingMode = (event:any) => {
 
   return (
     <div>
-      <Divider className={classes.divider} textAlign='left'><b>Battery</b></Divider>
+      <Divider className={classes.divider} textAlign='left'><b>Power bank</b></Divider>
       <Box className={classes.container} bgcolor="background.default">
         <div className={classes.item}>
         <Grid container direction="row" alignItems='center' justifyContent="center">
@@ -178,13 +178,13 @@ const tootgleChargingMode = (event:any) => {
             </Grid>
             <Grid item container xs={7} className={classes.column} direction="column" alignItems='center' justifyContent="center" justifySelf='center'>
                 <Grid>
-                    <SwitchButton labelLeft={'Auto'} labelRight={'Manual'} action={toogleBatteryManualMode} status={batteryManualMode} disabled={false}/>
+                    <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleBatteryManualMode} status={batteryAutoMode} disabled={false}/>
                 </Grid>
                 <Grid item>
-                    <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleBatteryOn} status={batteryOn} disabled={!batteryManualMode ? true : false }/>
+                    <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleBatteryOn} status={batteryOn} disabled={batteryAutoMode ? true : false }/>
                 </Grid>
                 <Grid item>
-                    <SwitchButton labelLeft={'Discharge'} labelRight={'Charge'} action={tootgleChargingMode} status={batteryChargingMode} disabled={!batteryOn || !batteryManualMode ? true : false}/>
+                    <SwitchButton labelLeft={'Discharge'} labelRight={'Charge'} action={tootgleChargingMode} status={batteryChargingMode} disabled={!batteryOn || batteryAutoMode ? true : false}/>
                 </Grid>
             </Grid>
         </Grid>

@@ -12,8 +12,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import chartDataType from '../../Types/types'
 
 //components
-import HeatingQA from './HeatingQA';
-import BatteryQA from './BatteryQA';
+import HeatingQA from './Heating/HeatingQA';
+import BatteryQA from './Battery/BatteryQA';
 import EnergyQA from './EnergyQA';
 
 // Styles 

@@ -33,12 +33,15 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100vh'
     },
     container: {
-      position: 'absolute', //sita iskelti i app.tsx css
+      position: 'relative', //sita iskelti i app.tsx css
+      display: 'flex',
       left: '50%',
       top: '48%', // 50% geriau atrodo!
       height: '100vh',
       maxHeight: '900px', // negali but ausktesnis negu 900 px
-      width: '90%',
+      width: '100vw',
+      border: "2px dashed purple",
+      // overflow: 'hidden',
       // -webkit-transform: translate(-50%, -50%);
       transform: 'translate(-50%, -50%)',
       WebkitTransform: 'translate(-50%, -50%)',
@@ -47,13 +50,14 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     quickAccess:{ // need min max width
-      position: 'absolute',
-      width: '25%',
+      position: 'relative',
+      width: '365px', //buvo 25%
       height: '85%',
-      right: '-9%',
-      top: '50%',
-      WebkitTransform: 'translate(-50%, -50%)',
-      transform: 'translate(-50%, -50%)',
+      // left: '1px',
+      // right: '0%',
+      // top: '50%',
+      // WebkitTransform: 'translate(-50%, -50%)',
+      // transform: 'translate(-50%, -50%)',
       border: '1px solid #5ACBCC',
       zIndex: theme.zIndex.appBar + 1, // kazkas su situ padayrt ????
       [theme.breakpoints.down('md')]: {
@@ -61,13 +65,13 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     mainWindow: { // need min max width
-      position: 'absolute',
-      width: '65%',
+      position: 'relative',
+      width: '1000px', // buvo 65 %
       height: ' 85%',
-      left: '36%',
-      top: '50%',
-      WebkitTransform: 'translate(-50%, -50%)',
-      transform: 'translate(-50%, -50%)',
+      // left: '36%',
+      // top: '50%',
+      // WebkitTransform: 'translate(-50%, -50%)',
+      // transform: 'translate(-50%, -50%)',
       border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
         width: '97%',
