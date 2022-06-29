@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container:{
         position: 'relative',
-        height: '160px',
+        height: '180px',
         minWidth: '90%',
         borderRadius: '25px',
     },
@@ -133,7 +133,7 @@ const tootgleChargingMode = (event:any) => {
 
   return (
     <div>
-      <Divider className={classes.divider} textAlign='left'><b>Power bank</b></Divider>
+      <Divider className={classes.divider} textAlign='left'><b>Powerbank</b></Divider>
       <Box className={classes.container} bgcolor="background.default">
         <div className={classes.item}>
         <Grid container direction="row" alignItems='center' justifyContent="center">

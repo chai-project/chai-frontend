@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: '900px', // negali but ausktesnis negu 900 px
       width: '100vw',
       border: "2px dashed purple",
+      margin : '0',
       // overflow: 'hidden',
       // -webkit-transform: translate(-50%, -50%);
       transform: 'translate(-50%, -50%)',
@@ -53,11 +54,12 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       width: '365px', //buvo 25%
       height: '85%',
+      margin: '0 auto',
       // left: '1px',
       // right: '0%',
-      // top: '50%',
+      top: '50%',
       // WebkitTransform: 'translate(-50%, -50%)',
-      // transform: 'translate(-50%, -50%)',
+      transform: 'translate(0%, -50%)',
       border: '1px solid #5ACBCC',
       zIndex: theme.zIndex.appBar + 1, // kazkas su situ padayrt ????
       [theme.breakpoints.down('md')]: {
@@ -68,10 +70,11 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       width: '1000px', // buvo 65 %
       height: ' 85%',
+      margin: '0 auto',
       // left: '36%',
-      // top: '50%',
+      top: '50%',
       // WebkitTransform: 'translate(-50%, -50%)',
-      // transform: 'translate(-50%, -50%)',
+      transform: 'translate(0%, -50%)',
       border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
         width: '97%',

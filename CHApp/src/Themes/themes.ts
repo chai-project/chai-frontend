@@ -28,6 +28,7 @@ export const dark = createTheme({
       h5:{
         fontSize: '16px'
       }
+      
     }
   });
   

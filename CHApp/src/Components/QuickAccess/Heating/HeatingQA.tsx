@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     container:{
-      height: '160px',
+      height: '180px',
       minWidth: '90%',
       borderRadius: '25px'
     },
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
       top: '10%',
       // left: '5px',
       width: '97%',
-      right: '-5px'
+      right: '-3px' // buvo 5px
     },
     temperatureStatusContainer: {
       width: '90px',
@@ -73,8 +73,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     switchButtons:{
       position: 'relative',
-      right: '-14px',
-      bottom: '10%'
+      // right: '-1px',
+      bottom: '5%'
     }
   })
 );

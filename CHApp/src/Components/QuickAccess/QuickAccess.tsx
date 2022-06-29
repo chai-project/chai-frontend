@@ -14,7 +14,7 @@ import chartDataType from '../../Types/types'
 //components
 import HeatingQA from './Heating/HeatingQA';
 import BatteryQA from './Battery/BatteryQA';
-import EnergyQA from './EnergyQA';
+import EnergyQA from './Energy/EnergyQA';
 
 // Styles 
     //Logo
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo: {
         position: 'relative',
-        height: '115px',
+        height: '110px', //buvo 115px, sumazinau nes neuzteko vietos sutalpinti 6 iconas su info, atkeisi jeigu liks vietos po sudejimo.
         top: '5px',
     },
     test:{
