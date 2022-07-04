@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo: {
         position: 'relative',
-        height: '110px', //buvo 115px, sumazinau nes neuzteko vietos sutalpinti 6 iconas su info, atkeisi jeigu liks vietos po sudejimo.
+        height: '100px', //buvo 115px, sumazinau nes neuzteko vietos sutalpinti 6 iconas su info, atkeisi jeigu liks vietos po sudejimo.
         top: '5px',
     },
     test:{

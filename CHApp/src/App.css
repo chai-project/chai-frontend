@@ -4,11 +4,9 @@
   width: 100%;
   text-align: center; */
   /* background:#ECEFF1; */
+
 }
 
-.MuiSlider-thumbColorPrimary{
-  display: hidden
-}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

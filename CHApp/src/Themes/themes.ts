@@ -29,7 +29,7 @@ export const dark = createTheme({
         fontSize: '16px'
       }
       
-    }
+    },
   });
   
 export const light = createTheme({

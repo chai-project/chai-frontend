@@ -26,5 +26,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/Components/MainWindow/Logs/Logs.tsx"  ]
 }

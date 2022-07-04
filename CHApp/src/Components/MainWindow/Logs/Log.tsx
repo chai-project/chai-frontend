@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper } from '@mui/material/';
+import { CssBaseline, Button, Paper, Box } from '@mui/material/';
 
 
 
@@ -13,11 +13,12 @@ import {useSelector, useDispatch} from 'react-redux'
 
 
 //types
-import chartDataType from '../../Types/types'
+import chartDataType from '../../../Types/types'
 
 //components
-import SwitchButton from '../Buttons/SwitchButton';
-import Logs from './Logs/Logs';
+import SwitchButton from '../../Buttons/SwitchButton';
+import DatePickerComponent from './DatePickerComponent';
+
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,10 +32,13 @@ const useStyles = makeStyles((theme: Theme) =>
       //  left: '4%',
       //  top: '10%',
     },
+    datepicker:{
+      position: 'absolute',
+    }
   }),
 );
 
-const MainWindow: React.FC = () => {
+const Logs: React.FC = () => {
 
     const classes = useStyles();
     const dispatch = useDispatch()
@@ -45,16 +49,12 @@ const MainWindow: React.FC = () => {
 
   return (
     <div className={classes.main}>
-      {/* <Router> */}
-        <Routes>
-          <Route path='/' element={<p>Home</p>}/>
-          <Route path='heating' element={<p>Heating</p>}/>
-          <Route path='electricity' element={<p>Electricity</p>}/>
-          <Route path='notifications' element={<Logs/>}/>
-        </Routes>
-      {/* </Router> */}
+
+        {/* <Box bgcolor="primary.main"> 
+        swx
+        </Box> */}
     </div>
   );
 };
 
-export default MainWindow;
+export default Logs;
