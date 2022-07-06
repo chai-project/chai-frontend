@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const NavBarBottom: React.FC = () => {
 
     const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false)
-    const cases = ['Heating', 'Electricity', 'Notifications'];
+    const cases = ['Heating', 'Electricity', 'Log'];
 //   const location = useLocation()
     let location = useLocation();
     const navigate = useNavigate();

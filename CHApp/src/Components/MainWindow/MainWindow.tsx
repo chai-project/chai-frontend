@@ -50,7 +50,7 @@ const MainWindow: React.FC = () => {
           <Route path='/' element={<p>Home</p>}/>
           <Route path='heating' element={<p>Heating</p>}/>
           <Route path='electricity' element={<p>Electricity</p>}/>
-          <Route path='notifications' element={<Logs/>}/>
+          <Route path='log' element={<Logs/>}/>
         </Routes>
       {/* </Router> */}
     </div>

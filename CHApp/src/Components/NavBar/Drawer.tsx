@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     drawer: {
-      width: '100vh',
+      width: '100vw',
+      // minHeight:'100vh', // nezinau ka cia padariau bet veleu pataisysi nes dabar du scroll barai yra!
       flexShrink: 0,
       zIndex: 1
     },
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     drawerContainer: {
-      height: '100vh',
+      minheight: '100vh', //ir cia del scroll barsu!
       position: 'relative',
       // border: '10px solid red',
       // overflow: 'auto',
@@ -52,14 +53,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       // border: '10px solid pink',
-      position: 'absolute',
+      position: 'relative',
       // height: '100vh', // cia buvo klaida!!!
       width: '420px',
       boxShadow: "none",
-      left: '50%',
-      top: '50%',
-      WebkitTransform: 'translate(-50%, -50%)',
-      transform: 'translate(-50%, -50%)',
+      alignItems: 'center',
+      justifyContent:"center",
+      // left: '50%',
+      // top: '50%',
+      // WebkitTransform: 'translate(-50%, -50%)',
+      // transform: 'translate(-50%, -50%)',
     },
     formControl: {
       margin: theme.spacing(1),

@@ -32,18 +32,21 @@ import { dark, light } from './Themes/themes'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root:{
-      position:"absolute",
+      position:"relative",
       height: '100vh',
       width: '100vw',
-      // overflow: 'auto',
+      overflow: 'auto',
+      border: "2px dashed lime",
     },
     container: {
       // display: 'none',
       position: 'relative', //buvo relative
-      height: '100vh',
+      height: '100%', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
       marginLeft: 'auto',
       marginRight: 'auto',
-      // display: 'flex',
+      // justifyContent:'center',
+      // alignItems:'center',
+      // display: 'block',
       // flexDirection: 'column',
       // alignItems: 'center',
       // alignContent:'center',
@@ -51,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // minHeight:  '840px',
       width: '100vw',
       maxWidth: '1400px',
-      border: "2px dashed purple",
+      border: "5px dashed purple",
       // top: '50%',
       // left: '50%',
       // transform: 'translate(-50%, -50%)',
@@ -83,24 +86,26 @@ const useStyles = makeStyles((theme: Theme) =>
       // },
     },
     mainWindow: { // need min max width
-      position: 'relative',
+      position: 'absolute',
       width: '1000px', // buvo 65 %
-      height: ' 88%', //cia problemele maza! buvo 85%
-      maxHeight: '800px',
+      // height: ' 88%', //cia problemele maza! buvo 85%
+      minHeight: '770px',
       // margin: '0 auto',
-      // left: '36%',
-      // top: '50%',
+      // left: '50%',
+      top: '50%',
       float: 'left',
       // marginRight: '30px',
       // WebkitTransform: 'translate(-50%, -50%)',
-      // transform: 'translate(0%, -50%)',
+      transform: 'translate(0%, -50%)',
       border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
         top:'50%',
         left:'50%',
-        WebkitTransform: 'translate(-50%, -50%)',
+        // WebkitTransform: 'translate(-50%, -50%)',
         transform: 'translate(-50%, -50%)',
         width: '99%',
+        minHeight: '700px'
+        // height: '2000px'
         // left: '50%',
         // top: '50%',
         // WebkitTransform: 'translate(-50%, -50%)',
@@ -110,13 +115,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     bottomNavigation: {
       // display:'none',
-      position: 'relative',
-      // bottom: '0%',
+      position: 'absolute',
+      bottom: '0%',
       marginTop: '10px',
       width: '1000px',
       // left: '42%',
       float: 'left',
-      // top:'50%',
+      // bottom:'0%',
       // WebkitTransform: 'translate(-50%, -50%)',
       // transform: 'translate(0%, -50%)',
       // backgroundColor: '#CC57B9',
@@ -133,15 +138,15 @@ const useStyles = makeStyles((theme: Theme) =>
     quickAccess:{ // need min max width
       position: 'relative',
       width: '365px', //buvo 25%
-      height: '88%', // cia mza problemele/ butut geriause kad butu 85%
-      maxHeight: '800px',
+      // height: '88%', // cia mza problemele/ butut geriause kad butu 85%
+      minHeight: '770px', //buvo 800px
       // margin: '0 auto',
       // left: '1px',
       // right: '0%',
-      // top: '50%',
+      top: '50%',
       float: 'right',
       // WebkitTransform: 'translate(-50%, -50%)',
-      // transform: 'translate(0%, -50%)',
+      transform: 'translate(0%, -50%)',
       border: '1px solid #5ACBCC',
       zIndex: theme.zIndex.appBar + 1, // kazkas su situ padayrt ????
       [theme.breakpoints.down('md')]: {
@@ -182,13 +187,63 @@ const useStyles = makeStyles((theme: Theme) =>
         zIndex: 100,    
       }
     },
+
+    //cia gridui testas
     column:{
       // backgroundColor: 'red'
       // border: "1px dashed purple",
     },
-    row: {
+    row1: {
       // backgroundColor: 'green'
       border: "2px dashed green",
+      height: '800px',
+      width: '1000px'
+    },
+    row:{
+      border: '2px dashed yellow',
+      height: '50px',
+      width: '100px',
+      // display: 'none'
+    },
+    qa:{
+      border: '2px dashed green',
+      height: '88%',
+      // width: '100px',
+      // display: 'none'
+      [theme.breakpoints.down('md')]: {
+        display: 'none',
+      }
+    },
+    ma:{
+      border: '2px dashed green',
+      height: '900px',
+    },
+    nav:{
+      position: 'sticky',
+      top: '10%',
+      border: "1px dashed yellow",
+
+      [theme.breakpoints.down('md')]: {
+        position: 'sticky',
+        // display: 'none',
+        bottom: '100%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        // left: '0%'
+      }
+    },
+    not: {
+
+    },
+    mainCont:{
+      overflow: 'scroll',
+      width: '100vw',
+      maxWidth: '1400px',
+      border: "2px dashed purple",
+      position: 'relative', //buvo relative
+      height: '100vh', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
+      marginLeft: 'auto',
+      marginRight: 'auto',
     }
   }),
 );
@@ -207,30 +262,34 @@ const App: React.FC = () => {
     setTheme(!theme)
   }
 
+
   return (
     <div className={classes.root}>
     <ThemeProvider theme={theme ? light : dark}>
       <CssBaseline/>
       <NavbarTop/>
-      {/* <Button variant='contained' color='primary' onClick={()=>{toogleTheme()}}>yes</Button>
-      <Button variant='contained' color='secondary' onClick={()=>{console.log(theme)}}>no</Button> */}
-      {/* <div className={classes.root}> */}
-      {/* <div className={classes.notificationWindow}> notification</div> */}
         <div className={classes.container}>
             <Paper className={classes.mainWindow}>
               <MainWindow/>
             </Paper>
             <Paper className={classes.quickAccess}>
               <QuickAccess/>
-              {/* <SwitchButton labelLeft='Dark' labelRight="Light" action={()=>{toogleTheme()}}></SwitchButton> */}
             </Paper>
             <div className={classes.notificationWindow}> notification</div>
             <div className={classes.bottomNavigation}>
               <NavBarBottom/>
             </div>
         </div>
-        {/* <DatePickerComponent/> */}
-      {/* </div> */}
+        {/* <Grid container className={classes.mainCont} direction="column" alignItems='center' justifyContent="center" justifySelf='center' >
+          <Grid item container direction='row' justifyContent="space-between">
+            <Grid item xs={12} md={8} className={classes.ma}>1</Grid>
+            <Grid item md ={0} lg={3.5}className={classes.qa}>{plotis}hmm</Grid>
+          </Grid>
+          <Grid item container direction='row' justifyContent="space-between">
+            <Grid item xs={8} className={classes.nav}>navbar</Grid>
+            <Grid item xs={3}className={classes.not}>notification</Grid>
+          </Grid>
+        </Grid> */}
     </ThemeProvider>
     </div>
   );

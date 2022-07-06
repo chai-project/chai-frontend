@@ -29,6 +29,7 @@ import DrawerComponent from './Drawer';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appbar: {
+      // height: '50px',
       zIndex: 2
     },
     drawer:{
@@ -60,7 +61,7 @@ const NavbarTop: React.FC = () => {
 
   return (
     <div>
-        <AppBar className={classes.appbar} color="transparent" elevation={0} position='fixed'>
+        <AppBar className={classes.appbar} color="transparent" elevation={1} position='fixed'>
           <Toolbar>
             <Stack direction='row' sx={{ flexGrow: 1}}>
               <div className={classes.menuButton}>
