@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 // import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
@@ -6,10 +6,15 @@ import './App.css';
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, Grid } from '@mui/material/';
 
+//services
+import services from './Services/services'
 
 // redux
 import {useSelector, useDispatch} from 'react-redux';
-import { initializeData } from './Redux-reducers/dataReducer';
+//chart data
+import { initializeChartData } from './Redux-reducers/chartDataReducer';
+//heating component data
+import { initializeHeatingComponentData } from './Redux-reducers/heatingComponentReducer';
 
 
 // types
@@ -32,218 +37,102 @@ import { dark, light } from './Themes/themes'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root:{
-      position:"relative",
+      // position:"relative",
       height: '100vh',
       width: '100vw',
       overflow: 'auto',
-      border: "2px dashed lime",
+      // border: "2px dashed lime",
+      scroll: 'overflow'
     },
     container: {
-      // display: 'none',
-      position: 'relative', //buvo relative
       height: '100%', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
       marginLeft: 'auto',
       marginRight: 'auto',
-      // justifyContent:'center',
-      // alignItems:'center',
-      // display: 'block',
-      // flexDirection: 'column',
-      // alignItems: 'center',
-      // alignContent:'center',
-      // maxHeight: '1000px', //buvo 900px
-      // minHeight:  '840px',
+      minHeight:  '840px',
       width: '100vw',
       maxWidth: '1400px',
-      border: "5px dashed purple",
-      // top: '50%',
-      // left: '50%',
-      // transform: 'translate(-50%, -50%)',
-      // WebkitTransform: 'translate(-50%, -50%)',
-
-      
-
-      // overflow: 'auto',
-      // position: 'absolute', //sita iskelti i app.tsx css
-      // // display: 'flex',
-      // left: '50%',
-      // top: '50%', // 50% geriau atrodo!
-      // // height: '100vh',
-      // maxHeight: '900px', // negali but ausktesnis negu 900 px
-      // minHeight: '600px',
-      // // width: '75vw',
-      // border: "2px dashed purple",
-      // margin : '0',
-      // // overflow: 'hidden',
-      // // -webkit-transform: translate(-50%, -50%);
-      // transform: 'translate(-50%, -50%)',
-      // WebkitTransform: 'translate(-50%, -50%)',
-      // [theme.breakpoints.down('lg')]: {
-      //   width: '100vw',
-      // },
-      // [theme.breakpoints.down('md')]: {
-      //   // width: '100vw',
-      //   minHeight: '600px'
-      // },
-    },
-    mainWindow: { // need min max width
-      position: 'absolute',
-      width: '1000px', // buvo 65 %
-      // height: ' 88%', //cia problemele maza! buvo 85%
-      minHeight: '770px',
-      // margin: '0 auto',
-      // left: '50%',
-      top: '50%',
-      float: 'left',
-      // marginRight: '30px',
-      // WebkitTransform: 'translate(-50%, -50%)',
-      transform: 'translate(0%, -50%)',
-      border: '1px solid #5ACBCC',
-      [theme.breakpoints.down('md')]: {
-        top:'50%',
-        left:'50%',
-        // WebkitTransform: 'translate(-50%, -50%)',
-        transform: 'translate(-50%, -50%)',
-        width: '99%',
-        minHeight: '700px'
-        // height: '2000px'
-        // left: '50%',
-        // top: '50%',
-        // WebkitTransform: 'translate(-50%, -50%)',
-        // transform: 'translate(0%, -50%)',
-        // left: ' 50%',
-      }
-    },
-    bottomNavigation: {
-      // display:'none',
-      position: 'absolute',
-      bottom: '0%',
-      marginTop: '10px',
-      width: '1000px',
-      // left: '42%',
-      float: 'left',
-      // bottom:'0%',
-      // WebkitTransform: 'translate(-50%, -50%)',
-      // transform: 'translate(0%, -50%)',
-      // backgroundColor: '#CC57B9',
-      // width: '100vw',
-      // maxWidth: '1000px',
-      // height: '5%',
-      [theme.breakpoints.down('md')]: {
-        position:'fixed',
-        bottom: '1%',
-        width: '100%',
-        // left: '50%',
-      }
-    },
-    quickAccess:{ // need min max width
-      position: 'relative',
-      width: '365px', //buvo 25%
-      // height: '88%', // cia mza problemele/ butut geriause kad butu 85%
-      minHeight: '770px', //buvo 800px
-      // margin: '0 auto',
-      // left: '1px',
-      // right: '0%',
-      top: '50%',
-      float: 'right',
-      // WebkitTransform: 'translate(-50%, -50%)',
-      transform: 'translate(0%, -50%)',
-      border: '1px solid #5ACBCC',
-      zIndex: theme.zIndex.appBar + 1, // kazkas su situ padayrt ????
-      [theme.breakpoints.down('md')]: {
-        display: 'none',
-      }
-    },
-    notificationWindow:{
-      position: 'relative',
-      float: 'right',
-      // padding: '10px',
-      marginTop: '10px',
-      // left: '50%',
-      // bottom: '10%',
-      // WebkitTransform: 'translate(-50%, -50%)',
-      // transform: 'translate(-50%, -50%)',
-      width: '365px',
-      height: '40px',
-      backgroundColor: '#CC57B9',
-      // position: 'relative',
-      // width: '365px', //buvo 25%
-      // height: '88%', // cia mza problemele/ butut geriause kad butu 85%
-      // maxHeight: '800px',
-      // // margin: '0 auto',
-      // // left: '1px',
-      // // right: '0%',
-      // top: '50%',
-      // float: 'right',
-      [theme.breakpoints.down('md')]: {
-        position: 'fixed',
-        left: '50%',
-        transform: 'translate(-50%, 0%)',
-        // marginLeft: 'auto',
-        // marginRight: 'auto',
-        width: '230px',
-        // bottom: '91%',
-        // left: '50%',
-        // width: '55%',  
-        zIndex: 100,    
-      }
-    },
-
-    //cia gridui testas
-    column:{
-      // backgroundColor: 'red'
-      // border: "1px dashed purple",
-    },
-    row1: {
-      // backgroundColor: 'green'
-      border: "2px dashed green",
-      height: '800px',
-      width: '1000px'
-    },
-    row:{
-      border: '2px dashed yellow',
-      height: '50px',
-      width: '100px',
-      // display: 'none'
-    },
-    qa:{
-      border: '2px dashed green',
-      height: '88%',
-      // width: '100px',
-      // display: 'none'
-      [theme.breakpoints.down('md')]: {
-        display: 'none',
-      }
-    },
-    ma:{
-      border: '2px dashed green',
-      height: '900px',
-    },
-    nav:{
-      position: 'sticky',
-      top: '10%',
-      border: "1px dashed yellow",
-
-      [theme.breakpoints.down('md')]: {
-        position: 'sticky',
-        // display: 'none',
-        bottom: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        // left: '0%'
-      }
-    },
-    not: {
-
+      // border: "5px dashed purple",
     },
     mainCont:{
-      overflow: 'scroll',
-      width: '100vw',
-      maxWidth: '1400px',
-      border: "2px dashed purple",
-      position: 'relative', //buvo relative
-      height: '100vh', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      // overflow: 'scroll',
+      width: '100%',
+      // maxWidth: '1400px',
+      // border: "2px dashed red",
+      // position: 'relative', //buvo relative
+      height: '790px', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
+      minHeight: '790px',
+      // marginLeft: 'auto',
+      // marginRight: 'auto',
+      [theme.breakpoints.down('md')]: {
+        height: '650px',
+        minHeight: '650px',
+      }
+    },
+    mainWindowContainer:{
+      height:'100%',
+      // width: '100%',
+      width: '10px',
+      // border: "2px dashed yellow",
+      // border: '1px solid #5ACBCC',
+      [theme.breakpoints.down('md')]: {
+        // width: '100%',
+        // border: "2px dashed yellow",
+      }
+
+    },
+    mainWindow:{
+      height:'100%',
+      // minHeight: '790px',
+      border: '1px solid #5ACBCC',
+      [theme.breakpoints.down('md')]: {
+        // display: 'none',
+        // border: '1px solid red',
+      },
+      [theme.breakpoints.up('md')]: {
+        // display: 'none',
+        // border: '1px solid lime',
+      },
+      
+    },
+    quickAccess:{
+      height:'790px',
+      minHeight:'790px',
+      // position:'relative',
+      // border: "2px dashed lime",
+      border: '1px solid #5ACBCC',
+      [theme.breakpoints.down('md')]: {
+        display: 'none',
+      }
+    },
+    navContainer:{
+      width: '100%',
+      height: '50px',
+      // border: "2px dashed yellow",
+    },
+    navBottom:{
+      // border: "2px dashed pink",
+      [theme.breakpoints.down('md')]: {
+        position: 'fixed',
+        width: '100%',
+        bottom: '1%'
+        // top: '1%',
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
+      }
+    },
+    notification: {
+      // border: "2px dashed pink",
+      [theme.breakpoints.down('md')]: {
+        position: 'fixed',
+        width: '100%',
+        top: '1%',
+        left:' 35%',
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
+      }
+    },
+    hmm:{
+      // border: "5px dashed orange",
     }
   }),
 );
@@ -254,12 +143,44 @@ const App: React.FC = () => {
   const chartData: chartDataType = useSelector((state: any) => state.chartData);
   const classes = useStyles();
   const dispatch = useDispatch()
+  
+
+  useEffect(() => {
+    let token = localStorage.getItem("bearerToken")
+
+    if(!token){
+      token = "39b01478-134f-41e7-8393-8ad91f6815cf"
+      services.setBearerToken(token)
+      dispatch(initializeChartData())
+      dispatch(initializeHeatingComponentData())
+      //set to local storage! 
+    }
+
+
+}, [])
+
 
   const getData = () => {
-    dispatch(initializeData())
+    dispatch(initializeChartData())
   }
   const toogleTheme = () => {
     setTheme(!theme)
+  }
+
+  const handleToken = async () =>{
+    const token = "39b01478-134f-41e7-8393-8ad91f6815cf"
+    const tokenRes =  await services.setBearerToken(token)
+    console.log(tokenRes)
+
+  }
+
+  const handleData = async() => {
+    const data = await services.getHeatingComponentData();
+    console.log(data)
+  //   const data = useSelector((state: any) => {
+  //     return state;
+  // });
+
   }
 
 
@@ -268,28 +189,28 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme ? light : dark}>
       <CssBaseline/>
       <NavbarTop/>
-        <div className={classes.container}>
-            <Paper className={classes.mainWindow}>
-              <MainWindow/>
-            </Paper>
-            <Paper className={classes.quickAccess}>
-              <QuickAccess/>
-            </Paper>
-            <div className={classes.notificationWindow}> notification</div>
-            <div className={classes.bottomNavigation}>
-              <NavBarBottom/>
-            </div>
-        </div>
-        {/* <Grid container className={classes.mainCont} direction="column" alignItems='center' justifyContent="center" justifySelf='center' >
-          <Grid item container direction='row' justifyContent="space-between">
-            <Grid item xs={12} md={8} className={classes.ma}>1</Grid>
-            <Grid item md ={0} lg={3.5}className={classes.qa}>{plotis}hmm</Grid>
+        <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
+          <Grid item container direction="row" className={classes.hmm}>
+            <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainCont}>
+              <Grid xs={12} sm={12} md={12} lg={8.5} xl={8.5} item className={classes.mainWindowContainer}>
+                <Paper className={classes.mainWindow}>
+                  <MainWindow/>
+                </Paper>
+              </Grid>
+              <Grid xs={3.3} sm={3.3} md={3.3} lg={3.3} xl={3.3} item >
+                <Paper className={classes.quickAccess}>
+                  <QuickAccess/>
+                </Paper>
+              </Grid>
+            </Grid>
+            <Grid xs={12} item container direction="row" justifyContent="space-between" className={classes.navContainer}>
+              <Grid md={12} lg={8.5} item className={classes.navBottom}>
+                <NavBarBottom/>
+              </Grid>
+              <Grid xs={3.3} item className={classes.notification}> notification</Grid>
+            </Grid>
           </Grid>
-          <Grid item container direction='row' justifyContent="space-between">
-            <Grid item xs={8} className={classes.nav}>navbar</Grid>
-            <Grid item xs={3}className={classes.not}>notification</Grid>
-          </Grid>
-        </Grid> */}
+        </Grid>
     </ThemeProvider>
     </div>
   );

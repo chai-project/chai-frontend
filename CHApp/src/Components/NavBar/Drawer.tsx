@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex', // sita nutrinti jeigu noresi
       [theme.breakpoints.up('lg')]: {
-        display: 'none',
+        // display: 'none',
       }
     },
     drawer: {
@@ -44,16 +44,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawerContainer: {
       minheight: '100vh', //ir cia del scroll barsu!
-      position: 'relative',
-      // border: '10px solid red',
+      // position: 'relative',
+      // border: '2px solid red',
       // overflow: 'auto',
       // alignItems: 'center',
       // width: '100vw',
 
     },
     content: {
-      // border: '10px solid pink',
-      position: 'relative',
+      // border: '1px solid pink',
+      // position: 'relative',
       // height: '100vh', // cia buvo klaida!!!
       width: '420px',
       boxShadow: "none",
@@ -103,7 +103,7 @@ const DrawerComponent: React.FC<any> = (props: any) => {
           paper: classes.drawerPaper,
         }}
       >
-        <Grid container direction="column" alignItems="center" justifyContent="center" className={classes.drawerContainer}>
+        <Grid container xs={12} direction="column" alignItems="center" justifyContent="center" className={classes.drawerContainer}>
           <Grid item className={classes.content}>
             <QuickAccess/>
           </Grid>

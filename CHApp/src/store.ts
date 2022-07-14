@@ -3,10 +3,12 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 
 // Reducers
-import dataReducer from './Redux-reducers/dataReducer'
+import chartDataReducer from './Redux-reducers/chartDataReducer';
+import heatingComponentReducer from './Redux-reducers/heatingComponentReducer';
 
 const reducer = combineReducers({
-    chartData: dataReducer,
+    chartData: chartDataReducer,
+    heatingComponent: heatingComponentReducer,
     //more if needed
 });
 

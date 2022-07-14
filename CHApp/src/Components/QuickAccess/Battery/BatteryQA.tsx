@@ -46,49 +46,24 @@ const useStyles = makeStyles((theme: Theme) =>
         }
       },
     },
-    container:{
-        position: 'relative',
+    main:{
         height: '180px',
         minWidth: '90%',
         borderRadius: '25px',
+        // border: "2px dashed orange",
+      },
+    container:{
+        height: '100%',
+        width: '100%',
     },
-    item:{
-        position: 'relative',
-        left: '50%',
-        top: '50%',
-        WebkitTransform: 'translate(-50%, -50%)',
-        transform: 'translate(-50%, -50%)',
-    },
-    column: {
-        position: 'relative',
+    iconAndState: {
+        height: '100%',
         // border: '2px solid pink',
-        height: '100px'
+
     },
-    row: {
-        // border: '2px solid red',
-    },
-    iconRoot:{
-        position: 'relative',
-        top:'-25%',
-        display: 'inline-flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // border: '2px solid green',
-    },
-    icon:{
-        transform: 'rotate(90deg)',
-    },
-    batteryLevel:{
-        position: 'absolute',
-        lineHeight:1,
-        top: '40%'
-    },
-    batteryStatus:{
-        position: 'absolute',
-        lineHeight:1,
-        bottom: '-20%',
-        margin: -5,
-        // border: '2px solid green',
+    switchButtons:{
+        height: '100%',
+        // border: '2px solid pink',
     }
   }),
 );
@@ -116,7 +91,6 @@ const toogleMode = () => {
 //auto manual switch
 const toogleBatteryManualMode = (event:any) => {
     setBatteryAutoMode(event.target.checked)
-    console.log('viduj',event.target.checked)
 }
 
 // on off switch
@@ -125,7 +99,6 @@ const toogleBatteryOn = (event:any) => {
 }
 
 //  charging discharging mode
-
 const tootgleChargingMode = (event:any) => {
     setBatteryChargingMode(event.target.checked)
 }
@@ -134,50 +107,15 @@ const tootgleChargingMode = (event:any) => {
   return (
     <div>
       <Divider className={classes.divider} textAlign='left'><b>Powerbank</b></Divider>
-      <Box className={classes.container} bgcolor="background.default">
-        <div className={classes.item}>
-        <Grid container direction="row" alignItems='center' justifyContent="center">
-            <Grid item container xs={4} direction="column" alignItems='center' justifyContent="center">
-                <Grid item className={classes.column}>
+      <Box className={classes.main} bgcolor="background.default">
+        <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.container}>
+            <Grid item container xs={5} direction="column" justifyContent="center" alignItems="center" className={classes.iconAndState}>
+                <Grid item>
                     <BatteryIcon batteryLevel={batteryLevel} batteryStatus={batteryStatus}/>
-                    {/* <div className={classes.iconRoot}>
-                        <Battery20Icon className={classes.icon} style={{ fontSize: 100 }} color='primary'/>
-                        <Typography className={classes.batteryLevel} variant='h5'><b>{batteryLevel}%</b></Typography>
-                        <div className={classes.batteryStatus}>
-                            <Typography variant='h5'><b>80 kWh</b> </Typography>
-                            <Typography variant='h6'>{batteryStatus} </Typography>
-                        </div>
-                    </div> */}
                 </Grid>
-            {/* <div className={classes.iconRoot}>
-                            <Battery20Icon className={classes.icon} style={{ fontSize: 100 }} color='primary'/>
-                            <Typography className={classes.batteryLevel} variant='h5'><b>{batteryLevel}%</b></Typography>
-                        </div> */}
-                {/* <Grid item container direction="row" className={classes.row}>
-                    <Grid item xs={6} className={classes.row}>
-                        <div className={classes.iconRoot}>
-                            <Battery20Icon className={classes.icon} style={{ fontSize: 100 }} color='primary'/>
-                            <Typography className={classes.batteryLevel} variant='h5'><b>{batteryLevel}%</b></Typography>
-                        </div>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row} >
-                        <Typography variant='h5'><b>80 kWh</b></Typography>
-                    </Grid>
-                    <Grid item>
-
-                    </Grid>
-                </Grid> */}
-                {/* <Grid item container className={classes.row} direction="column" justifyContent="center">
-                    <Grid item>
-                        <Typography variant='h5'><b>{batteryLevel}%</b></Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant='h6'>{batteryStatus} </Typography>
-                    </Grid>
-                </Grid> */}
             </Grid>
-            <Grid item container xs={7} className={classes.column} direction="column" alignItems='center' justifyContent="center" justifySelf='center'>
-                <Grid>
+            <Grid item container xs={7} direction="column" justifyContent="center" alignItems="center"  className={classes.switchButtons}>
+                <Grid item>
                     <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleBatteryManualMode} status={batteryAutoMode} disabled={false}/>
                 </Grid>
                 <Grid item>
@@ -188,7 +126,6 @@ const tootgleChargingMode = (event:any) => {
                 </Grid>
             </Grid>
         </Grid>
-        </div>
       </Box>
     </div>
   );

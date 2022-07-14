@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
       //  boxSizing: 'border-box',
-       position: 'absolute', //sita iskelti i app.tsx css
-       width: '100%',
-       height: '100%',
+       position: 'relative', //sita iskelti i app.tsx css
+      //  width: '100%',
+       height: '800px',
       //  background: '#CFD8DC', // Paper has to go to app
       //  right: '4%',
       //  top: '5%',
@@ -63,7 +63,7 @@ const QuickAccess: React.FC = () => {
 //   }
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={1}>
+    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={1} className={classes.main}>
       <Grid item >
         <img className={classes.logo} src={Logo}></img>
       </Grid >

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, AppBar, Toolbar, IconButton, Stack, Link} from '@mui/material/';
+import { CssBaseline, AppBar, Toolbar, IconButton, Stack, Link, Grid} from '@mui/material/';
   //icons
   import MenuIcon from '@mui/icons-material/Menu';
   import CloseIcon from '@mui/icons-material/Close';
@@ -40,11 +40,23 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       }
     },
-    logo:{
-      height: '50px',
-      [theme.breakpoints.up('md')]: {
+    logoContainer:{
+      position: 'fixed',
+      zIndex: 3,
+      // height: '50px',
+      // border: "2px dashed pink",
+      [theme.breakpoints.up('lg')]: {
         display: 'none',
       }
+    },
+    logo:{
+      height: '50px',
+    },
+    navigationMenuIcons:{
+      width: '10px',
+      position: 'fixed',
+      zIndex: 3,
+            // border: "2px dashed pink",
     }
   }),
 );
@@ -61,7 +73,7 @@ const NavbarTop: React.FC = () => {
 
   return (
     <div>
-        <AppBar className={classes.appbar} color="transparent" elevation={1} position='fixed'>
+        {/* <AppBar className={classes.appbar} color="transparent" elevation={1} position='fixed'>
           <Toolbar>
             <Stack direction='row' sx={{ flexGrow: 1}}>
               <div className={classes.menuButton}>
@@ -77,7 +89,26 @@ const NavbarTop: React.FC = () => {
               <img className={classes.logo} src={Logo}></img>
             </Link>
           </Toolbar>
-        </AppBar>
+        </AppBar> */}
+        <Grid container xs={2} sm={1} md={1} lg={1} direction="row" justifyContent="flex-start" className={classes.navigationMenuIcons}>
+          <Grid item xs={5} className={classes.menuButton}>
+            <IconButton size='small' edge='start' color='primary' onClick={() => setDrawerOpenState(!drawerOpenState)}>
+              {drawerOpenState ? <CloseIcon/> : <MenuIcon/> }
+            </IconButton>
+          </Grid>
+          <Grid item xs={5}>
+            <IconButton size='small' color='primary'>
+              <SettingsIcon/>
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Grid container direction="row" justifyContent="flex-end">
+          <Grid item xs={3} sm={2} md={1.5} lg={1} className={classes.logoContainer}>
+            <Link href="/">
+              <img className={classes.logo} src={Logo}></img>
+            </Link>
+          </Grid>
+        </Grid>
         <DrawerComponent drawerOpenState={drawerOpenState}/>
     </div>
   );

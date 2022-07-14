@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
       //  boxSizing: 'border-box',
-       position: 'absolute', //sitas!!!
+       position: 'relative', //sitas!!!
        width: '100%',
        height: '100%',
       //  background: '#CFD8DC',

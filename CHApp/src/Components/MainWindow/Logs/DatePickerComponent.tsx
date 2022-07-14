@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme: Theme) =>
       // outlineColor: 'lime',
       // color:'red',
       width: '150px',
+      // color: 'red',
+      '& label':{
+        zIndex: 0
+      },
       '& label.Mui-focused': {
         color: '#5ACBCC',
       },
@@ -25,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderBottomColor: '#5ACBCC',
       },
       '& .MuiOutlinedInput-root': {
+        // color: 'red',
         '& fieldset': {
           borderColor: 'white',
         },
@@ -41,16 +46,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       
     },
-    datepicker:{
-      margin: 'auto'
-    },
-    tableRow: {
-      // backgroundColor: 'red',
-      // color: 'yellow',
-      "&:hover": {
-        backgroundColor: '#5ACBCC'
-      }
-    },
   }),
 );
 
@@ -63,7 +58,7 @@ const DatePickerComponent: React.FC = () => {
   return (
     // <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterMoment}>
-        <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={1}>
+        <Grid xs={12} container direction="row" justifyContent="flex-start" alignItems="center" spacing={1}>
           <Grid item>
             <DatePicker
               disableFuture
@@ -77,9 +72,8 @@ const DatePickerComponent: React.FC = () => {
               renderInput={(params) => <TextField className={classes.textfield} sx={{svg:{color:'#5ACBCC'}}} {...params} />}
             />
           </Grid>
-          <Grid item >
+          <Grid item>
           <DatePicker
-            className={classes.datepicker}
             disableFuture
             label="To"
             openTo='day'

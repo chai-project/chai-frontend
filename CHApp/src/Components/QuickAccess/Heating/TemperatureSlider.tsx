@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -33,7 +33,9 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     container:{
-      height: '160px',
+      height: '80px',
+      // top:'10px',
+      // position:'relative', 
       minWidth: '90%',
       borderRadius: '25px'
     },
@@ -46,71 +48,88 @@ const iOSBoxShadow =
 const marks = [
   {
     value: 11,
+    realValue: 17,
     label: '17°'
   },
   {
     value: 12,
+    realValue: 17.5,
     label: '17.5°'
   },
   {
     value: 13,
+    realValue: 18,
     label: '18°'
   },
   {
     value: 14,
+    realValue: 18.5,
     label: '18.5°'
   },
   {
     value: 15,
+    realValue: 19,
     label: '19°'
   },
   {
     value: 16,
+    realValue: 19.5,
     label: '19.5°'
   },
   {
     value: 17,
+    realValue: 20,
     label: '20°'
   },
   {
     value: 18,
+    realValue: 20.5,
     label: '20.5°'
   },
   {
     value: 19,
+    realValue: 21,
     label: '21°'
   },
   {
     value: 20,
+    realValue: 21.5,
     label: '21.5°'
   },
   {
     value: 21,
+    realValue: 22,
     label: '22°'
   },
   {
     value: 22,
+    realValue: 22.5,
     label: '22.5°'
   },
   {
     value: 23,
+    realValue: 23,
     label: '23°'
   },
   {
     value: 24,
+    realValue: 23.5,
     label: '23.5°'
   },
   {
     value: 25,
+    realValue: 24,
     label: '24°'
   },
   {
     value: 26,
+    realValue: 24.5,
     label: '24.5°'
   },
   {
     value: 27,
-    label: '25°'
+    realValue: 25,
+    label: '25°',
   }
 ];
 
@@ -273,121 +292,64 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
       },
   }));
 
-//   function ThumbComponent(props:any) {
-//     const { children, className, ...other } = props;
-//     const extraClassName =
-//       other["data-index"] === 0 ? "first-thumb" : other["data-index"] === 1 ? "second-thumb" : other["data-index"] === 2 ? "third-thumb" : null;
-//     return (
-//       <SliderThumb {...other} className={clsx(className, extraClassName)} />
-//     );
-//   }
+
+
+const TemperatureSlider: React.FC<{targetTemperature: number, setTargetTemperature:any, isSetTargetTemperature: boolean , setIsSetTargetTemperature:any, setRequestTargetTemperature:any}> = (targetTemperature) => {
+
+  const [value, setValue] = useState<number | number[] >(11)
+  const classes = useStyles();
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    if(!targetTemperature.isSetTargetTemperature){
+        const realValue = marks.find(mark => mark.realValue === targetTemperature.targetTemperature)
+        if(realValue){
+          setValue(realValue.value)
+        }
+    }
+  },[targetTemperature])
   
-//   const PrettoSlider = styled(Slider)({
-//     color: '#52af77',
-//     height: 52,
-//     '& .MuiSlider-track': {
-//       border: 'none',
-//     },
-//     '& .MuiSlider-thumb': {
-//       height: 58,
-//       width: 25,
-//       backgroundColor: '#57CBCC',
-//       border: '2px solid #57CBCC',
-//       '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-//         boxShadow: 'inherit',
-//       },
-//       '&:before': {
-//         display: 'none',
-//       },
-//     },
-//     '& .MuiSlider-valueLabel': {
-//       lineHeight: 1.2,
-//       fontSize: 12,
-//       background: 'unset',
-//       padding: 0,
-//       width: 32,
-//       height: 32,
-//       borderRadius: '50% 50% 50% 0',
-//       backgroundColor: '#52af77',
-//       transformOrigin: 'bottom left',
-//       transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
-//       '&:before': { display: 'none' },
-//       '&.MuiSlider-valueLabelOpen': {
-//         transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
-//       },
-//       '& > *': {
-//         transform: 'rotate(45deg)',
-//       },
-//       '& .MuiSlider-mark': {
-//         backgroundColor: '#000000',
-//         height: 8,
-//         width: 1,
-//         '&.MuiSlider-markActive': {
-//           opacity: 1,
-//           backgroundColor: 'currentColor',
-//         },
-//       },
-//     },
-//     "&.Mui-disabled": {
-//         color: "red"
-//       }
-//   });
 
-const TemperatureSlider: React.FC = () => {
-
-//   const [value, setValue] = useState<number[]>([11, 20, 27]) 
-  const [value, setValue] = useState<number | number[]>(20) //cia sutvarkyti kad nebutu to array is viso
+  
+  
   const minDistance = 10;
   const handleChange1 = (
     event: Event,
     newValue: number | number[], 
     activeThumb: number,
   ) => {
-    console.log(activeThumb)
     const minValue = 11
     const maxValue = 27
 
 
     if(activeThumb === 0 ) { // prachekinti ar nera array
+      let realValue
         if(newValue <= 11 ){
+            realValue = marks.find(mark => mark.value === minValue)
             setValue(minValue)
         }else if (newValue >= 28 ){
+            realValue = marks.find(mark => mark.value === maxValue)
             setValue(maxValue)
         } else {
+            realValue = marks.find(mark => mark.value === newValue)
             setValue(newValue)
         }
+        targetTemperature.setRequestTargetTemperature(realValue?.realValue)
+        // karocia problema tame, kad uzupdeitina steita ir galu gale daugiau nebeupdeitina todel atnaujina temperatrua i esama po pirmo
+        if(realValue?.realValue !== targetTemperature.targetTemperature){
+          targetTemperature.setIsSetTargetTemperature(true)
+        }else{
+          targetTemperature.setIsSetTargetTemperature(false)
+        }
+        // console.log(realValue, targetTemperature.targetTemperature)
     }
-    // if (!Array.isArray(newValue)) {
-    //   return;
-    // }
-
-    // if (activeThumb === 0) {
-    //     setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
-    // } else {
-    //     setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
-    // }
-    console.log(value)
   };
-//   const [value, setValue] = useState<number>(60) 
-    const classes = useStyles();
-    const dispatch = useDispatch()
 
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
-// const something = (e:any) => {
-//     // if(e.target.value < 24 || e.target.value > 90){
-//     //     // setValue(e.target.value)
-//     //     console.log(e.target.value)
-//     // }
-// console.log(e.target.value)
-
-// }
   return (
-    <div>
+    <div className={classes.container}>
         <IOSSlider
         aria-label="ios slider"
-        // defaultValue={value}
+        defaultValue={value}
         marks={marks}
         valueLabelDisplay="on"
         valueLabelFormat={(value)=> {
@@ -400,7 +362,7 @@ const TemperatureSlider: React.FC = () => {
             return(
                 labelValue
             )
-        }} // cia reike isekstraktint label  o ne value arba paskaiciouti. find funkcija cia pukei tiks
+        }}
         disabled={false}
         step={1}
         value={value}
@@ -409,12 +371,6 @@ const TemperatureSlider: React.FC = () => {
         // min={25}
         max={30}
         />
-        {/* <PrettoSlider
-        valueLabelDisplay="auto"
-        aria-label="pretto slider"
-        defaultValue={20}
-        disabled={true}
-        /> */}
     </div>
   );
 };
@@ -422,77 +378,3 @@ const TemperatureSlider: React.FC = () => {
 export default TemperatureSlider;
 
 
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import Slider from '@mui/material/Slider';
-
-// function valuetext(value: number) {
-//   return `${value}°C`;
-// }
-
-// const minDistance = 0;
-
-// export default function TemperatureSlider() {
-//   const [value1, setValue1] = React.useState<number[]>([20, 37, 90]);
-
-//   const handleChange1 = (
-//     event: Event,
-//     newValue: number | number[],
-//     activeThumb: number,
-//   ) => {
-//     if (!Array.isArray(newValue)) {
-//       return;
-//     }
-
-//     if (activeThumb === 0) {
-//       setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
-//     } else {
-//       setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
-//     }
-//   };
-
-//   const [value2, setValue2] = React.useState<number[]>([20, 37]);
-
-//   const handleChange2 = (
-//     event: Event,
-//     newValue: number | number[],
-//     activeThumb: number,
-//   ) => {
-//     if (!Array.isArray(newValue)) {
-//       return;
-//     }
-
-//     if (newValue[1] - newValue[0] < minDistance) {
-//       if (activeThumb === 0) {
-//         const clamped = Math.min(newValue[0], 100 - minDistance);
-//         setValue2([clamped, clamped + minDistance]);
-//       } else {
-//         const clamped = Math.max(newValue[1], minDistance);
-//         setValue2([clamped - minDistance, clamped]);
-//       }
-//     } else {
-//       setValue2(newValue as number[]);
-//     }
-//   };
-
-//   return (
-//     <Box sx={{ width: 300 }}>
-//       <Slider
-//         getAriaLabel={() => 'Minimum distance'}
-//         value={value1}
-//         onChange={handleChange1}
-//         valueLabelDisplay="auto"
-//         getAriaValueText={valuetext}
-//         disableSwap
-//       />
-//       <Slider
-//         getAriaLabel={() => 'Minimum distance shift'}
-//         value={value2}
-//         onChange={handleChange2}
-//         valueLabelDisplay="auto"
-//         getAriaValueText={valuetext}
-//         disableSwap
-//       />
-//     </Box>
-//   );
-// }

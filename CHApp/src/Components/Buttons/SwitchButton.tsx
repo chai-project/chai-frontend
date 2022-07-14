@@ -92,7 +92,7 @@ const IOSSwitch = styled((props: SwitchProps) => (
 
     const toogle = (event:any) =>{
       action(event)
-      console.log(event.target.checked)
+      // console.log(event.target.checked)
     }
 
   return (

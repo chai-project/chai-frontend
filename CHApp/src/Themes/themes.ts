@@ -30,6 +30,15 @@ export const dark = createTheme({
       }
       
     },
+    breakpoints:{
+      values:{
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1280, // geras :D
+        xl: 1536,
+      }
+    }
   });
   
 export const light = createTheme({
@@ -60,6 +69,15 @@ export const light = createTheme({
       },
       h5:{
         fontSize: '16px'
+      }
+    },
+    breakpoints:{
+      values:{
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1280, // geras :D
+        xl: 1536,
       }
     }
   });

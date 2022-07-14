@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Box, Grid, Divider, Slider, AppBar, Toolbar, IconButton, Stack, Link} from '@mui/material/';
+import { CssBaseline, Box, Grid, Divider, Slider, AppBar, Toolbar, IconButton, Stack, Link, Button} from '@mui/material/';
 
 
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
+import {setAutoHeatingMode} from '../../../Redux-reducers/heatingComponentReducer'
 
 
 //components
@@ -30,104 +31,209 @@ const useStyles = makeStyles((theme: Theme) =>
         }
       },
     },
-    container:{
+    main:{
       height: '180px',
       minWidth: '90%',
-      borderRadius: '25px'
+      borderRadius: '25px',
+      // border: "2px dashed orange",
+    },
+    container:{
+      height: '100%',
+      width: '100%',
+      // minWidth: '90%',
+      // borderRadius: '25px',
+      // border: "2px dashed pink",
+      
     },
     slider:{
       position: 'relative',
-      top: '10%',
-      // left: '5px',
+      top: '10px',
+      left: '5px',
       width: '97%',
-      right: '-3px' // buvo 5px
+      // border: "2px dashed pink",
+      // right: '-3px' // buvo 5px
     },
-    temperatureStatusContainer: {
-      width: '90px',
-      height: '70px',
-      position: 'absolute',
-      top: '24%',
-      left: '21px',
-      // fontSize: 35,
-      // border: "2px dashed purple",
+    infoAndSwitchButtonsContainer:{
+      // border: "2px dashed lime",
+      width: '100%',
+      height:'50%'
     },
-    currentTemperature: {
+    sliderAndCurrentTemperatureContainer:{
+      // border: "2px dashed lime",
+      width: '100%',
+      height: '50%'
+    },
+    actualTemperatureContainer:{
+      // border: "2px dashed yellow",
       position: 'relative',
-      fontSize: 61,
-      top: '-95%'
+      top: '-70px',
+      left:'8px'
+      // top: '%'
     },
-    currentTemperatureLabel:{
-      position: 'absolute',
-      top: '40%',
-      fontSize: 19,
-      left: '1px',
-      
+    actualTemperature:{
+      fontSize:45,
+      // border: "2px dashed red",
+      height: '50px'
     },
-    currentValveStatus:{
-      position: 'absolute',
-      top: '100%',
-      fontSize: 15,
-      left: '2px',
-      // border: "2px dashed purple",
-      width: '120px'
+    actualTemperatureLabel:{
+      // border: "2px dashed red",
+      fontSize:20
     },
-    switchButtons:{
-      position: 'relative',
-      // right: '-1px',
-      bottom: '5%'
+    valveStatusContainer:{
+      // border: "2px dashed red",
+      height:'100%',
+      // position: 'relative',
+      // left:'8px'
+    },
+    valveStatus:{
+      fontSize:20,
+      position:'relative',
+      left: '8px'
+    },
+    switchButtonsContainer:{
+      height:'100%',
+      // border: "2px dashed red",
+    },
+    confirmQuestion:{
+      fontSize:14,
+      // border: "2px dashed red",
+    },
+    confirmButtons:{
+      // border: "2px dashed red",
     }
   })
 );
 
 const HeatingQA: React.FC = () => {
+  //main component state from redux
+  const heatingComponentState = useSelector(async (state:any)=>{ //buvo async await 
+    return  await state.heatingComponent
+  })
 
-  const [heatingAutoMote, setHeatingAutoMote] = useState<boolean>(true)
+  const [heatingAutoMode, setHeatingAutoMode] = useState<boolean>(true)
   const [heatingOnMode, setHeatingOnMode] = useState<boolean>(false)
-    const classes = useStyles();
-    const dispatch = useDispatch()
+  const [temperature, setTemperature] = useState<String | null>()
+  const [targetTemperature, setTargetTemperature] = useState<number>(17)
+  const [isSetTargetTemperature, setIsSetTargetTemperature] = useState<boolean>(false)
+  const [requestTargetTemperatureValue , setRequestTargetTemperature] = useState<number | null>(null)
+  const [valveStatus, setValveStatus] = useState()
+  const classes = useStyles();
+  const dispatch = useDispatch()
 
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
+    useEffect(()=>{
+      heatingComponentState.then((res)=>{
+        setTemperature(res.temperature)
+        setValveStatus(res.valve_open)
+        setTargetTemperature(res.target_temperature)
+        switch(res.mode){
+          case 'auto':
+            setHeatingAutoMode(true)
+            break;
+          case 'on' :
+            setHeatingAutoMode(false)
+            setHeatingOnMode(true)
+            break;
+          case 'off':
+            setHeatingAutoMode(false)
+            setHeatingOnMode(false)
+            break;
+        }
+      })
+    },[heatingComponentState]) //ideti i array heatingComponentState 
 
+//switch buttons actions
 const toogleHeatingAutoMode = (event:any) => {
-    setHeatingAutoMote(event.target.checked)
+  setHeatingAutoMode(event.target.checked)
+  //checks the state of the switch button and sets the mode to the redux, before that needs to send the request to the server and then if res 200 update redux
+  if(event.target.checked){
+    dispatch(setAutoHeatingMode('auto'))
+  }else if(!event.target.checked){
+    dispatch(setAutoHeatingMode(heatingOnMode))
+  }
 }
 
 const toogleHeatingOnOffMode = (event:any) => {
     setHeatingOnMode(event.target.checked)
+    //same thing here before updating redux, send req to server and get res 200
+    dispatch(setAutoHeatingMode(event.target.checked))
+}
+
+//confirm buttons actions
+
+const confirmYes = () => {
+  //send request to the server if 200 update redux!
+  console.log('yesysysysysy')
+}
+
+const confirmCancel = () => {
+  setIsSetTargetTemperature(false)
+}
+
+
+const confirmComponent = () => {
+  return(
+    <Grid item container direction="row" justifyContent="center" alignItems="flex-start" className={classes.infoAndSwitchButtonsContainer}>
+      <Grid item xs={10} className={classes.confirmQuestion}>This action will affect research, do you wish to set the target temperature to <b>{requestTargetTemperatureValue}°</b> ?</Grid>
+      <Grid item xs={8} container direction="row" justifyContent='center' alignItems='center' className={classes.confirmButtons} >
+        <Grid item xs={4}>
+          <Button variant="contained" color='primary' size='small' onClick={()=>{confirmYes()}}>Yes</Button>
+        </Grid>
+        <Grid item xs={4}>
+          <Button variant="contained" color='secondary' size='small' onClick={()=>{confirmCancel()}}>Cancel</Button>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+}
+const switchButtonsComponent = () => {
+  return(
+    <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.infoAndSwitchButtonsContainer}>
+      <Grid item container xs={5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
+        <Grid item className={classes.valveStatus}><b>Valve: {valveStatus === true ? "Open" : "Closed"}</b></Grid>
+        {/* <button onClick={()=>{console.log(heatingComponentState)}}>state</button> */}
+      </Grid>
+      <Grid item container xs={7} direction="column" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
+        <Grid item>
+          <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleHeatingAutoMode} status={heatingAutoMode} disabled={false}/>
+        </Grid>
+        <Grid item>
+          <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleHeatingOnOffMode} status={heatingOnMode} disabled={heatingAutoMode === true ? true : false}/>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
 }
 
   return (
     <div>
       <Divider className={classes.divider} textAlign='left'><b>Heating</b></Divider>
-      <Box className={classes.container} bgcolor="background.default">
-        <Box className={classes.slider} bgcolor="background.default">
-          <TemperatureSlider/>
-        </Box>
-        <Box className={classes.temperatureStatusContainer}>
-          <h1 className={classes.currentTemperature}>17°</h1>
-          <h1 className={classes.currentTemperatureLabel}>Currently</h1>
-          <h1 className={classes.currentValveStatus}> Valve: {heatingOnMode === true ? "Open" : "Closed"}</h1>
-        </Box>
-        <Box className={classes.switchButtons}>
-          <Grid container direction='row' justifyContent='flex-end' alignItems='center' >
-            <Grid item>
-              <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleHeatingAutoMode} status={heatingAutoMote} disabled={false}/>
-            </Grid>
-            <Grid item>
-              <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleHeatingOnOffMode} status={heatingOnMode} disabled={heatingAutoMote === true ? true : false}/>
+      <Box className={classes.main} bgcolor="background.default">
+        <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
+          <Grid item className={classes.sliderAndCurrentTemperatureContainer}>
+            <Box className={classes.slider} bgcolor="background.default">
+             <TemperatureSlider targetTemperature={targetTemperature} setTargetTemperature={setTargetTemperature} isSetTargetTemperature={isSetTargetTemperature} setIsSetTargetTemperature={setIsSetTargetTemperature} setRequestTargetTemperature={setRequestTargetTemperature}/>
+            </Box>
+            <Grid item container xs={3.5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.actualTemperatureContainer}>
+              <Grid item className={classes.actualTemperature}><b>{temperature}°</b></Grid>
+              <Grid item className={classes.actualTemperatureLabel}><b>Currently</b></Grid>
             </Grid>
           </Grid>
-        </Box>
-        {/* <Grid container direction='row' justifyContent='center' alignItems='center'>
-          <Grid item>valve open</Grid>
-          <Grid item container>
-            <Grid item>switch1</Grid>
-            <Grid item>switch2</Grid>
-          </Grid>
-        </Grid> */}
-      {/* <TemperatureSlider/> */}
+          {isSetTargetTemperature ? confirmComponent() : switchButtonsComponent()}
+          {/* <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.infoAndSwitchButtonsContainer}>
+            <Grid item container xs={5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
+              <Grid item className={classes.valveStatus}><b>Valve: {valveStatus === true ? "Open" : "Closed"}</b></Grid>
+              <button onClick={()=>{console.log(targetTemperature,isSetTargetTemperature)}}>state</button>
+            </Grid>
+            <Grid item container xs={7} direction="column" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
+              <Grid item>
+                <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleHeatingAutoMode} status={heatingAutoMode} disabled={false}/>
+              </Grid>
+              <Grid item>
+                <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleHeatingOnOffMode} status={heatingOnMode} disabled={heatingAutoMode === true ? true : false}/>
+              </Grid>
+            </Grid>
+          </Grid> */}
+        </Grid>
       </Box>
     </div>
   );

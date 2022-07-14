@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, TextField } from '@mui/material/';
+import { CssBaseline, Button, Paper, TextField, Grid } from '@mui/material/';
 
 
 
@@ -24,6 +24,27 @@ import LogTable from './LogTable';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    mainContainer:{
+      // border: '3px dashed red',
+      height: '100%'
+    },
+    buttons:{
+      // border: '3px dashed lime',
+      width:'100%'
+    },
+    table:{
+      // border: '3px dashed orange',
+      width:'100%'
+    },
+    datepickerContainer:{
+      height: '100%'
+      // border: '3px dashed orange',
+    },
+    datepickerbuttons:{
+      position: 'relative',
+      left: '1%'
+      // border: '3px dashed red',
+    },
     main: {
       //  boxSizing: 'border-box',
        position: 'relative', //sitas!!!
@@ -177,19 +198,31 @@ const Logs: React.FC = () => {
 //   }
 
   return (
-    <div className={classes.main}>
-      <div className={classes.datepicker}>
-        <DatePickerComponent/>
-      </div>
-      <div className={classes.logs}>
+    // <div className={classes.main}>
+    //   <div className={classes.datepicker}>
+    //     <DatePickerComponent/>
+    //   </div>
+    //   <div className={classes.logs}>
+    //     <LogTable logs={logsai}/>
+    //     {/* {logsai.map((log)=>{
+    //       return(
+    //         <p className={classes.description}>{log.description}swxxxx</p>
+    //       )
+    //     })} */}
+    //   </div>
+    // </div>
+    <Grid container direction='column' justifyContent='space-between' alignItems='center' className={classes.mainContainer}>
+      <Grid item xs={1.4}className={classes.buttons}>
+        <Grid container xs={12} direction="row" justifyContent='flex-start' alignItems='center' className={classes.datepickerContainer}>
+          <Grid item xs={12} className={classes.datepickerbuttons}> 
+            <DatePickerComponent/>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={10.5}className={classes.table}>
         <LogTable logs={logsai}/>
-        {/* {logsai.map((log)=>{
-          return(
-            <p className={classes.description}>{log.description}swxxxx</p>
-          )
-        })} */}
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 
