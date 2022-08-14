@@ -9,12 +9,18 @@ import { CssBaseline, Box, Grid, Divider, Slider, AppBar, Toolbar, IconButton, S
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
-import {setAutoHeatingMode} from '../../../Redux-reducers/heatingComponentReducer'
+import {setHeatingComponentMode} from '../../../Redux-reducers/heatingComponentReducer'
 
 
 //components
 import TemperatureSlider from './TemperatureSlider';
 import SwitchButton from '../../Buttons/SwitchButton';
+
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 
 
@@ -100,63 +106,106 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     confirmButtons:{
       // border: "2px dashed red",
+    },
+    switchButton:{
+      // border: "2px dashed red",
+    },
+    radioButton: {
+      // border: "2px dashed lime",
     }
   })
 );
 
 const HeatingQA: React.FC = () => {
   //main component state from redux
-  const heatingComponentState = useSelector(async (state:any)=>{ //buvo async await 
-    return  await state.heatingComponent
+  const heatingComponentState = useSelector(  (state:any)=>{ //buvo async await, taciau buvo problematiska su state overwrite
+    return   state.heatingComponent
   })
 
   const [heatingAutoMode, setHeatingAutoMode] = useState<boolean>(true)
-  const [heatingOnMode, setHeatingOnMode] = useState<boolean>(false)
-  const [temperature, setTemperature] = useState<String | null>()
+  // const [heatingOnMode, setHeatingOnMode] = useState<boolean>(false)
+  const [showRadioButtons, setShowRadioButtons] = useState<boolean>(false)
+  const [heatingManualMode, setHeatingManualMode] = useState<String|null>(null)
+  const [temperature, setTemperature] = useState<String | null>(null)
   const [targetTemperature, setTargetTemperature] = useState<number>(17)
   const [isSetTargetTemperature, setIsSetTargetTemperature] = useState<boolean>(false)
   const [requestTargetTemperatureValue , setRequestTargetTemperature] = useState<number | null>(null)
-  const [valveStatus, setValveStatus] = useState()
+  const [valveStatus, setValveStatus] = useState<boolean|null>(null)
   const classes = useStyles();
   const dispatch = useDispatch()
+  
+  useEffect(()=>{
+    console.log('zeuru no async await')
+    setTemperature(heatingComponentState.temperature)
+    setValveStatus(heatingComponentState.valve_open)
+    setTargetTemperature(heatingComponentState.target_temperature)
+    switch(heatingComponentState.mode){
+            case 'auto':
+              setHeatingAutoMode(true)
+              setHeatingManualMode(null)
+              break;
+            case 'on' :
+              setHeatingAutoMode(false)
+              setHeatingManualMode(heatingComponentState.mode)
+              break;
+            case 'off':
+              setHeatingAutoMode(false)
+              setHeatingManualMode(heatingComponentState.mode)
+              break;
+          }
+  },[heatingComponentState])
 
-    useEffect(()=>{
-      heatingComponentState.then((res)=>{
-        setTemperature(res.temperature)
-        setValveStatus(res.valve_open)
-        setTargetTemperature(res.target_temperature)
-        switch(res.mode){
-          case 'auto':
-            setHeatingAutoMode(true)
-            break;
-          case 'on' :
-            setHeatingAutoMode(false)
-            setHeatingOnMode(true)
-            break;
-          case 'off':
-            setHeatingAutoMode(false)
-            setHeatingOnMode(false)
-            break;
-        }
-      })
-    },[heatingComponentState]) //ideti i array heatingComponentState 
+    // useEffect(()=>{
+    //   console.log('zeuru')
+    //   heatingComponentState.then((res)=>{
+    //     setTemperature(res.temperature)
+    //     setValveStatus(res.valve_open)
+    //     setTargetTemperature(res.target_temperature)
+    //     switch(res.mode){
+    //       case 'auto':
+    //         setHeatingAutoMode(true)
+    //         break;
+    //       case 'on' :
+    //         setHeatingAutoMode(false)
+    //         setHeatingManualMode(res.mode)
+    //         break;
+    //       case 'off':
+    //         setHeatingAutoMode(false)
+    //         setHeatingManualMode(res.mode)
+    //         break;
+    //     }
+    //   })
+    // },[heatingComponentState]) //ideti i array heatingComponentState 
 
 //switch buttons actions
+
+// viena actiona padaryt, kad pasikeitus sustu req, ir tada updeitintu state.
+
 const toogleHeatingAutoMode = (event:any) => {
   setHeatingAutoMode(event.target.checked)
+  setShowRadioButtons(event.target.checked)
+  setHeatingManualMode(null)
   //checks the state of the switch button and sets the mode to the redux, before that needs to send the request to the server and then if res 200 update redux
   if(event.target.checked){
-    dispatch(setAutoHeatingMode('auto'))
+    dispatch(setHeatingComponentMode('auto'))
   }else if(!event.target.checked){
-    dispatch(setAutoHeatingMode(heatingOnMode))
+    dispatch(setHeatingComponentMode('auto'))
   }
 }
 
-const toogleHeatingOnOffMode = (event:any) => {
-    setHeatingOnMode(event.target.checked)
-    //same thing here before updating redux, send req to server and get res 200
-    dispatch(setAutoHeatingMode(event.target.checked))
-}
+// const toogleHeatingOnOffMode = (event:any) => {
+//     setHeatingOnMode(event.target.checked)
+//     //same thing here before updating redux, send req to server and get res 200
+//     dispatch(setAutoHeatingMode(event.target.checked))
+// }
+
+
+const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setHeatingManualMode(event.target.value);
+  dispatch(setHeatingComponentMode(event.target.value))
+};
+
+
 
 //confirm buttons actions
 
@@ -173,7 +222,7 @@ const confirmCancel = () => {
 const confirmComponent = () => {
   return(
     <Grid item container direction="row" justifyContent="center" alignItems="flex-start" className={classes.infoAndSwitchButtonsContainer}>
-      <Grid item xs={10} className={classes.confirmQuestion}>This action will affect research, do you wish to set the target temperature to <b>{requestTargetTemperatureValue}°</b> ?</Grid>
+      <Grid item xs={10} className={classes.confirmQuestion}>Are you sure you wish to set the target temperature to <b>{requestTargetTemperatureValue}°C</b> ?</Grid>
       <Grid item xs={8} container direction="row" justifyContent='center' alignItems='center' className={classes.confirmButtons} >
         <Grid item xs={4}>
           <Button variant="contained" color='primary' size='small' onClick={()=>{confirmYes()}}>Yes</Button>
@@ -190,15 +239,29 @@ const switchButtonsComponent = () => {
     <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.infoAndSwitchButtonsContainer}>
       <Grid item container xs={5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
         <Grid item className={classes.valveStatus}><b>Valve: {valveStatus === true ? "Open" : "Closed"}</b></Grid>
-        {/* <button onClick={()=>{console.log(heatingComponentState)}}>state</button> */}
+        <button onClick={()=>{console.log(heatingComponentState, heatingManualMode)}}>state</button>
       </Grid>
-      <Grid item container xs={7} direction="column" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
-        <Grid item>
+      <Grid item container xs={7} direction="row" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
+        <Grid xs={10} item className={classes.switchButton}>
           <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleHeatingAutoMode} status={heatingAutoMode} disabled={false}/>
         </Grid>
-        <Grid item>
+        {!showRadioButtons ? 
+                          <Grid xs ={8.5} item className={classes.radioButton}>
+                            <RadioGroup
+                                row
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                name="radio-buttons-group"
+                                value={heatingManualMode? heatingManualMode : " "}
+                                onChange={handleChange}
+                              >
+                                <FormControlLabel value="on" control={<Radio />} label="On" />
+                                <FormControlLabel value="off" control={<Radio />} label="Off" />
+                              </RadioGroup>
+                          </Grid> 
+                          : null}
+        {/* <Grid item>
           <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleHeatingOnOffMode} status={heatingOnMode} disabled={heatingAutoMode === true ? true : false}/>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   )
@@ -211,7 +274,7 @@ const switchButtonsComponent = () => {
         <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
           <Grid item className={classes.sliderAndCurrentTemperatureContainer}>
             <Box className={classes.slider} bgcolor="background.default">
-             <TemperatureSlider targetTemperature={targetTemperature} setTargetTemperature={setTargetTemperature} isSetTargetTemperature={isSetTargetTemperature} setIsSetTargetTemperature={setIsSetTargetTemperature} setRequestTargetTemperature={setRequestTargetTemperature}/>
+             <TemperatureSlider heatingAutoMode={heatingAutoMode} targetTemperature={targetTemperature} setTargetTemperature={setTargetTemperature} isSetTargetTemperature={isSetTargetTemperature} setIsSetTargetTemperature={setIsSetTargetTemperature} setRequestTargetTemperature={setRequestTargetTemperature}/>
             </Box>
             <Grid item container xs={3.5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.actualTemperatureContainer}>
               <Grid item className={classes.actualTemperature}><b>{temperature}°</b></Grid>
@@ -219,20 +282,6 @@ const switchButtonsComponent = () => {
             </Grid>
           </Grid>
           {isSetTargetTemperature ? confirmComponent() : switchButtonsComponent()}
-          {/* <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.infoAndSwitchButtonsContainer}>
-            <Grid item container xs={5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
-              <Grid item className={classes.valveStatus}><b>Valve: {valveStatus === true ? "Open" : "Closed"}</b></Grid>
-              <button onClick={()=>{console.log(targetTemperature,isSetTargetTemperature)}}>state</button>
-            </Grid>
-            <Grid item container xs={7} direction="column" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
-              <Grid item>
-                <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleHeatingAutoMode} status={heatingAutoMode} disabled={false}/>
-              </Grid>
-              <Grid item>
-                <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleHeatingOnOffMode} status={heatingOnMode} disabled={heatingAutoMode === true ? true : false}/>
-              </Grid>
-            </Grid>
-          </Grid> */}
         </Grid>
       </Box>
     </div>

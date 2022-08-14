@@ -74,44 +74,12 @@ const EnergyPrice: React.FC = () => {
 
   return (
     <div className={classes.root}>
-        {/* <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
-            <Grid item xs={1}>
-                <CurrencyPoundIcon color="primary" fontSize='small'/>
-            </Grid>
-            <Grid item xs={4} fontSize={15}>
-                Energy price:
-                <Grid container justifyContent="space-around" fontSize={15}> £ / kWh: </Grid>
-            </Grid>
-            <Grid item xs={2} fontSize={14}>
-                Import
-                <Grid item xs={12} className={classes.container} fontSize={15}><b>10.45</b></Grid>
-            </Grid>
-            <Grid item xs={2} fontSize={14}>
-                Export
-                <Grid item xs={12} className={classes.container} fontSize={15}><b>10.11</b></Grid>
-            </Grid>
-            <Grid item xs={2} fontSize={14}>
-                Average
-                <Grid item xs={12} className={classes.container} fontSize={15}><b>10.22</b></Grid>
-            </Grid>
-        </Grid> */}
         <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
             <Grid item xs={1}>
-                <CurrencyPoundIcon fontSize='small' color='primary'/>
+              <CurrencyPoundIcon fontSize='small' color='primary'/>
             </Grid>
-            <Grid item xs={4} fontSize={15}>Energy price:</Grid>
-            <Grid item xs={2} fontSize={15}>Import</Grid>
-            <Grid item xs={2} fontSize={15}>Export</Grid>
-            <Grid item xs={2} fontSize={15}>Average</Grid>
-        </Grid>
-        <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
-            <Grid item xs={1}>
-                {/* <CurrencyPoundIcon fontSize='small' color='primary'/> */}
-            </Grid>
-            <Grid item xs={4} fontSize={15}>£ / kWh:</Grid>
-            <Grid item xs={2} fontSize={15}><b>10.45</b></Grid>
-            <Grid item xs={2} fontSize={15}><b>10.11</b></Grid>
-            <Grid item xs={2} fontSize={15}><b>10.22</b></Grid>
+            <Grid item xs={7}> Current energy price:</Grid>
+            <Grid item xs={3} fontSize={15}><b>0.45</b> £ / kwh</Grid>
         </Grid>
     </div>
   );

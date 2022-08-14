@@ -27,6 +27,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import ButtonsForEnergyQA from './ButtonsForEnergyQA';
 import EnergyPrice from './EnergyPrice';
 import Estimations from './Estimations';
+import { ClassNames } from '@emotion/react';
 
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,6 +51,14 @@ const useStyles = makeStyles((theme: Theme) =>
         position: 'relative',
         top: '5px',
         right: '10px'
+    },
+    columns:{
+      // border: "1px solid #57CBCC",
+      height: '100%'
+    },
+    column:{
+      // border: "1px solid red",
+      width: '100%'
     }
   }),
 );
@@ -71,10 +80,21 @@ const EnergyQA: React.FC = () => {
     <div>
       <Divider className={classes.divider} textAlign='left'><b>Energy</b></Divider>
       <Box className={classes.container} bgcolor="background.default">
-        <ButtonsForEnergyQA state={periodState} setState={setPeriodState} cases={periods}/>
-        <EnergyPrice/>
-        <ButtonsForEnergyQA state={deviceState} setState={setDeviceState} cases={devices}/>
-        <Estimations/>
+        <Grid container className={classes.columns} direction="column" justifyContent="center" alignItems="center">
+          <Grid item xs={1} className={classes.column}>
+            <EnergyPrice/>
+          </Grid>
+          <Grid item xs={3} className={classes.column}>
+            <ButtonsForEnergyQA state={periodState} setState={setPeriodState} cases={periods}/>
+          </Grid>
+          <Grid item xs={4} className={classes.column}>
+            <Estimations/>
+          </Grid>
+        </Grid>
+        {/* <EnergyPrice/> */}
+        {/* <ButtonsForEnergyQA state={periodState} setState={setPeriodState} cases={periods}/> */}
+        {/* <ButtonsForEnergyQA state={deviceState} setState={setDeviceState} cases={devices}/> */}
+        {/* <Estimations/> */}
       </Box>
     </div>
   );

@@ -63,16 +63,16 @@ const QuickAccess: React.FC = () => {
 //   }
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={1} className={classes.main}>
+    <Grid container direction="column" justifyContent="start" alignItems="center" spacing={1} className={classes.main}>
       <Grid item >
         <img className={classes.logo} src={Logo}></img>
       </Grid >
       <Grid item className={classes.gridItem} >
         <HeatingQA/>
       </Grid>
-      <Grid item className={classes.gridItem}>
+      {/* <Grid item className={classes.gridItem}>
         <BatteryQA/>
-      </Grid>
+      </Grid> */}
       <Grid item className={classes.gridItem}>
         <EnergyQA/>
       </Grid>

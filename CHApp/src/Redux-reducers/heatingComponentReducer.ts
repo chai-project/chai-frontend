@@ -32,12 +32,14 @@ export const initializeHeatingComponentData = () => {
 };
 
 
-export const setAutoHeatingMode = (mode:boolean | String) => {
+export const setHeatingComponentMode = (mode:boolean | String) => {
+    // console.log(mode)
     return async (dispatch : Dispatch) => {
-        dispatch({
-            type:"SET_HEATING_MODE",
-            data: mode === 'auto' ? "auto" : mode === false ? 'off' : 'on'
-        })
+            dispatch({
+                type:"SET_HEATING_MODE",
+                // data: mode === 'auto' ? "auto" : mode === false ? 'off' : 'on'
+                data: mode
+            })
     };
 };
 

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const NavBarBottom: React.FC = () => {
 
     const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false)
-    const cases = ['Heating', 'Electricity', 'Log'];
+    const cases = ['Home', 'Schedule', 'Profiles', 'Notifications'];
 //   const location = useLocation()
     let location = useLocation();
     const navigate = useNavigate();
@@ -68,8 +68,8 @@ const NavBarBottom: React.FC = () => {
             {cases.map((eachCase)=>{
                 return (
                     <Grid item >
-                        <Button size='large' color="inherit" onClick={()=>{navigate(`${eachCase}`)}}> {location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
-                        {location.pathname !== "/"+ eachCase ? null : <div className={classes.underLine}></div> }
+                        <Button size='large' color="inherit" onClick={()=>{navigate(`${eachCase === "Home" ? "/" : eachCase}`)}}> {(location.pathname === "/" && eachCase=== "Home") ? <b>{eachCase}</b> : location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
+                        {(location.pathname === "/" && eachCase === "Home") ? <div className={classes.underLine}></div> : location.pathname !== "/"+ eachCase ? null : <div className={classes.underLine}></div> }
                     </Grid>
                 )
             })}

@@ -13,7 +13,7 @@ const setBearerToken = (token: any) => {
 //Heating Comonent
 
 const getHeatingComponentData = async () => {
-    const request = await axios.get('http://94.237.63.158/heating/mode/?label=test_home').then((res)=>{
+    const request = await axios.get('https://api.project-chai.org/heating/mode/?label=test_home_kim').then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
@@ -23,6 +23,7 @@ const getHeatingComponentData = async () => {
 }).catch((error) => {
     console.error('error',error);
 })
+    // console.log(request)
     return request
 }
 
