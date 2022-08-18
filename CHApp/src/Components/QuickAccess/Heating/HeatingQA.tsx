@@ -117,20 +117,22 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const HeatingQA: React.FC = () => {
+  
   //main component state from redux
-  const heatingComponentState = useSelector(  (state:any)=>{ //buvo async await, taciau buvo problematiska su state overwrite
-    return   state.heatingComponent
+  const heatingComponentState = useSelector( (state:any)=>{ // async await problemos, su switch button, reike giliau pasikapstyt, bet async await neupdeitina steito.
+    return  state.heatingComponent
   })
 
   const [heatingAutoMode, setHeatingAutoMode] = useState<boolean>(true)
   // const [heatingOnMode, setHeatingOnMode] = useState<boolean>(false)
-  const [showRadioButtons, setShowRadioButtons] = useState<boolean>(false)
+  // const [showRadioButtons, setShowRadioButtons] = useState<boolean>(false)
   const [heatingManualMode, setHeatingManualMode] = useState<String|null>(null)
   const [temperature, setTemperature] = useState<String | null>(null)
   const [targetTemperature, setTargetTemperature] = useState<number>(17)
   const [isSetTargetTemperature, setIsSetTargetTemperature] = useState<boolean>(false)
   const [requestTargetTemperatureValue , setRequestTargetTemperature] = useState<number | null>(null)
   const [valveStatus, setValveStatus] = useState<boolean|null>(null)
+  const [timerID, setTimerID] = useState<any>()
   const classes = useStyles();
   const dispatch = useDispatch()
   
@@ -155,8 +157,22 @@ const HeatingQA: React.FC = () => {
           }
   },[heatingComponentState])
 
+
+
+  // let timerID:any 
+  const doNotShowTheButtons = () => {
+    const timerForRadioButtons = setTimeout(doNotShowTheRadioButtons,5000)
+    setTimerID(timerForRadioButtons)
+    // console.log(timerForRadioButtons, 'id')
+  }
+  const doNotShowTheRadioButtons = () => {
+    // setShowRadioButtons(true) // paziureti ties cia kazka rytoj, bet jau beveik esi cia 
+    setHeatingAutoMode(true)
+    setTimerID(null)
+  }
+
     // useEffect(()=>{
-    //   console.log('zeuru')
+    //   // console.log('zeuru')
     //   heatingComponentState.then((res)=>{
     //     setTemperature(res.temperature)
     //     setValveStatus(res.valve_open)
@@ -164,6 +180,7 @@ const HeatingQA: React.FC = () => {
     //     switch(res.mode){
     //       case 'auto':
     //         setHeatingAutoMode(true)
+    //         setHeatingManualMode(null)
     //         break;
     //       case 'on' :
     //         setHeatingAutoMode(false)
@@ -181,15 +198,25 @@ const HeatingQA: React.FC = () => {
 
 // viena actiona padaryt, kad pasikeitus sustu req, ir tada updeitintu state.
 
+// const timeOutID = setTimeout(alert, 10000, 'zeuru')
+
+
+
+
+
+
 const toogleHeatingAutoMode = (event:any) => {
   setHeatingAutoMode(event.target.checked)
-  setShowRadioButtons(event.target.checked)
+  // setShowRadioButtons(event.target.checked)
   setHeatingManualMode(null)
   //checks the state of the switch button and sets the mode to the redux, before that needs to send the request to the server and then if res 200 update redux
   if(event.target.checked){
     dispatch(setHeatingComponentMode('auto'))
+    clearTimeout(timerID)
+    setTimerID(null)
   }else if(!event.target.checked){
-    dispatch(setHeatingComponentMode('auto'))
+    doNotShowTheButtons()
+    // dispatch(setHeatingComponentMode('auto'))
   }
 }
 
@@ -203,6 +230,8 @@ const toogleHeatingAutoMode = (event:any) => {
 const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   setHeatingManualMode(event.target.value);
   dispatch(setHeatingComponentMode(event.target.value))
+  clearTimeout(timerID)
+  setTimerID(null)
 };
 
 
@@ -211,7 +240,7 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
 const confirmYes = () => {
   //send request to the server if 200 update redux!
-  console.log('yesysysysysy')
+  console.log('yes')
 }
 
 const confirmCancel = () => {
@@ -239,26 +268,26 @@ const switchButtonsComponent = () => {
     <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.infoAndSwitchButtonsContainer}>
       <Grid item container xs={5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
         <Grid item className={classes.valveStatus}><b>Valve: {valveStatus === true ? "Open" : "Closed"}</b></Grid>
-        <button onClick={()=>{console.log(heatingComponentState, heatingManualMode)}}>state</button>
+        <button onClick={()=>{console.log(heatingComponentState, timerID)}}>state</button>
       </Grid>
       <Grid item container xs={7} direction="row" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
         <Grid xs={10} item className={classes.switchButton}>
           <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleHeatingAutoMode} status={heatingAutoMode} disabled={false}/>
         </Grid>
-        {!showRadioButtons ? 
-                          <Grid xs ={8.5} item className={classes.radioButton}>
-                            <RadioGroup
-                                row
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                name="radio-buttons-group"
-                                value={heatingManualMode? heatingManualMode : " "}
-                                onChange={handleChange}
-                              >
-                                <FormControlLabel value="on" control={<Radio />} label="On" />
-                                <FormControlLabel value="off" control={<Radio />} label="Off" />
-                              </RadioGroup>
-                          </Grid> 
-                          : null}
+          <Grid xs ={8.5} item className={classes.radioButton}>
+            {!heatingAutoMode ? 
+                                <RadioGroup
+                                  row
+                                  aria-labelledby="demo-radio-buttons-group-label"
+                                  name="radio-buttons-group"
+                                  value={heatingManualMode? heatingManualMode : " "}
+                                  onChange={handleChange}
+                                >
+                                  <FormControlLabel value="on" control={<Radio />} label="On" />
+                                  <FormControlLabel value="off" control={<Radio />} label="Off" />
+                                </RadioGroup>
+                              : null}
+            </Grid> 
         {/* <Grid item>
           <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleHeatingOnOffMode} status={heatingOnMode} disabled={heatingAutoMode === true ? true : false}/>
         </Grid> */}

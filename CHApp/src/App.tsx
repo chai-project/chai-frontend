@@ -159,6 +159,15 @@ const App: React.FC = () => {
 
 }, [])
 
+// cia viskas ok, tik reike kad po kiekvieno update atsinaujintu 
+// const hmm = () => {
+//   console.log('update')
+//   dispatch(initializeHeatingComponentData())
+// }
+
+// setInterval(hmm, 10000)
+
+
 
   const getData = () => {
     dispatch(initializeChartData())

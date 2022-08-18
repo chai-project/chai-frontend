@@ -9,6 +9,7 @@ import { CssBaseline, Button, Paper } from '@mui/material/';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
+import {setTemperature} from '../../Redux-reducers/heatingComponentReducer'
 // import { initializeData } from './Redux-reducers/dataReducer';
 
 
@@ -18,8 +19,9 @@ import chartDataType from '../../Types/types'
 //components
 import SwitchButton from '../Buttons/SwitchButton';
 import Logs from './Logs/Logs';
+import Profiles from './Profiles/Profiles';
+import Schedule from './Schedule/Schedule';
 // Styles 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
@@ -46,10 +48,11 @@ const MainWindow: React.FC = () => {
   return (
     <div className={classes.main}>
       {/* <Router> */}
+      {/* {<button onClick={()=>{dispatch(setTemperature(27))}}>set temp</button>} */}
         <Routes>
           <Route path='/' element={<p>Home</p>}/>
-          <Route path='schedule' element={<p>Schedule</p>}/>
-          <Route path='profiles' element={<p>Profiles</p>}/>
+          <Route path='schedule' element={<Schedule/>}/>
+          <Route path='profiles' element={<Profiles/>}/>
           <Route path='notifications' element={<Logs/>}/>
         </Routes>
       {/* </Router> */}
