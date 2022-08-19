@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
+import { CssBaseline, Button, Paper, Grid, Divider, IconButton, Box } from '@mui/material/';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
@@ -44,21 +44,23 @@ const useStyles = makeStyles((theme: Theme) =>
     container:{
         // border: "2px dashed red",
         width: '100%',
-        height: '65%',
-        //    background: '#CFD8DC',
+        height: '75%',
+          //  background: 'red',
     },
     schedule:{
-        border: "1px solid lime",
+        // border: "1px solid pink",
         height: '80%',
-        borderRadius: '25px',
-        overflow: 'hidden',
+        // background: 'red',
+        // borderRadius: '25px',
+        // overflow: 'hidden',
         // height: '12%',
         // width: '100%',
 
     },
     moreButton:{
-        border: "1px solid pink",
-        height: '80%'
+        // border: "1px solid pink",
+        height: '80%',
+        // background: 'red',
     },
   }),
 );
@@ -74,7 +76,9 @@ const Weekday: React.FC<{weekday: String}>= ({weekday}) => {
 //   }
 
   return (
-    <div className={classes.topBorder}>
+    //buvo div konteineris vietoj box todel tos  spalvos nebuvo ir schedule componenete spacingas 0.5 dabar anksciau jo iswiso nebuvo geriau atrodo 
+    //gal iswiso tamsi spalva pgal mane
+    <Box className={classes.topBorder} bgcolor="background.default" >
         <Divider className={classes.divider} textAlign='left'><b>{weekday}</b></Divider>
         <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
             <Grid item xs={8} className={classes.schedule}>
@@ -87,7 +91,7 @@ const Weekday: React.FC<{weekday: String}>= ({weekday}) => {
                 </IconButton>
             </Grid>
         </Grid>
-    </div>
+    </Box>
   );
 };
 

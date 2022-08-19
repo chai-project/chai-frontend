@@ -137,7 +137,7 @@ const HeatingQA: React.FC = () => {
   const dispatch = useDispatch()
   
   useEffect(()=>{
-    console.log('zeuru no async await')
+    // console.log('zeuru no async await')
     setTemperature(heatingComponentState.temperature)
     setValveStatus(heatingComponentState.valve_open)
     setTargetTemperature(heatingComponentState.target_temperature)

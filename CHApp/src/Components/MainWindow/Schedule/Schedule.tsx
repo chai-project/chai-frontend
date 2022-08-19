@@ -57,7 +57,7 @@ const Schedule: React.FC = () => {
 
   return (
     <div className={classes.main}>
-        <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
+        <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5}>
             {/* <Grid item className={classes.weekday}>
                 <Weekday/>
             </Grid> */}
