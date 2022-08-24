@@ -17,6 +17,7 @@ import {useSelector, useDispatch} from 'react-redux'
 
 //components
 import Weekday from './Weekday';
+import WeekdayPaste from './WeekdayPaste';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,8 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Schedule: React.FC = () => {
-    // const [profile, setProfile] = useState('');
+    const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<String | null>(null);
     const weekdays = ["Monday", 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
     const classes = useStyles();
     const dispatch = useDispatch()
 
@@ -61,10 +63,32 @@ const Schedule: React.FC = () => {
             {/* <Grid item className={classes.weekday}>
                 <Weekday/>
             </Grid> */}
+            {/* <button onClick={()=>{console.log(copyWeekdaySchedule)}}>state</button> */}
             {weekdays.map((weekday)=>{
+              if(copyWeekdaySchedule){
+                if(copyWeekdaySchedule === weekday){
+                  return (
+                    <Grid item className={classes.weekday}>
+                        <Weekday weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                    </Grid>
+                  ) 
+                }else{
+                  return (
+                    <Grid item className={classes.weekday}>
+                        <WeekdayPaste weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                    </Grid>
+                  )
+                }
+              }else{
+                return (
+                  <Grid item className={classes.weekday}>
+                      <Weekday weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                  </Grid>
+                )
+              }
                 return (
                     <Grid item className={classes.weekday}>
-                        <Weekday weekday={weekday}/>
+                        <Weekday weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
                     </Grid>
                 )
             })}

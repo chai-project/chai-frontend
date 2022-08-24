@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton, Box, Menu, MenuItem, Fade } from '@mui/material/';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 
@@ -18,6 +18,7 @@ import {useSelector, useDispatch} from 'react-redux'
 
 //components
 import WeekdayScheduleView from './WeekdayScheduleView';
+import { Typography } from '@material-ui/core';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -48,8 +49,8 @@ const useStyles = makeStyles((theme: Theme) =>
           //  background: 'red',
     },
     schedule:{
-        // border: "1px solid pink",
-        height: '80%',
+        border: "1px dashed #57CBCC",
+        height: '70%',
         // background: 'red',
         // borderRadius: '25px',
         // overflow: 'hidden',
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
         // width: '100%',
 
     },
-    moreButton:{
+    clearButton:{
         // border: "1px solid pink",
         height: '80%',
         // background: 'red',
@@ -65,29 +66,16 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any}>= ({weekday,setCopyWeekdaySchedule}) => {
+const WeekdayPaste: React.FC<{weekday: String, setCopyWeekdaySchedule:any}>= ({weekday,setCopyWeekdaySchedule}) => {
     const [profile, setProfile] = useState('');
-    //more button
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorEl(event.currentTarget);
+    //delete weekday copy button
+    const deleteWeekdayScheduleCopy = () => {
+      console.log('deleting copy of: ', weekday)
     };
-
-    const handleMenuClose = () => {
-      setAnchorEl(null);
-    };
-    //copy button
-    const copyWeekdaySchedule = () => {
-      console.log('copy', weekday)
-      setCopyWeekdaySchedule(weekday)
-      setAnchorEl(null);
-    };
-    //reset button
-    const resetWeekdaySchedule = () => {
-      console.log('reseting : ', weekday)
-      setAnchorEl(null);
+    //paste weekday button
+    const pasteWeekdaySchedule = () => {
+      console.log('pasting to: ', weekday)
     };
     //styles 
     const classes = useStyles();
@@ -104,32 +92,18 @@ const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any}>= ({weekda
     <Box className={classes.topBorder} bgcolor="background.default" >
         <Divider className={classes.divider} textAlign='left'><b>{weekday}</b></Divider>
         <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
-            <Grid item xs={8} className={classes.schedule}>
-              <WeekdayScheduleView/>
+            <Grid item container xs={8} className={classes.schedule} direction="row" justifyContent="center" alignItems="center">
+              <Button variant="outlined" size="small" onClick={pasteWeekdaySchedule} >Paste</Button>
             </Grid>
             <Grid item xs={0.5}></Grid>
-            <Grid item xs={1} container className={classes.moreButton}  direction="row" justifyContent="center" alignItems="center">
-                <IconButton size='small' edge='start' color='primary' onClick={handleClick}>
-                    <MoreVertIcon/>
+            <Grid item xs={1} container className={classes.clearButton}  direction="row" justifyContent="center" alignItems="center">
+                <IconButton size='small' edge='start' color='secondary' onClick={deleteWeekdayScheduleCopy}>
+                    <ClearIcon/>
                 </IconButton>
-                <Menu
-                  id="fade-menu"
-                  MenuListProps={{
-                    'aria-labelledby': 'fade-button',
-                  }}
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleMenuClose}
-                  TransitionComponent={Fade}
-                >
-                  <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
-                  <MenuItem onClick={copyWeekdaySchedule}>Copy</MenuItem>
-                  <MenuItem onClick={resetWeekdaySchedule}>Reset</MenuItem>
-                </Menu>
             </Grid>
         </Grid>
     </Box>
   );
 };
 
-export default Weekday;
+export default WeekdayPaste;
