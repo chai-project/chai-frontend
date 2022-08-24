@@ -65,8 +65,49 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any}>= ({weekday,setCopyWeekdaySchedule}) => {
+const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null}>= ({weekday,setCopyWeekdaySchedule,copyWeekdaySchedule}) => {
     const [profile, setProfile] = useState('');
+    //test timeslots for a weekday
+    const profilesForAweekDay= [
+      {
+          profileName: "Morning",
+          profileStart:'00:00',
+          profileEnd: '08:15',
+          temperature: '19'
+      },
+      {
+          profileName: "Empty",
+          profileStart:'08:15',
+          profileEnd: '12:30',
+          temperature: '0'
+      },
+      {
+          profileName: "Afternoon",
+          profileStart:'12:30',
+          profileEnd: '14:00',
+          temperature: '21'
+      },
+      {
+          profileName: "Empty",
+          profileStart:'14:00',
+          profileEnd: '17:30',
+          temperature: '0'
+      },
+      {
+          profileName: "Evening",
+          profileStart:'17:30',
+          profileEnd: '20:00',
+          temperature: '24'
+      },
+      {
+          profileName: "Night",
+          profileStart:'20:00',
+          profileEnd: '24:00',
+          temperature: '17'
+      },
+      
+  ]
+
     //more button
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -79,7 +120,7 @@ const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any}>= ({weekda
       setAnchorEl(null);
     };
     //copy button
-    const copyWeekdaySchedule = () => {
+    const copyWeekdayScheduleButton = () => {
       console.log('copy', weekday)
       setCopyWeekdaySchedule(weekday)
       setAnchorEl(null);
@@ -105,11 +146,30 @@ const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any}>= ({weekda
         <Divider className={classes.divider} textAlign='left'><b>{weekday}</b></Divider>
         <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
             <Grid item xs={8} className={classes.schedule}>
-              <WeekdayScheduleView/>
+              <WeekdayScheduleView timeslots={profilesForAweekDay}/>
             </Grid>
             <Grid item xs={0.5}></Grid>
             <Grid item xs={1} container className={classes.moreButton}  direction="row" justifyContent="center" alignItems="center">
-                <IconButton size='small' edge='start' color='primary' onClick={handleClick}>
+              {!copyWeekdaySchedule ? <div>
+                                      <IconButton size='small' edge='start' color='primary' onClick={handleClick}>
+                                          <MoreVertIcon/>
+                                      </IconButton>
+                                      <Menu
+                                        id="fade-menu"
+                                        MenuListProps={{
+                                          'aria-labelledby': 'fade-button',
+                                        }}
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleMenuClose}
+                                        TransitionComponent={Fade}
+                                      >
+                                        <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
+                                        <MenuItem onClick={copyWeekdayScheduleButton}>Copy</MenuItem>
+                                        <MenuItem onClick={resetWeekdaySchedule}>Reset</MenuItem>
+                                      </Menu>
+                                    </div> : null}
+                {/* <IconButton size='small' edge='start' color='primary' onClick={handleClick}>
                     <MoreVertIcon/>
                 </IconButton>
                 <Menu
@@ -123,9 +183,9 @@ const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any}>= ({weekda
                   TransitionComponent={Fade}
                 >
                   <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
-                  <MenuItem onClick={copyWeekdaySchedule}>Copy</MenuItem>
+                  <MenuItem onClick={copyWeekdayScheduleButton}>Copy</MenuItem>
                   <MenuItem onClick={resetWeekdaySchedule}>Reset</MenuItem>
-                </Menu>
+                </Menu> */}
             </Grid>
         </Grid>
     </Box>

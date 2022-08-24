@@ -15,7 +15,7 @@ import { Typography } from '@material-ui/core';
 
 
 //types
-
+import weekdayScheduleView from "../../../Types/types"
 
 //components
 
@@ -65,48 +65,48 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const WeekdayScheduleView: React.FC= () => {
+const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => {
     // const [profile, setProfile] = useState('');
 
-    const profilesForAweekDay= [
-        {
-            profileName: "Morning",
-            profileStart:'00:00',
-            profileEnd: '08:15',
-            temperature: '19'
-        },
-        {
-            profileName: "Empty",
-            profileStart:'08:15',
-            profileEnd: '12:30',
-            temperature: '0'
-        },
-        {
-            profileName: "Afternoon",
-            profileStart:'12:30',
-            profileEnd: '14:00',
-            temperature: '21'
-        },
-        {
-            profileName: "Empty",
-            profileStart:'14:00',
-            profileEnd: '17:30',
-            temperature: '0'
-        },
-        {
-            profileName: "Evening",
-            profileStart:'17:30',
-            profileEnd: '20:00',
-            temperature: '24'
-        },
-        {
-            profileName: "Night",
-            profileStart:'20:00',
-            profileEnd: '24:00',
-            temperature: '17'
-        },
+    // const profilesForAweekDay= [
+    //     {
+    //         profileName: "Morning",
+    //         profileStart:'00:00',
+    //         profileEnd: '08:15',
+    //         temperature: '19'
+    //     },
+    //     {
+    //         profileName: "Empty",
+    //         profileStart:'08:15',
+    //         profileEnd: '12:30',
+    //         temperature: '0'
+    //     },
+    //     {
+    //         profileName: "Afternoon",
+    //         profileStart:'12:30',
+    //         profileEnd: '14:00',
+    //         temperature: '21'
+    //     },
+    //     {
+    //         profileName: "Empty",
+    //         profileStart:'14:00',
+    //         profileEnd: '17:30',
+    //         temperature: '0'
+    //     },
+    //     {
+    //         profileName: "Evening",
+    //         profileStart:'17:30',
+    //         profileEnd: '20:00',
+    //         temperature: '24'
+    //     },
+    //     {
+    //         profileName: "Night",
+    //         profileStart:'20:00',
+    //         profileEnd: '24:00',
+    //         temperature: '17'
+    //     },
         
-    ]
+    // ]
 
     const classes = useStyles();
     const dispatch = useDispatch()
@@ -118,7 +118,7 @@ const WeekdayScheduleView: React.FC= () => {
   return (
     <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
         <Grid item container xs={12} className={classes.schedule} direction="row" justifyContent="center" alignItems="center">
-            {profilesForAweekDay.map((profile)=>{
+            {timeslots.map((profile:any)=>{
 
                 //Parse In
                 const parseIn = function(date_time:any){
@@ -157,7 +157,7 @@ const WeekdayScheduleView: React.FC= () => {
             })}
         </Grid>
         <Grid item container xs={12} className={classes.labels} direction="row" justifyContent="center" alignItems="center">
-        {profilesForAweekDay.map((profile)=>{
+        {timeslots.map((profile:any)=>{
 
             //Parse In
             const parseIn = function(date_time:any){

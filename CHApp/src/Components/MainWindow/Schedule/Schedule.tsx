@@ -41,8 +41,13 @@ const useStyles = makeStyles((theme: Theme) =>
         // border: "1px solid lime",
         height: '12%',
         width: '100%',
+        // marginTop: '10%',
 
-    }
+    },
+    saveAndCancelButons:{
+        // border: "1px solid lime",
+        height: '6%'
+    },
   }),
 );
 
@@ -53,13 +58,34 @@ const Schedule: React.FC = () => {
     const classes = useStyles();
     const dispatch = useDispatch()
 
+    //save&cancel buttons
+    const saveNewWeekSchedule = () => {
+      console.log('saving new week schedule')
+    };
+    const cancelWeekScheduleChanges = () => {
+      console.log('cancel new week schedule changes');
+      setCopyWeekdaySchedule(null)
+    };
+
 //   const getData = () => {
 //     dispatch(initializeData())
 //   }
 
   return (
+    //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
-        <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5}>
+        <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5} >
+        {copyWeekdaySchedule? 
+                        <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="center" >
+                          <Grid item>
+                            <Button variant="contained" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
+                          </Grid>
+                          <Grid item xs={0.2}></Grid>
+                          <Grid item>
+                            <Button variant="contained" size="small" color="secondary" onClick={cancelWeekScheduleChanges}>Cancel</Button>
+                          </Grid>
+                        </Grid>
+                        :null}
             {/* <Grid item className={classes.weekday}>
                 <Weekday/>
             </Grid> */}
@@ -69,7 +95,7 @@ const Schedule: React.FC = () => {
                 if(copyWeekdaySchedule === weekday){
                   return (
                     <Grid item className={classes.weekday}>
-                        <Weekday weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                        <Weekday weekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
                     </Grid>
                   ) 
                 }else{
@@ -82,16 +108,27 @@ const Schedule: React.FC = () => {
               }else{
                 return (
                   <Grid item className={classes.weekday}>
-                      <Weekday weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                      <Weekday weekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
                   </Grid>
                 )
               }
-                return (
-                    <Grid item className={classes.weekday}>
-                        <Weekday weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
-                    </Grid>
-                )
+                // return (
+                //     <Grid item className={classes.weekday}>
+                //         <Weekday weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                //     </Grid>
+                // )
             })}
+            {/* {copyWeekdaySchedule? 
+                        <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="center" >
+                          <Grid item>
+                            <Button variant="outlined" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
+                          </Grid>
+                          <Grid item xs={0.2}></Grid>
+                          <Grid item>
+                            <Button variant="outlined" size="small" color="secondary" onClick={cancelWeekScheduleChanges}>Cancel</Button>
+                          </Grid>
+                        </Grid>
+                        :null} */}
         </Grid>
     </div>
   );

@@ -1,4 +1,4 @@
-
+//chart types
 interface priceData {
     export_price: { value: number, type: string},
     import_price: { value: number, type: string},
@@ -24,3 +24,16 @@ export default interface chartDataType {
     electricityConsumption: electricityConsumtpion[],
     batteryData: batteryData[],
 };
+
+//weekday schedule view types
+
+interface timeslot {
+    profileName: string,
+    profileStart:string,
+    profileEnd: string,
+    temperature: string // veliau pakeisti i number manau
+}
+
+export default interface weekdayScheduleView {
+    timeslots: timeslot[]
+}
