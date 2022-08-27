@@ -13,7 +13,7 @@ import {useSelector, useDispatch} from 'react-redux'
 
 
 //types
-
+import timeslot from '../../../Types/types';
 
 //components
 import Weekday from './Weekday';
@@ -52,7 +52,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Schedule: React.FC = () => {
-    const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<String | null>(null);
+    const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<string | null>(null);
+    const [scheduleToCopy, setScheduleToCopy] = useState<timeslot[]|null>(null);
     const weekdays = ["Monday", 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
     const classes = useStyles();
@@ -75,7 +76,7 @@ const Schedule: React.FC = () => {
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5} >
-        {copyWeekdaySchedule? 
+        {/* {copyWeekdaySchedule? 
                         <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="center" >
                           <Grid item>
                             <Button variant="contained" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
@@ -85,30 +86,30 @@ const Schedule: React.FC = () => {
                             <Button variant="contained" size="small" color="secondary" onClick={cancelWeekScheduleChanges}>Cancel</Button>
                           </Grid>
                         </Grid>
-                        :null}
+                        :null} */}
             {/* <Grid item className={classes.weekday}>
                 <Weekday/>
             </Grid> */}
-            {/* <button onClick={()=>{console.log(copyWeekdaySchedule)}}>state</button> */}
+            {/* <button onClick={()=>{console.log(copyWeekdaySchedule,scheduleToCopy)}}>state</button> */}
             {weekdays.map((weekday)=>{
               if(copyWeekdaySchedule){
                 if(copyWeekdaySchedule === weekday){
                   return (
                     <Grid item className={classes.weekday}>
-                        <Weekday weekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                        <Weekday weekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
                     </Grid>
                   ) 
                 }else{
                   return (
                     <Grid item className={classes.weekday}>
-                        <WeekdayPaste weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                        <WeekdayPaste weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule} scheduleToCopy={scheduleToCopy}/>
                     </Grid>
                   )
                 }
               }else{
                 return (
                   <Grid item className={classes.weekday}>
-                      <Weekday weekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
+                      <Weekday weekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
                   </Grid>
                 )
               }
@@ -118,8 +119,8 @@ const Schedule: React.FC = () => {
                 //     </Grid>
                 // )
             })}
-            {/* {copyWeekdaySchedule? 
-                        <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="center" >
+            {copyWeekdaySchedule? 
+                        <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="flex-end" >
                           <Grid item>
                             <Button variant="outlined" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
                           </Grid>
@@ -128,7 +129,7 @@ const Schedule: React.FC = () => {
                             <Button variant="outlined" size="small" color="secondary" onClick={cancelWeekScheduleChanges}>Cancel</Button>
                           </Grid>
                         </Grid>
-                        :null} */}
+                        :null}
         </Grid>
     </div>
   );

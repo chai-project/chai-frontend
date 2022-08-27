@@ -15,7 +15,7 @@ import { Typography } from '@material-ui/core';
 
 
 //types
-import weekdayScheduleView from "../../../Types/types"
+import timeslot from "../../../Types/types"
 
 //components
 
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => {
+const WeekdayScheduleView: React.FC<{timeslots:timeslot[]| null}>= ({timeslots}) => {
     // const [profile, setProfile] = useState('');
 
     // const profilesForAweekDay= [
@@ -118,7 +118,7 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => {
   return (
     <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
         <Grid item container xs={12} className={classes.schedule} direction="row" justifyContent="center" alignItems="center">
-            {timeslots.map((profile:any)=>{
+            {timeslots?.map((profile:any)=>{
 
                 //Parse In
                 const parseIn = function(date_time:any){
@@ -157,7 +157,7 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => {
             })}
         </Grid>
         <Grid item container xs={12} className={classes.labels} direction="row" justifyContent="center" alignItems="center">
-        {timeslots.map((profile:any)=>{
+        {timeslots?.map((profile:any)=>{
 
             //Parse In
             const parseIn = function(date_time:any){

@@ -19,21 +19,21 @@ interface batteryData {
 }
 
 
-export default interface chartDataType {
-    priceData: priceData[],
-    electricityConsumption: electricityConsumtpion[],
-    batteryData: batteryData[],
-};
+// export default interface chartDataType {
+//     priceData: priceData[],
+//     electricityConsumption: electricityConsumtpion[],
+//     batteryData: batteryData[],
+// };
 
 //weekday schedule view types
 
-interface timeslot {
+export default interface timeslot {
     profileName: string,
     profileStart:string,
     profileEnd: string,
     temperature: string // veliau pakeisti i number manau
 }
 
-export default interface weekdayScheduleView {
-    timeslots: timeslot[]
-}
+// export default interface weekdayScheduleView {
+//     timeslots: timeslot[]
+// }

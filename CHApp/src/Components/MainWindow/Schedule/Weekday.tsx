@@ -14,7 +14,7 @@ import {useSelector, useDispatch} from 'react-redux'
 
 
 //types
-
+import timeslot from '../../../Types/types';
 
 //components
 import WeekdayScheduleView from './WeekdayScheduleView';
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null}>= ({weekday,setCopyWeekdaySchedule,copyWeekdaySchedule}) => {
+const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null, setScheduleToCopy:any}>= ({weekday,setCopyWeekdaySchedule,copyWeekdaySchedule, setScheduleToCopy}) => {
     const [profile, setProfile] = useState('');
     //test timeslots for a weekday
     const profilesForAweekDay= [
@@ -121,8 +121,9 @@ const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any, copyWeekda
     };
     //copy button
     const copyWeekdayScheduleButton = () => {
-      console.log('copy', weekday)
-      setCopyWeekdaySchedule(weekday)
+      console.log('copy', weekday);
+      setCopyWeekdaySchedule(weekday);
+      setScheduleToCopy(profilesForAweekDay);
       setAnchorEl(null);
     };
     //reset button

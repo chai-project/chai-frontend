@@ -268,7 +268,7 @@ const switchButtonsComponent = () => {
     <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.infoAndSwitchButtonsContainer}>
       <Grid item container xs={5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
         <Grid item className={classes.valveStatus}><b>Valve: {valveStatus === true ? "Open" : "Closed"}</b></Grid>
-        <button onClick={()=>{console.log(heatingComponentState, timerID)}}>state</button>
+        {/* <button onClick={()=>{console.log(heatingComponentState, timerID)}}>state</button> */}
       </Grid>
       <Grid item container xs={7} direction="row" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
         <Grid xs={10} item className={classes.switchButton}>
