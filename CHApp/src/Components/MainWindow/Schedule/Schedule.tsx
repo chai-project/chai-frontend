@@ -10,6 +10,7 @@ import { CssBaseline, Button, Paper, Grid } from '@mui/material/';
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
+import {setNewHeatingSchedule} from '../../../Redux-reducers/heatingScheduleReducer'
 
 
 //types
@@ -52,20 +53,49 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Schedule: React.FC = () => {
+
+    // const [newWeekSchedule, setNewWeekSchedule] = useState<any>([]);
     const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<string | null>(null);
-    const [scheduleToCopy, setScheduleToCopy] = useState<timeslot[]|null>(null);
-    const weekdays = ["Monday", 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const [scheduleToCopy, setScheduleToCopy] = useState<any>(null); // define type was timeslot[]|null
+    const [weekdaysToPasteSchedule, setWeekdaysToPasteSchedule] = useState<String[]>([]);
+    // const weekdays = ["Monday", 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+
+    // setNewWeekSchedule(useSelector((state:any)=>{
+    //   return(
+    //     state.heatingSchedule
+    //   )
+    // }))
+    const weekSchedule = useSelector((state:any)=>{
+      return(
+        state.heatingSchedule
+      )
+    })
+
+    
+    
 
     const classes = useStyles();
     const dispatch = useDispatch()
 
     //save&cancel buttons
     const saveNewWeekSchedule = () => {
+      //define here new schedule/ send to reeducer and assign over there
       console.log('saving new week schedule')
+      let newWeekSchedule:any = weekSchedule;
+      weekdaysToPasteSchedule.forEach((weekday)=>{
+        newWeekSchedule.map((weekdaySchedule:any)=>{
+          return weekdaySchedule.weekday === weekday ? weekdaySchedule.schedule = scheduleToCopy.schedule : weekdaySchedule
+        })
+        //send to the server if 200, update redux
+        dispatch(setNewHeatingSchedule(newWeekSchedule));
+        setWeekdaysToPasteSchedule([]);
+        setCopyWeekdaySchedule(null);
+      });
     };
     const cancelWeekScheduleChanges = () => {
-      console.log('cancel new week schedule changes');
+      setWeekdaysToPasteSchedule([]);
       setCopyWeekdaySchedule(null)
+      
     };
 
 //   const getData = () => {
@@ -76,48 +106,28 @@ const Schedule: React.FC = () => {
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5} >
-        {/* {copyWeekdaySchedule? 
-                        <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="center" >
-                          <Grid item>
-                            <Button variant="contained" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
-                          </Grid>
-                          <Grid item xs={0.2}></Grid>
-                          <Grid item>
-                            <Button variant="contained" size="small" color="secondary" onClick={cancelWeekScheduleChanges}>Cancel</Button>
-                          </Grid>
-                        </Grid>
-                        :null} */}
-            {/* <Grid item className={classes.weekday}>
-                <Weekday/>
-            </Grid> */}
-            {/* <button onClick={()=>{console.log(copyWeekdaySchedule,scheduleToCopy)}}>state</button> */}
-            {weekdays.map((weekday)=>{
+            {weekSchedule?.map((weekday:any)=>{
               if(copyWeekdaySchedule){
-                if(copyWeekdaySchedule === weekday){
+                if(copyWeekdaySchedule === weekday.weekday){
                   return (
                     <Grid item className={classes.weekday}>
-                        <Weekday weekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
+                        <Weekday weekday={weekday.weekday} scheduleForAWeekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
                     </Grid>
                   ) 
                 }else{
                   return (
                     <Grid item className={classes.weekday}>
-                        <WeekdayPaste weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule} scheduleToCopy={scheduleToCopy}/>
+                        <WeekdayPaste weekday={weekday.weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule} scheduleToCopy={scheduleToCopy} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} weekdaysToPasteSchedule={weekdaysToPasteSchedule}/>
                     </Grid>
                   )
                 }
               }else{
                 return (
                   <Grid item className={classes.weekday}>
-                      <Weekday weekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
+                      <Weekday weekday={weekday.weekday} scheduleForAWeekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
                   </Grid>
                 )
               }
-                // return (
-                //     <Grid item className={classes.weekday}>
-                //         <Weekday weekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule}/>
-                //     </Grid>
-                // )
             })}
             {copyWeekdaySchedule? 
                         <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="flex-end" >
@@ -131,6 +141,17 @@ const Schedule: React.FC = () => {
                         </Grid>
                         :null}
         </Grid>
+        {/* <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5} >
+          {weekSchedule?.map((weekday:any)=>{
+            // console.log(weekday.weekday)
+            return (
+              // <p>hmm</p>
+              <Grid item className={classes.weekday}>
+                <Weekday weekday={weekday.weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
+              </Grid>
+            )
+          })}
+        </Grid> */}
     </div>
   );
 };

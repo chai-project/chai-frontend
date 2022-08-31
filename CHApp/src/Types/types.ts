@@ -28,6 +28,7 @@ interface batteryData {
 //weekday schedule view types
 
 export default interface timeslot {
+    id: number,
     profileName: string,
     profileStart:string,
     profileEnd: string,

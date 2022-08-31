@@ -77,8 +77,8 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const WeekdayPaste: React.FC<{weekday: String, setCopyWeekdaySchedule:any, scheduleToCopy:timeslot[]|null}>= ({weekday,setCopyWeekdaySchedule,scheduleToCopy}) => {
-    const [pasteScheduleForAWeekday, setPasteScheduleForAWeekday] = useState<timeslot[] | null>(null);
+const WeekdayPaste: React.FC<{weekday: String, setCopyWeekdaySchedule:any, scheduleToCopy:timeslot[]|null, setWeekdaysToPasteSchedule:any, weekdaysToPasteSchedule:String[]}>= ({weekday,setCopyWeekdaySchedule,scheduleToCopy, setWeekdaysToPasteSchedule, weekdaysToPasteSchedule}) => {
+    const [pasteScheduleForAWeekday, setPasteScheduleForAWeekday] = useState<any>(null); //define type was timeslot[]|null
 
     //delete weekday copy button
     const deleteWeekdayScheduleCopy = () => {
@@ -89,6 +89,7 @@ const WeekdayPaste: React.FC<{weekday: String, setCopyWeekdaySchedule:any, sched
     const pasteWeekdaySchedule = () => {
       console.log('pasting to: ', weekday);
       setPasteScheduleForAWeekday(scheduleToCopy);
+      setWeekdaysToPasteSchedule((weekdaysToPasteSchedule:String[]) => [...weekdaysToPasteSchedule, weekday])
     };
     //styles 
     const classes = useStyles();
@@ -107,7 +108,7 @@ const WeekdayPaste: React.FC<{weekday: String, setCopyWeekdaySchedule:any, sched
         <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
           {pasteScheduleForAWeekday ? 
                                     <Grid item xs={8} className={classes.schedule}>
-                                      <WeekdayScheduleView timeslots={pasteScheduleForAWeekday}/>
+                                      <WeekdayScheduleView timeslots={pasteScheduleForAWeekday.schedule}/>
                                     </Grid>
                                     : 
                                     <Grid item container xs={8} className={classes.schedulePaste} direction="row" justifyContent="center" alignItems="center">

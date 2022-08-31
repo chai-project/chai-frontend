@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null, setScheduleToCopy:any}>= ({weekday,setCopyWeekdaySchedule,copyWeekdaySchedule, setScheduleToCopy}) => {
+const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,schedule:{id:number, profileName:String,profileStart:String,profileEnd:String, temperature:String}[]} ,  setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null, setScheduleToCopy:any}>= ({weekday, scheduleForAWeekday, setCopyWeekdaySchedule,copyWeekdaySchedule, setScheduleToCopy}) => {
     const [profile, setProfile] = useState('');
     //test timeslots for a weekday
     const profilesForAweekDay= [
@@ -121,14 +121,16 @@ const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any, copyWeekda
     };
     //copy button
     const copyWeekdayScheduleButton = () => {
-      console.log('copy', weekday);
-      setCopyWeekdaySchedule(weekday);
-      setScheduleToCopy(profilesForAweekDay);
+      console.log('copy', scheduleForAWeekday.schedule);
+      setCopyWeekdaySchedule(scheduleForAWeekday.weekday);
+      setScheduleToCopy(scheduleForAWeekday);
       setAnchorEl(null);
     };
     //reset button
     const resetWeekdaySchedule = () => {
-      console.log('reseting : ', weekday)
+      console.log('reseting : ', scheduleForAWeekday.weekday)
+      console.log('scheudle for a weekday: ', scheduleForAWeekday.schedule)
+      
       setAnchorEl(null);
     };
     //styles 
@@ -144,10 +146,10 @@ const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any, copyWeekda
     //buvo div konteineris vietoj box todel tos  spalvos nebuvo ir schedule componenete spacingas 0.5 dabar anksciau jo iswiso nebuvo geriau atrodo 
     //gal iswiso tamsi spalva pgal mane
     <Box className={classes.topBorder} bgcolor="background.default" >
-        <Divider className={classes.divider} textAlign='left'><b>{weekday}</b></Divider>
+        <Divider className={classes.divider} textAlign='left'><b>{scheduleForAWeekday.weekday}</b></Divider>
         <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
             <Grid item xs={8} className={classes.schedule}>
-              <WeekdayScheduleView timeslots={profilesForAweekDay}/>
+              <WeekdayScheduleView timeslots={scheduleForAWeekday.schedule}/>
             </Grid>
             <Grid item xs={0.5}></Grid>
             <Grid item xs={1} container className={classes.moreButton}  direction="row" justifyContent="center" alignItems="center">
@@ -170,23 +172,6 @@ const Weekday: React.FC<{weekday: String, setCopyWeekdaySchedule:any, copyWeekda
                                         <MenuItem onClick={resetWeekdaySchedule}>Reset</MenuItem>
                                       </Menu>
                                     </div> : null}
-                {/* <IconButton size='small' edge='start' color='primary' onClick={handleClick}>
-                    <MoreVertIcon/>
-                </IconButton>
-                <Menu
-                  id="fade-menu"
-                  MenuListProps={{
-                    'aria-labelledby': 'fade-button',
-                  }}
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleMenuClose}
-                  TransitionComponent={Fade}
-                >
-                  <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
-                  <MenuItem onClick={copyWeekdayScheduleButton}>Copy</MenuItem>
-                  <MenuItem onClick={resetWeekdaySchedule}>Reset</MenuItem>
-                </Menu> */}
             </Grid>
         </Grid>
     </Box>

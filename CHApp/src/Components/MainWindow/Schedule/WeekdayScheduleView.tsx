@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const WeekdayScheduleView: React.FC<{timeslots:timeslot[]| null}>= ({timeslots}) => {
+const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // timeslots type timeslot[] | null
     // const [profile, setProfile] = useState('');
 
     // const profilesForAweekDay= [
@@ -151,7 +151,7 @@ const WeekdayScheduleView: React.FC<{timeslots:timeslot[]| null}>= ({timeslots})
                 const colorOfATimeslot = parseInt(profile.temperature) < 17 ? '#57A6F0' : parseInt(profile.temperature) < 22 ? '#F6946B' : parseInt(profile.temperature) < 27 ? '#FE6262' : null 
                 return (
                     <Grid item container xs={sizeOfATimeslot} sx={{background:colorOfATimeslot}} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center">
-                        <Typography className={classes.temperatureLabel}>{profile.temperature}°C</Typography>
+                        <Typography className={classes.temperatureLabel}>{sizeOfATimeslot < 0.75 ? null : profile.temperature + '°C' }</Typography>
                     </Grid>
                 )
             })}
@@ -189,7 +189,7 @@ const WeekdayScheduleView: React.FC<{timeslots:timeslot[]| null}>= ({timeslots})
             const sizeOfATimeslot = intervals.length * 0.125
             return (
                 <Grid item container xs={sizeOfATimeslot} direction="row" justifyContent="flex-start" alignItems="center">
-                    <Typography className={classes.timeLabel}>{profile.profileStart}</Typography>
+                    <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.75 ? null : profile.profileStart}</Typography>
                 </Grid>
             )
             })}

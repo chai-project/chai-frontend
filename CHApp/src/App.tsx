@@ -15,6 +15,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { initializeChartData } from './Redux-reducers/chartDataReducer';
 //heating component data
 import { initializeHeatingComponentData } from './Redux-reducers/heatingComponentReducer';
+import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReducer';
 
 
 // types
@@ -153,6 +154,7 @@ const App: React.FC = () => {
       services.setBearerToken(token)
       dispatch(initializeChartData())
       dispatch(initializeHeatingComponentData())
+      dispatch(initializeHeatingSchedule())
       //set to local storage! 
     }
 
