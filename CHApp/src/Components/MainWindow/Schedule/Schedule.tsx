@@ -101,7 +101,28 @@ const Schedule: React.FC = () => {
 //   const getData = () => {
 //     dispatch(initializeData())
 //   }
-
+const generate = () => {
+  let timeframes:any = []
+  let hours:any
+  let minutes:any
+  for (let i = 0; i <= 96; i++) {
+    if(i === 0 ){
+      hours = 0;
+      minutes = 0;
+      timeframes.push({timeframeRepresentation : i, timeframe : "0" + hours.toString() + ":" + minutes.toString() + "0"})
+    }else{
+      minutes = minutes + 15
+      if(minutes === 60){
+        hours = hours + 1;
+        minutes = 0;
+        timeframes.push({timeframeRepresentation : i, timeframe : (hours<10) ?  "0" + hours.toString()  + ":" + minutes.toString() + "0" : hours.toString() + ":" + minutes.toString() + "0"})
+      }else{
+        timeframes.push({timeframeRepresentation : i, timeframe : (hours<10) ?  "0" + hours.toString()  + ":" + minutes.toString()  : hours.toString() + ":" + minutes.toString()})
+      }
+    }
+  }
+  console.log(timeframes)
+}
   return (
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
@@ -132,6 +153,7 @@ const Schedule: React.FC = () => {
             {copyWeekdaySchedule? 
                         <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="flex-end" >
                           <Grid item>
+                          <Button variant="outlined" size="small" color="primary" onClick={generate}>generate</Button>
                             <Button variant="outlined" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
                           </Grid>
                           <Grid item xs={0.2}></Grid>
