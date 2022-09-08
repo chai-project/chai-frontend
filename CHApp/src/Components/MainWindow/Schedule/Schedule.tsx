@@ -47,7 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     saveAndCancelButons:{
         // border: "1px solid lime",
-        height: '6%'
+        position:'relative',
+        height: '6%',
+        top: '2%',
     },
   }),
 );
@@ -153,7 +155,7 @@ const generate = () => {
             {copyWeekdaySchedule? 
                         <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="flex-end" >
                           <Grid item>
-                          <Button variant="outlined" size="small" color="primary" onClick={generate}>generate</Button>
+                          {/* <Button variant="outlined" size="small" color="primary" onClick={generate}>generate</Button> */}
                             <Button variant="outlined" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
                           </Grid>
                           <Grid item xs={0.2}></Grid>

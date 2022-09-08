@@ -41,7 +41,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     timeslot:{
         // border: "1px solid lime",
+        borderRight: "1px solid #57CBCC",
         height: '100%',
+        "&:hover, &:focus": {
+            // borderRight: "10px solid red",
+            background : "#57CBCC"
+        }
     },
     labels: {
         // border: "1px solid orange",
@@ -49,19 +54,17 @@ const useStyles = makeStyles((theme: Theme) =>
         // background:'pink'
     },
     timeLabel:{
-        fontSize: '12px',
+        fontSize: '9px',
     },
     temperatureLabel:{
-        fontSize: '14px'
+        fontSize: '14px',
     },
-    test:{
-        background: 'pink',
-        height: '100%',
+    onHooverInfo:{
+        position:'absolute',
+        height: '50px',
+        width:'50px',
+        background:'red',
     },
-    test2:{
-        background: 'lime',
-        height: '100%',
-    }
   }),
 );
 
@@ -157,7 +160,7 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
             })}
         </Grid>
         <Grid item container xs={12} className={classes.labels} direction="row" justifyContent="center" alignItems="center">
-        {timeslots?.map((profile:any)=>{
+        {timeslots?.map((profile:any, index:number)=>{
 
             //Parse In
             const parseIn = function(date_time:any){
@@ -187,9 +190,10 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
 
 
             const sizeOfATimeslot = intervals.length * 0.125
+            // console.log(timeslots.length === index)
             return (
                 <Grid item container xs={sizeOfATimeslot} direction="row" justifyContent="flex-start" alignItems="center">
-                    <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.75 ? null : profile.profileStart}</Typography>
+                    <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.4 ? null : profile.profileStart}</Typography>
                 </Grid>
             )
             })}

@@ -19,392 +19,392 @@ const heatingScheduleReducer = (state :any = null , action:any) => { //define ty
 export const initializeHeatingSchedule = () => {
     return async (dispatch : Dispatch) => {
         const heatingScheduleData = await services.getHeatingScheduleData();
-        let schedule = [
-            {
-                weekday: 'Monday',
-                schedule:[      {
-                    id: 0,
-                    profileName: "Morning",
-                    profileStart:'00:00',
-                    profileEnd: '04:15',
-                    temperature: '19'
-                },
-                {
-                    id: 1,
-                    profileName: "Empty",
-                    profileStart:'04:15',
-                    profileEnd: '08:30',
-                    temperature: '0'
-                },
-                {
-                    id: 2,
-                    profileName: "Morning",
-                    profileStart:'08:30',
-                    profileEnd: '12:00',
-                    temperature: '21'
-                },
-                {
-                    id: 3,
-                    profileName: "Empty",
-                    profileStart:'12:00',
-                    profileEnd: '17:30',
-                    temperature: '0'
-                },
-                {
-                    id: 4,
-                    profileName: "Evening",
-                    profileStart:'17:30',
-                    profileEnd: '20:00',
-                    temperature: '24'
-                },
-                {
-                    id: 5,
-                    profileName: "Night",
-                    profileStart:'20:00',
-                    profileEnd: '24:00',
-                    temperature: '17'
-                },
-                ]
-            },    
-            {
-                weekday: 'Tuesday',
-                schedule:[      {
-                    id: 0,
-                    profileName: "Morning",
-                    profileStart:'00:00',
-                    profileEnd: '04:15',
-                    temperature: '19'
-                },
-                {
-                    id: 1,
-                    profileName: "Empty",
-                    profileStart:'04:15',
-                    profileEnd: '08:30',
-                    temperature: '0'
-                },
-                {
-                    id: 2,
-                    profileName: "Morning",
-                    profileStart:'08:30',
-                    profileEnd: '12:00',
-                    temperature: '21'
-                },
-                {
-                    id: 3,
-                    profileName: "Empty",
-                    profileStart:'12:00',
-                    profileEnd: '17:30',
-                    temperature: '0'
-                },
-                {
-                    id: 4,
-                    profileName: "Evening",
-                    profileStart:'17:30',
-                    profileEnd: '20:00',
-                    temperature: '24'
-                },
-                {
-                    id: 5,
-                    profileName: "Night",
-                    profileStart:'20:00',
-                    profileEnd: '24:00',
-                    temperature: '17'
-                },
-                ]
-            },  
-            {
-                weekday: 'Wednesday',
-                schedule:[      {
-                    id: 0,
-                    profileName: "Night",
-                    profileStart:'00:00',
-                    profileEnd: '04:15',
-                    temperature: '19'
-                },
-                {
-                    id: 1,
-                    profileName: "Morning",
-                    profileStart:'04:15',
-                    profileEnd: '09:15',
-                    temperature: '0'
-                },
-                {
-                    id: 2,
-                    profileName: "Empty",
-                    profileStart:'09:15',
-                    profileEnd: '13:15',
-                    temperature: '21'
-                },
-                {
-                    id: 3,
-                    profileName: "Afternoon",
-                    profileStart:'13:15',
-                    profileEnd: '14:30',
-                    temperature: '0'
-                },
-                {
-                    id: 4,
-                    profileName: "Empty",
-                    profileStart:'14:30',
-                    profileEnd: '17:00',
-                    temperature: '24'
-                },
-                {
-                    id: 5,
-                    profileName: "Evening",
-                    profileStart:'17:00',
-                    profileEnd: '19:00',
-                    temperature: '17'
-                },
-                {
-                    id: 6,
-                    profileName: "Empty",
-                    profileStart:'19:00',
-                    profileEnd: '20:45',
-                    temperature: '22'
-                },
-                {
-                    id: 7,
-                    profileName: "Night",
-                    profileStart:'20:45',
-                    profileEnd: '24:00',
-                    temperature: '17'
-                },
-                ]
-            },
-            {
-                weekday: 'Thursday',
-                schedule:[      
-                {
-                    id: 0,
-                    profileName: "Morning",
-                    profileStart:'00:00',
-                    profileEnd: '04:15',
-                    temperature: '19'
-                },
-                {
-                    id: 1,
-                    profileName: "Empty",
-                    profileStart:'04:15',
-                    profileEnd: '09:30',
-                    temperature: '0'
-                },
-                {
-                    id: 2,
-                    profileName: "Morning",
-                    profileStart:'09:30',
-                    profileEnd: '13:15',
-                    temperature: '21'
-                },
-                {
-                    id: 3,
-                    profileName: "Empty",
-                    profileStart:'13:15',
-                    profileEnd: '18:30',
-                    temperature: '0'
-                },
-                {
-                    id: 4,
-                    profileName: "Evening",
-                    profileStart:'18:30',
-                    profileEnd: '21:00',
-                    temperature: '24'
-                },
-                {
-                    id: 5,
-                    profileName: "Empty",
-                    profileStart:'21:00',
-                    profileEnd: '22:15',
-                    temperature: '0'
-                },
-                {
-                    id: 6,
-                    profileName: "Evening",
-                    profileStart:'22:15',
-                    profileEnd: '23:30',
-                    temperature: '21'
-                },
-                {
-                    id: 7,
-                    profileName: "Night",
-                    profileStart:'23:30',
-                    profileEnd: '24:00',
-                    temperature: '24'
-                },
-                ]
-            },
-            {
-                weekday: 'Friday',
-                schedule:[      
-                {
-                    id: 0,
-                    profileName: "Morning",
-                    profileStart:'00:00',
-                    profileEnd: '07:15',
-                    temperature: '19'
-                },
-                {
-                    id: 1,
-                    profileName: "Empty",
-                    profileStart:'07:15',
-                    profileEnd: '11:45',
-                    temperature: '0'
-                },
-                {
-                    id: 2,
-                    profileName: "Afternoon",
-                    profileStart:'11:45',
-                    profileEnd: '13:15',
-                    temperature: '21'
-                },
-                {
-                    id: 3,
-                    profileName: "Empty",
-                    profileStart:'13:15',
-                    profileEnd: '16:30',
-                    temperature: '0'
-                },
-                {
-                    id: 4,
-                    profileName: "Afternoon",
-                    profileStart:'16:30',
-                    profileEnd: '19:00',
-                    temperature: '19'
-                },
-                {
-                    id: 5,
-                    profileName: "Evening",
-                    profileStart:'19:00',
-                    profileEnd: '22:00',
-                    temperature: '24'
-                },
-                {
-                    id: 6,
-                    profileName: "Empty",
-                    profileStart:'22:00',
-                    profileEnd: '23:00',
-                    temperature: '0'
-                },
-                {
-                    id: 7,
-                    profileName: "Night",
-                    profileStart:'23:00',
-                    profileEnd: '24:00',
-                    temperature: '19'
-                },
-                ]
-            },
-            {
-                weekday: 'Saturday',
-                schedule:[      
-                {
-                    id: 0,
-                    profileName: "Morning",
-                    profileStart:'00:00',
-                    profileEnd: '07:15',
-                    temperature: '19'
-                },
-                {
-                    id: 1,
-                    profileName: "Empty",
-                    profileStart:'07:15',
-                    profileEnd: '08:30',
-                    temperature: '0'
-                },
-                {
-                    id: 2,
-                    profileName: "Morning",
-                    profileStart:'08:30',
-                    profileEnd: '11:15',
-                    temperature: '21'
-                },
-                {
-                    id: 3,
-                    profileName: "Empty",
-                    profileStart:'11:15',
-                    profileEnd: '14:30',
-                    temperature: '0'
-                },
-                {
-                    id: 4,
-                    profileName: "Afternoon",
-                    profileStart:'14:30',
-                    profileEnd: '16:00',
-                    temperature: '24'
-                },
-                {
-                    id: 5,
-                    profileName: "Evening",
-                    profileStart:'16:00',
-                    profileEnd: '19:00',
-                    temperature: '22'
-                },
-                {
-                    id: 6,
-                    profileName: "Empty",
-                    profileStart:'19:00',
-                    profileEnd: '20:45',
-                    temperature: '0'
-                },
-                {
-                    id: 7,
-                    profileName: "Night",
-                    profileStart:'20:45',
-                    profileEnd: '24:00',
-                    temperature: '17'
-                },
-                ]
-            },
-            {
-                weekday: 'Sunday',
-                schedule:[      
-                {
-                    id: 0,
-                    profileName: "Night",
-                    profileStart:'00:00',
-                    profileEnd: '02:15',
-                    temperature: '21'
-                },
-                {
-                    id: 1,
-                    profileName: "Empty",
-                    profileStart:'02:15',
-                    profileEnd: '06:30',
-                    temperature: '0'
-                },
-                {
-                    id: 2,
-                    profileName: "Morning",
-                    profileStart:'06:30',
-                    profileEnd: '12:15',
-                    temperature: '21'
-                },
-                {
-                    id: 3,
-                    profileName: "Empty",
-                    profileStart:'12:15',
-                    profileEnd: '14:30',
-                    temperature: '0'
-                },
-                {
-                    id: 4,
-                    profileName: "Afternoon",
-                    profileStart:'14:30',
-                    profileEnd: '16:45',
-                    temperature: '24'
-                },
-                {
-                    id: 5,
-                    profileName: "Evening",
-                    profileStart:'16:45',
-                    profileEnd: '24:00',
-                    temperature: '19'
-                },
-                ]
-            },
+        // let scheduleTest = [
+        //     {
+        //         weekday: 'Monday',
+        //         schedule:[      {
+        //             id: 0,
+        //             profileName: "Morning",
+        //             profileStart:'00:00',
+        //             profileEnd: '04:15',
+        //             temperature: '19'
+        //         },
+        //         {
+        //             id: 1,
+        //             profileName: "Empty",
+        //             profileStart:'04:15',
+        //             profileEnd: '08:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 2,
+        //             profileName: "Morning",
+        //             profileStart:'08:30',
+        //             profileEnd: '12:00',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 3,
+        //             profileName: "Empty",
+        //             profileStart:'12:00',
+        //             profileEnd: '17:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 4,
+        //             profileName: "Evening",
+        //             profileStart:'17:30',
+        //             profileEnd: '20:00',
+        //             temperature: '24'
+        //         },
+        //         {
+        //             id: 5,
+        //             profileName: "Night",
+        //             profileStart:'20:00',
+        //             profileEnd: '24:00',
+        //             temperature: '17'
+        //         },
+        //         ]
+        //     },    
+        //     {
+        //         weekday: 'Tuesday',
+        //         schedule:[      {
+        //             id: 0,
+        //             profileName: "Morning",
+        //             profileStart:'00:00',
+        //             profileEnd: '04:15',
+        //             temperature: '19'
+        //         },
+        //         {
+        //             id: 1,
+        //             profileName: "Empty",
+        //             profileStart:'04:15',
+        //             profileEnd: '08:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 2,
+        //             profileName: "Morning",
+        //             profileStart:'08:30',
+        //             profileEnd: '12:00',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 3,
+        //             profileName: "Empty",
+        //             profileStart:'12:00',
+        //             profileEnd: '17:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 4,
+        //             profileName: "Evening",
+        //             profileStart:'17:30',
+        //             profileEnd: '20:00',
+        //             temperature: '24'
+        //         },
+        //         {
+        //             id: 5,
+        //             profileName: "Night",
+        //             profileStart:'20:00',
+        //             profileEnd: '24:00',
+        //             temperature: '17'
+        //         },
+        //         ]
+        //     },  
+        //     {
+        //         weekday: 'Wednesday',
+        //         schedule:[      {
+        //             id: 0,
+        //             profileName: "Night",
+        //             profileStart:'00:00',
+        //             profileEnd: '04:15',
+        //             temperature: '19'
+        //         },
+        //         {
+        //             id: 1,
+        //             profileName: "Morning",
+        //             profileStart:'04:15',
+        //             profileEnd: '09:15',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 2,
+        //             profileName: "Empty",
+        //             profileStart:'09:15',
+        //             profileEnd: '13:15',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 3,
+        //             profileName: "Afternoon",
+        //             profileStart:'13:15',
+        //             profileEnd: '14:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 4,
+        //             profileName: "Empty",
+        //             profileStart:'14:30',
+        //             profileEnd: '17:00',
+        //             temperature: '24'
+        //         },
+        //         {
+        //             id: 5,
+        //             profileName: "Evening",
+        //             profileStart:'17:00',
+        //             profileEnd: '19:00',
+        //             temperature: '17'
+        //         },
+        //         {
+        //             id: 6,
+        //             profileName: "Empty",
+        //             profileStart:'19:00',
+        //             profileEnd: '20:45',
+        //             temperature: '22'
+        //         },
+        //         {
+        //             id: 7,
+        //             profileName: "Night",
+        //             profileStart:'20:45',
+        //             profileEnd: '24:00',
+        //             temperature: '17'
+        //         },
+        //         ]
+        //     },
+        //     {
+        //         weekday: 'Thursday',
+        //         schedule:[      
+        //         {
+        //             id: 0,
+        //             profileName: "Morning",
+        //             profileStart:'00:00',
+        //             profileEnd: '04:15',
+        //             temperature: '19'
+        //         },
+        //         {
+        //             id: 1,
+        //             profileName: "Empty",
+        //             profileStart:'04:15',
+        //             profileEnd: '09:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 2,
+        //             profileName: "Morning",
+        //             profileStart:'09:30',
+        //             profileEnd: '13:15',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 3,
+        //             profileName: "Empty",
+        //             profileStart:'13:15',
+        //             profileEnd: '18:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 4,
+        //             profileName: "Evening",
+        //             profileStart:'18:30',
+        //             profileEnd: '21:00',
+        //             temperature: '24'
+        //         },
+        //         {
+        //             id: 5,
+        //             profileName: "Empty",
+        //             profileStart:'21:00',
+        //             profileEnd: '22:15',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 6,
+        //             profileName: "Evening",
+        //             profileStart:'22:15',
+        //             profileEnd: '23:30',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 7,
+        //             profileName: "Night",
+        //             profileStart:'23:30',
+        //             profileEnd: '24:00',
+        //             temperature: '24'
+        //         },
+        //         ]
+        //     },
+        //     {
+        //         weekday: 'Friday',
+        //         schedule:[      
+        //         {
+        //             id: 0,
+        //             profileName: "Morning",
+        //             profileStart:'00:00',
+        //             profileEnd: '07:15',
+        //             temperature: '19'
+        //         },
+        //         {
+        //             id: 1,
+        //             profileName: "Empty",
+        //             profileStart:'07:15',
+        //             profileEnd: '11:45',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 2,
+        //             profileName: "Afternoon",
+        //             profileStart:'11:45',
+        //             profileEnd: '13:15',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 3,
+        //             profileName: "Empty",
+        //             profileStart:'13:15',
+        //             profileEnd: '16:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 4,
+        //             profileName: "Afternoon",
+        //             profileStart:'16:30',
+        //             profileEnd: '19:00',
+        //             temperature: '19'
+        //         },
+        //         {
+        //             id: 5,
+        //             profileName: "Evening",
+        //             profileStart:'19:00',
+        //             profileEnd: '22:00',
+        //             temperature: '24'
+        //         },
+        //         {
+        //             id: 6,
+        //             profileName: "Empty",
+        //             profileStart:'22:00',
+        //             profileEnd: '23:00',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 7,
+        //             profileName: "Night",
+        //             profileStart:'23:00',
+        //             profileEnd: '24:00',
+        //             temperature: '19'
+        //         },
+        //         ]
+        //     },
+        //     {
+        //         weekday: 'Saturday',
+        //         schedule:[      
+        //         {
+        //             id: 0,
+        //             profileName: "Morning",
+        //             profileStart:'00:00',
+        //             profileEnd: '07:15',
+        //             temperature: '19'
+        //         },
+        //         {
+        //             id: 1,
+        //             profileName: "Empty",
+        //             profileStart:'07:15',
+        //             profileEnd: '08:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 2,
+        //             profileName: "Morning",
+        //             profileStart:'08:30',
+        //             profileEnd: '11:15',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 3,
+        //             profileName: "Empty",
+        //             profileStart:'11:15',
+        //             profileEnd: '14:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 4,
+        //             profileName: "Afternoon",
+        //             profileStart:'14:30',
+        //             profileEnd: '16:00',
+        //             temperature: '24'
+        //         },
+        //         {
+        //             id: 5,
+        //             profileName: "Evening",
+        //             profileStart:'16:00',
+        //             profileEnd: '19:00',
+        //             temperature: '22'
+        //         },
+        //         {
+        //             id: 6,
+        //             profileName: "Empty",
+        //             profileStart:'19:00',
+        //             profileEnd: '20:45',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 7,
+        //             profileName: "Night",
+        //             profileStart:'20:45',
+        //             profileEnd: '24:00',
+        //             temperature: '17'
+        //         },
+        //         ]
+        //     },
+        //     {
+        //         weekday: 'Sunday',
+        //         schedule:[      
+        //         {
+        //             id: 0,
+        //             profileName: "Night",
+        //             profileStart:'00:00',
+        //             profileEnd: '02:15',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 1,
+        //             profileName: "Empty",
+        //             profileStart:'02:15',
+        //             profileEnd: '06:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 2,
+        //             profileName: "Morning",
+        //             profileStart:'06:30',
+        //             profileEnd: '12:15',
+        //             temperature: '21'
+        //         },
+        //         {
+        //             id: 3,
+        //             profileName: "Empty",
+        //             profileStart:'12:15',
+        //             profileEnd: '14:30',
+        //             temperature: '0'
+        //         },
+        //         {
+        //             id: 4,
+        //             profileName: "Afternoon",
+        //             profileStart:'14:30',
+        //             profileEnd: '16:45',
+        //             temperature: '24'
+        //         },
+        //         {
+        //             id: 5,
+        //             profileName: "Evening",
+        //             profileStart:'16:45',
+        //             profileEnd: '24:00',
+        //             temperature: '19'
+        //         },
+        //         ]
+        //     },
         
-        ]
-        let scheduleTest = [];
+        // ]
+        let schedule: any[] = [];
         const timeframes =  [
                 {
                     "timeframeRepresentation": "0",
@@ -795,64 +795,56 @@ export const initializeHeatingSchedule = () => {
                     "timeframe": "24:00"
                 }
             ]
-        heatingScheduleData.forEach((day:any, index:any)=>{ //declare types later
+        const findTimeFrame = (timeFrameRepresentation: String) => {
+            const actualTimeFrame = timeframes.find((timeframe:any)=>{ //define type later
+                if(timeFrameRepresentation === timeframe.timeframeRepresentation){
+                    return timeframe
+                }
+            });
+            return actualTimeFrame?.timeframe;
+        }
+        // console.log(heatingScheduleData)
+        heatingScheduleData.forEach((day:any, index:any)=>{ //define types later
             interface weekdayScheduleType {
                 weekday:String,
                 id:number,
                 schedule: any[]
             }
             let weekdaySchedule:weekdayScheduleType =  {
-                weekday: day.day,
+                weekday: day.day  === 1 ? "Monday" : day.day  === 2 ? "Tuesday" : day.day  === 4 ? "Wednesday" : day.day  === 8 ? "Thursday" : day.day  === 16 ? "Friday" : day.day  === 32 ? "Saturday" : day.day  === 64 ? "Sunday" : day.day ,
                 id: index,
                 schedule:[],
-        }
-        // console.log(day.schedule)
-        for (const key in day.schedule) {
-            // console.log('wtf',timeframes[0])
-            const timeslot = {
-                id: 0,
-                profileName: "",
-                profileStart: "",
-                profileEnd: "",
-                temperature: '22'
+            }
+            var i = 0;
+            for (const key in day.schedule) {
+                if(i === 0 && key !== "0"){ // probalby no need, need to discuss with Kevin and Kim!
+                    const emptyTimeslot = {
+                        id: i,
+                        profileName: "OFF",
+                        profileStart: "00:00",
+                        profileEnd: "",
+                        temperature: 0
+                    };
+                    weekdaySchedule.schedule.push(emptyTimeslot);
+                    i++;
+                };
+                const timeslot = {
+                    id: i,
+                    profileName: day.schedule[key],
+                    profileStart: findTimeFrame(key),
+                    profileEnd: "",
+                    temperature: Math.floor(Math.random() * 25) + 1
 
-            };
-            timeslot.profileName = day.schedule[key]
-            timeframes.find((timeframe:any, index:any)=>{ //declare type later
-                if(timeframe.timeframeRepresentation === key){
-                    timeslot.profileStart = timeframe.timeframe
-                    // if(weekdaySchedule.schedule.length > 0){
-                    //     let sizeOfscheduleArray = weekdaySchedule.schedule.length
-                    //     // weekdaySchedule.schedule[sizeOfscheduleArray-1].profileEnd = timeframes[index].timeframe ? timeframes[index].timeframe : "24:00"
-                    //     // console.log(weekdaySchedule.schedule[sizeOfscheduleArray - 1],sizeOfscheduleArray - 1,'zeuru xD')
-                    //     // weekdaySchedule.schedule[index].profileEnd = timeframes[index].timeframe ? timeframes[index].timeframe : "24:00"
-                    //     // console.log(weekdaySchedule.schedule[0],'hmmm')
-                    //     // console.log(index,'hmm')
-                    // }
-                    // timeslot.profileEnd = timeframes[index+1].timeframe ? timeframes[index+1].timeframe : "24:00" // cia problemele :D:DD: ne index+1 o next found  timeframe
-                }
+                };
+                weekdaySchedule.schedule.push(timeslot)
+                i++;
+            }
+            weekdaySchedule.schedule.forEach((timeslot:any, index:any)=>{
+                index+1 === weekdaySchedule.schedule.length ? weekdaySchedule.schedule[index].profileEnd = "24:00" : weekdaySchedule.schedule[index].profileEnd = weekdaySchedule.schedule[index+1].profileStart
             });
-            weekdaySchedule.schedule.push(timeslot)
-        }
-        weekdaySchedule.schedule.forEach((timeslot:any, index:any)=>{
-            index+1 === weekdaySchedule.schedule.length ? weekdaySchedule.schedule[index].profileEnd = "24:00" : weekdaySchedule.schedule[index].profileEnd = weekdaySchedule.schedule[index+1].profileStart
-            // console.log('krc', index, weekdaySchedule.schedule[index+1].profileStart)
-            // weekdaySchedule.schedule[index].profileEnd = weekdaySchedule.schedule[index+1].profileStart
-            // timeslot.profileEnd = weekdaySchedule.schedule[index+1].profileStart;
-            // weekdaySchedule.schedule[index].profileEnd = weekdaySchedule.schedule[index+1].profileStart ? weekdaySchedule.schedule[index+1].profileStart : "24:00"
-            // console.log('krc22222', weekdaySchedule.schedule);
-            // timeslot.profileEnd = weekdaySchedule.schedule[index+1].profileStart ? weekdaySchedule.schedule[index+1].profileStart : "24:00"
-        })
-        // weekdaySchedule.schedule.forEach((weekday:any, index:any)=>{
-        //     console.log('testas: ', weekdaySchedule.schedule[index+1].profileStart);
-        //     // weekday.schedule.profileEnd = weekdaySchedule.schedule[index+1].profileStart ? weekday.schedule[index+1].profileStart : "24:00"
-        // });
-        console.log('fingerscrossed', weekdaySchedule)
-    });
-
-        // const heatingComponentData = await services.getHeatingComponentData();
-        // console.log(heatingComponentData)
-
+            schedule.push(weekdaySchedule);
+        });
+        // console.log(schedule)
         dispatch({
             type:"SET_HEATING_SCHEDULE_DATA",
             data: schedule
@@ -862,11 +854,9 @@ export const initializeHeatingSchedule = () => {
 
 
 export const setNewHeatingSchedule = (newSchedule:any) => { //define type
-    // console.log(newSchedule)
     return async (dispatch : Dispatch) => {
             dispatch({
                 type:"SET_NEW_HEATING_SCHEDULE",
-                // data: mode === 'auto' ? "auto" : mode === false ? 'off' : 'on'
                 data: newSchedule
             })
     };
