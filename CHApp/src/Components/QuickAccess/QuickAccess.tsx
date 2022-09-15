@@ -15,6 +15,7 @@ import chartDataType from '../../Types/types'
 import HeatingQA from './Heating/HeatingQA';
 import BatteryQA from './Battery/BatteryQA';
 import EnergyQA from './Energy/EnergyQA';
+import HeatingQATEST from './Heating/HeatingQATEST';
 
 // Styles 
     //Logo
@@ -68,7 +69,7 @@ const QuickAccess: React.FC = () => {
         <img className={classes.logo} src={Logo}></img>
       </Grid >
       <Grid item className={classes.gridItem} >
-        <HeatingQA/>
+        <HeatingQATEST/>
       </Grid>
       {/* <Grid item className={classes.gridItem}>
         <BatteryQA/>

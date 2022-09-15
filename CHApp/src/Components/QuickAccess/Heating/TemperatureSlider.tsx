@@ -294,7 +294,7 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
 
 
 
-const TemperatureSlider: React.FC<{ heatingAutoMode:boolean, targetTemperature: number, setTargetTemperature:any, isSetTargetTemperature: boolean , setIsSetTargetTemperature:any, setRequestTargetTemperature:any}> = (targetTemperature) => {
+const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemperature: number, setTargetTemperature:any, isSetTargetTemperature: boolean , setIsSetTargetTemperature:any, setRequestTargetTemperature:any}> = (targetTemperature) => {
 
   const [value, setValue] = useState<number | number[] >(11)
   const classes = useStyles();
@@ -313,7 +313,7 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean, targetTemperature: 
   
   
   const minDistance = 10;
-  const handleChange1 = (
+  const handleChange = (
     event: Event,
     newValue: number | number[], 
     activeThumb: number,
@@ -363,10 +363,10 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean, targetTemperature: 
                 labelValue
             )
         }}
-        disabled={!targetTemperature.heatingAutoMode? true : false}
+        disabled={targetTemperature.heatingAutoMode === "auto"  ? false : true}
         step={1}
         value={value}
-        onChange={handleChange1}
+        onChange={handleChange}
         disableSwap
         // min={25}
         max={30}
@@ -377,4 +377,5 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean, targetTemperature: 
 
 export default TemperatureSlider;
 
-
+//disabled={targetTemperature.heatingAutoMode === "auto"  ? false : true}
+//disabled={!targetTemperature.heatingAutoMode? true : false}

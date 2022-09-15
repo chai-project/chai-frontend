@@ -38,6 +38,23 @@ export const dark = createTheme({
         lg: 1280, // geras :D
         xl: 1536,
       }
+    },
+    components: {
+      MuiToggleButton: {
+        styleOverrides: {
+          root: {
+            color: "white",
+            borderColor:'transparent',
+            "&.Mui-selected": {
+              color: "white",
+              backgroundColor: '#5ACBCC'
+            },
+            "&:hover": {
+              color: "white",
+            }
+          }
+        }
+      }
     }
   });
   
@@ -78,6 +95,24 @@ export const light = createTheme({
         md: 900,
         lg: 1280, // geras :D
         xl: 1536,
+      }
+    },
+    components: {
+      MuiToggleButton: {
+        styleOverrides: {
+          root: {
+            color: "black",
+            borderColor:'transparent',
+            // borderTopRightRadius: '25px',
+            "&.Mui-selected": {
+              color: "black",
+              backgroundColor: '#5ACBCC'
+            },
+            "&:hover": {
+              color: "black",
+            }
+          }
+        }
       }
     }
   });

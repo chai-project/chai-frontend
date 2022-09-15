@@ -13,11 +13,13 @@ import {useSelector, useDispatch} from 'react-redux'
 
 
 //types
-
+import profile from '../../../Types/types'
+// 
 
 //components
 import SelectProfileButton from './SelectProfileButton';
 import Profile from './Profile';
+import ProgressCircular from '../../ProgressBar/ProgressCircular';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -74,8 +76,15 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+
 const Profiles: React.FC = () => {
-    const [profile, setProfile] = useState('');
+    const [profile, setProfile] = useState<profile|null>(null);
+
+    const allProfiles = useSelector((state:any)=>{
+        return(
+          state.heatingProfiles
+        )
+      })
 
     const classes = useStyles();
     const dispatch = useDispatch()
@@ -86,16 +95,45 @@ const Profiles: React.FC = () => {
 
   return (
     <div className={classes.main}>
-        <Grid container className={classes.container} direction="column" justifyContent="flex-start" alignItems="center">
+        {allProfiles ? 
+                        <Grid container className={classes.container} direction="column" justifyContent="flex-start" alignItems="center">
+                            <Grid item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
+                                <Grid item className={classes.selectProfileButton}>
+                                    <SelectProfileButton allProfiles={allProfiles} profile={profile} setProfile={setProfile}/>
+                                </Grid>
+                                <Grid item className={classes.spaceBetweenButtons}></Grid>
+                                <Grid item className={classes.resetProfileButtons} direction="row" justifyContent="flex-end" alignItems="center">
+                                    <Grid item container direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
+                                        <Grid  item>
+                                            {profile? <Button variant="outlined" color='secondary' size='medium' onClick={()=>{console.log('this profile')}}>Reset this profile</Button> : null}
+                                        </Grid>
+                                        <Grid item>
+                                            <Button variant="outlined" color='secondary' size='medium' onClick={()=>{console.log('all profiles')}}>Reset all profiles</Button>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item className={classes.content}>
+                                {profile ? <Profile profile={profile}/> : null}
+                            </Grid>
+                        </Grid>
+                     : 
+                        <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
+                            <Grid item>
+                                <ProgressCircular/>
+                            </Grid>
+                        </Grid>
+        }
+        {/* <Grid container className={classes.container} direction="column" justifyContent="flex-start" alignItems="center">
             <Grid item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
                 <Grid item className={classes.selectProfileButton}>
-                    <SelectProfileButton/>
+                    <SelectProfileButton allProfiles={allProfiles} profile={profile} setProfile={setProfile}/>
                 </Grid>
                 <Grid item className={classes.spaceBetweenButtons}></Grid>
                 <Grid item className={classes.resetProfileButtons} direction="row" justifyContent="flex-end" alignItems="center">
                     <Grid item container direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
                         <Grid  item>
-                            <Button variant="outlined" color='secondary' size='medium' onClick={()=>{console.log('this profile')}}>Reset this profile</Button>
+                            {profile? <Button variant="outlined" color='secondary' size='medium' onClick={()=>{console.log('this profile')}}>Reset this profile</Button> : null}
                         </Grid>
                         <Grid item>
                             <Button variant="outlined" color='secondary' size='medium' onClick={()=>{console.log('all profiles')}}>Reset all profiles</Button>
@@ -104,9 +142,9 @@ const Profiles: React.FC = () => {
                 </Grid>
             </Grid>
             <Grid item className={classes.content}>
-                <Profile/>
+                {profile ? <Profile profile={profile}/> : null}
             </Grid>
-        </Grid>
+        </Grid> */}
     </div>
   );
 };

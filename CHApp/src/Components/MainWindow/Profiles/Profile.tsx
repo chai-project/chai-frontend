@@ -44,16 +44,17 @@ const useStyles = makeStyles((theme: Theme) =>
     chart:{
         height: '80%',
         // border: "2px dashed red",
-        width: '95%'
+        width: '90%'
     }
   }),
 );
 
-const Profile: React.FC = () => {
+const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
     // const [profile, setProfile] = useState('');
 
     const classes = useStyles();
     const dispatch = useDispatch()
+    console.log('profile: ',typeof profile.slope)
 
 //   const getData = () => {
 //     dispatch(initializeData())
@@ -69,7 +70,7 @@ const Profile: React.FC = () => {
                         <Typography>Preferred temperature (At 0p / kWh): {<b>22.4 °C</b>}</Typography>
                     </Grid>
                     <Grid item>
-                        <Typography>Price sensitivity: {<b>0.04</b>}</Typography>
+                        <Typography>Price sensitivity: {<b>{profile.slope}</b>}</Typography>
                     </Grid>
                 </Grid>
             </Grid>

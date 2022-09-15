@@ -41,12 +41,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     timeslot:{
         // border: "1px solid lime",
-        borderRight: "1px solid #57CBCC",
+        // borderRight: "1px solid #57CBCC",
         height: '100%',
         "&:hover, &:focus": {
             // borderRight: "10px solid red",
-            background : "#57CBCC"
-        }
+            background : "#57CBCC",
+            
+        },
+        "& .timeslotInfo": {
+            display: "none"
+          },
+          "&:hover .timeslotInfo": {
+            display: "flex"
+          }
     },
     labels: {
         // border: "1px solid orange",
@@ -59,11 +66,16 @@ const useStyles = makeStyles((theme: Theme) =>
     temperatureLabel:{
         fontSize: '14px',
     },
-    onHooverInfo:{
-        position:'absolute',
-        height: '50px',
-        width:'50px',
-        background:'red',
+    // timeslotInfo:{
+    //     // display: 'none',
+    //     border: "1px solid orange",
+    //     position:'absolute',
+    //     top:'-80%',
+    //     // height: '50px'
+    // },
+    infoLabel:{
+        fontSize: '14px',
+        marginLeft: '3px',
     },
   }),
 );
@@ -121,9 +133,8 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
   return (
     <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
         <Grid item container xs={12} className={classes.schedule} direction="row" justifyContent="center" alignItems="center">
-            {timeslots?.map((profile:any)=>{
+            {timeslots?.map((profile:any, index:number)=>{
 
-                //Parse In
                 const parseIn = function(date_time:any){
                     var d = new Date();
                 d.setHours(date_time.substring(0,2));
@@ -153,8 +164,24 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
                 const sizeOfATimeslot = intervals.length * 0.125
                 const colorOfATimeslot = parseInt(profile.temperature) < 17 ? '#57A6F0' : parseInt(profile.temperature) < 22 ? '#F6946B' : parseInt(profile.temperature) < 27 ? '#FE6262' : null 
                 return (
-                    <Grid item container xs={sizeOfATimeslot} sx={{background:colorOfATimeslot}} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center">
+                    <Grid item container xs={sizeOfATimeslot} sx={{background:colorOfATimeslot, borderRight: timeslots.length === index + 1 ? null : "1px solid #57CBCC" }} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center">
                         <Typography className={classes.temperatureLabel}>{sizeOfATimeslot < 0.75 ? null : profile.temperature + '°C' }</Typography>
+                        <div className="timeslotInfo" style={{position:'absolute', top:"-100%", background: "#57CBCC", width:'130px', height:"97px", borderRadius:'5%', borderTopRightRadius: '5%'}}>
+                            <Grid container  direction="column" justifyContent="center" alignItems="flex-start">
+                                <Grid item>
+                                    <Typography className={classes.infoLabel} >Profile name: <b>{profile.profileName}</b></Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography className={classes.infoLabel}>Start: <b>{profile.profileStart}</b></Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography className={classes.infoLabel}>End: <b>{profile.profileEnd}</b></Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography className={classes.infoLabel}>Temperature: <b>{profile.temperature}°C</b></Typography>
+                                </Grid>
+                            </Grid>
+                        </div>
                     </Grid>
                 )
             })}
@@ -162,7 +189,6 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
         <Grid item container xs={12} className={classes.labels} direction="row" justifyContent="center" alignItems="center">
         {timeslots?.map((profile:any, index:number)=>{
 
-            //Parse In
             const parseIn = function(date_time:any){
                 var d = new Date();
             d.setHours(date_time.substring(0,2));
@@ -192,8 +218,17 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
             const sizeOfATimeslot = intervals.length * 0.125
             // console.log(timeslots.length === index)
             return (
-                <Grid item container xs={sizeOfATimeslot} direction="row" justifyContent="flex-start" alignItems="center">
-                    <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.4 ? null : profile.profileStart}</Typography>
+                // <Grid item container className={classes.test} xs={sizeOfATimeslot} direction="row" justifyContent="flex-start" alignItems="center">
+                //     <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.4 ? null : profile.profileStart}</Typography>
+                // </Grid>
+                <Grid container xs={sizeOfATimeslot}>
+                    <Grid item xs={1}>
+                        <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.4 ? null : profile.profileStart}</Typography>
+                    </Grid>
+                    <Grid item style={{ flexGrow: "1" }}></Grid>
+                    <Grid item xs={0}>
+                        <Typography className={classes.timeLabel}>{timeslots.length === index + 1 ?  profile.profileEnd : null}</Typography>
+                    </Grid>
                 </Grid>
             )
             })}

@@ -11,7 +11,7 @@ const setBearerToken = (token: any) => {
     });
 }
 
-//Heating Comonent
+//Heating Component
 
 const getHeatingComponentData = async () => {
     const request = await axios.get(`${baseURL}/heating/mode/?label=test_home_kim`).then((res)=>{
@@ -44,6 +44,22 @@ const getHeatingScheduleData = async () => {
     return request
 }
 
+//Heating profiles
+
+const getHeatingProfiles = async () => {
+    const request = await axios.get(`${baseURL}/heating/profile/?label=test_home_kim&schema=5`).then((res)=>{
+        // console.log('config: ',res.config)
+        // console.log('data: ',res.data)
+        // console.log('request: ',res.request)
+        // console.log('status: ',res.status)
+        // console.log('status text: ',res.statusText)
+        return res.data
+}).catch((error) => {
+    console.error('error',error);
+})
+    // console.log(request)
+    return request
+}
 
 // https://api.project-chai.org/schedule/?label=test_home_kim&daymask=127
 
@@ -66,4 +82,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles}

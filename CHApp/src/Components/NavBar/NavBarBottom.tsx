@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'block',
         marginLeft: 'auto',
         marginRight: 'auto'
+    },
+    button:{
+      fontSize:'1px'
     }
   }),
 );
@@ -68,7 +71,7 @@ const NavBarBottom: React.FC = () => {
             {cases.map((eachCase)=>{
                 return (
                     <Grid item >
-                        <Button size='large' color="inherit" onClick={()=>{navigate(`${eachCase === "Home" ? "/" : eachCase}`)}}> {(location.pathname === "/" && eachCase=== "Home") ? <b>{eachCase}</b> : location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
+                        <Button size='medium' color="inherit" onClick={()=>{navigate(`${eachCase === "Home" ? "/" : eachCase}`)}}> {(location.pathname === "/" && eachCase=== "Home") ? <b>{eachCase}</b> : location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
                         {(location.pathname === "/" && eachCase === "Home") ? <div className={classes.underLine}></div> : location.pathname !== "/"+ eachCase ? null : <div className={classes.underLine}></div> }
                     </Grid>
                 )

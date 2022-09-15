@@ -5,13 +5,15 @@ import thunk from 'redux-thunk'
 // Reducers
 import chartDataReducer from './Redux-reducers/chartDataReducer';
 import heatingComponentReducer from './Redux-reducers/heatingComponentReducer';
-import heatingScheduleReducer from './Redux-reducers/heatingScheduleReducer'
+import heatingScheduleReducer from './Redux-reducers/heatingScheduleReducer';
+import heatingProfilesReducer from './Redux-reducers/heatingProfilesReduces';
 
 
 const reducer = combineReducers({
     chartData: chartDataReducer,
     heatingComponent: heatingComponentReducer,
-    heatingSchedule: heatingScheduleReducer
+    heatingSchedule: heatingScheduleReducer,
+    heatingProfiles: heatingProfilesReducer
     //more if needed
 });
 

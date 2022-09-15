@@ -5,6 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+//types
+import profile from '../../../Types/types'
+
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper } from '@mui/material/';
@@ -21,12 +24,17 @@ const useStyles = makeStyles({
   });
 
 
-const SelectProfileButton = () => {
-  const [age, setAge] = useState('');
+const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:any}> = ({allProfiles, profile, setProfile }) => {
+  const [selectedProfile, setSelectedProfile] = useState('');
   const classes = useStyles()
-
+  // console.log(allProfiles)
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    const profileToSet = allProfiles.find((profile:any)=>{
+      return profile.profile === event.target.value
+    })
+    console.log(profileToSet)
+    setSelectedProfile(event.target.value as string)
+    setProfile(profileToSet);
   };
 
   return (
@@ -36,14 +44,16 @@ const SelectProfileButton = () => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Age"
+          value={selectedProfile}
+          label="Profile"
           onChange={handleChange}
           className={classes.label}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {allProfiles.map((profile:any)=>{ //define type
+              return (
+                <MenuItem value={profile.profile}>{profile.profile}</MenuItem>
+              )
+          })}
         </Select>
       </FormControl>
     </Box>

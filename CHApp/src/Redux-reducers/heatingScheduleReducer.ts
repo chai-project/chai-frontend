@@ -2,6 +2,10 @@ import { time } from 'console';
 import { weekdays } from 'moment';
 import { Dispatch } from 'redux';
 import services from '../Services/services';
+import {useSelector, useDispatch} from 'react-redux'
+import store from '../store';
+
+
 
 
 //Heating Component reducer
@@ -17,8 +21,14 @@ const heatingScheduleReducer = (state :any = null , action:any) => { //define ty
 }
 
 export const initializeHeatingSchedule = () => {
-    return async (dispatch : Dispatch) => {
+    return async (dispatch : Dispatch, getState:any) => {
         const heatingScheduleData = await services.getHeatingScheduleData();
+        const {heatingProfiles} = getState();
+        // console.log(heatingProfiles,'blblblbls')
+        // const allProfiles = await services.getHeatingProfiles();
+        // console.log('hmm ??',allProfiles)
+        // const allProfiles = useSelector((state:any)=>{return (state.heatingProfiles)})
+        // console.log(allProfiles,'wtf??')
         // let scheduleTest = [
         //     {
         //         weekday: 'Monday',
@@ -833,6 +843,7 @@ export const initializeHeatingSchedule = () => {
                     profileName: day.schedule[key],
                     profileStart: findTimeFrame(key),
                     profileEnd: "",
+                    // temperature: ''
                     temperature: Math.floor(Math.random() * 25) + 1
 
                 };
@@ -844,10 +855,13 @@ export const initializeHeatingSchedule = () => {
             });
             schedule.push(weekdaySchedule);
         });
-        // console.log(schedule)
+
+        const dayOfTheWeek = new Date().getDay();
+        const sortedScheduleByTheDay = schedule.slice(dayOfTheWeek-1).concat(schedule.slice(0,dayOfTheWeek-1))
+        
         dispatch({
             type:"SET_HEATING_SCHEDULE_DATA",
-            data: schedule
+            data: sortedScheduleByTheDay
         })
     };
 };

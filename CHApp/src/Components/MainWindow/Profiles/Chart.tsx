@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 //chartjs 
 import 'chart.js/auto'
-import {Line} from 'react-chartjs-2'
+import {Bar} from 'react-chartjs-2'
 
 
 const Chart = () => {
@@ -28,7 +28,7 @@ const Chart = () => {
 
   return (
     <div>
-      <Line data={data}/>
+      <Bar data={data}/>
     </div>
   )
 }

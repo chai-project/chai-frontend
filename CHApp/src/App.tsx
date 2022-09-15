@@ -16,6 +16,7 @@ import { initializeChartData } from './Redux-reducers/chartDataReducer';
 //heating component data
 import { initializeHeatingComponentData } from './Redux-reducers/heatingComponentReducer';
 import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReducer';
+import { initializeHeatingProfiles } from './Redux-reducers/heatingProfilesReduces';
 
 
 // types
@@ -33,6 +34,7 @@ import DatePickerComponent from './Components/MainWindow/Logs/DatePickerComponen
 // theme
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { dark, light } from './Themes/themes'
+import { Blender } from '@mui/icons-material';
 
 //styles
 const useStyles = makeStyles((theme: Theme) =>
@@ -153,6 +155,7 @@ const App: React.FC = () => {
       token = "39b01478-134f-41e7-8393-8ad91f6815cf"
       services.setBearerToken(token)
       dispatch(initializeChartData())
+      dispatch(initializeHeatingProfiles())
       dispatch(initializeHeatingComponentData())
       dispatch(initializeHeatingSchedule())
       //set to local storage! 
@@ -193,7 +196,6 @@ const App: React.FC = () => {
   // });
 
   }
-
 
   return (
     <div className={classes.root}>

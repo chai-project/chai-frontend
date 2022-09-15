@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer:{
       // border: '3px dashed red',
-      height: '100%'
+      height: '100%',
+      overflow: 'hidden',
     },
     buttons:{
       // border: '3px dashed lime',

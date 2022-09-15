@@ -19,6 +19,7 @@ import timeslot from '../../../Types/types';
 //components
 import Weekday from './Weekday';
 import WeekdayPaste from './WeekdayPaste';
+import ProgressCircular from '../../ProgressBar/ProgressCircular';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -103,32 +104,37 @@ const Schedule: React.FC = () => {
 //   const getData = () => {
 //     dispatch(initializeData())
 //   }
-const generate = () => {
-  let timeframes:any = []
-  let hours:any
-  let minutes:any
-  for (let i = 0; i <= 96; i++) {
-    if(i === 0 ){
-      hours = 0;
-      minutes = 0;
-      timeframes.push({timeframeRepresentation : i, timeframe : "0" + hours.toString() + ":" + minutes.toString() + "0"})
-    }else{
-      minutes = minutes + 15
-      if(minutes === 60){
-        hours = hours + 1;
-        minutes = 0;
-        timeframes.push({timeframeRepresentation : i, timeframe : (hours<10) ?  "0" + hours.toString()  + ":" + minutes.toString() + "0" : hours.toString() + ":" + minutes.toString() + "0"})
-      }else{
-        timeframes.push({timeframeRepresentation : i, timeframe : (hours<10) ?  "0" + hours.toString()  + ":" + minutes.toString()  : hours.toString() + ":" + minutes.toString()})
-      }
-    }
-  }
-  console.log(timeframes)
-}
+// const generate = () => {
+//   let timeframes:any = []
+//   let hours:any
+//   let minutes:any
+//   for (let i = 0; i <= 96; i++) {
+//     if(i === 0 ){
+//       hours = 0;
+//       minutes = 0;
+//       timeframes.push({timeframeRepresentation : i, timeframe : "0" + hours.toString() + ":" + minutes.toString() + "0"})
+//     }else{
+//       minutes = minutes + 15
+//       if(minutes === 60){
+//         hours = hours + 1;
+//         minutes = 0;
+//         timeframes.push({timeframeRepresentation : i, timeframe : (hours<10) ?  "0" + hours.toString()  + ":" + minutes.toString() + "0" : hours.toString() + ":" + minutes.toString() + "0"})
+//       }else{
+//         timeframes.push({timeframeRepresentation : i, timeframe : (hours<10) ?  "0" + hours.toString()  + ":" + minutes.toString()  : hours.toString() + ":" + minutes.toString()})
+//       }
+//     }
+//   }
+//   // console.log(timeframes)
+// }
   return (
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5} >
+          {weekSchedule ? null :           
+                                <Grid item>
+                                  <ProgressCircular/>
+                                </Grid>
+          }
             {weekSchedule?.map((weekday:any)=>{
               if(copyWeekdaySchedule){
                 if(copyWeekdaySchedule === weekday.weekday){
@@ -165,17 +171,6 @@ const generate = () => {
                         </Grid>
                         :null}
         </Grid>
-        {/* <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5} >
-          {weekSchedule?.map((weekday:any)=>{
-            // console.log(weekday.weekday)
-            return (
-              // <p>hmm</p>
-              <Grid item className={classes.weekday}>
-                <Weekday weekday={weekday.weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
-              </Grid>
-            )
-          })}
-        </Grid> */}
     </div>
   );
 };

@@ -3,7 +3,11 @@ import React, {useState, useEffect} from 'react';
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, Box, Grid, Divider, Slider, AppBar, Toolbar, IconButton, Stack, Link, Button} from '@mui/material/';
-
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 
 // redux
@@ -15,12 +19,9 @@ import {setHeatingComponentMode} from '../../../Redux-reducers/heatingComponentR
 //components
 import TemperatureSlider from './TemperatureSlider';
 import SwitchButton from '../../Buttons/SwitchButton';
+import ProgressCircular from '../../ProgressBar/ProgressCircular';
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+
 
 
 
@@ -269,7 +270,7 @@ const switchButtonsComponent = () => {
     <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.infoAndSwitchButtonsContainer}>
       <Grid item container xs={5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
         <Grid item className={classes.valveStatus}><b>Valve: {valveStatus === true ? "Open" : "Closed"}</b></Grid>
-        <button onClick={()=>{console.log(heatingComponentState, timerID)}}>state</button>
+        {/* <button onClick={()=>{console.log(heatingComponentState, timerID)}}>state</button> */}
       </Grid>
       <Grid item container xs={7} direction="row" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
         <Grid xs={10} item className={classes.switchButton}>

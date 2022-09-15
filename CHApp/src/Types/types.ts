@@ -35,6 +35,13 @@ export default interface timeslot {
     temperature: string // veliau pakeisti i number manau
 }
 
+export default interface profile {
+    profile: number,
+    slope: number,
+    bias: number
+}
+
+
 // export default interface weekdayScheduleView {
 //     timeslots: timeslot[]
 // }
