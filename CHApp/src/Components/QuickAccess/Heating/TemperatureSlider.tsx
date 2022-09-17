@@ -296,7 +296,7 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
 
 const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemperature: number, setTargetTemperature:any, isSetTargetTemperature: boolean , setIsSetTargetTemperature:any, setRequestTargetTemperature:any}> = (targetTemperature) => {
 
-  const [value, setValue] = useState<number | number[] >(11)
+  const [value, setValue] = useState<number | number[] >(11) // buvo 11 
   const classes = useStyles();
   const dispatch = useDispatch()
 
@@ -310,9 +310,6 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
   },[targetTemperature])
   
 
-  
-  
-  const minDistance = 10;
   const handleChange = (
     event: Event,
     newValue: number | number[], 

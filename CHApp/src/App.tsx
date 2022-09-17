@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       scroll: 'overflow'
     },
     container: {
-      height: '100%', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
+      height: '100vh', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
       marginLeft: 'auto',
       marginRight: 'auto',
       minHeight:  '840px',
@@ -60,13 +60,15 @@ const useStyles = makeStyles((theme: Theme) =>
       // overflow: 'scroll',
       width: '100%',
       // maxWidth: '1400px',
-      // border: "2px dashed red",
+      border: "2px dashed red",
       // position: 'relative', //buvo relative
       height: '790px', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
       minHeight: '790px',
       // marginLeft: 'auto',
       // marginRight: 'auto',
       [theme.breakpoints.down('md')]: {
+        // height: '80%',
+        // minHeight: '0%',
         height: '650px',
         minHeight: '650px',
       }
@@ -76,8 +78,9 @@ const useStyles = makeStyles((theme: Theme) =>
       // width: '100%',
       width: '10px',
       // border: "2px dashed yellow",
-      // border: '1px solid #5ACBCC',
+      border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
+        height:'100%',
         // width: '100%',
         // border: "2px dashed yellow",
       }
@@ -86,8 +89,10 @@ const useStyles = makeStyles((theme: Theme) =>
     mainWindow:{
       height:'100%',
       // minHeight: '790px',
-      border: '1px solid #5ACBCC',
+      // border: '1px solid red',
+      // border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
+        height:'100%',
         // display: 'none',
         // border: '1px solid red',
       },
@@ -101,8 +106,8 @@ const useStyles = makeStyles((theme: Theme) =>
       height:'790px',
       minHeight:'790px',
       // position:'relative',
-      // border: "2px dashed lime",
-      border: '1px solid #5ACBCC',
+      border: "2px dashed lime",
+      // border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
         display: 'none',
       }
@@ -110,7 +115,7 @@ const useStyles = makeStyles((theme: Theme) =>
     navContainer:{
       width: '100%',
       height: '50px',
-      // border: "2px dashed yellow",
+      border: "2px dashed yellow",
     },
     navBottom:{
       // border: "2px dashed pink",

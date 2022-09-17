@@ -14,6 +14,7 @@ import FormLabel from '@mui/material/FormLabel';
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
 import {setHeatingComponentMode} from '../../../Redux-reducers/heatingComponentReducer'
+import { setTemperature } from '../../../Redux-reducers/heatingComponentReducer';
 
 
 //components
@@ -145,7 +146,7 @@ const HeatingQATEST: React.FC = () => {
   // const [heatingOnMode, setHeatingOnMode] = useState<boolean>(false)
   // const [showRadioButtons, setShowRadioButtons] = useState<boolean>(false)
   const [heatingManualMode, setHeatingManualMode] = useState<String|null>(null)
-  const [temperature, setTemperature] = useState<String | null>(null)
+//   const [temperature, setTemperature] = useState<String | null>(null)
   const [targetTemperature, setTargetTemperature] = useState<number>(17)
   const [isSetTargetTemperature, setIsSetTargetTemperature] = useState<boolean>(false)
   const [requestTargetTemperatureValue , setRequestTargetTemperature] = useState<number | null>(null)
@@ -156,25 +157,25 @@ const HeatingQATEST: React.FC = () => {
   const dispatch = useDispatch()
   
 
-  // let timerID:any 
-  const doNotShowTheButtons = () => {
-    const timerForRadioButtons = setTimeout(doNotShowTheRadioButtons,5000)
-    setTimerID(timerForRadioButtons)
-    // console.log(timerForRadioButtons, 'id')
-  }
-  const doNotShowTheRadioButtons = () => {
-    // setShowRadioButtons(true) // paziureti ties cia kazka rytoj, bet jau beveik esi cia 
-    setHeatingAutoMode(true)
-    setTimerID(null)
-  }
+//   // let timerID:any 
+//   const doNotShowTheButtons = () => {
+//     const timerForRadioButtons = setTimeout(doNotShowTheRadioButtons,5000)
+//     setTimerID(timerForRadioButtons)
+//     // console.log(timerForRadioButtons, 'id')
+//   }
+//   const doNotShowTheRadioButtons = () => {
+//     // setShowRadioButtons(true) // paziureti ties cia kazka rytoj, bet jau beveik esi cia 
+//     setHeatingAutoMode(true)
+//     setTimerID(null)
+//   }
 
 
-const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setHeatingManualMode(event.target.value);
-  dispatch(setHeatingComponentMode(event.target.value))
-  clearTimeout(timerID)
-  setTimerID(null)
-};
+// const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//   setHeatingManualMode(event.target.value);
+//   dispatch(setHeatingComponentMode(event.target.value))
+//   clearTimeout(timerID)
+//   setTimerID(null)
+// };
 
 
 
@@ -184,13 +185,18 @@ const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
 const confirmYes = () => {
   //send request to the server if 200 update redux!
+//   dispatch(setTemperature(requestTargetTemperatureValue));
+  if(requestTargetTemperatureValue){
+    dispatch(setTemperature(requestTargetTemperatureValue));
+  }
   console.log('yes')
+  setIsSetTargetTemperature(false)
 }
 
 const confirmCancel = () => {
   setIsSetTargetTemperature(false)
 }
-
+// console.log('blblb',heatingComponentState)
 
 const confirmComponent = () => {
   return(

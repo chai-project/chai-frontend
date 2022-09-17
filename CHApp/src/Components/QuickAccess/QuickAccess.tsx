@@ -38,13 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '100px', //buvo 115px, sumazinau nes neuzteko vietos sutalpinti 6 iconas su info, atkeisi jeigu liks vietos po sudejimo.
         top: '5px',
     },
-    test:{
-      position: 'relative',
-      height: '170px',
-      minWidth: '90%',
-      borderRadius: '25px'
-      // backgroundColor: actualTheme.palette.background.default
-    },
     gridItem:{
       width: '90%' // buvo 90%, manau 90 geriau atrodo !
     }
@@ -77,23 +70,7 @@ const QuickAccess: React.FC = () => {
       <Grid item className={classes.gridItem}>
         <EnergyQA/>
       </Grid>
-      {/* <Grid item>
-        <Box component="span" width={200} className={classes.test} bgcolor="background.default">swx</Box>
-      </Grid> */}
-          {/* <Box className={classes.test} bgcolor="background.default">
-      asd
-          </Box>
-          <Box className={classes.test} bgcolor="background.default">
-      asd
-          </Box>
-          <Box className={classes.test} bgcolor="background.default">
-      asd
-          </Box> */}
     </Grid>
-    // <div className={classes.main}>
-    //   <img className={classes.logo} src={Logo}></img>
-    //   <h1>quick access</h1>
-    // </div>
   );
 };
 

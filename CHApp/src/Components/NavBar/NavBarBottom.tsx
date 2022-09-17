@@ -52,14 +52,12 @@ const NavBarBottom: React.FC = () => {
 
     const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false)
     const cases = ['Home', 'Schedule', 'Profiles', 'Notifications'];
-//   const location = useLocation()
-    let location = useLocation();
+    const location = useLocation();
     const navigate = useNavigate();
     const notifications = 15;
     const classes = useStyles();
     const dispatch = useDispatch()
 
-    // console.log(location.pathname === cases[1], location.pathname , cases[1])
 
 //   const getData = () => {
 //     dispatch(initializeData())
@@ -72,7 +70,7 @@ const NavBarBottom: React.FC = () => {
                 return (
                     <Grid item >
                         <Button size='medium' color="inherit" onClick={()=>{navigate(`${eachCase === "Home" ? "/" : eachCase}`)}}> {(location.pathname === "/" && eachCase=== "Home") ? <b>{eachCase}</b> : location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
-                        {(location.pathname === "/" && eachCase === "Home") ? <div className={classes.underLine}></div> : location.pathname !== "/"+ eachCase ? null : <div className={classes.underLine}></div> }
+                        {(location.pathname === "/" && eachCase === "Home") ? <div className={classes.underLine}></div> : location.pathname.split("/")[1] !== eachCase ? null : <div className={classes.underLine}></div> }
                     </Grid>
                 )
             })}
@@ -82,3 +80,6 @@ const NavBarBottom: React.FC = () => {
 };
 
 export default NavBarBottom;
+
+// buvo underline.
+//{(location.pathname === "/" && eachCase === "Home") ? <div className={classes.underLine}></div> : location.pathname !== "/"+ eachCase ? null : <div className={classes.underLine}></div> }

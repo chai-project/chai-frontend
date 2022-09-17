@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -21,6 +22,7 @@ import SwitchButton from '../Buttons/SwitchButton';
 import Logs from './Logs/Logs';
 import Profiles from './Profiles/Profiles';
 import Schedule from './Schedule/Schedule';
+import EditWeekdaySchedule from './Schedule/EditWeekdaySchedule';
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,7 +42,7 @@ const MainWindow: React.FC = () => {
 
     const classes = useStyles();
     const dispatch = useDispatch()
-
+    
 //   const getData = () => {
 //     dispatch(initializeData())
 //   }
@@ -52,6 +54,7 @@ const MainWindow: React.FC = () => {
         <Routes>
           <Route path='/' element={<p>Home</p>}/>
           <Route path='schedule' element={<Schedule/>}/>
+          <Route path='schedule/:weekday' element={<EditWeekdaySchedule/>}/>
           <Route path='profiles' element={<Profiles/>}/>
           <Route path='notifications' element={<Logs/>}/>
         </Routes>

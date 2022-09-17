@@ -54,11 +54,11 @@ export const setHeatingComponentMode = (mode:boolean | String) => { //boolean nu
     };
 };
 
-export const setTemperature = (requestedTemperature:number) => {
+export const setTemperature = (newTargetTemperature:number) => {
     return async (dispatch : Dispatch) => {
         dispatch({
             type:"SET_TEMPERATURE",
-            data: requestedTemperature 
+            data: {target_temperature:newTargetTemperature} 
         })
     };
 };

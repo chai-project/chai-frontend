@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Routes, useNavigate } from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -66,48 +66,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,schedule:{id:number, profileName:String,profileStart:String,profileEnd:String, temperature:String}[]} ,  setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null, setScheduleToCopy:any}>= ({weekday, scheduleForAWeekday, setCopyWeekdaySchedule,copyWeekdaySchedule, setScheduleToCopy}) => {
-    const [profile, setProfile] = useState('');
-    //test timeslots for a weekday
-    const profilesForAweekDay= [
-      {
-          profileName: "Morning",
-          profileStart:'00:00',
-          profileEnd: '08:15',
-          temperature: '19'
-      },
-      {
-          profileName: "Empty",
-          profileStart:'08:15',
-          profileEnd: '12:30',
-          temperature: '0'
-      },
-      {
-          profileName: "Afternoon",
-          profileStart:'12:30',
-          profileEnd: '14:00',
-          temperature: '21'
-      },
-      {
-          profileName: "Empty",
-          profileStart:'14:00',
-          profileEnd: '17:30',
-          temperature: '0'
-      },
-      {
-          profileName: "Evening",
-          profileStart:'17:30',
-          profileEnd: '20:00',
-          temperature: '24'
-      },
-      {
-          profileName: "Night",
-          profileStart:'20:00',
-          profileEnd: '24:00',
-          temperature: '17'
-      },
-      
-  ]
-
+    
+    const navigate = useNavigate();
     //more button
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -131,6 +91,11 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
       console.log('reseting : ', scheduleForAWeekday.weekday)
       console.log('scheudle for a weekday: ', scheduleForAWeekday.schedule)
       
+      setAnchorEl(null);
+    };
+    //edit button
+    const editWeekdaySchedule = () => {
+      navigate(`/Schedule/${scheduleForAWeekday.weekday}`);
       setAnchorEl(null);
     };
     //styles 
@@ -167,7 +132,7 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
                                         onClose={handleMenuClose}
                                         TransitionComponent={Fade}
                                       >
-                                        <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
+                                        <MenuItem onClick={editWeekdaySchedule}>Edit</MenuItem>
                                         <MenuItem onClick={copyWeekdayScheduleButton}>Copy</MenuItem>
                                         <MenuItem onClick={resetWeekdaySchedule}>Reset</MenuItem>
                                       </Menu>

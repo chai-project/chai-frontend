@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
        position: 'relative', //sitas!!!
        width: '100%',
        height: '100%',
+    //    border: "10px solid pink",
     //    background: '#CFD8DC',
       //  left: '4%',
       //  top: '10%',
@@ -56,25 +57,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Schedule: React.FC = () => {
-
-    // const [newWeekSchedule, setNewWeekSchedule] = useState<any>([]);
+    //copy schedule
     const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<string | null>(null);
     const [scheduleToCopy, setScheduleToCopy] = useState<any>(null); // define type was timeslot[]|null
     const [weekdaysToPasteSchedule, setWeekdaysToPasteSchedule] = useState<String[]>([]);
-    // const weekdays = ["Monday", 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    //edit schedule
+    const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(null) //define type
 
-    // setNewWeekSchedule(useSelector((state:any)=>{
-    //   return(
-    //     state.heatingSchedule
-    //   )
-    // }))
     const weekSchedule = useSelector((state:any)=>{
       return(
         state.heatingSchedule
       )
     })
-
-    
     
 
     const classes = useStyles();
@@ -101,31 +95,6 @@ const Schedule: React.FC = () => {
       
     };
 
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
-// const generate = () => {
-//   let timeframes:any = []
-//   let hours:any
-//   let minutes:any
-//   for (let i = 0; i <= 96; i++) {
-//     if(i === 0 ){
-//       hours = 0;
-//       minutes = 0;
-//       timeframes.push({timeframeRepresentation : i, timeframe : "0" + hours.toString() + ":" + minutes.toString() + "0"})
-//     }else{
-//       minutes = minutes + 15
-//       if(minutes === 60){
-//         hours = hours + 1;
-//         minutes = 0;
-//         timeframes.push({timeframeRepresentation : i, timeframe : (hours<10) ?  "0" + hours.toString()  + ":" + minutes.toString() + "0" : hours.toString() + ":" + minutes.toString() + "0"})
-//       }else{
-//         timeframes.push({timeframeRepresentation : i, timeframe : (hours<10) ?  "0" + hours.toString()  + ":" + minutes.toString()  : hours.toString() + ":" + minutes.toString()})
-//       }
-//     }
-//   }
-//   // console.log(timeframes)
-// }
   return (
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>

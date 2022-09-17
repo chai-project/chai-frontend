@@ -52,10 +52,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     content: {
-      // border: '1px solid pink',
+      border: '1px solid pink',
       // position: 'relative',
       // height: '100vh', // cia buvo klaida!!!
-      width: '420px',
+      width: '380px',
       boxShadow: "none",
       alignItems: 'center',
       justifyContent:"center",
@@ -103,7 +103,7 @@ const DrawerComponent: React.FC<any> = (props: any) => {
           paper: classes.drawerPaper,
         }}
       >
-        <Grid container xs={12} direction="column" alignItems="center" justifyContent="center" className={classes.drawerContainer}>
+        <Grid container xs={12} direction="column" alignItems="center" justifyContent="center"> {/* //  className={classes.drawerContainer}*/}
           <Grid item className={classes.content}>
             <QuickAccess/>
           </Grid>
