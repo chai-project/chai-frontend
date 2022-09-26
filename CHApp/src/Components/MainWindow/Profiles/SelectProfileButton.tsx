@@ -14,13 +14,25 @@ import { CssBaseline, Button, Paper } from '@mui/material/';
 
 const useStyles = makeStyles({
     label: {
-      color: "yellow",
-      borderColor: 'yellow',
-      border: '20px',
-      "&.Mui-focused": {
-        color: "green",
+      "&.MuiOutlinedInput-root": {
+        "& fieldset": {
+          borderColor: "#5ACBCC" // sia spalva pakeisti i balta arba jouda priklauso nuo app temos.
+        },
+        "&:hover fieldset": {
+          // borderColor: "yellow"
+        },
+        "&.Mui-focused fieldset": {
+          // borderColor: "green"
+        },
       },
+      "&.Mui-focused": {
+        // color: "green",
+      },
+      
     },
+    icon:{
+      color:"#5ACBCC !important"
+    }
   });
 
 
@@ -32,7 +44,7 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
     const profileToSet = allProfiles.find((profile:any)=>{
       return profile.profile === event.target.value
     })
-    console.log(profileToSet)
+    // console.log(profileToSet)
     setSelectedProfile(event.target.value as string)
     setProfile(profileToSet);
   };
@@ -48,10 +60,15 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
           label="Profile"
           onChange={handleChange}
           className={classes.label}
+          inputProps={{
+            classes: {
+              icon: classes.icon,
+                },
+            }}
         >
           {allProfiles.map((profile:any)=>{ //define type
               return (
-                <MenuItem value={profile.profile}>{profile.profile}</MenuItem>
+                <MenuItem  value={profile.profile}>{profile.profile} </MenuItem>
               )
           })}
         </Select>

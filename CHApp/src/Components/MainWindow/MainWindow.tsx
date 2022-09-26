@@ -22,7 +22,7 @@ import SwitchButton from '../Buttons/SwitchButton';
 import Logs from './Logs/Logs';
 import Profiles from './Profiles/Profiles';
 import Schedule from './Schedule/Schedule';
-import EditWeekdaySchedule from './Schedule/EditWeekdaySchedule';
+import EditWeekdaySchedule from './Schedule/Edit/EditWeekdaySchedule';
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,6 +42,12 @@ const MainWindow: React.FC = () => {
 
     const classes = useStyles();
     const dispatch = useDispatch()
+
+    const weekSchedule = useSelector((state:any)=>{
+      return(
+        state.heatingSchedule
+      )
+    })
     
 //   const getData = () => {
 //     dispatch(initializeData())
@@ -53,8 +59,8 @@ const MainWindow: React.FC = () => {
       {/* {<button onClick={()=>{dispatch(setTemperature(27))}}>set temp</button>} */}
         <Routes>
           <Route path='/' element={<p>Home</p>}/>
-          <Route path='schedule' element={<Schedule/>}/>
-          <Route path='schedule/:weekday' element={<EditWeekdaySchedule/>}/>
+          <Route path='schedule' element={<Schedule weekSchedule={weekSchedule}/>}/>
+          <Route path='schedule/:weekday' element={<EditWeekdaySchedule />}/>
           <Route path='profiles' element={<Profiles/>}/>
           <Route path='notifications' element={<Logs/>}/>
         </Routes>

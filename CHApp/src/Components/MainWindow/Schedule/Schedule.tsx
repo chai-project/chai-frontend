@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid } from '@mui/material/';
+import { CssBaseline, Button, Paper, Grid , Box} from '@mui/material/';
 
 
 
@@ -42,33 +42,25 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     weekday:{
         // border: "1px solid lime",
-        height: '12%',
+        height: '13%', // buvo 12
         width: '100%',
         // marginTop: '10%',
 
     },
     saveAndCancelButons:{
         // border: "1px solid lime",
-        position:'relative',
-        height: '6%',
-        top: '2%',
+        // position:'absolute', //buvo absolute 
+        height: '7%', 
+        width:'100%',
     },
   }),
 );
 
-const Schedule: React.FC = () => {
+const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
     //copy schedule
     const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<string | null>(null);
     const [scheduleToCopy, setScheduleToCopy] = useState<any>(null); // define type was timeslot[]|null
     const [weekdaysToPasteSchedule, setWeekdaysToPasteSchedule] = useState<String[]>([]);
-    //edit schedule
-    const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(null) //define type
-
-    const weekSchedule = useSelector((state:any)=>{
-      return(
-        state.heatingSchedule
-      )
-    })
     
 
     const classes = useStyles();
@@ -98,7 +90,8 @@ const Schedule: React.FC = () => {
   return (
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
-        <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center" spacing={0.5} >
+        <Grid container className={classes.container} direction="column" justifyContent={weekSchedule ? "flex-start" : "center"} alignItems="center" spacing={0.5} > {/* buvo justify content center*/}
+        <Grid item xs={0.2}></Grid> 
           {weekSchedule ? null :           
                                 <Grid item>
                                   <ProgressCircular/>
@@ -128,17 +121,18 @@ const Schedule: React.FC = () => {
               }
             })}
             {copyWeekdaySchedule? 
-                        <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="center" alignItems="flex-end" >
+                        <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="flex-end" alignItems="center" >
                           <Grid item>
-                          {/* <Button variant="outlined" size="small" color="primary" onClick={generate}>generate</Button> */}
-                            <Button variant="outlined" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
+                            <Button variant="contained" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
                           </Grid>
                           <Grid item xs={0.2}></Grid>
                           <Grid item>
-                            <Button variant="outlined" size="small" color="secondary" onClick={cancelWeekScheduleChanges}>Cancel</Button>
+                            <Button variant="contained" size="small" color="secondary" onClick={cancelWeekScheduleChanges}>Cancel</Button>
                           </Grid>
+                          <Grid item xs={0.4}></Grid>
                         </Grid>
-                        :null}
+                        :null
+            }
         </Grid>
     </div>
   );

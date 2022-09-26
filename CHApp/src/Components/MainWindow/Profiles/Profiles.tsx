@@ -105,10 +105,10 @@ const Profiles: React.FC = () => {
                                 <Grid item className={classes.resetProfileButtons} direction="row" justifyContent="flex-end" alignItems="center">
                                     <Grid item container direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
                                         <Grid  item>
-                                            {profile? <Button variant="outlined" color='secondary' size='medium' onClick={()=>{console.log('this profile')}}>Reset this profile</Button> : null}
+                                            {profile? <Button variant="outlined" color='secondary' size='small' onClick={()=>{console.log('this profile')}}>Reset this profile</Button> : null}
                                         </Grid>
                                         <Grid item>
-                                            <Button variant="outlined" color='secondary' size='medium' onClick={()=>{console.log('all profiles')}}>Reset all profiles</Button>
+                                            <Button variant="outlined" color='secondary' size='small' onClick={()=>{console.log('all profiles')}}>Reset all profiles</Button>
                                         </Grid>
                                     </Grid>
                                 </Grid>

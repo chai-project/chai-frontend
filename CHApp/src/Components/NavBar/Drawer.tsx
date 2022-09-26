@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     content: {
-      border: '1px solid pink',
+      // border: '1px solid pink',
       // position: 'relative',
       // height: '100vh', // cia buvo klaida!!!
       width: '380px',

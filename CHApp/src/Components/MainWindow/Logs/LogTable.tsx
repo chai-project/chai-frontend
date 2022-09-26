@@ -74,13 +74,6 @@ import {makeStyles, Theme, createStyles, withStyles  } from '@material-ui/core/s
 //styles 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    tableHeaderCell: {
-      // backgroundColor: 'lime'
-      // position: 'fixed'
-    },
-    tableHead:{
-      backgroundColor: 'blue'
-    },
     tableRow: {
       // backgroundColor: 'red',
       // color: 'yellow',
@@ -89,9 +82,10 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     tableContainer: {
+      position:'relative',
       height:'630px', //600fullscreen
       [theme.breakpoints.down('md')]: {
-        height: '510px',
+        height: '480px',
         // minHeight: '650px',
       }
       // overflow: 'hidden'

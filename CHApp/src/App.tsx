@@ -43,42 +43,52 @@ const useStyles = makeStyles((theme: Theme) =>
       // position:"relative",
       height: '100vh',
       width: '100vw',
-      overflow: 'auto',
+      // overflow: 'auto',
       // border: "2px dashed lime",
-      scroll: 'overflow'
+      // scroll: 'overflow'
+      // overflow: 'hidden',
     },
-    container: {
-      height: '100vh', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
+    centerContainer: {
+      height: '100%', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
       marginLeft: 'auto',
       marginRight: 'auto',
       minHeight:  '840px',
       width: '100vw',
       maxWidth: '1400px',
+      // overflow: 'hidden',
       // border: "5px dashed purple",
+      [theme.breakpoints.down('md')]: {
+        minHeight:  '100%',
+        height: '100%',
+        // minHeight: '0%',
+        // height: '600px',
+        // minHeight: '650px',
+      }
     },
-    mainCont:{
+    mainWindowAndQuickAccessContainer:{
       // overflow: 'scroll',
       width: '100%',
       // maxWidth: '1400px',
-      border: "2px dashed red",
+      // border: "2px dashed red",
       // position: 'relative', //buvo relative
       height: '790px', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
-      minHeight: '790px',
+      // minHeight: '790px',
       // marginLeft: 'auto',
       // marginRight: 'auto',
+      overflow: 'hidden',
       [theme.breakpoints.down('md')]: {
-        // height: '80%',
+        height: '100%',
+        // height: '680px',
         // minHeight: '0%',
-        height: '650px',
-        minHeight: '650px',
+        // height: '600px',
+        // minHeight: '650px',
       }
     },
     mainWindowContainer:{
       height:'100%',
       // width: '100%',
-      width: '10px',
+      // width: '10px',
       // border: "2px dashed yellow",
-      border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
         height:'100%',
         // width: '100%',
@@ -90,7 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height:'100%',
       // minHeight: '790px',
       // border: '1px solid red',
-      // border: '1px solid #5ACBCC',
+      border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
         height:'100%',
         // display: 'none',
@@ -104,32 +114,33 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     quickAccess:{
       height:'790px',
-      minHeight:'790px',
+      // minHeight:'790px',
       // position:'relative',
-      border: "2px dashed lime",
-      // border: '1px solid #5ACBCC',
+      // border: "1px dashed lime",
+      border: '1px solid #5ACBCC',
       [theme.breakpoints.down('md')]: {
         display: 'none',
       }
     },
-    navContainer:{
+    navAndNotificationContainer:{
       width: '100%',
       height: '50px',
-      border: "2px dashed yellow",
+      // border: "2px dashed yellow",
     },
     navBottom:{
       // border: "2px dashed pink",
       [theme.breakpoints.down('md')]: {
         position: 'fixed',
         width: '100%',
-        bottom: '1%'
+        bottom: '1%',
+        left: '0%',
         // top: '1%',
         // marginLeft: 'auto',
         // marginRight: 'auto',
       }
     },
     notification: {
-      // border: "2px dashed pink",
+      // border: "2px dashed orange",
       [theme.breakpoints.down('md')]: {
         position: 'fixed',
         width: '100%',
@@ -139,8 +150,11 @@ const useStyles = makeStyles((theme: Theme) =>
         // marginRight: 'auto',
       }
     },
-    hmm:{
+    containerAll:{
       // border: "5px dashed orange",
+      [theme.breakpoints.down('md')]: {
+        height: '70%', //buvo 85%
+      }
     }
   }),
 );
@@ -207,9 +221,9 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme ? light : dark}>
       <CssBaseline/>
       <NavbarTop/>
-        <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
-          <Grid item container direction="row" className={classes.hmm}>
-            <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainCont}>
+        <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.centerContainer}>
+          <Grid item container direction="row" className={classes.containerAll}>
+            <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainWindowAndQuickAccessContainer}>
               <Grid xs={12} sm={12} md={12} lg={8.5} xl={8.5} item className={classes.mainWindowContainer}>
                 <Paper className={classes.mainWindow}>
                   <MainWindow/>
@@ -221,7 +235,7 @@ const App: React.FC = () => {
                 </Paper>
               </Grid>
             </Grid>
-            <Grid xs={12} item container direction="row" justifyContent="space-between" className={classes.navContainer}>
+            <Grid xs={12} item container direction="row" justifyContent="space-between" className={classes.navAndNotificationContainer}>
               <Grid md={12} lg={8.5} item className={classes.navBottom}>
                 <NavBarBottom/>
               </Grid>

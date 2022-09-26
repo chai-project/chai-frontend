@@ -71,8 +71,11 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '90%',
       width: '99%',
       // overflowY: 'scroll',
-      overflowX: 'hidden'
+      // overflowX: 'hidden',
       // border: '3px dashed red',
+      [theme.breakpoints.down('md')]: {
+        height:'25px',
+      }
     },
     '@global': {
       '*::-webkit-scrollbar': {
@@ -212,7 +215,7 @@ const Logs: React.FC = () => {
     //     })} */}
     //   </div>
     // </div>
-    <Grid container direction='column' justifyContent='space-between' alignItems='center' className={classes.mainContainer}>
+    <Grid container direction='column' justifyContent='center' alignItems='center' className={classes.mainContainer}>
       <Grid item xs={1.4}className={classes.buttons}>
         <Grid container xs={12} direction="row" justifyContent='flex-start' alignItems='center' className={classes.datepickerContainer}>
           <Grid item xs={12} className={classes.datepickerbuttons}> 
@@ -220,7 +223,7 @@ const Logs: React.FC = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={10.5}className={classes.table}>
+      <Grid item xs={10.5}className={classes.logs}>
         <LogTable logs={logsai}/>
       </Grid>
     </Grid>

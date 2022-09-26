@@ -132,6 +132,11 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
 
   return (
     <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
+        {/* {timeslots.map((slot:any)=>{
+            return (
+                <p>{slot.profileName}</p>
+            )
+        })} */}
         <Grid item container xs={12} className={classes.schedule} direction="row" justifyContent="center" alignItems="center">
             {timeslots?.map((profile:any, index:number)=>{
 
@@ -156,17 +161,16 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
                 return arr;
                 }
                 const intervals = getTimeIntervals(startTime, endTime);
-                // console.log(intervals, profile.profileName)
-
-                // console.log(parseIn(profile.profileStart), profile.profileName)
-
 
                 const sizeOfATimeslot = intervals.length * 0.125
+                // console.log('intervals',intervals)
+
+                //pasikeicia laikai wTF??:D:DD::DD
                 const colorOfATimeslot = parseInt(profile.temperature) < 17 ? '#57A6F0' : parseInt(profile.temperature) < 22 ? '#F6946B' : parseInt(profile.temperature) < 27 ? '#FE6262' : null 
                 return (
                     <Grid item container xs={sizeOfATimeslot} sx={{background:colorOfATimeslot, borderRight: timeslots.length === index + 1 ? null : "1px solid #57CBCC" }} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center">
                         <Typography className={classes.temperatureLabel}>{sizeOfATimeslot < 0.75 ? null : profile.temperature + '°C' }</Typography>
-                        <div className="timeslotInfo" style={{position:'absolute', top:"-100%", background: "#57CBCC", width:'130px', height:"97px", borderRadius:'5%', borderTopRightRadius: '5%'}}>
+                        <div className="timeslotInfo" style={{position:'absolute', top:"75%", background: "#57CBCC", width:'130px', height:"90px", borderRadius:'5%', borderTopRightRadius: '5%',zIndex: '10'}}>
                             <Grid container  direction="column" justifyContent="center" alignItems="flex-start">
                                 <Grid item>
                                     <Typography className={classes.infoLabel} >Profile name: <b>{profile.profileName}</b></Typography>
