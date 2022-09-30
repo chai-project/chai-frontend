@@ -124,10 +124,10 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
                   },
               }}
           >
-            <MenuItem value={"OFF"}>Off</MenuItem>
+            {/* <MenuItem value={"OFF"}>Off</MenuItem> */}
             {allProfiles.map((profile:any)=>{
               return(
-                <MenuItem value={profile.profile}>{profile.profile}</MenuItem>
+                <MenuItem value={profile.profileName}>{profile.profileName}</MenuItem>
               )
             })}
           </Select>

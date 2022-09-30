@@ -83,14 +83,14 @@ const Estimations: React.FC = () => {
         </Grid>
         <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
             <Grid item xs={1}>
-                <CurrencyPoundIcon fontSize='small' color='primary'/>
+                <TrendingDownIcon fontSize='small' color='primary'/>
             </Grid>
             <Grid item xs={7}> Estimated consumption:</Grid>
             <Grid item xs={3} fontSize={15}><b>22</b> kWh</Grid>
         </Grid>
         <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
             <Grid item xs={1}>
-                <TrendingDownIcon fontSize='small' color='primary'/>
+                <CurrencyPoundIcon fontSize='small' color='primary'/>
             </Grid>
             <Grid item xs={7}> Estimated cost:</Grid>
             <Grid item xs={3} fontSize={15}><b>0.22</b> p </Grid> {/* if statement here */}

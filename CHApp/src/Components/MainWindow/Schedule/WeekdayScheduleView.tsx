@@ -74,8 +74,9 @@ const useStyles = makeStyles((theme: Theme) =>
     //     // height: '50px'
     // },
     infoLabel:{
-        fontSize: '14px',
-        marginLeft: '3px',
+        fontSize: '13px',
+        marginLeft: '10px',
+        zIndex: 10,
     },
   }),
 );
@@ -168,12 +169,12 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
                 //pasikeicia laikai wTF??:D:DD::DD
                 const colorOfATimeslot = parseInt(profile.temperature) < 17 ? '#57A6F0' : parseInt(profile.temperature) < 22 ? '#F6946B' : parseInt(profile.temperature) < 27 ? '#FE6262' : null 
                 return (
-                    <Grid item container xs={sizeOfATimeslot} sx={{background:colorOfATimeslot, borderRight: timeslots.length === index + 1 ? null : "1px solid #57CBCC" }} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center">
+                    <Grid item container xs={sizeOfATimeslot} sx={{background:profile.color, borderRight: timeslots.length === index + 1 ? null : "1px solid #57CBCC" }} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center">
                         <Typography className={classes.temperatureLabel}>{sizeOfATimeslot < 0.75 ? null : profile.temperature + '°C' }</Typography>
-                        <div className="timeslotInfo" style={{position:'absolute', top:"75%", background: "#57CBCC", width:'130px', height:"90px", borderRadius:'5%', borderTopRightRadius: '5%',zIndex: '10'}}>
+                        <div className="timeslotInfo" style={{position:'absolute', top:"75%", background: "#57CBCC", width:'180px', height:"85px", borderRadius:'5%', borderTopRightRadius: '5%',zIndex: 10}}>
                             <Grid container  direction="column" justifyContent="center" alignItems="flex-start">
                                 <Grid item>
-                                    <Typography className={classes.infoLabel} >Profile name: <b>{profile.profileName}</b></Typography>
+                                    <Typography className={classes.infoLabel} >Profile: <b>{profile.profileName}</b></Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography className={classes.infoLabel}>Start: <b>{profile.profileStart}</b></Typography>
@@ -182,7 +183,7 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
                                     <Typography className={classes.infoLabel}>End: <b>{profile.profileEnd}</b></Typography>
                                 </Grid>
                                 <Grid item>
-                                    <Typography className={classes.infoLabel}>Temperature: <b>{profile.temperature}°C</b></Typography>
+                                    <Typography className={classes.infoLabel}>Average temperature: <b>{profile.temperature}°C</b></Typography>
                                 </Grid>
                             </Grid>
                         </div>

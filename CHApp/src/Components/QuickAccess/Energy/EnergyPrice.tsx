@@ -78,7 +78,7 @@ const EnergyPrice: React.FC = () => {
             <Grid item xs={1}>
               <CurrencyPoundIcon fontSize='small' color='primary'/>
             </Grid>
-            <Grid item xs={7}> Current price:</Grid>
+            <Grid item xs={7}> Current energy price:</Grid>
             <Grid item xs={3} fontSize={15}><b>0.45</b> p/kWh</Grid> {/* jei nori tarpu tarp p / kwh padaryti 14 font size */}
         </Grid>
     </div>

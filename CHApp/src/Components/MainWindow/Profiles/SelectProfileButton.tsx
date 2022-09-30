@@ -50,7 +50,7 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
 
   useEffect(()=>{
     const profileToSet = allProfiles.find((profile:any)=>{
-      return profile.profile == heatingComponentState.activeProfile.profileName
+      return profile.profileName == heatingComponentState.activeProfile.profileName
     })
     setSelectedProfile(heatingComponentState.activeProfile.profileName)
     setProfile(profileToSet);
@@ -85,7 +85,7 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
         >
           {allProfiles.map((profile:any)=>{ //define type
               return (
-                <MenuItem  value={profile.profile}>{profile.profile} </MenuItem>
+                <MenuItem  value={profile.profileName}>{profile.profileName} </MenuItem>
               )
           })}
         </Select>

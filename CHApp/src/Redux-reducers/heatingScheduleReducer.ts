@@ -805,6 +805,34 @@ export const initializeHeatingSchedule = () => {
                     "timeframe": "24:00"
                 }
             ]
+        // const profileLabels = ["Nights", "Mornings", "Weekdays", "Evenings", "Weekends"]
+        const profileLabels =[
+                                {
+                                    id:1,
+                                    name: "Nights",
+                                    color: "#57A6F0"
+                                },
+                                {
+                                    id:2,
+                                    name: "Mornings",
+                                    color: "#d1ca69"
+                                },
+                                {
+                                    id:3,
+                                    name: "Weekdays",
+                                    color: "#F6946B" //E3E64E
+                                },
+                                {
+                                    id:4,
+                                    name: "Evenings",
+                                    color: "#f03cdb"
+                                },
+                                {
+                                    id:5,
+                                    name: "Weekends",
+                                    color: "#FE6262"
+                                },
+                            ]
         const findTimeFrame = (timeFrameRepresentation: String) => {
             const actualTimeFrame = timeframes.find((timeframe:any)=>{ //define type later
                 if(timeFrameRepresentation === timeframe.timeframeRepresentation){
@@ -814,7 +842,7 @@ export const initializeHeatingSchedule = () => {
             return actualTimeFrame?.timeframe;
         }
         // console.log(heatingScheduleData)
-        heatingScheduleData.forEach((day:any, index:any)=>{ //define types later
+        heatingScheduleData.forEach((day:any, index:any, self:any)=>{ //define types later
             interface weekdayScheduleType {
                 weekday:String,
                 id:number,
@@ -830,7 +858,9 @@ export const initializeHeatingSchedule = () => {
                 if(i === 0 && key !== "0"){ // probalby no need, need to discuss with Kevin and Kim!
                     const emptyTimeslot = {
                         id: i,
-                        profileName: "OFF",
+                        profileName: Object.values(self[index-1].schedule).pop() === "1" ? profileLabels[1-1].name : Object.values(self[index-1].schedule).pop() === "2" ? profileLabels[2-1].name :Object.values(self[index-1].schedule).pop() === "3" ? profileLabels[3-1].name : Object.values(self[index-1].schedule).pop() === "4" ? profileLabels[4-1].name : profileLabels[5-1].name, //buvo 'Off'
+                        profileID: Object.values(self[index-1].schedule).pop() === "1" ? profileLabels[1-1].id : Object.values(self[index-1].schedule).pop() === "2" ? profileLabels[2-1].id :Object.values(self[index-1].schedule).pop() === "3" ? profileLabels[3-1].id : Object.values(self[index-1].schedule).pop() === "4" ? profileLabels[4-1].id : profileLabels[5-1].id,
+                        color: Object.values(self[index-1].schedule).pop() === "1" ? profileLabels[1-1].color : Object.values(self[index-1].schedule).pop() === "2" ? profileLabels[2-1].color :Object.values(self[index-1].schedule).pop() === "3" ? profileLabels[3-1].color : Object.values(self[index-1].schedule).pop() === "4" ? profileLabels[4-1].color : profileLabels[5-1].color,
                         profileStart: "00:00",
                         profileEnd: "",
                         temperature: 0
@@ -840,7 +870,9 @@ export const initializeHeatingSchedule = () => {
                 };
                 const timeslot = {
                     id: i,
-                    profileName: day.schedule[key],
+                    profileName: profileLabels[day.schedule[key]-1].name,
+                    profileID: profileLabels[day.schedule[key]-1].id,
+                    color: profileLabels[day.schedule[key]-1].color,
                     profileStart: findTimeFrame(key),
                     profileEnd: "",
                     // temperature: ''
