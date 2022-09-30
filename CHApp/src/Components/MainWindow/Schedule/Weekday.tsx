@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
     moreButton:{
         // border: "1px solid pink",
         height: '80%',
+        paddingBottom: '1%' // 
         // background: 'red',
     },
   }),

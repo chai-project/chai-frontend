@@ -157,8 +157,8 @@ const EditWeekdaySchedule: React.FC = () => {
       //   }
       // });
       // console.log(beleka)
-      console.log(weekdaySchedule.schedule, 'redux');
-      console.log(weekdayScheduleToEdit, 'local')
+      // console.log(weekdaySchedule.schedule, 'redux');
+      // console.log(weekdayScheduleToEdit, 'local')
     }
       
     // console.log(weekdaySchedule.schedule, 'redux');

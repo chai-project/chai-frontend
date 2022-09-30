@@ -142,6 +142,22 @@ const HeatingQATEST: React.FC = () => {
     return  state.heatingComponent
   })
 
+  // const activeProfile = useSelector((state:any)=>{ //define type later 
+  //   return state.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
+  //     const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+  //     if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+  //       if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+  //         return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+  //       } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+  //         return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+  //       } else {
+  //         return profile
+  //       }
+  //     }
+  //   });
+  //   // return activeProfile
+  // }) // iskelti sita i app,tsx ir pervest i sita ir tada i i profiles ir set profile su situo kaip default .
+
   const [heatingAutoMode, setHeatingAutoMode] = useState<boolean>(true)
   // const [heatingOnMode, setHeatingOnMode] = useState<boolean>(false)
   // const [showRadioButtons, setShowRadioButtons] = useState<boolean>(false)
@@ -177,6 +193,8 @@ const HeatingQATEST: React.FC = () => {
 //   setTimerID(null)
 // };
 
+// const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+// console.log('hmhm', activeProfile)
 
 
 
@@ -219,6 +237,7 @@ const valvelStatusAndToogleButtonsComponent = () => {
         <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.valveStatusAndToogleButtons}>
             <Grid item container xs={6} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
                 <Typography className={classes.valveStatus}>Valve: <b>{heatingComponentState.valve_open === true ? "Open" : "Closed"}</b></Typography>
+                <Typography className={classes.valveStatus}>Active profile: <b>{heatingComponentState.activeProfile?.profileName}</b></Typography>
             </Grid>
             <Grid item container xs={6} direction="column" justifyContent="center" alignItems="center">
                 <Grid item spacing={1}>

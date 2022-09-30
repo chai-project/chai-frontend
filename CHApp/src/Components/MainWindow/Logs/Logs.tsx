@@ -105,91 +105,109 @@ const Logs: React.FC = () => {
       {
         date: '4/7/2002',
         time: '14:22',
+        category: 'XAI',
         description: 'User changed setpoint to 21° and the current price is 9.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       },
       {
         date: '1/7/2002',
         time: '11:22',
+        category: 'XAI',
         description: 'User changed setpoint to 17° and the current price is 4.99£. The AI has been updated. It now believes that you are <moderately> sensetive to the price and that your prefered temperature is currently 23°'
       }
     ]

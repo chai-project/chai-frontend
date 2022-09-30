@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100vw',
       // minHeight:'100vh', // nezinau ka cia padariau bet veleu pataisysi nes dabar du scroll barai yra!
       flexShrink: 0,
-      zIndex: 1
+      zIndex: 2
     },
     drawerPaper: {
       height: 'calc(100% - 64px)',

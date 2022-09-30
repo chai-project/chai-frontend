@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
     tableContainer: {
       position:'relative',
       height:'630px', //600fullscreen
+      zIndex:0,
       [theme.breakpoints.down('md')]: {
         height: '480px',
         // minHeight: '650px',
@@ -125,7 +126,7 @@ const useStyles = makeStyles((theme: Theme) =>
 // });
 
 interface Column {
-  id: 'date' | 'time' | 'description'
+  id: 'date' | 'time' | 'category' | 'description'
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -135,11 +136,12 @@ interface Column {
 const columns: readonly Column[] = [
   { id: 'date', label: 'Date', minWidth: 170 },
   { id: 'time', label: 'Time', minWidth: 100 },
+  { id: 'category', label: 'Category', minWidth: 100},
   {
     id: 'description',
     label: 'Description',
     minWidth: 370,
-    align: 'right',
+    // align: 'right', //atcomentuoti jeigu kevinas sutinka
     format: (value: number) => value.toLocaleString('en-US'),
   }
 ];
@@ -147,6 +149,7 @@ const columns: readonly Column[] = [
 interface Log {
   date: string;
   time: string;
+  category: string;
   description: string;
 }
 interface Props {

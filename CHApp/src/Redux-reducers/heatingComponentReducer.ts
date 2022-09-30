@@ -12,7 +12,7 @@ interface heatingComponent {
 //state = {mode:null, target_temperature: null, temperature: null, valve_open: null}
 //state:heatingComponent|null  = null
 //Heating Component reducer
-const heatingComponentReducer = (state = {mode:null, target_temperature: null, temperature: null, valve_open: null} , action:any) => {
+const heatingComponentReducer = (state = {mode:null, target_temperature: null, temperature: null, valve_open: null, activeProfile: null} , action:any) => {
     switch(action.type) {
         case "SET_HEATING_COMPONENT_DATA":
             return state = action.data
@@ -23,6 +23,9 @@ const heatingComponentReducer = (state = {mode:null, target_temperature: null, t
         case 'SET_TEMPERATURE':
             state = {...state, ...action.data}
             // state.temperature = action.data
+            return state
+        case 'SET_ACTIVE_PROFILE':
+            state = {...state, ...action.data}
             return state
         default:
             return state
@@ -59,6 +62,15 @@ export const setTemperature = (newTargetTemperature:number) => {
         dispatch({
             type:"SET_TEMPERATURE",
             data: {target_temperature:newTargetTemperature} 
+        })
+    };
+};
+
+export const setActiveProfile = (profile:any) => { //define type later
+    return async (dispatch : Dispatch) => {
+        dispatch({
+            type:"SET_ACTIVE_PROFILE",
+            data: {activeProfile:profile} 
         })
     };
 };

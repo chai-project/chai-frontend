@@ -62,7 +62,7 @@ const changeState = (eachCase: String) => {
 
   return (
     <div className={classes.root}>
-    <Grid container direction="row" justifyContent="flex-end" alignItems="flex-start">
+    <Grid container direction="row" justifyContent="center" alignItems="flex-start"> {/* justifycontent flex-end man geriau atrodo zymei */}
         {cases.map((eachCase)=>{
             return (
                 <Grid item >

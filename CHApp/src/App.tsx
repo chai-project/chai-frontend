@@ -14,7 +14,7 @@ import {useSelector, useDispatch} from 'react-redux';
 //chart data
 import { initializeChartData } from './Redux-reducers/chartDataReducer';
 //heating component data
-import { initializeHeatingComponentData } from './Redux-reducers/heatingComponentReducer';
+import { initializeHeatingComponentData, setActiveProfile } from './Redux-reducers/heatingComponentReducer';
 import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReducer';
 import { initializeHeatingProfiles } from './Redux-reducers/heatingProfilesReduces';
 
@@ -177,11 +177,14 @@ const App: React.FC = () => {
       dispatch(initializeHeatingProfiles())
       dispatch(initializeHeatingComponentData())
       dispatch(initializeHeatingSchedule())
+      
       //set to local storage! 
     }
 
 
 }, [])
+
+
 
 // cia viskas ok, tik reike kad po kiekvieno update atsinaujintu 
 // const hmm = () => {
@@ -216,6 +219,31 @@ const App: React.FC = () => {
 
   }
 
+  const activeProfile = useSelector( (state:any)=>{ //define type later 
+    if(state.heatingSchedule){
+      const activeProfile =  state.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
+        const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+        if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+          if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+            return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+          } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+            return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+          } else {
+            return profile
+          }
+        }
+      });
+      dispatch(setActiveProfile(activeProfile))
+      return activeProfile
+    };
+  });
+
+  // console.log('tema', activeProfile) 
+  //kazkoke nesamone krc 
+
+
+  // 
+
   return (
     <div className={classes.root}>
     <ThemeProvider theme={theme ? light : dark}>
@@ -226,7 +254,7 @@ const App: React.FC = () => {
             <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainWindowAndQuickAccessContainer}>
               <Grid xs={12} sm={12} md={12} lg={8.5} xl={8.5} item className={classes.mainWindowContainer}>
                 <Paper className={classes.mainWindow}>
-                  <MainWindow/>
+                  <MainWindow />
                 </Paper>
               </Grid>
               <Grid xs={3.3} sm={3.3} md={3.3} lg={3.3} xl={3.3} item >

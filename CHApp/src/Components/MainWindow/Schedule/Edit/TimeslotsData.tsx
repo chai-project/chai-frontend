@@ -157,7 +157,9 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
 
     // console.log(timeslots,'timeslots')
     const deleteTimeslot = (id:number) => {
-        const newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
+        let newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
+
+        // console.log(newTimeslots,'zeuru')
         setWeekdayScheduleToEdit(newTimeslots)
     };
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 //mui
@@ -11,6 +11,7 @@ import { CssBaseline, Button, Paper, Grid , Box} from '@mui/material/';
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
 import {setNewHeatingSchedule} from '../../../Redux-reducers/heatingScheduleReducer'
+import { setActiveProfile } from '../../../Redux-reducers/heatingComponentReducer';
 
 
 //types
@@ -61,6 +62,43 @@ const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
     const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<string | null>(null);
     const [scheduleToCopy, setScheduleToCopy] = useState<any>(null); // define type was timeslot[]|null
     const [weekdaysToPasteSchedule, setWeekdaysToPasteSchedule] = useState<String[]>([]);
+
+    // useEffect(()=>{
+    //   // console.log(weekSchedule[0], 'zeuri temele')
+    //   const activeProfile =  weekSchedule[0].schedule.find((profile:any)=>{//define type later
+    //     const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+    //     if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+    //       if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+    //         return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+    //       } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+    //         return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+    //       } else {
+    //         return profile
+    //       }
+    //     }
+    //   });
+    //   dispatch(setActiveProfile(activeProfile))
+
+    //   // const activeProfile = useSelector( (state:any)=>{ //define type later 
+    //   //   if(state.heatingSchedule){
+    //       // const activeProfile =  state.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
+    //       //   const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+    //       //   if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+    //       //     if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+    //       //       return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+    //       //     } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+    //       //       return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+    //       //     } else {
+    //       //       return profile
+    //       //     }
+    //       //   }
+    //       // });
+    //       // dispatch(setActiveProfile(activeProfile))
+    //   //   };
+    //   // });
+    // },[])
+
+    
     
 
     const classes = useStyles();
@@ -86,6 +124,29 @@ const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
       setCopyWeekdaySchedule(null)
       
     };
+
+
+    // const activeProfile = ()=>{ //define type later 
+    //   if(weekSchedule){
+    //     const activeProfile =  weekSchedule[0]?.schedule.find((profile:any)=>{//define type later
+    //       const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+    //       if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+    //         if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+    //           return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+    //         } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+    //           return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+    //         } else {
+    //           return profile
+    //         }
+    //       }
+    //     });
+    //     dispatch(setActiveProfile(activeProfile))
+    //     return activeProfile
+    //   };
+    // };
+    // activeProfile()
+
+    //prsto reikalai seni :D
 
   return (
     //atkreipk demesi i spacing ant container class

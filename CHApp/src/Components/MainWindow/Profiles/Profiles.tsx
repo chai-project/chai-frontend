@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 //mui
@@ -85,6 +85,10 @@ const Profiles: React.FC = () => {
           state.heatingProfiles
         )
       })
+
+      useEffect(()=>{
+        
+      },[])
 
     const classes = useStyles();
     const dispatch = useDispatch()

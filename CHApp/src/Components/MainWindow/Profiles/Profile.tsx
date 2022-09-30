@@ -54,7 +54,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
 
     const classes = useStyles();
     const dispatch = useDispatch()
-    console.log('profile: ',typeof profile.slope)
+    // console.log('profile: ',typeof profile.slope)
 
 //   const getData = () => {
 //     dispatch(initializeData())
@@ -67,10 +67,10 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
                 <Grid item xs={1}></Grid>
                 <Grid item container xs={11} direction="column" justifyContent="center" alignItems="flex-start">
                     <Grid item>
-                        <Typography>Preferred temperature (At 0p / kWh): {<b>22.4 °C</b>}</Typography>
+                        <Typography>Preferred temperature (if energy were free): {<b>22.4 °C</b>}</Typography>
                     </Grid>
                     <Grid item>
-                        <Typography>Price sensitivity: {<b>{profile.slope}</b>}</Typography>
+                        <Typography>Price sensitivity: {<b>{profile.slope}</b>}</Typography> 
                     </Grid>
                 </Grid>
             </Grid>
