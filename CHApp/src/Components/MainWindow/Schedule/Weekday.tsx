@@ -104,9 +104,9 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
     //redux
     const dispatch = useDispatch()
 
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
+  const krc = () => {
+    console.log('krc wtf?? : ', scheduleForAWeekday)
+  }
 
   return (
     //buvo div konteineris vietoj box todel tos  spalvos nebuvo ir schedule componenete spacingas 0.5 dabar anksciau jo iswiso nebuvo geriau atrodo 
@@ -136,6 +136,7 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
                                         <MenuItem onClick={editWeekdaySchedule}>Edit</MenuItem>
                                         <MenuItem onClick={copyWeekdayScheduleButton}>Copy</MenuItem>
                                         <MenuItem onClick={resetWeekdaySchedule}>Reset</MenuItem>
+                                        <MenuItem onClick={krc}>krc</MenuItem>
                                       </Menu>
                                     </div> : null}
             </Grid>

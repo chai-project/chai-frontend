@@ -75,7 +75,6 @@ const colorOfATimeslot = asignedTimeslot.temperature < 17 ? '#57A6F0' : asignedT
     <Grid xs={12} container direction="row" justifyContent="center" alignItems="center">
         <Box  sx={{background:colorOfATimeslot}} className={classes.circle} onClick={()=>{console.log('click')}}>
             <span>{asignedTimeslot.temperature}°C</span>
-            <span>{asignedTimeslot.profileName}</span>
         </Box>
     </Grid>
   );

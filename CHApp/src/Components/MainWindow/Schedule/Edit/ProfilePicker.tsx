@@ -13,7 +13,7 @@ import {useSelector, useDispatch} from 'react-redux'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     selectButton: {
-      width:'75px',
+      width:'125px',
       "&.MuiOutlinedInput-root": {
         "& fieldset": {
           borderColor: "#5ACBCC" // sia spalva pakeisti i balta arba jouda priklauso nuo app temos.
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdayScheduleToEdit:any }> = ({timeslots, asignedTimeslot,setWeekdayScheduleToEdit}) => {
+const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdayScheduleToEdit:any,sortTimeslots:any }> = ({timeslots, asignedTimeslot,setWeekdayScheduleToEdit,sortTimeslots}) => {
   const [profile, setProfile] = useState<string>('');
 
   useEffect(()=>{ // lygei ta paty padaryti ir ten !!!
@@ -58,7 +58,7 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
 
   const handleSetProfile = (event: SelectChangeEvent) => {
     setProfile(String(event.target.value));
-    let noDuplicates: any[] = []
+    // let noDuplicates: any[] = []
     const newTimeslots = timeslots.map((timeslot:any,index:number, arr:any)=>{ //define type later
         if(timeslot.id === asignedTimeslot.id){
             // if(arr[index-1].profileName === String(event.target.value)){
@@ -73,6 +73,7 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
         }
         // return timeslot
     });
+    sortTimeslots(newTimeslots)
     // timeslots.forEach((timeslot:any,index:number, arr:any)=>{ //define type later
     //     if(timeslot.id === asignedTimeslot.id){
     //         // if(arr[index-1].profileName === String(event.target.value)){
@@ -88,28 +89,26 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
     //     // return timeslot
     // });
     // const hmm :any[]=[] ;
-    for(let i =0; i<newTimeslots.length; i++){
-        if(i===0){
-            noDuplicates.push(newTimeslots[i])
-        }else{
-            if(noDuplicates[noDuplicates.length-1].profileName === newTimeslots[i].profileName){
-                noDuplicates[noDuplicates.length-1].profileEnd = newTimeslots[i].profileEnd
-            }else{
-                noDuplicates.push(newTimeslots[i])
-            }
-        }
-    }
-    // console.log(noDuplicates,'zeurumelis seni xD');
-    setWeekdayScheduleToEdit(noDuplicates);
+    // for(let i =0; i<newTimeslots.length; i++){
+    //     if(i===0){
+    //         noDuplicates.push(newTimeslots[i])
+    //     }else{
+    //         if(noDuplicates[noDuplicates.length-1].profileName === newTimeslots[i].profileName){
+    //             noDuplicates[noDuplicates.length-1].profileEnd = newTimeslots[i].profileEnd
+    //         }else{
+    //             noDuplicates.push(newTimeslots[i])
+    //         }
+    //     }
+    // }
+    // // console.log(noDuplicates,'zeurumelis seni xD');
+    // setWeekdayScheduleToEdit(noDuplicates);
   };
-
-//   console.log("assigned profile:",assignedProfile )
 
   //netaip darai seni yra lentele pasidares esi reduserije tai pagal ja ir padarysi nes ten i back edna ne laika o skaiciu tik nusiust reike xD
   return (
-    <Grid key={asignedTimeslot.profileName} container direction="row" justifyContent="center" alignItems="center">
+    <Grid key={asignedTimeslot.profileName} container direction="row" justifyContent="flex-start" alignItems="center">
       <Grid item>
-        <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
+        <FormControl sx={{ m: 1, maxWidth: 150 }} size="small">
           <InputLabel id="demo-select-small">Profile</InputLabel>
           <Select
             labelId="demo-select-small"

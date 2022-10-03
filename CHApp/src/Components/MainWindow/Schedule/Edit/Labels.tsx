@@ -29,14 +29,14 @@ import { Typography } from '@material-ui/core';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer:{
-    //   border: "1px solid lime",
+      // border: "1px solid lime",
       height: '100%',
       width: '100%'
     },
     profile:{
         // border: "1px solid red",
         fontSize: '15px',
-        width: '10%',
+        width: '14%',
         [theme.breakpoints.down('md')]: {
             width: '20%',
             fontSize: '14px',

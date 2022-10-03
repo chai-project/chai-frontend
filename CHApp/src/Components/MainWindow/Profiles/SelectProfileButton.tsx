@@ -59,9 +59,8 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
 
   const handleChange = (event: SelectChangeEvent) => {
     const profileToSet = allProfiles.find((profile:any)=>{
-      return profile.profile === event.target.value
+      return profile.profileName === event.target.value
     })
-    // console.log(profileToSet)
     setSelectedProfile(event.target.value as string)
     setProfile(profileToSet);
   };

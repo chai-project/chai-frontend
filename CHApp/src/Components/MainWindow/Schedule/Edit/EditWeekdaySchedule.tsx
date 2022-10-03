@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
       //  boxSizing: 'border-box',
-      //  position: 'relative', //sitas!!!
+       position: 'absolute', //sitas!!!
        width: '100%',
        height: '100%',
       //  border: "10px solid pink",
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
         position:'absolute',
     },
     mainContainer:{
-      border: "1px solid lime",
+      // border: "1px solid lime",
       height: '100%'
     },
     secondaryContainer :{
@@ -71,21 +71,30 @@ const useStyles = makeStyles((theme: Theme) =>
       // marginLeft:'50px',
     },
     timeslotsData:{
+      position:'relative',
+      // border: "1px solid pink",
       maxHeight:'70%',
       width: '100%',
-      overflow: 'auto',
-      '@global': {
-        '*::-webkit-scrollbar': {
-          width: '0.4em'
-        },
-        '*::-webkit-scrollbar-track': {
-          '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-        },
-        '*::-webkit-scrollbar-thumb': {
-          backgroundColor: '#5ACBCC',
-          outline: '1px solid slategrey'
-        }
+      // overflow: 'auto',
+      [theme.breakpoints.down('md')]: {
+        maxHeight:'50%',
+        // width: '20%',
+        // fontSize: '14px',
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
       },
+      // '@global': {
+      //   '*::-webkit-scrollbar': {
+      //     width: '0.4em'
+      //   },
+      //   '*::-webkit-scrollbar-track': {
+      //     '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+      //   },
+      //   '*::-webkit-scrollbar-thumb': {
+      //     backgroundColor: '#5ACBCC',
+      //     outline: '1px solid slategrey'
+      //   }
+      // },
     }
   }),
 );
@@ -138,7 +147,7 @@ const EditWeekdaySchedule: React.FC = () => {
       setWeekdayScheduleToEdit(weekdaySchedule.schedule);
     };
 
-    const krw =() => {
+    const bl =() => {
       // const newwtf = weekdayScheduleToEdit.filter((timeslot:any)=>{
       //   if(timeslot.id === 0){
       //     timeslot.profileName = "WTF????"
@@ -157,8 +166,8 @@ const EditWeekdaySchedule: React.FC = () => {
       //   }
       // });
       // console.log(beleka)
-      // console.log(weekdaySchedule.schedule, 'redux');
-      // console.log(weekdayScheduleToEdit, 'local')
+      console.log(weekdaySchedule.schedule, 'redux');
+      console.log(weekdayScheduleToEdit, 'local')
     }
       
     // console.log(weekdaySchedule.schedule, 'redux');
@@ -166,6 +175,7 @@ const EditWeekdaySchedule: React.FC = () => {
   return (
     <Grid>
     <Grid container className={classes.main} direction="column" alignItems="center" justifyContent="flex-start">
+      {/* <button onClick={bl}>krc</button> */}
       <Grid xs={1} item container direction="row" alignItems="center" justifyContent="center">
         <Grid xs={4}item ></Grid>
         <Grid xs={4} item container direction="row" alignItems="center" justifyContent="center">
@@ -178,7 +188,7 @@ const EditWeekdaySchedule: React.FC = () => {
         </Grid>
         <Grid xs={0.25} item></Grid>
       </Grid>
-      <Grid xs={6}className={classes.timeslotsData} item>
+      <Grid xs={6} className={classes.timeslotsData} item>
         <TimeslotsData timeslots={weekdayScheduleToEdit} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} />
       </Grid>
       <Grid xs={4.25} item>chart</Grid>

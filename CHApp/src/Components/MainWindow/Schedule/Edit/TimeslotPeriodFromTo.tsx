@@ -89,18 +89,18 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const TimeslotPeriodFromTo: React.FC<{fromTo: any}> = ({fromTo }) => {
+const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslot:any, sortTimeslots:any  }> = ({fromTo, timeslots, asignedTimeslot, sortTimeslots }) => {
   const [hoursFrom, setHoursFrom] = useState<string>("");
   const [minutesFrom, setMinutesFrom] = useState<string>("");
   const [hoursTo, setHoursTo] = useState<string>("");
   const [minutesTo, setMinutesTo] = useState<string>("");
 
   useEffect(()=>{
-    setHoursFrom(fromTo[0].split(':')[0]);
-    setMinutesFrom(fromTo[0].split(':')[1]);
-    setHoursTo(fromTo[1].split(':')[0]);
-    setMinutesTo(fromTo[1].split(':')[1]);
-  },[fromTo]);
+    setHoursFrom(asignedTimeslot.profileStart.split(':')[0]);
+    setMinutesFrom(asignedTimeslot.profileStart.split(':')[1]);
+    setHoursTo(asignedTimeslot.profileEnd.split(':')[0]);
+    setMinutesTo(asignedTimeslot.profileEnd.split(':')[1]);
+  },[asignedTimeslot]);
 
   const classes = useStyles();
   const theme = useTheme();

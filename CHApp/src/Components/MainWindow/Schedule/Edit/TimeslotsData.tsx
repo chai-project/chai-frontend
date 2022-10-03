@@ -68,13 +68,13 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '100%',
         marginTop: '5px',
         borderBottom: '1px solid #5ACBCC',
-        borderTop: '1px solid #5ACBCC'
-        // border: "1px solid lime",
+        borderTop: '1px solid #5ACBCC',
+        // border: "4px solid lime",
     },
     profile:{
         // border: "1px solid red",
         fontSize: '15px',
-        width: '10%',
+        width: '14%',
         [theme.breakpoints.down('md')]: {
             width: '20%',
             fontSize: '14px',
@@ -157,12 +157,40 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
 
     // console.log(timeslots,'timeslots')
     const deleteTimeslot = (id:number) => {
-        let newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
-
+        if(timeslots.length > 1){
+            const newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
+            sortTimeslots(newTimeslots)
+        }
+        // error
+        // const newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
+        // sortTimeslots(newTimeslots)
         // console.log(newTimeslots,'zeuru')
-        setWeekdayScheduleToEdit(newTimeslots)
+        // setWeekdayScheduleToEdit(newTimeslots)
     };
 
+    const sortTimeslots = (newTimeslots:any) => { //define types later
+        let noDuplicates: any[] = []
+        for(let i =0; i<newTimeslots.length; i++){
+            if(i===0){
+                if(i === newTimeslots.length -1 && (timeslots[i].profileEnd !== "24:00" || timeslots[i].profileStart !== "00:00" )){
+                    noDuplicates.push({...newTimeslots[i],profileStart: "00:00" ,profileEnd:'24:00'})
+                }else{
+                    noDuplicates.push({...newTimeslots[i], profileStart:'00:00'})
+                }
+            }else{
+                if(noDuplicates[noDuplicates.length-1].profileName === newTimeslots[i].profileName){
+                    noDuplicates[noDuplicates.length-1].profileEnd = newTimeslots[i].profileEnd
+                }else{
+                    if(i === newTimeslots.length -1){
+                        noDuplicates.push({...newTimeslots[i], profileEnd:'24:00'})
+                    }else{
+                        noDuplicates.push(newTimeslots[i])
+                    }
+                }
+            }
+        };
+        setWeekdayScheduleToEdit(noDuplicates);
+    };
 
   return (
     <Grid className={classes.main} container direction="column" alignItems="center" justifyContent="center" >
@@ -171,18 +199,17 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
         </Grid>
         <Grid item className={classes.timeslots} container direction="row" alignItems="center" justifyContent="center">
             {timeslots?.map((timeslot:any)=>{
-                // console.log(timeslot)
                 return (
                     <Box className={classes.timeslot} bgcolor="background.default">
                         <Grid item container direction="row" alignItems="center" justifyContent="center">
                             <Grid item className={classes.profile}>
-                                <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit}/> 
+                                <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots}/> 
                             </Grid>
                             <Grid item className={classes.setpoint}>
                                 <Setpoint timeslots={timeslots} asignedTimeslot={timeslot}/>
                             </Grid>
                             <Grid item className={classes.period}>
-                                <TimeslotPeriodFromTo fromTo={[timeslot.profileStart, timeslot.profileEnd]}/>
+                                <TimeslotPeriodFromTo fromTo={[timeslot.profileStart, timeslot.profileEnd]} timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots}/>
                             </Grid>
                             <Grid item className={classes.estimatedCosts}>
                                 <Grid item container  direction="row" alignItems="center" justifyContent="center" >
