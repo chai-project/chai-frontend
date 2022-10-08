@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '15px',
         width: '14%',
         [theme.breakpoints.down('md')]: {
-            width: '20%',
+            width: '35%',
             fontSize: '14px',
             // marginLeft: 'auto',
             // marginRight: 'auto',
@@ -92,9 +92,9 @@ const Labels: React.FC = () => {
   return (
     <Grid className={classes.mainContainer} container direction="row" alignItems="center" justifyContent="center" >
         <Grid  className={classes.profile}>Profile</Grid>
-        <Grid  className={classes.setpoint}>Setpoint</Grid>
+        {/* <Grid  className={classes.setpoint}>Setpoint</Grid> */}
         <Grid  className={classes.period}>Period</Grid>
-        <Grid  className={classes.estimatedCosts}>Estimated cost</Grid>
+        {/* <Grid  className={classes.estimatedCosts}>Estimated cost</Grid> */}
     </Grid> 
   );
 };

@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
         top: '5px',
     },
     gridItem:{
-      width: '90%' // buvo 90%, manau 90 geriau atrodo !
+      width: '95%' // buvo 90%, manau 90 geriau atrodo !
     }
   }),
 );

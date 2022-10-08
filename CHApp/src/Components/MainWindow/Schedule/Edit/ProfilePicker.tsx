@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.down('md')]: {
         height:'30px',
-        width:'70px',
+        // width:'70px',
       }
       
     },

@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '180px',
       minWidth: '90%',
       borderRadius: '25px',
-      // border: "2px dashed orange",
+      border: "2px solid orange",
     },
     container:{
       height: '100%',

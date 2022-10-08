@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '15px',
         width: '14%',
         [theme.breakpoints.down('md')]: {
-            width: '20%',
+            width: '35%',
             fontSize: '14px',
             // marginLeft: 'auto',
             // marginRight: 'auto',
@@ -189,11 +189,13 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                 }
             }
         };
+        // console.log(newTimeslots,'newTimeslots');
+        // console.log(noDuplicates,'noduplicates');
         setWeekdayScheduleToEdit(noDuplicates);
     };
 
   return (
-    <Grid className={classes.main} container direction="column" alignItems="center" justifyContent="center" >
+    <Grid className={classes.main} container direction="column" alignItems="center" justifyContent="flex-start" > 
         <Grid item className={classes.labels} >
             <Labels/>
         </Grid>
@@ -205,23 +207,27 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                             <Grid item className={classes.profile}>
                                 <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots}/> 
                             </Grid>
-                            <Grid item className={classes.setpoint}>
+                            {/* <Grid item className={classes.setpoint}>
                                 <Setpoint timeslots={timeslots} asignedTimeslot={timeslot}/>
-                            </Grid>
+                            </Grid> */}
                             <Grid item className={classes.period}>
                                 <TimeslotPeriodFromTo fromTo={[timeslot.profileStart, timeslot.profileEnd]} timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots}/>
                             </Grid>
-                            <Grid item className={classes.estimatedCosts}>
+                            {/* <Grid item className={classes.estimatedCosts}>
                                 <Grid item container  direction="row" alignItems="center" justifyContent="center" >
-                                    {/* <Grid item xs={0.5}></Grid> */}
                                     <Grid item>10.23 £</Grid>
                                     <Grid item xs={2}></Grid>
                                     <Grid item className={classes.deleteButton} >
-                                        <IconButton size='small' edge='start' color='primary' onClick={()=>{deleteTimeslot(timeslot.id)}}>
+                                        <IconButton size='small' edge='start' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
                                             <DeleteForeverIcon/>
                                         </IconButton>
                                     </Grid>
                                 </Grid>
+                            </Grid> */}
+                            <Grid item className={classes.deleteButton} >
+                                <IconButton size='small' edge='start' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
+                                    <DeleteForeverIcon/>
+                                </IconButton>
                             </Grid>
                             <Grid item xs={0.1}></Grid>
                         </Grid>

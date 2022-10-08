@@ -3,6 +3,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { CssBaseline, AppBar, Toolbar, IconButton, Stack, Link, Grid, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent} from '@mui/material/';
 // import Stack from '@mui/material/Stack';
 import {makeStyles, Theme, createStyles, withStyles, useTheme  } from '@material-ui/core/styles';
+import { time } from 'console';
 // import { useTheme } from '@mui/material/styles';
 
 //styles 
@@ -102,6 +103,8 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
     setMinutesTo(asignedTimeslot.profileEnd.split(':')[1]);
   },[asignedTimeslot]);
 
+  // console.log(asignedTimeslot,'blblb', timeslots)
+
   const classes = useStyles();
   const theme = useTheme();
   const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
@@ -111,6 +114,30 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
 
   const handleSetHoursFrom = (event: SelectChangeEvent) => {
     setHoursFrom(String(event.target.value)); //event.target.value as string buvo
+    const newTimeslots: any[] = []
+    for(let i =0; i<timeslots.length; i++){
+        if(asignedTimeslot.id === timeslots[i].id){
+          if(newTimeslots[i-1]){
+            newTimeslots[i-1].profileEnd = String(event.target.value)+":"+asignedTimeslot.profileStart.split(":")[1]
+          }
+          // newTimeslots[i-1].profileEnd = String(event.target.value)+":"+asignedTimeslot.profileStart.split(":")[1]
+          newTimeslots.push({...timeslots[i], profileStart: String(event.target.value)+":"+asignedTimeslot.profileStart.split(":")[1]})
+        }else{
+          newTimeslots.push({...timeslots[i]})
+        }
+    }
+    // const newTimeslots = timeslots.map((timeslot:any, index:number, self:any)=>{
+    //   if(asignedTimeslot.id === timeslot.id){
+    //     if(index !== 0){
+    //       return {...self[index-1], profileEnd: event.target.value + ":" + timeslot.profileStart.split(":")[1]} & { ...timeslot, profileStart:event.target.value + ":" + timeslot.profileStart.split(":")[1] }
+    //     }else {
+    //       return {...timeslot, profileStart:event.target.value + ":" + timeslot.profileStart.split(":")[1]  }
+    //     }
+    //   }else{
+    //     return {...timeslot}
+    //   }
+    // });
+    sortTimeslots(newTimeslots)
   };
   const handleSetMinutesFrom = (event: SelectChangeEvent) => {
     setMinutesFrom(String(event.target.value)); //event.target.value as string buvo

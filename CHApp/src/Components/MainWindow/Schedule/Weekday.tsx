@@ -136,7 +136,6 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
                                         <MenuItem onClick={editWeekdaySchedule}>Edit</MenuItem>
                                         <MenuItem onClick={copyWeekdayScheduleButton}>Copy</MenuItem>
                                         <MenuItem onClick={resetWeekdaySchedule}>Reset</MenuItem>
-                                        <MenuItem onClick={krc}>krc</MenuItem>
                                       </Menu>
                                     </div> : null}
             </Grid>
