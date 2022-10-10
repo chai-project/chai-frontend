@@ -110,6 +110,22 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
   const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
 
   const hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+  const hoursTest:any[] = []
+  const krc = () => {
+    timeslots.find((timeslot:any, index:number, array:any)=>{
+    if(timeslot.id === asignedTimeslot.id){
+      console.log(Number(array[index+1]?.profileEnd.split(":")[0]))
+      if(Number(array[index+1]?.profileEnd.split(":")[0] !== NaN)){
+        for(let i= 0; i<=Number(array[index+1]?.profileEnd.split(":")[0]); i++ ){
+          hoursTest.push(i)
+        }
+      }
+      // Number("5")
+    }
+  })
+}
+  krc()
+  console.log(hoursTest, asignedTimeslot)
   const minutes= [0,15,30,45]
 
   const handleSetHoursFrom = (event: SelectChangeEvent) => {
@@ -141,12 +157,52 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
   };
   const handleSetMinutesFrom = (event: SelectChangeEvent) => {
     setMinutesFrom(String(event.target.value)); //event.target.value as string buvo
+    const newTimeslots: any[] = []
+    for(let i =0; i<timeslots.length; i++){
+        if(asignedTimeslot.id === timeslots[i].id){
+          if(newTimeslots[i-1]){
+            newTimeslots[i-1].profileEnd = asignedTimeslot.profileStart.split(":")[0]+":"+String(event.target.value)
+          }
+          newTimeslots.push({...timeslots[i], profileStart: asignedTimeslot.profileStart.split(":")[0]+":"+String(event.target.value)})
+        }else{
+          newTimeslots.push({...timeslots[i]})
+        }
+    }
+    sortTimeslots(newTimeslots)
   };
   const handleSetHoursTo = (event: SelectChangeEvent) => {
     setHoursTo(String(event.target.value)); //event.target.value as string buvo
+    const newTimeslots: any[] = []
+    let index: number|null =null;
+    for(let i =0 ; i<timeslots.length; i++){
+        if(asignedTimeslot.id === timeslots[i].id){
+          newTimeslots.push({...timeslots[i], profileEnd: String(event.target.value)+":"+asignedTimeslot.profileEnd.split(":")[1]});
+          index = i;
+        }else{
+          if(index!==null){
+            newTimeslots.push({...timeslots[index+1], profileStart: String(event.target.value)+":"+timeslots[index].profileEnd.split(":")[1]});
+        }
+          newTimeslots.push({...timeslots[i]})
+        }
+    }
+    sortTimeslots(newTimeslots)
   };
   const handleSetMinutesTo = (event: SelectChangeEvent) => {
     setMinutesTo(String(event.target.value)); //event.target.value as string buvo
+    const newTimeslots: any[] = []
+    let index: number|null =null;
+    for(let i =0 ; i<timeslots.length; i++){
+        if(asignedTimeslot.id === timeslots[i].id){
+          newTimeslots.push({...timeslots[i], profileEnd: asignedTimeslot.profileEnd.split(":")[0] +":"+ String(event.target.value)});
+          index = i;
+        }else{
+          if(index!==null){
+            newTimeslots.push({...timeslots[index+1], profileStart: asignedTimeslot.profileEnd.split(":")[0] +":"+ String(event.target.value)});
+        }
+          newTimeslots.push({...timeslots[i]})
+        }
+    }
+    sortTimeslots(newTimeslots)
   };
 
   //netaip darai seni yra lentele pasidares esi reduserije tai pagal ja ir padarysi nes ten i back edna ne laika o skaiciu tik nusiust reike xD
