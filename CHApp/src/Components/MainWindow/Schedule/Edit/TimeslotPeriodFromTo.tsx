@@ -125,7 +125,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
   })
 }
   krc()
-  console.log(hoursTest, asignedTimeslot)
+  console.log(hoursTest, asignedTimeslot,'zz')
   const minutes= [0,15,30,45]
 
   const handleSetHoursFrom = (event: SelectChangeEvent) => {
@@ -181,6 +181,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
         }else{
           if(index!==null){
             newTimeslots.push({...timeslots[index+1], profileStart: String(event.target.value)+":"+timeslots[index].profileEnd.split(":")[1]});
+            index = null;
         }
           newTimeslots.push({...timeslots[i]})
         }
@@ -198,6 +199,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
         }else{
           if(index!==null){
             newTimeslots.push({...timeslots[index+1], profileStart: asignedTimeslot.profileEnd.split(":")[0] +":"+ String(event.target.value)});
+            index = null;
         }
           newTimeslots.push({...timeslots[i]})
         }
