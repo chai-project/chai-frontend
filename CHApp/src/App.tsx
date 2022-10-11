@@ -171,8 +171,9 @@ const App: React.FC = () => {
     let token = localStorage.getItem("bearerToken")
 
     if(!token){
-      token = "39b01478-134f-41e7-8393-8ad91f6815cf"
-      services.setBearerToken(token)
+      token = "8dbb9774-970c-4f9d-8992-65f88e501d0e"
+      let userAuthorizationHeader = "7019b90ca050fce31331c2a0"
+      services.setBearerToken(token, userAuthorizationHeader )
       dispatch(initializeChartData())
       dispatch(initializeHeatingProfiles())
       dispatch(initializeHeatingComponentData())
@@ -203,12 +204,12 @@ const App: React.FC = () => {
     setTheme(!theme)
   }
 
-  const handleToken = async () =>{
-    const token = "39b01478-134f-41e7-8393-8ad91f6815cf"
-    const tokenRes =  await services.setBearerToken(token)
-    console.log(tokenRes)
+  // const handleToken = async () =>{
+  //   const token = "39b01478-134f-41e7-8393-8ad91f6815cf"
+  //   const tokenRes =  await services.setBearerToken(token)
+  //   console.log(tokenRes)
 
-  }
+  // }
 
   const handleData = async() => {
     const data = await services.getHeatingComponentData();

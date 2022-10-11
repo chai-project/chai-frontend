@@ -2,15 +2,14 @@ import axios, {AxiosInstance}  from 'axios';
 const baseURL = 'https://api.project-chai.org'
 
 //token interceptor
-const setBearerToken = (token: any) => {
+const setBearerToken = (token: String, userAuthorizationHeader:String) => {
     axios.interceptors.request.use(function (config) {
         
-            config.headers!.Authorization = "Bearer "+ token;
+            config.headers!.Authorization = `Bearer ${token},${userAuthorizationHeader}`;
     
         return config;
     });
-}
-
+};
 //Heating Component
 
 const getHeatingComponentData = async () => {

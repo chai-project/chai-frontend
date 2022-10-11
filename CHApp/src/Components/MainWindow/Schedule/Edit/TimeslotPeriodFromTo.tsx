@@ -110,22 +110,22 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
   const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
 
   const hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
-  const hoursTest:any[] = []
-  const krc = () => {
-    timeslots.find((timeslot:any, index:number, array:any)=>{
-    if(timeslot.id === asignedTimeslot.id){
-      console.log(Number(array[index+1]?.profileEnd.split(":")[0]))
-      if(Number(array[index+1]?.profileEnd.split(":")[0] !== NaN)){
-        for(let i= 0; i<=Number(array[index+1]?.profileEnd.split(":")[0]); i++ ){
-          hoursTest.push(i)
-        }
-      }
-      // Number("5")
-    }
-  })
-}
-  krc()
-  console.log(hoursTest, asignedTimeslot,'zz')
+  const hoursTest:any[] = Array.from(Array(24).keys())
+//   const krc = () => {
+//     timeslots.find((timeslot:any, index:number, array:any)=>{
+//     if(timeslot.id === asignedTimeslot.id){
+//       console.log(Number(array[index+1]?.profileEnd.split(":")[0]))
+//       if(Number(array[index+1]?.profileEnd.split(":")[0] !== NaN)){
+//         for(let i= 0; i<=Number(array[index+1]?.profileEnd.split(":")[0]); i++ ){
+//           hoursTest.push(i)
+//         }
+//       }
+//       // Number("5")
+//     }
+//   })
+// }
+  // krc()
+  console.log(hoursTest, 'zz')
   const minutes= [0,15,30,45]
 
   const handleSetHoursFrom = (event: SelectChangeEvent) => {
