@@ -151,7 +151,7 @@ const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
   return (
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
-        <Grid container className={classes.container} direction="column" justifyContent={weekSchedule ? "flex-start" : "center"} alignItems="center" spacing={0.5} > {/* buvo justify content center*/}
+        <Grid container className={classes.container} direction="column" justifyContent={weekSchedule ? "center" : "center"} alignItems="center" spacing={0.5} > {/* buvo justify content center*/}
         <Grid item xs={0.2}></Grid> 
           {weekSchedule ? null :           
                                 <Grid item>
@@ -181,8 +181,9 @@ const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
                 )
               }
             })}
+            <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="flex-end" alignItems="center">
             {copyWeekdaySchedule? 
-                        <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="flex-end" alignItems="center" >
+                        <Grid item container direction="row" justifyContent="flex-end" alignItems="center" >
                           <Grid item>
                             <Button variant="contained" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
                           </Grid>
@@ -194,6 +195,7 @@ const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
                         </Grid>
                         :null
             }
+            </Grid>
         </Grid>
     </div>
   );

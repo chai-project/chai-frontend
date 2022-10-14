@@ -175,7 +175,7 @@ const EditWeekdaySchedule: React.FC = () => {
   return (
     <Grid>
     <Grid container className={classes.main} direction="column" alignItems="center" justifyContent="flex-start">
-      {/* <button onClick={bl}>krc</button> */}
+      {/* <button onClick={krw}>krc</button> */}
       <Grid xs={1} item container direction="row" alignItems="center" justifyContent="center">
         <Grid xs={4}item ></Grid>
         <Grid xs={4} item container direction="row" alignItems="center" justifyContent="center">

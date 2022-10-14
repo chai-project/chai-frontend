@@ -52,10 +52,14 @@ const NavBarBottom: React.FC = () => {
     const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false)
     const cases = ['Home', 'Schedule', 'Profiles', 'Notifications'];
     const location = useLocation();
+    const { search } = useLocation();
     const navigate = useNavigate();
     const notifications = 15;
     const classes = useStyles();
     const dispatch = useDispatch()
+
+
+    // console.log('nx', search)
 
 
     // const [value, setValue] = React.useState('Home');
@@ -75,7 +79,7 @@ const NavBarBottom: React.FC = () => {
             {cases.map((eachCase)=>{
                 return (
                     <Grid item >
-                        <Button size='small' color="inherit" onClick={()=>{navigate(`${eachCase === "Home" ? "/" : eachCase}`)}}> {(location.pathname === "/" && eachCase=== "Home") ? <b>{eachCase}</b> : location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
+                        <Button size='small' color="inherit" onClick={()=>{navigate(`${eachCase === "Home" ? "/" + search : eachCase + search}`)}}> {(location.pathname === "/" && eachCase=== "Home") ? <b>{eachCase}</b> : location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
                         {(location.pathname === "/" && eachCase === "Home") ? <div className={classes.underLine}></div> : location.pathname.split("/")[1] !== eachCase ? null : <div className={classes.underLine}></div> }
                     </Grid>
                 )

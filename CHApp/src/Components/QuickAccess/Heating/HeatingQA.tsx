@@ -274,7 +274,7 @@ const switchButtonsComponent = () => {
       </Grid>
       <Grid item container xs={7} direction="row" justifyContent="center" alignItems="center" className={classes.switchButtonsContainer}>
         <Grid xs={10} item className={classes.switchButton}>
-          <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleHeatingAutoMode} status={heatingAutoMode} disabled={false}/>
+          {/* <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleHeatingAutoMode} status={heatingAutoMode} disabled={false}/> */}
         </Grid>
           <Grid xs ={8.5} item className={classes.radioButton}>
             {!heatingAutoMode ? 

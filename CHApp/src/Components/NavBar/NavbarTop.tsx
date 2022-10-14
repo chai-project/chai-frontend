@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const NavbarTop: React.FC = () => {
+const NavbarTop: React.FC<{handleBackDrop:(event:any) => void}> = ({handleBackDrop}) => {
 
   const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false)
     const classes = useStyles();
@@ -97,7 +97,7 @@ const NavbarTop: React.FC = () => {
             </IconButton>
           </Grid>
           <Grid item xs={5}>
-            <IconButton size='small' color='primary'>
+            <IconButton size='small' color='primary' onClick={handleBackDrop}>
               <SettingsIcon/>
             </IconButton>
           </Grid>

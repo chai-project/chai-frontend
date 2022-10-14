@@ -23,6 +23,7 @@ import Logs from './Logs/Logs';
 import Profiles from './Profiles/Profiles';
 import Schedule from './Schedule/Schedule';
 import EditWeekdaySchedule from './Schedule/Edit/EditWeekdaySchedule';
+import ErrorComponent from '../ErrorPages/ErrorComponent';
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -63,6 +64,8 @@ const MainWindow: React.FC = () => {
           <Route path='schedule/:weekday' element={<EditWeekdaySchedule />}/>
           <Route path='profiles' element={<Profiles/>}/>
           <Route path='notifications' element={<Logs/>}/>
+          <Route path='/Error' element={<ErrorComponent/>}/>
+          <Route path='*' element={<ErrorComponent/>}/>
         </Routes>
       {/* </Router> */}
     </div>

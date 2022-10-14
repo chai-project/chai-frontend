@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-// import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { createBrowserHistory } from 'history';
+//Axios
+import axios, {AxiosInstance}  from 'axios';
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid } from '@mui/material/';
+import { CssBaseline, Button, Paper, Grid, Backdrop } from '@mui/material/';
 
 //services
 import services from './Services/services'
@@ -17,6 +20,7 @@ import { initializeChartData } from './Redux-reducers/chartDataReducer';
 import { initializeHeatingComponentData, setActiveProfile } from './Redux-reducers/heatingComponentReducer';
 import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReducer';
 import { initializeHeatingProfiles } from './Redux-reducers/heatingProfilesReduces';
+import { setErrorMessageForErrorComponentReducer } from './Redux-reducers/errorMessageForErrorComponentReducer';
 
 
 // types
@@ -71,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // maxWidth: '1400px',
       // border: "2px dashed red",
       // position: 'relative', //buvo relative
-      height: '790px', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
+      height: '850px', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu! // buvo 790 jei ka atekisti!!!
       // minHeight: '790px',
       // marginLeft: 'auto',
       // marginRight: 'auto',
@@ -113,7 +117,7 @@ const useStyles = makeStyles((theme: Theme) =>
       
     },
     quickAccess:{
-      height:'790px',
+      height:'850px', //buvo 790jei ka atkeist!!!!
       // minHeight:'790px',
       // position:'relative',
       // border: "1px dashed lime",
@@ -161,26 +165,106 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<boolean>(!true)
+  const [theme, setTheme] = useState<boolean>(false)
+  const [openBackdrop, setOpenBackdrop] = useState<boolean>(false);
+
+  const location = useLocation()
+  const navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
+  
   const chartData: chartDataType = useSelector((state: any) => state.chartData);
   const classes = useStyles();
   const dispatch = useDispatch()
   
 
   useEffect(() => {
-    let token = localStorage.getItem("bearerToken")
+    // const blet = new URLSearchParams(window.location.href);
+    // console.log(window.location.href.split('?')[1].split("&"),'wtf?')
+    // console.log(window.location.href.split('?')[1].split("&")[0].split('=')[1],'wtf?')
+    // console.log(window.location.href.split('?')[1].split("&")[1].split("#")[0].split('=')[1],'wtf?')
 
-    if(!token){
-      token = "8dbb9774-970c-4f9d-8992-65f88e501d0e"
-      let userAuthorizationHeader = "7019b90ca050fce31331c2a0"
-      services.setBearerToken(token, userAuthorizationHeader )
-      dispatch(initializeChartData())
-      dispatch(initializeHeatingProfiles())
-      dispatch(initializeHeatingComponentData())
-      dispatch(initializeHeatingSchedule())
-      
-      //set to local storage! 
+    let bearerToken = localStorage.getItem("bearerToken")
+    //browser router
+    // const homeLabel = params.get("home");
+    // const userToken = params.get("token");
+
+    
+    const themeFromLocalStorage = localStorage.getItem("Theme")
+    //hasrouter
+    const url = createBrowserHistory()
+    const parameters = new URLSearchParams(url.location.search);
+
+    const homeLabel =  parameters.get('home')
+    const userToken = parameters.get('token')
+
+    if(themeFromLocalStorage){
+      if(themeFromLocalStorage === "true"){
+        setTheme(true)
+      }else{
+        setTheme(false)
+      }
+    }else {
+      setTheme(false)
     }
+    // const homeLabel = params.get("home");
+    // const userToken = params.get("token");
+    // console.log(homeLabel, userToken)
+    if(!homeLabel || !userToken){
+      dispatch(setErrorMessageForErrorComponentReducer('Home label or user token was not provided.'));
+      navigate('/Error')
+    }else{
+      bearerToken = "8dbb9774-970c-4f9d-8992-65f88e501d0e"
+      services.setBearerToken(bearerToken, userToken )
+      const checkIfTokenOrHomeLabelIsValid = async () => {
+
+        const isValid = await axios.get(`https://api.project-chai.org/heating/mode/?label=${homeLabel}`).then((res)=>{
+          if(res.status===200){
+            return true
+          }else{
+            return false
+          }
+        }).catch((error) => {
+          return false
+        })
+
+        if(isValid && homeLabel && userToken ){
+          dispatch(initializeChartData())
+          dispatch(initializeHeatingProfiles(homeLabel))
+          dispatch(initializeHeatingComponentData(homeLabel))
+          dispatch(initializeHeatingSchedule(homeLabel))
+        }else{
+          dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
+          navigate('/Error')
+        }
+      }
+      checkIfTokenOrHomeLabelIsValid()
+
+      // dispatch(initializeChartData())
+      // dispatch(initializeHeatingProfiles(homeLabel))
+      // dispatch(initializeHeatingComponentData(homeLabel))
+      // dispatch(initializeHeatingSchedule(homeLabel))
+    }
+    // else{
+    //   navigate('?home=swx#token="bl')
+    
+    // }
+    
+    
+
+    // if(!token){
+    //   token = "8dbb9774-970c-4f9d-8992-65f88e501d0e"
+    //   let userAuthorizationHeader = "7019b90ca050fce31331c2a0"
+    //   let label ='test_home_kim'
+    //   // let label = params.get("label");
+    //   // let userToken = params.get("token");
+    //   services.setBearerToken(token, userAuthorizationHeader )
+    //   dispatch(initializeChartData())
+    //   dispatch(initializeHeatingProfiles(label))
+    //   dispatch(initializeHeatingComponentData(label))
+    //   dispatch(initializeHeatingSchedule(label))
+      
+    //   //set to local storage! 
+    // }
 
 
 }, [])
@@ -195,12 +279,15 @@ const App: React.FC = () => {
 
 // setInterval(hmm, 10000)
 
-
+  const handleBackDrop = () => {
+    setOpenBackdrop(!openBackdrop);
+  };
 
   const getData = () => {
     dispatch(initializeChartData())
   }
   const toogleTheme = () => {
+    localStorage.setItem("Theme", String(!theme));
     setTheme(!theme)
   }
 
@@ -211,14 +298,14 @@ const App: React.FC = () => {
 
   // }
 
-  const handleData = async() => {
-    const data = await services.getHeatingComponentData();
-    console.log(data)
-  //   const data = useSelector((state: any) => {
-  //     return state;
-  // });
+  // const handleData = async() => {
+  //   const data = await services.getHeatingComponentData();
+  //   console.log(data)
+  // //   const data = useSelector((state: any) => {
+  // //     return state;
+  // // });
 
-  }
+  // }
 
   const activeProfile = useSelector( (state:any)=>{ //define type later 
     if(state.heatingSchedule){
@@ -248,8 +335,15 @@ const App: React.FC = () => {
   return (
     <div className={classes.root}>
     <ThemeProvider theme={theme ? light : dark}>
+      <div>
+        <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+          <div>
+            <SwitchButton status={theme} labelLeft={"Dark"} labelRight={"Light"} action={toogleTheme}/>
+          </div>
+        </Backdrop>
+      </div>
       <CssBaseline/>
-      <NavbarTop/>
+      <NavbarTop handleBackDrop={handleBackDrop}/>
         <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.centerContainer}>
           <Grid item container direction="row" className={classes.containerAll}>
             <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainWindowAndQuickAccessContainer}>

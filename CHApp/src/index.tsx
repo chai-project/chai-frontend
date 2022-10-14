@@ -3,24 +3,23 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {
-  BrowserRouter as Router,   //<<----- BrowserRouter pakeistas i HashRouter
-} from "react-router-dom"
+// import {
+//   BrowserRouter as Router,   //<<----- BrowserRouter pakeistas i HashRouter
+// } from "react-router-dom"
 
+import { HashRouter as Router, Route, Link, Routes } from "react-router-dom"; //<<----- BrowserRouter pakeistas i HashRouter
 //redux
 import { Provider } from 'react-redux'
 import store from './store'
 
-//React router
-//... later
 
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
     </Router>
   </Provider>,
   document.getElementById('root')

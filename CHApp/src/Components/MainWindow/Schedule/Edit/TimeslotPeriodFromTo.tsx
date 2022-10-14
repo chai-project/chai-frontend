@@ -110,7 +110,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
   const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
 
   const hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
-  const hoursTest:any[] = Array.from(Array(24).keys())
+  const hoursTest:any[] = Array.from(Array(7).keys())
 //   const krc = () => {
 //     timeslots.find((timeslot:any, index:number, array:any)=>{
 //     if(timeslot.id === asignedTimeslot.id){
@@ -125,8 +125,9 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
 //   })
 // }
   // krc()
-  console.log(hoursTest, 'zz')
+  // console.log(timeslots[timeslots.indexOf(asignedTimeslot)+1]?.profileEnd.split(":")[0], Number('07'))
   const minutes= [0,15,30,45]
+  // console.log(asignedTimeslot)
 
   const handleSetHoursFrom = (event: SelectChangeEvent) => {
     setHoursFrom(String(event.target.value)); //event.target.value as string buvo
@@ -220,6 +221,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
                 labelId="demo-select-small"
                 id="demo-select-small"
                 value={hoursFrom}
+                // disabled={asignedTimeslot.profileStart==="00:00"}
                 label="HoursFrom"
                 onChange={handleSetHoursFrom}
                 className={classes.labelHours}
@@ -245,6 +247,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
                 labelId="demo-select-small"
                 id="demo-select-small"
                 value={minutesFrom}
+                // disabled={asignedTimeslot.profileStart==="00:00"}
                 // label="minutesFrom"
                 onChange={handleSetMinutesFrom}
                 className={classes.labelMinutes}
@@ -276,6 +279,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
                 value={hoursTo}
                 label="HoursTo"
                 onChange={handleSetHoursTo}
+                // disabled={asignedTimeslot.profileEnd==="24:00"}
                 className={classes.labelHours}
                 inputProps={{
                   classes: {
@@ -301,6 +305,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
                 value={minutesTo}
                 // label="MinutesTo"
                 onChange={handleSetMinutesTo}
+                // disabled={asignedTimeslot.profileEnd==="24:00"}
                 className={classes.labelMinutes}
                 inputProps={{
                   classes: {

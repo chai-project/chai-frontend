@@ -20,9 +20,9 @@ const heatingScheduleReducer = (state :any = null , action:any) => { //define ty
     }
 }
 
-export const initializeHeatingSchedule = () => {
+export const initializeHeatingSchedule = (label:String) => {
     return async (dispatch : Dispatch, getState:any) => {
-        const heatingScheduleData = await services.getHeatingScheduleData();
+        const heatingScheduleData = await services.getHeatingScheduleData(label);
         const {heatingProfiles} = getState();
         // console.log(heatingProfiles,'blblblbls')
         // const allProfiles = await services.getHeatingProfiles();

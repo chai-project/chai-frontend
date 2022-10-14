@@ -32,10 +32,10 @@ const heatingComponentReducer = (state = {mode:null, target_temperature: null, t
     }
 }
 
-export const initializeHeatingComponentData = () => {
+export const initializeHeatingComponentData = (label:String) => {
     return async (dispatch : Dispatch) => {
         // console.log("hmm")
-        const heatingComponentData = await services.getHeatingComponentData();
+        const heatingComponentData = await services.getHeatingComponentData(label);
         // console.log(heatingComponentData)
 
         dispatch({

@@ -116,13 +116,13 @@ const tootgleChargingMode = (event:any) => {
             </Grid>
             <Grid item container xs={7} direction="column" justifyContent="center" alignItems="center"  className={classes.switchButtons}>
                 <Grid item>
-                    <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleBatteryManualMode} status={batteryAutoMode} disabled={false}/>
+                    {/* <SwitchButton labelLeft={'Manual'} labelRight={'Auto'} action={toogleBatteryManualMode} status={batteryAutoMode} disabled={false}/> */}
                 </Grid>
                 <Grid item>
-                    <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleBatteryOn} status={batteryOn} disabled={batteryAutoMode ? true : false }/>
+                    {/* <SwitchButton labelLeft={'Off'} labelRight={'On'} action={toogleBatteryOn} status={batteryOn} disabled={batteryAutoMode ? true : false }/> */}
                 </Grid>
                 <Grid item>
-                    <SwitchButton labelLeft={'Discharge'} labelRight={'Charge'} action={tootgleChargingMode} status={batteryChargingMode} disabled={!batteryOn || batteryAutoMode ? true : false}/>
+                    {/* <SwitchButton labelLeft={'Discharge'} labelRight={'Charge'} action={tootgleChargingMode} status={batteryChargingMode} disabled={!batteryOn || batteryAutoMode ? true : false}/> */}
                 </Grid>
             </Grid>
         </Grid>

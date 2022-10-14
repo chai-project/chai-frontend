@@ -241,3 +241,14 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
 };
 
 export default TimeslotsData;
+
+
+// else if(timeslots[0].profileStart === newTimeslots[i].profileStart){ //cia kad overwrite index 0
+//     noDuplicates.splice(0,1);
+//     noDuplicates.push({...newTimeslots[i]})
+// }else if(newTimeslots[i-1].profileStart === newTimeslots[i].profileStart){
+//     noDuplicates.splice(noDuplicates.indexOf(newTimeslots[i-1]),1);
+//     noDuplicates.push({...newTimeslots[i]})
+// }else if(timeslots[0].profileEnd === newTimeslots[newTimeslots.length - 1].profileEnd){
+//     console.log('seni!!!')
+// }

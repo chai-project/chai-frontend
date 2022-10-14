@@ -1,5 +1,5 @@
 import axios, {AxiosInstance}  from 'axios';
-const baseURL = 'https://api.project-chai.org'
+const baseURL = 'https://api.project-chai.org';
 
 //token interceptor
 const setBearerToken = (token: String, userAuthorizationHeader:String) => {
@@ -12,8 +12,8 @@ const setBearerToken = (token: String, userAuthorizationHeader:String) => {
 };
 //Heating Component
 
-const getHeatingComponentData = async () => {
-    const request = await axios.get(`${baseURL}/heating/mode/?label=test_home_kim`).then((res)=>{
+const getHeatingComponentData = async (label:String) => {
+    const request = await axios.get(`${baseURL}/heating/mode/?label=${label}`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
@@ -21,15 +21,16 @@ const getHeatingComponentData = async () => {
         // console.log('status text: ',res.statusText)
         return res.data
 }).catch((error) => {
-    console.error('error',error);
+    // console.log('error',error);
+    
 })
     // console.log(request)
     return request
 }
 //Heating schedule
 
-const getHeatingScheduleData = async () => {
-    const request = await axios.get(`${baseURL}/schedule/?label=test_home_kim&daymask=127`).then((res)=>{
+const getHeatingScheduleData = async (label:String) => {
+    const request = await axios.get(`${baseURL}/schedule/?label=${label}&daymask=127`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
@@ -45,8 +46,8 @@ const getHeatingScheduleData = async () => {
 
 //Heating profiles
 
-const getHeatingProfiles = async () => {
-    const request = await axios.get(`${baseURL}/heating/profile/?label=test_home_kim&schema=5`).then((res)=>{
+const getHeatingProfiles = async (label:String) => {
+    const request = await axios.get(`${baseURL}/heating/profile/?label=${label}&schema=5`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)

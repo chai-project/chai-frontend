@@ -86,7 +86,7 @@ const IOSSwitch = styled((props: SwitchProps) => (
 
 
 
-  const SwitchButton: React.FC<{labelLeft: String, labelRight: String, action: (event:any) => void , status: boolean, disabled: boolean}> = ({labelLeft, labelRight, action, status, disabled}) => {
+  const SwitchButton: React.FC<{status:boolean, labelLeft: String, labelRight: String, action: (event:any) => void }> = ({status,labelLeft, labelRight, action}) => {
 
     const classes = useStyles();
 
@@ -101,7 +101,7 @@ const IOSSwitch = styled((props: SwitchProps) => (
           <div className={classes.labelLeft}>
             <Typography variant="subtitle2" color='textSecondary'>{labelLeft}</Typography>
           </div>
-          <IOSSwitch sx={{ m: 1 }} disabled={disabled} checked={status} onChange={toogle}/>
+          <IOSSwitch sx={{ m: 1 }} checked={status} onChange={toogle}/>
           <div className={classes.labelRight}>
             <Typography  variant="subtitle2" color='textSecondary'>{labelRight}</Typography>
           </div>

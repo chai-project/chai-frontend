@@ -12,10 +12,10 @@ const heatingProfilesReducer = (state: []| null = null , action:any) => { //buvo
     }
 }
 
-export const initializeHeatingProfiles = () => {
+export const initializeHeatingProfiles = (label:String) => {
     return async (dispatch : Dispatch) => {
         const profileLabels = ["Nights", "Mornings", "Weekdays", "Evenings", "Weekends"]
-        const heatingProfiles = await services.getHeatingProfiles();
+        const heatingProfiles = await services.getHeatingProfiles(label);
         const profilesWithLabels = heatingProfiles.map((profile:any)=>{ //define type later
             return {...profile, profileName: profileLabels[profile.profile-1]}
         });
