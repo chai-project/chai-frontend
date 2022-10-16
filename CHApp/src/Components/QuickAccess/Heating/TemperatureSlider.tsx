@@ -49,87 +49,87 @@ const marks = [
   {
     value: 11,
     realValue: 17,
-    label: '17°'
+    label: '17'
   },
   {
     value: 12,
     realValue: 17.5,
-    label: '17.5°'
+    label: '17.5'
   },
   {
     value: 13,
     realValue: 18,
-    label: '18°'
+    label: '18'
   },
   {
     value: 14,
     realValue: 18.5,
-    label: '18.5°'
+    label: '18.5'
   },
   {
     value: 15,
     realValue: 19,
-    label: '19°'
+    label: '19'
   },
   {
     value: 16,
     realValue: 19.5,
-    label: '19.5°'
+    label: '19.5'
   },
   {
     value: 17,
     realValue: 20,
-    label: '20°'
+    label: '20'
   },
   {
     value: 18,
     realValue: 20.5,
-    label: '20.5°'
+    label: '20.5'
   },
   {
     value: 19,
     realValue: 21,
-    label: '21°'
+    label: '21'
   },
   {
     value: 20,
     realValue: 21.5,
-    label: '21.5°'
+    label: '21.5'
   },
   {
     value: 21,
     realValue: 22,
-    label: '22°'
+    label: '22'
   },
   {
     value: 22,
     realValue: 22.5,
-    label: '22.5°'
+    label: '22.5'
   },
   {
     value: 23,
     realValue: 23,
-    label: '23°'
+    label: '23'
   },
   {
     value: 24,
     realValue: 23.5,
-    label: '23.5°'
+    label: '23.5'
   },
   {
     value: 25,
     realValue: 24,
-    label: '24°'
+    label: '24'
   },
   {
     value: 26,
     realValue: 24.5,
-    label: '24.5°'
+    label: '24.5'
   },
   {
     value: 27,
     realValue: 25,
-    label: '25°',
+    label: '25',
   }
 ];
 
@@ -302,9 +302,12 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
 
   useEffect(()=>{
     if(!targetTemperature.isSetTargetTemperature){
-        const realValue = marks.find(mark => mark.realValue === targetTemperature.targetTemperature)
+        const roundedTemperatureValue = Math.round(targetTemperature.targetTemperature * 2) /2
+        const realValue = marks.find(mark => mark.realValue === roundedTemperatureValue)
         if(realValue){
           setValue(realValue.value)
+        }else{
+          setValue(11)
         }
     }
   },[targetTemperature])
@@ -360,7 +363,7 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
                 labelValue
             )
         }}
-        disabled={targetTemperature.heatingAutoMode === "auto"  ? false : true}
+        disabled={targetTemperature.heatingAutoMode === "auto"  || targetTemperature.heatingAutoMode === "override"  ? false : true}
         step={1}
         value={value}
         onChange={handleChange}

@@ -131,6 +131,10 @@ const useStyles = makeStyles((theme: Theme) =>
         height:'20px',
         position:'relative',
         right: '10px'
+    },
+    override:{
+      fontSize:14,
+      color: '#57CBCC'
     }
   })
 );
@@ -206,8 +210,9 @@ const confirmYes = () => {
 //   dispatch(setTemperature(requestTargetTemperatureValue));
   if(requestTargetTemperatureValue){
     dispatch(setTemperature(requestTargetTemperatureValue));
+    dispatch(setHeatingComponentMode('override'))
   }
-  console.log('yes')
+  // console.log('yes')
   setIsSetTargetTemperature(false)
 }
 
@@ -237,7 +242,7 @@ const valvelStatusAndToogleButtonsComponent = () => {
         <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.valveStatusAndToogleButtons}>
             <Grid item container xs={6} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
                 <Typography className={classes.valveStatus}>Valve: <b>{heatingComponentState.valve_open === true ? "Open" : "Closed"}</b></Typography>
-                <Typography className={classes.valveStatus}>Active profile: <b>{heatingComponentState.activeProfile?.profileName}</b></Typography>
+                {heatingComponentState.mode === "auto" || heatingComponentState.mode === "override"?  <Typography className={classes.valveStatus}>Active profile: <b>{heatingComponentState.activeProfile?.profileName}</b></Typography> : null}
             </Grid>
             <Grid item container xs={6} direction="column" justifyContent="center" alignItems="center">
                 <Grid item spacing={1}>
@@ -265,6 +270,7 @@ const valvelStatusAndToogleButtonsComponent = () => {
                                             <Grid item container xs={3.5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.actualTemperatureContainer}>
                                                 <Grid item className={classes.actualTemperature}><b>{heatingComponentState.temperature}°C</b></Grid>
                                                 <Grid item className={classes.actualTemperatureLabel}><b>Currently</b></Grid>
+                                                {heatingComponentState.mode === "override" ? <Grid item className={classes.override}> Override active</Grid> : null}
                                             </Grid>
                                         </Grid>
                                         {isSetTargetTemperature ? confirmComponent() : valvelStatusAndToogleButtonsComponent()}

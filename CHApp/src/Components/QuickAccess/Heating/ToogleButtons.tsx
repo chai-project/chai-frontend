@@ -8,7 +8,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { setHeatingComponentMode } from '../../../Redux-reducers/heatingComponentReducer';
 
 const ToggleButtons: React.FC<{heatingComponentMode:string}> = ({heatingComponentMode})  => {
-  const [mode, setMode] = React.useState(heatingComponentMode);
+  const [mode, setMode] = React.useState(heatingComponentMode === "override" ? "auto" :heatingComponentMode);
   const dispatch = useDispatch()
 
   const handleChange = async (
@@ -32,7 +32,7 @@ const ToggleButtons: React.FC<{heatingComponentMode:string}> = ({heatingComponen
       aria-label="device"
     >
       <ToggleButton size="small" value="on">On</ToggleButton>
-      <ToggleButton size="small" value="auto">Auto</ToggleButton>
+      <ToggleButton size="small" value={"auto"}>Auto</ToggleButton>
       <ToggleButton size="small" value="off">Off</ToggleButton>
       {/* <ToggleButton size="small" value='novalue' disabled></ToggleButton> */}
     </ToggleButtonGroup>

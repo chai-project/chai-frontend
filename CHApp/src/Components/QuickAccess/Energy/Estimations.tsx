@@ -79,7 +79,7 @@ const Estimations: React.FC = () => {
                 <CurrencyPoundIcon fontSize='small' color='primary'/>
             </Grid>
             <Grid item xs={7}> Average price:</Grid>
-            <Grid item xs={3} fontSize={15}><b>2.45</b> p </Grid>
+            <Grid item xs={3} fontSize={15}><b>2.45</b> p/kWh </Grid>
         </Grid>
         <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
             <Grid item xs={1}>
