@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // maxWidth: '1400px',
       // border: "2px dashed red",
       // position: 'relative', //buvo relative
-      height: '850px', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu! // buvo 790 jei ka atekisti!!!
+      height: '790px', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu! // buvo 790 jei ka atekisti!!!
       // minHeight: '790px',
       // marginLeft: 'auto',
       // marginRight: 'auto',
@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme: Theme) =>
       
     },
     quickAccess:{
-      height:'850px', //buvo 790jei ka atkeist!!!!
+      height:'790px', //buvo 790jei ka atkeist!!!!
       // minHeight:'790px',
       // position:'relative',
       // border: "1px dashed lime",

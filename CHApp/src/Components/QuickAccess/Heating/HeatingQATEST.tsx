@@ -178,7 +178,11 @@ const HeatingQATEST: React.FC = () => {
   const [timerID, setTimerID] = useState<any>()
 
   const classes = useStyles();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const url = createBrowserHistory()
+  const parameters = new URLSearchParams(url.location.search);
+  const homeLabel =  parameters.get('home')
   
 
 //   // let timerID:any 
@@ -205,15 +209,12 @@ const HeatingQATEST: React.FC = () => {
 // console.log('hmhm', activeProfile)
 
 
-
+// console.log(heatingComponentState,'blblbl')
 
 //confirm buttons actions
 
 const confirmYes = async () => {
   if(requestTargetTemperatureValue){
-    const url = createBrowserHistory()
-    const parameters = new URLSearchParams(url.location.search);
-    const homeLabel =  parameters.get('home')
 
     const response = await services.setTemperature(homeLabel! , heatingComponentState.mode, requestTargetTemperatureValue );
     if(response === 200){
@@ -256,7 +257,7 @@ const valvelStatusAndToogleButtonsComponent = () => {
             </Grid>
             <Grid item container xs={6} direction="column" justifyContent="center" alignItems="center">
                 <Grid item spacing={1}>
-                    <ToggleButtons heatingComponentMode={heatingComponentState.mode}/>
+                    <ToggleButtons label={homeLabel!} heatingComponentState={heatingComponentState}/>
                 </Grid>
                 <Grid item spacing={1}></Grid>
                 <Grid item spacing={1} className={classes.expiresAt}>

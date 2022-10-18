@@ -88,6 +88,7 @@ import { Typography } from '@material-ui/core';
                     <Grid item>
                         <img className={classes.logo} src={Logo}></img>
                     </Grid>
+                    <Grid item xs={1}></Grid>
                 </Grid>
                 <Grid xs={6} item container direction="column" justifyContent="center" alignItems="center" className={classes.error} >
                     <Grid item>

@@ -31,7 +31,28 @@ const response = await axios.put(
     return res.status
 });
 return response
-}
+};
+
+const setHeatingDeviceMode = async (label:String, mode:String) => {
+    const response = await axios.put(
+        `https://api.project-chai.org/heating/mode/?label=${label}`,
+        {
+            'mode': mode,
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then((res)=>{
+        console.log(res);
+        return res.status
+    }).catch((e)=>{
+        console.error(e.errorMessage)
+    });
+    return response
+
+};
 
 const getHeatingComponentData = async (label:String) => {
     const request = await axios.get(`${baseURL}/heating/mode/?label=${label}`).then((res)=>{
@@ -103,4 +124,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode}
