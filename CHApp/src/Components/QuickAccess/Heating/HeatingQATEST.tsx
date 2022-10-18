@@ -22,6 +22,10 @@ import TemperatureSlider from './TemperatureSlider';
 import SwitchButton from '../../Buttons/SwitchButton';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 import ToggleButtons from './ToogleButtons';
+import services from '../../../Services/services';
+
+
+import { createBrowserHistory } from 'history';
 
 
 
@@ -63,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // right: '-3px' // buvo 5px
     },
     infoAndSwitchButtonsContainer:{
-    //   border: "2px dashed lime",
+      // border: "2px dashed lime",
       width: '100%',
       height:'50%'
     },
@@ -75,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
     actualTemperatureContainer:{
     //   border: "2px dashed yellow",
       position: 'relative',
-      top: '-65px', //was 70 change because of leter C
+      top: '-75px', //was 65 change because of leter C
       left:'10px' //was 8 change because of leter C
       // top: '%'
     },
@@ -205,15 +209,21 @@ const HeatingQATEST: React.FC = () => {
 
 //confirm buttons actions
 
-const confirmYes = () => {
-  //send request to the server if 200 update redux!
-//   dispatch(setTemperature(requestTargetTemperatureValue));
+const confirmYes = async () => {
   if(requestTargetTemperatureValue){
-    dispatch(setTemperature(requestTargetTemperatureValue));
-    dispatch(setHeatingComponentMode('override'))
-  }
-  // console.log('yes')
-  setIsSetTargetTemperature(false)
+    const url = createBrowserHistory()
+    const parameters = new URLSearchParams(url.location.search);
+    const homeLabel =  parameters.get('home')
+
+    const response = await services.setTemperature(homeLabel! , heatingComponentState.mode, requestTargetTemperatureValue );
+    if(response === 200){
+      dispatch(setTemperature(requestTargetTemperatureValue));
+      dispatch(setHeatingComponentMode('override'));
+      //set notification!! 
+    }
+  };
+  setIsSetTargetTemperature(false);
+  setRequestTargetTemperature(null);
 }
 
 const confirmCancel = () => {

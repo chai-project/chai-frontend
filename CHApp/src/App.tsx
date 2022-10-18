@@ -334,6 +334,7 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
+      {/* <button onClick={()=>{services.setTemperature()}}>hmm</button> */}
     <ThemeProvider theme={theme ? light : dark}>
       <div>
         <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>

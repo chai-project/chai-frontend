@@ -12,6 +12,27 @@ const setBearerToken = (token: String, userAuthorizationHeader:String) => {
 };
 //Heating Component
 
+const setTemperature = async (label:String, mode: String, target:number) => {
+    // console.log(label, mode, target, 'wtf???')
+const response = await axios.put(
+    `https://api.project-chai.org/heating/mode/?label=${label}`,
+    // '{"mode": "auto", "target": 21.5}',
+    {
+        'mode': `${mode === "override" || mode === "auto" ? 'auto' : mode}`,
+        'target': target
+    },
+    {
+        headers: {
+            // 'Authorization': 'Bearer 8dbb9774-970c-4f9d-8992-65f88e501d0e,b7b100ed0a9e8e54af91ece8',
+            'Content-Type': 'application/json'
+        }
+    }
+).then((res)=>{
+    return res.status
+});
+return response
+}
+
 const getHeatingComponentData = async (label:String) => {
     const request = await axios.get(`${baseURL}/heating/mode/?label=${label}`).then((res)=>{
         // console.log('config: ',res.config)
@@ -82,4 +103,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature}
