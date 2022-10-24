@@ -134,7 +134,7 @@ const marks = [
 ];
 
 
-const IOSSlider = styled(Slider)(({ theme }) => ({
+const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
     color: theme.palette.mode === 'dark' ? '#3880ff' : '#3880ff',
     height: 52, // cia aukstis sliderio
     borderRadius: 25,
@@ -143,7 +143,7 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
       height: 58,
       width: 28, // buvo 25
       borderRadius: 25,
-      backgroundColor: '#57CBCC',
+      backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' : '#57CBCC',
       boxShadow: iOSBoxShadow,
     //   zIndex: 10000,
       '&[data-index="0"]' : { // thumb pirmas
@@ -195,7 +195,7 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
     },
     '& .MuiSlider-rail': {
       opacity: 1, // buvo 0.5 
-      background: 'linear-gradient(270deg, #57CBCC 0.91%, transparent 92.23%)', // cia buvo backgroundColor pakeiciau i backgorund.
+      background: mode.heatingAutoMode === "override" ? 'linear-gradient(270deg, #F6946B 0.91%, transparent 92.23%)' :'linear-gradient(270deg, #57CBCC 0.91%, transparent 92.23%)', // cia buvo backgroundColor pakeiciau i backgorund.
     },
     '& .MuiSlider-markLabel':{ // temperature slider labels
         // color: 'red',
@@ -227,7 +227,7 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
           },
       },
     '& .MuiSlider-mark': { // temperature  marks
-      backgroundColor: '#57CBCC', //spalva po thumbo
+      backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' :'#57CBCC', //spalva po thumbo
       height: '10px',
       width: '2px',
       top: '15%',
@@ -265,7 +265,7 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
       },
       '&.MuiSlider-markActive': {
         opacity: 1,
-        backgroundColor: '#57CBCC', // spalva pries thumba.
+        backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' :'#57CBCC', // spalva pries thumba.
       },
     },
     "&.Mui-disabled": {
@@ -275,6 +275,7 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
             background: 'linear-gradient(270deg, #D0D2D4 0.91%, transparent 92.23%)', // cia buvo backgroundColor pakeiciau i backgorund.
           },
           '& .MuiSlider-thumb': {
+            display: 'none',
             height: 58,
             width: 25,
             borderRadius: 25,
@@ -287,6 +288,48 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
               '@media (hover: none)': {
                 boxShadow: iOSBoxShadow,
               },
+            },
+          },
+          '& .MuiSlider-mark': { // temperature  marks
+            backgroundColor: '#D0D2D4', //spalva po thumbo
+            height: '10px',
+            width: '2px',
+            top: '15%',
+            '&[data-index="1"]' : {
+              height: '8px',
+              top: '16%',
+            },
+            '&[data-index="3"]' : {
+              height: '8px',
+              top: '16%',
+            },
+            '&[data-index="5"]' : {
+              height: '8px',
+              top: '16%',
+            },
+            '&[data-index="7"]' : {
+              height: '8px',
+              top: '16%',
+            },
+            '&[data-index="9"]' : {
+              height: '8px',
+              top: '16%',
+            },
+            '&[data-index="11"]' : {
+              height: '8px',
+              top: '16%',
+            },
+            '&[data-index="13"]' : {
+              height: '8px',
+              top: '16%',
+            },
+            '&[data-index="15"]' : {
+              height: '8px',
+              top: '16%',
+            },
+            '&.MuiSlider-markActive': {
+              opacity: 1,
+              backgroundColor: '#D0D2D4', // spalva pries thumba.
             },
           },
       },
@@ -347,7 +390,8 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
 
   return (
     <div className={classes.container}>
-        <IOSSlider
+      <IOSSlider 
+        mode={targetTemperature}
         aria-label="ios slider"
         defaultValue={value}
         marks={marks}
@@ -370,7 +414,7 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
         disableSwap
         // min={25}
         max={30}
-        />
+      />
     </div>
   );
 };

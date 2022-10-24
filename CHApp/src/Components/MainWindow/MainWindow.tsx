@@ -24,6 +24,7 @@ import Profiles from './Profiles/Profiles';
 import Schedule from './Schedule/Schedule';
 import EditWeekdaySchedule from './Schedule/Edit/EditWeekdaySchedule';
 import ErrorComponent from '../ErrorPages/ErrorComponent';
+import { Backdrop } from '@material-ui/core';
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

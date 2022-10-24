@@ -21,6 +21,7 @@ import timeslot from '../../../Types/types';
 import Weekday from './Weekday';
 import WeekdayPaste from './WeekdayPaste';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
+import TimeslotMoreInfoOverlay from './TimeslotMoreInfoOverlay';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -151,11 +152,12 @@ const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
   return (
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
+        {/* <TimeslotMoreInfoOverlay/> */}
         <Grid container className={classes.container} direction="column" justifyContent={weekSchedule ? "center" : "center"} alignItems="center" spacing={0.5} > {/* buvo justify content center*/}
         <Grid item xs={0.2}></Grid> 
           {weekSchedule ? null :           
                                 <Grid item>
-                                  <ProgressCircular/>
+                                  <ProgressCircular size={40}/>
                                 </Grid>
           }
             {weekSchedule?.map((weekday:any)=>{

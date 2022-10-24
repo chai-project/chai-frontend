@@ -18,6 +18,8 @@ import {useSelector, useDispatch} from 'react-redux'
 //components
 import SelectProfileButton from './SelectProfileButton';
 import Chart from './Chart';
+import PriceSensivityGauge from './PriceSensivityGauge';
+import TimeslotMoreInfoOverlay from '../Schedule/TimeslotMoreInfoOverlay';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -63,6 +65,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
   return (
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
+          <TimeslotMoreInfoOverlay/>
             <Grid item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
                 <Grid item xs={1}></Grid>
                 <Grid item container xs={11} direction="column" justifyContent="center" alignItems="flex-start">
@@ -70,7 +73,8 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
                         <Typography>Preferred temperature (if energy were free): {<b>22.4 °C</b>}</Typography>
                     </Grid>
                     <Grid item>
-                        <Typography>Price sensitivity: {<b>{profile.slope}</b>}</Typography> 
+                        {/* <Typography>Price sensitivity: {<b>{profile.slope}</b>}</Typography>  */}
+                        <PriceSensivityGauge priceSensivity={profile.slope}/>
                     </Grid>
                 </Grid>
             </Grid>

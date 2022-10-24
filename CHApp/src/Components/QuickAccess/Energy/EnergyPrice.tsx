@@ -25,6 +25,8 @@ import {useSelector, useDispatch} from 'react-redux'
 
 //components
 import ButtonsForEnergyQA from './ButtonsForEnergyQA';
+import ProgressCircular from '../../ProgressBar/ProgressCircular';
+import { Typography } from '@material-ui/core';
 
 
 
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
     //   minWidth: '90%',
     //   borderRadius: '25px'
     backgroundColor: 'red',
-    border: '1px solid red'
+    // border: '1px solid red'
     },
     container: {
         border: '1px solid green'
@@ -54,23 +56,15 @@ const useStyles = makeStyles((theme: Theme) =>
     root:{
         position: 'relative',
         top: '4%',
-        left: '3%'
+        left: '3%',
+        // border: '1px solid green'
     }
   }),
 );
 
-const EnergyPrice: React.FC = () => {
-
-  const [periodState, setPeriodState] = useState<String>('Today')
-  const periods = ['Today', 'This week', 'This month']
-  const [deviceState, setDeviceState] = useState<String>('Total')
-  const devices = ['Total', 'Heating', 'Battery']
+const EnergyPrice: React.FC<{energyPrice:any}> = ({energyPrice}) => {
   const classes = useStyles();
-  const dispatch = useDispatch()
-
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
+  const dispatch = useDispatch();
 
   return (
     <div className={classes.root}>
@@ -78,8 +72,11 @@ const EnergyPrice: React.FC = () => {
             <Grid item xs={1}>
               <CurrencyPoundIcon fontSize='small' color='primary'/>
             </Grid>
-            <Grid item xs={7}> Current price:</Grid>
-            <Grid item xs={3} fontSize={15}><b>0.45</b> p/kWh</Grid> {/* jei nori tarpu tarp p / kwh padaryti 14 font size */}
+            <Grid item xs={7} fontSize={15}> <Typography variant="inherit"> Current price:</Typography></Grid>
+            <Grid item xs={1.7} fontSize={15}>
+              {energyPrice !== null ?  <Typography variant="inherit"><b>{energyPrice.currentEnergyPrice[0].rate}</b></Typography> : <ProgressCircular size={20}/>}  
+            </Grid> {/* jei nori tarpu tarp p / kwh padaryti 14 font size */}
+            <Grid item xs={2.3} fontSize={15}><Typography variant="inherit">p/kWh</Typography></Grid>
         </Grid>
     </div>
   );

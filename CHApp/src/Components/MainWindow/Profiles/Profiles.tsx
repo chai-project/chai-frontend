@@ -124,7 +124,7 @@ const Profiles: React.FC = () => {
                      : 
                         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
                             <Grid item>
-                                <ProgressCircular/>
+                                <ProgressCircular size={40}/>
                             </Grid>
                         </Grid>
         }

@@ -5,12 +5,12 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 //redux
 import {useSelector, useDispatch} from 'react-redux'
-import { setHeatingComponentMode } from '../../../Redux-reducers/heatingComponentReducer';
+import { initializeHeatingComponentData, setHeatingComponentMode } from '../../../Redux-reducers/heatingComponentReducer';
 import services from '../../../Services/services';
 
 const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({heatingComponentState, label})  => {
   const [mode, setMode] = React.useState(heatingComponentState.mode === "override" ? "auto" :heatingComponentState.mode);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleChange = async (
     event: React.MouseEvent<HTMLElement>,
@@ -31,11 +31,12 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
         // //200 is servo update redux, jei ne tada atgal sustatyti kaip buvo, dabar laikinai kadangi servas off updatinu redux!!!!
         // dispatch(setHeatingComponentMode(newMode));
       }else {
-        const response = await services.setTemperature(label, newMode, heatingComponentState.target_temperature ? heatingComponentState.target_temperature : 17  );
+        // const response = await services.setTemperature(label, newMode, heatingComponentState.target_temperature ? heatingComponentState.target_temperature : 17  ); //buvo
+        const response = await services.setHeatingDeviceMode(label, newMode);
         if(response === 200) {
           setMode(newMode)
           //200 is servo update redux, jei ne tada atgal sustatyti kaip buvo, dabar laikinai kadangi servas off updatinu redux!!!!
-          dispatch(setHeatingComponentMode(newMode));
+          dispatch(initializeHeatingComponentData(label));
         }else{
           setMode(heatingComponentState.mode)
         }

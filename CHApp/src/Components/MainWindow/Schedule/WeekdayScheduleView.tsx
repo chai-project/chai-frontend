@@ -16,6 +16,7 @@ import { Typography } from '@material-ui/core';
 
 //types
 import timeslot from "../../../Types/types"
+import TimeslotMoreInfoOverlay from './TimeslotMoreInfoOverlay';
 
 //components
 
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
         "&:hover, &:focus": {
             // borderRight: "10px solid red",
             background : "#57CBCC",
+            cursor: 'pointer'
             
         },
         "& .timeslotInfo": {
@@ -169,9 +171,9 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
                 //pasikeicia laikai wTF??:D:DD::DD
                 const colorOfATimeslot = parseInt(profile.temperature) < 17 ? '#57A6F0' : parseInt(profile.temperature) < 22 ? '#F6946B' : parseInt(profile.temperature) < 27 ? '#FE6262' : null 
                 return (
-                    <Grid item container xs={sizeOfATimeslot} sx={{background:profile.color}} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center"> {/* , borderRight: timeslots.length === index + 1 ? null : "1px solid #57CBCC"  */}
+                    <Grid item container xs={sizeOfATimeslot} sx={{background:profile.color}} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center" onClick={()=>{console.log('open overlay')}}> {/* , borderRight: timeslots.length === index + 1 ? null : "1px solid #57CBCC"  */}
                         <Typography className={classes.temperatureLabel}>{sizeOfATimeslot < 0.75 ? null : profile.temperature + '°C' }</Typography>
-                        <div className="timeslotInfo" style={{position:'absolute', top:"75%", background: "#57CBCC", width:'180px', height:"85px", borderRadius:'5%', borderTopRightRadius: '5%',zIndex: 10}}>
+                        {/* <div className="timeslotInfo" style={{position:'absolute', top:"75%", background: "#57CBCC", width:'180px', height:"85px", borderRadius:'5%', borderTopRightRadius: '5%',zIndex: 10}}>
                             <Grid container  direction="column" justifyContent="center" alignItems="flex-start">
                                 <Grid item>
                                     <Typography className={classes.infoLabel} >Profile: <b>{profile.profileName}</b></Typography>
@@ -186,7 +188,7 @@ const WeekdayScheduleView: React.FC<{timeslots:any}>= ({timeslots}) => { // time
                                     <Typography className={classes.infoLabel}>Average temperature: <b>{profile.temperature}°C</b></Typography>
                                 </Grid>
                             </Grid>
-                        </div>
+                        </div> */}
                     </Grid>
                 )
             })}

@@ -15,7 +15,7 @@ const setBearerToken = (token: String, userAuthorizationHeader:String) => {
 const setTemperature = async (label:String, mode: String, target:number) => {
     // console.log(label, mode, target, 'wtf???')
 const response = await axios.put(
-    `https://api.project-chai.org/heating/mode/?label=${label}`,
+    `${baseURL}/heating/mode/?label=${label}`,
     // '{"mode": "auto", "target": 21.5}',
     {
         'mode': `${mode === "override" || mode === "auto" ? 'auto' : mode}`,
@@ -35,7 +35,7 @@ return response
 
 const setHeatingDeviceMode = async (label:String, mode:String) => {
     const response = await axios.put(
-        `https://api.project-chai.org/heating/mode/?label=${label}`,
+        `${baseURL}/heating/mode/?label=${label}`,
         {
             'mode': mode,
         },
@@ -68,7 +68,36 @@ const getHeatingComponentData = async (label:String) => {
 })
     // console.log(request)
     return request
-}
+};
+
+// Heating price 
+
+const getAverageHeatingPricePeriod = async (period:any) => {
+    const encodedStart = encodeURIComponent(period.start);
+    const encodedEnd = encodeURIComponent(period.end);
+    const response = await axios.get(`${baseURL}/electricity/prices/?start=${encodedStart}&end=${encodedEnd}`).then((res)=>{
+        return res
+    });
+    return response.data
+
+//     Query params: {'start': '2022-10-24T00:00:00+01:00', 'end': '2022-10-25T00:00:00+01:00'}
+//                              2022-10-24T00%3A00%3A00%2B01%3A00
+//                              2022-10-24T00%3A00%3A00%2B01%3A00
+// curl --request GET 'https://api.project-chai.org/electricity/prices/?start=2022-10-24T00%3A00%3A00%2B01%3A00&end=2022-10-25T00%3A00%3A00%2B01%3A00'
+    // return response
+
+
+};
+// getAverageHeatingPricePeriod('2022-10-24T00:00:00+01:00', '2022-10-25T00:00:00+01:00')
+const getCurrentHeatingPriceLimit = async () => {
+
+      const response = await axios.get('https://api.project-chai.org/electricity/prices/?limit=1').then((res)=>{
+        return res.data
+      });
+      return response
+
+};
+
 //Heating schedule
 
 const getHeatingScheduleData = async (label:String) => {
@@ -124,4 +153,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod}

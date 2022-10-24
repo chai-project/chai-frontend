@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     override:{
       fontSize:14,
-      color: '#57CBCC'
+      color: '#F6946B'
     }
   })
 );
@@ -183,6 +183,7 @@ const HeatingQATEST: React.FC = () => {
   const url = createBrowserHistory()
   const parameters = new URLSearchParams(url.location.search);
   const homeLabel =  parameters.get('home')
+
   
 
 //   // let timerID:any 
@@ -289,7 +290,7 @@ const valvelStatusAndToogleButtonsComponent = () => {
                                     :
                                     <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
                                         <Grid item>
-                                         <ProgressCircular/>
+                                         <ProgressCircular size={40}/>
                                         </Grid>
                                     </Grid>
         }

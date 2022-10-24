@@ -21,6 +21,7 @@ import { initializeHeatingComponentData, setActiveProfile } from './Redux-reduce
 import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReducer';
 import { initializeHeatingProfiles } from './Redux-reducers/heatingProfilesReduces';
 import { setErrorMessageForErrorComponentReducer } from './Redux-reducers/errorMessageForErrorComponentReducer';
+import { initializeEnergyPriceData } from './Redux-reducers/energyPriceDataReducer';
 
 
 // types
@@ -172,9 +173,11 @@ const App: React.FC = () => {
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   
-  const chartData: chartDataType = useSelector((state: any) => state.chartData);
+  const chartData: chartDataType = useSelector((state: any) => state.energyPriceData);
   const classes = useStyles();
   const dispatch = useDispatch()
+
+  // const everystate: any = useSelector((state: any) => state.);
   
 
   useEffect(() => {
@@ -229,6 +232,7 @@ const App: React.FC = () => {
 
         if(isValid && homeLabel && userToken ){
           dispatch(initializeChartData())
+          dispatch(initializeEnergyPriceData())
           dispatch(initializeHeatingProfiles(homeLabel))
           dispatch(initializeHeatingComponentData(homeLabel))
           dispatch(initializeHeatingSchedule(homeLabel))
@@ -334,7 +338,7 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      {/* <button onClick={()=>{services.setTemperature()}}>hmm</button> */}
+      {/* <button onClick={()=>{console.log(";;;",chartData)}}>hmm</button> */}
     <ThemeProvider theme={theme ? light : dark}>
       <div>
         <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
