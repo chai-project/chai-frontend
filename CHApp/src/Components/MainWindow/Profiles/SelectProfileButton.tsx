@@ -40,8 +40,8 @@ const useStyles = makeStyles({
 
 
 const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:any}> = ({allProfiles, profile, setProfile }) => {
-  const heatingComponentState = useSelector( (state:any)=>{ // async await problemos, su switch button, reike giliau pasikapstyt, bet async await neupdeitina steito.
-    return  state.heatingComponent
+  const activeProfile = useSelector( (state:any)=>{ // async await problemos, su switch button, reike giliau pasikapstyt, bet async await neupdeitina steito.
+    return  state.heatingComponent.activeProfile
   })
 
   const [selectedProfile, setSelectedProfile] = useState('');
@@ -49,12 +49,15 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
   // console.log(allProfiles)
 
   useEffect(()=>{
-    const profileToSet = allProfiles.find((profile:any)=>{
-      return profile.profileName == heatingComponentState.activeProfile.profileName
-    })
-    setSelectedProfile(heatingComponentState.activeProfile.profileName)
-    setProfile(profileToSet);
-  },[heatingComponentState]);
+    if(activeProfile  && allProfiles){ 
+      
+      const profileToSet = allProfiles.find((profile:any)=>{
+        return profile.profileName === activeProfile.profileName
+      })
+      setSelectedProfile(activeProfile.profileName)
+      setProfile(profileToSet);
+    }
+  },[activeProfile]);
 
 
   const handleChange = (event: SelectChangeEvent) => {

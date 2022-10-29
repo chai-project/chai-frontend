@@ -82,20 +82,11 @@ const Profiles: React.FC = () => {
 
     const allProfiles = useSelector((state:any)=>{
         return(
-          state.heatingProfiles
+          state.heatingProfiles.heatingProfiles
         )
       })
-
-      useEffect(()=>{
-        
-      },[])
-
     const classes = useStyles();
     const dispatch = useDispatch()
-
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
 
   return (
     <div className={classes.main}>
@@ -103,7 +94,9 @@ const Profiles: React.FC = () => {
                         <Grid container className={classes.container} direction="column" justifyContent="flex-start" alignItems="center">
                             <Grid item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
                                 <Grid item className={classes.selectProfileButton}>
+                                    {allProfiles?
                                     <SelectProfileButton allProfiles={allProfiles} profile={profile} setProfile={setProfile}/>
+                                    :null}
                                 </Grid>
                                 <Grid item className={classes.spaceBetweenButtons}></Grid>
                                 <Grid item className={classes.resetProfileButtons} direction="row" justifyContent="flex-end" alignItems="center">

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import {useParams} from "react-router-dom";
 
@@ -11,6 +11,8 @@ import { CssBaseline, Button, Paper } from '@mui/material/';
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 import {setTemperature} from '../../Redux-reducers/heatingComponentReducer'
+import { initializeHeatingComponentData, setActiveProfile } from '../../Redux-reducers/heatingComponentReducer';
+
 // import { initializeData } from './Redux-reducers/dataReducer';
 
 
@@ -45,30 +47,42 @@ const MainWindow: React.FC = () => {
     const classes = useStyles();
     const dispatch = useDispatch()
 
-    const weekSchedule = useSelector((state:any)=>{
+    const currentState:any = useSelector((state:any)=>{
       return(
-        state.heatingSchedule
+        state
       )
     })
-    
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
+
+    useEffect(()=>{
+      if(currentState.heatingSchedule){
+        const activeProfile =  currentState.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
+          const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+          if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+            if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+              return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+            } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+              return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+            } else {
+              return profile
+            }
+          }
+        })
+        dispatch(setActiveProfile(activeProfile))
+      }
+
+    },[currentState.heatingSchedule])
 
   return (
     <div className={classes.main}>
-      {/* <Router> */}
-      {/* {<button onClick={()=>{dispatch(setTemperature(27))}}>set temp</button>} */}
         <Routes>
           <Route path='/' element={<p>Home</p>}/>
-          <Route path='schedule' element={<Schedule weekSchedule={weekSchedule}/>}/>
+          <Route path='schedule' element={<Schedule weekSchedule={currentState.heatingSchedule} heatingProfiles={currentState.heatingProfiles}/>}/>
           <Route path='schedule/:weekday' element={<EditWeekdaySchedule />}/>
           <Route path='profiles' element={<Profiles/>}/>
           <Route path='notifications' element={<Logs/>}/>
           <Route path='/Error' element={<ErrorComponent/>}/>
           <Route path='*' element={<ErrorComponent/>}/>
         </Routes>
-      {/* </Router> */}
     </div>
   );
 };

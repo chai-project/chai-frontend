@@ -35,8 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo: {
         position: 'relative',
-        height: '100px', //buvo 115px, sumazinau nes neuzteko vietos sutalpinti 6 iconas su info, atkeisi jeigu liks vietos po sudejimo.
+        height: '90px', //buvo 115px, sumazinau nes neuzteko vietos sutalpinti 6 iconas su info, atkeisi jeigu liks vietos po sudejimo.
         top: '5px',
+        left: '8px'
     },
     gridItem:{
       width: '95%' // buvo 90%, manau 90 geriau atrodo !

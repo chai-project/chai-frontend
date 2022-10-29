@@ -74,7 +74,7 @@ const EnergyPrice: React.FC<{energyPrice:any}> = ({energyPrice}) => {
             </Grid>
             <Grid item xs={7} fontSize={15}> <Typography variant="inherit"> Current price:</Typography></Grid>
             <Grid item xs={1.7} fontSize={15}>
-              {energyPrice !== null ?  <Typography variant="inherit"><b>{energyPrice.currentEnergyPrice[0].rate}</b></Typography> : <ProgressCircular size={20}/>}  
+              {energyPrice !== null ?  <Typography variant="inherit"><b>{energyPrice.currentEnergyPrice[0].rate.toFixed(2)}</b></Typography> : <ProgressCircular size={20}/>}  
             </Grid> {/* jei nori tarpu tarp p / kwh padaryti 14 font size */}
             <Grid item xs={2.3} fontSize={15}><Typography variant="inherit">p/kWh</Typography></Grid>
         </Grid>

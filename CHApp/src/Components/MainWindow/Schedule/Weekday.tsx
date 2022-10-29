@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,schedule:{id:number, profileName:String,profileStart:String,profileEnd:String, temperature:String}[]} ,  setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null, setScheduleToCopy:any}>= ({weekday, scheduleForAWeekday, setCopyWeekdaySchedule,copyWeekdaySchedule, setScheduleToCopy}) => {
+const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,schedule:{id:number, profileName:String,profileStart:String,profileEnd:String, temperature:String}[]} ,  setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null, setScheduleToCopy:any, indexOfASchedeule:number}>= ({weekday, scheduleForAWeekday, setCopyWeekdaySchedule,copyWeekdaySchedule, setScheduleToCopy, indexOfASchedeule}) => {
     
     const navigate = useNavigate();
     //more button
@@ -104,8 +104,8 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
     //redux
     const dispatch = useDispatch()
 
-  const krc = () => {
-    console.log('krc wtf?? : ', scheduleForAWeekday)
+  const setSelectedTimeslot = () => {
+    
   }
 
   return (
@@ -115,7 +115,7 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
         <Divider className={classes.divider} textAlign='left'><b>{scheduleForAWeekday.weekday}</b></Divider>
         <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
             <Grid item xs={8} className={classes.schedule}>
-              <WeekdayScheduleView timeslots={scheduleForAWeekday.schedule}/>
+              <WeekdayScheduleView timeslots={scheduleForAWeekday.schedule} indexOfaWeekday={indexOfASchedeule} weekday={weekday}/>
             </Grid>
             <Grid item xs={0.5}></Grid>
             <Grid item xs={1} container className={classes.moreButton}  direction="row" justifyContent="center" alignItems="center">

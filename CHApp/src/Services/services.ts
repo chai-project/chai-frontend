@@ -80,13 +80,6 @@ const getAverageHeatingPricePeriod = async (period:any) => {
     });
     return response.data
 
-//     Query params: {'start': '2022-10-24T00:00:00+01:00', 'end': '2022-10-25T00:00:00+01:00'}
-//                              2022-10-24T00%3A00%3A00%2B01%3A00
-//                              2022-10-24T00%3A00%3A00%2B01%3A00
-// curl --request GET 'https://api.project-chai.org/electricity/prices/?start=2022-10-24T00%3A00%3A00%2B01%3A00&end=2022-10-25T00%3A00%3A00%2B01%3A00'
-    // return response
-
-
 };
 // getAverageHeatingPricePeriod('2022-10-24T00:00:00+01:00', '2022-10-25T00:00:00+01:00')
 const getCurrentHeatingPriceLimit = async () => {

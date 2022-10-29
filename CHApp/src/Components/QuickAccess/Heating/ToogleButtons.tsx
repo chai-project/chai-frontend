@@ -1,5 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
+//mui
+import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
@@ -7,10 +9,35 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {useSelector, useDispatch} from 'react-redux'
 import { initializeHeatingComponentData, setHeatingComponentMode } from '../../../Redux-reducers/heatingComponentReducer';
 import services from '../../../Services/services';
+import { Typography } from '@material-ui/core';
+
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root:{
+        position: 'relative',
+        top: '5px',
+        right: '10px'
+    },
+    underLine: {
+        width: '35px',
+        height: '2px',
+        backgroundColor: '#57CBCC',
+        borderRadius: 18,
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+    },
+    hmm:{
+      fontSize: 10
+    },
+  }),
+);
 
 const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({heatingComponentState, label})  => {
   const [mode, setMode] = React.useState(heatingComponentState.mode === "override" ? "auto" :heatingComponentState.mode);
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   const handleChange = async (
     event: React.MouseEvent<HTMLElement>,

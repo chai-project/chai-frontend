@@ -50,7 +50,7 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
   const allProfiles = useSelector((state:any)=>{//define type
     // console.log(state)
     return(
-        state?.heatingProfiles
+        state?.heatingProfiles.heatingProfiles
     )
   })
 

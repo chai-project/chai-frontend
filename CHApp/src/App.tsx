@@ -173,7 +173,7 @@ const App: React.FC = () => {
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   
-  const chartData: chartDataType = useSelector((state: any) => state.energyPriceData);
+  const currentState: any = useSelector((state: any) => state);
   const classes = useStyles();
   const dispatch = useDispatch()
 
@@ -273,6 +273,22 @@ const App: React.FC = () => {
 
 }, [])
 
+// if(currentState.heatingSchedule){
+//   const activeProfile =  currentState.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
+//     const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+//     if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+//       if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+//         return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+//       } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+//         return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+//       } else {
+//         return profile
+//       }
+//     }
+//   })
+//   dispatch(setActiveProfile(activeProfile))
+// }
+
 
 
 // cia viskas ok, tik reike kad po kiekvieno update atsinaujintu 
@@ -311,24 +327,24 @@ const App: React.FC = () => {
 
   // }
 
-  const activeProfile = useSelector( (state:any)=>{ //define type later 
-    if(state.heatingSchedule){
-      const activeProfile =  state.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
-        const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-        if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-          if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-            return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-          } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-            return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-          } else {
-            return profile
-          }
-        }
-      });
-      dispatch(setActiveProfile(activeProfile))
-      return activeProfile
-    };
-  });
+  // const activeProfile = useSelector( (state:any)=>{ //define type later 
+  //   if(state.heatingSchedule){
+  //     const activeProfile =  state.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
+  //       const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+  //       if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+  //         if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+  //           return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+  //         } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+  //           return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+  //         } else {
+  //           return profile
+  //         }
+  //       }
+  //     });
+  //     dispatch(setActiveProfile(activeProfile))
+  //     return activeProfile
+  //   };
+  // });
 
   // console.log('tema', activeProfile) 
   //kazkoke nesamone krc 
@@ -338,7 +354,7 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      {/* <button onClick={()=>{console.log(";;;",chartData)}}>hmm</button> */}
+      <button onClick={()=>{console.log(";;;",currentState)}}>hmm</button>
     <ThemeProvider theme={theme ? light : dark}>
       <div>
         <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>

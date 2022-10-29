@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
+const Schedule: React.FC<{weekSchedule:any, heatingProfiles:any}> = ({weekSchedule, heatingProfiles}) => {
     //copy schedule
     const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<string | null>(null);
     const [scheduleToCopy, setScheduleToCopy] = useState<any>(null); // define type was timeslot[]|null
@@ -152,7 +152,7 @@ const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
   return (
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
-        {/* <TimeslotMoreInfoOverlay/> */}
+        {heatingProfiles.selectedProfile ? <TimeslotMoreInfoOverlay heatingProfiles={heatingProfiles}/> : null}
         <Grid container className={classes.container} direction="column" justifyContent={weekSchedule ? "center" : "center"} alignItems="center" spacing={0.5} > {/* buvo justify content center*/}
         <Grid item xs={0.2}></Grid> 
           {weekSchedule ? null :           
@@ -160,25 +160,25 @@ const Schedule: React.FC<{weekSchedule:any}> = ({weekSchedule}) => {
                                   <ProgressCircular size={40}/>
                                 </Grid>
           }
-            {weekSchedule?.map((weekday:any)=>{
+            {weekSchedule?.map((weekday:any, index:number)=>{
               if(copyWeekdaySchedule){
                 if(copyWeekdaySchedule === weekday.weekday){
                   return (
                     <Grid item className={classes.weekday}>
-                        <Weekday weekday={weekday.weekday} scheduleForAWeekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
+                        <Weekday weekday={weekday.weekday} scheduleForAWeekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} indexOfASchedeule={index}/>
                     </Grid>
                   ) 
                 }else{
                   return (
                     <Grid item className={classes.weekday}>
-                        <WeekdayPaste weekday={weekday.weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule} scheduleToCopy={scheduleToCopy} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} weekdaysToPasteSchedule={weekdaysToPasteSchedule}/>
+                        <WeekdayPaste weekday={weekday.weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule} scheduleToCopy={scheduleToCopy} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} weekdaysToPasteSchedule={weekdaysToPasteSchedule}  indexOfASchedeule={index}/>
                     </Grid>
                   )
                 }
               }else{
                 return (
                   <Grid item className={classes.weekday}>
-                      <Weekday weekday={weekday.weekday} scheduleForAWeekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy}/>
+                      <Weekday weekday={weekday.weekday} scheduleForAWeekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} indexOfASchedeule={index}/>
                   </Grid>
                 )
               }

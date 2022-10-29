@@ -74,16 +74,17 @@ const Estimations: React.FC<{periodState:any, energyPrice:any}> = ({periodState,
           setAvgPrice(energyPrice.averagePriceThisWeek.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisWeek.length)
           break;
         case 'This month':
+          setAvgPrice(energyPrice.averagePriceThisMonth.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisMonth.length)
           break;
         default:
-          setAvgPrice(energyPrice.averagePriceThisMonth.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisMonth.length)
+          setAvgPrice(null)
       }
   },[periodState])
 
   
 
   return (
-    <Typography variant="inherit"><b>{avgPrice?.toFixed(3)}</b></Typography>
+    <Typography variant="inherit"><b>{avgPrice?.toFixed(2)}</b></Typography>
     // <div className={classes.root}>
     //     <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
     //         <Grid item xs={1}>

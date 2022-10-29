@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // left:'8px'
     },
     valveStatus:{
-    //   fontSize:20,
+      fontSize:15,
       position:'relative',
       left: '12px'
     },
@@ -253,8 +253,8 @@ const valvelStatusAndToogleButtonsComponent = () => {
     return (
         <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.valveStatusAndToogleButtons}>
             <Grid item container xs={6} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
-                <Typography className={classes.valveStatus}>Valve: <b>{heatingComponentState.valve_open === true ? "Open" : "Closed"}</b></Typography>
-                {heatingComponentState.mode === "auto" || heatingComponentState.mode === "override"?  <Typography className={classes.valveStatus}>Active profile: <b>{heatingComponentState.activeProfile?.profileName}</b></Typography> : null}
+                <Typography  variant="inherit" className={classes.valveStatus}>Valve: <b>{heatingComponentState.valve_open === true ? "Open" : "Closed"}</b></Typography>
+                {heatingComponentState.mode === "auto" || heatingComponentState.mode === "override"?  <Typography variant="inherit"className={classes.valveStatus}>Active profile: <b>{heatingComponentState.activeProfile?.profileName}</b></Typography> : null}
             </Grid>
             <Grid item container xs={6} direction="column" justifyContent="center" alignItems="center">
                 <Grid item spacing={1}>

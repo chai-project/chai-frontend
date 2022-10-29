@@ -51,7 +51,7 @@ import { Typography } from '@material-ui/core';
     },
     logo:{
         // border: "1px dashed lime",
-        marginRight:50,
+        // marginRight:0,
         height: '150px',
         [theme.breakpoints.down('md')]: {
             marginRight:0,
@@ -84,11 +84,11 @@ import { Typography } from '@material-ui/core';
   return (
     // <div className={classes.root}>
             <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
-                <Grid xs ={3} item container direction="row" justifyContent="flex-end" alignItems="center" className={classes.logo}>
+                <Grid xs ={3} item container direction="row" justifyContent="flex-end" alignItems="center">
                     <Grid item>
                         <img className={classes.logo} src={Logo}></img>
                     </Grid>
-                    <Grid item xs={1}></Grid>
+                    {/* <Grid item xs={1}></Grid> */}
                 </Grid>
                 <Grid xs={6} item container direction="column" justifyContent="center" alignItems="center" className={classes.error} >
                     <Grid item>

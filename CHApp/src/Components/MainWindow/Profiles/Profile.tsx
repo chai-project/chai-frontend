@@ -40,11 +40,11 @@ const useStyles = makeStyles((theme: Theme) =>
         // position: 'relative'
     },
     info:{
-        height: '20%',
+        height: '25%',
         // border: "2px dashed pink",
     },
     chart:{
-        height: '80%',
+        height: '75%',
         // border: "2px dashed red",
         width: '90%'
     }
@@ -56,7 +56,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
 
     const classes = useStyles();
     const dispatch = useDispatch()
-    // console.log('profile: ',typeof profile.slope)
+    // console.log('profile: ', profile)
 
 //   const getData = () => {
 //     dispatch(initializeData())
@@ -65,21 +65,22 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
   return (
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
-          <TimeslotMoreInfoOverlay/>
+          {/* <TimeslotMoreInfoOverlay/> */}
             <Grid item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
                 <Grid item xs={1}></Grid>
-                <Grid item container xs={11} direction="column" justifyContent="center" alignItems="flex-start">
-                    <Grid item>
+                <Grid item container xs={11} direction="row" justifyContent="center" alignItems="flex-start">
+                    <Grid xs={6} item>
                         <Typography>Preferred temperature (if energy were free): {<b>22.4 °C</b>}</Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid xs={6}item>
+                      gauge
                         {/* <Typography>Price sensitivity: {<b>{profile.slope}</b>}</Typography>  */}
-                        <PriceSensivityGauge priceSensivity={profile.slope}/>
+                        {/* <PriceSensivityGauge priceSensivity={profile.slope}/> */}
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item className={classes.chart}>
-              <Chart/>
+            <Grid item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
+              <Chart profile={profile}/>
             </Grid>
         </Grid>
     </div>

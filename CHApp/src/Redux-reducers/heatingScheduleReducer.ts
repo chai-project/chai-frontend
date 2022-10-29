@@ -23,6 +23,7 @@ const heatingScheduleReducer = (state :any = null , action:any) => { //define ty
 export const initializeHeatingSchedule = (label:String) => {
     return async (dispatch : Dispatch, getState:any) => {
         const heatingScheduleData = await services.getHeatingScheduleData(label);
+        console.log(heatingScheduleData)
         const {heatingProfiles} = getState();
         // console.log(heatingProfiles,'blblblbls')
         // const allProfiles = await services.getHeatingProfiles();
@@ -846,12 +847,14 @@ export const initializeHeatingSchedule = (label:String) => {
             interface weekdayScheduleType {
                 weekday:String,
                 id:number,
-                schedule: any[]
+                schedule: any[],
+                // originalScheduleFromBackend: any[]
             }
             let weekdaySchedule:weekdayScheduleType =  {
                 weekday: day.day  === 1 ? "Monday" : day.day  === 2 ? "Tuesday" : day.day  === 4 ? "Wednesday" : day.day  === 8 ? "Thursday" : day.day  === 16 ? "Friday" : day.day  === 32 ? "Saturday" : day.day  === 64 ? "Sunday" : day.day ,
                 id: index,
                 schedule:[],
+                // originalScheduleFromBackend: day.schedule
             }
             var i = 0;
             for (const key in day.schedule) {
@@ -883,7 +886,7 @@ export const initializeHeatingSchedule = (label:String) => {
                 i++;
             }
             weekdaySchedule.schedule.forEach((timeslot:any, index:any)=>{
-                index+1 === weekdaySchedule.schedule.length ? weekdaySchedule.schedule[index].profileEnd = "24:00" : weekdaySchedule.schedule[index].profileEnd = weekdaySchedule.schedule[index+1].profileStart
+                index+1 === weekdaySchedule.schedule.length ? weekdaySchedule.schedule[index].profileEnd = "24:00" : weekdaySchedule.schedule[index].profileEnd = weekdaySchedule.schedule[index+1].profileStart //cia pakeisti kad butu 23:59
             });
             schedule.push(weekdaySchedule);
         });

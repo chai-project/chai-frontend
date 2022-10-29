@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import dayjs from 'dayjs' 
+
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 
 
@@ -12,6 +14,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 // import { initializeData } from './Redux-reducers/dataReducer';
+import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../Redux-reducers/heatingProfilesReduces'
+
 
 
 //types
@@ -31,9 +35,10 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '100%',
         width: '100%',
         zIndex: 10,
+        borderRadius: 5,
           //  background: '#CFD8DC',
-          background: 'rgba(0,0,0,0.5)',
-          backdropFilter: 'blur(5px)',
+          // background: 'rgba(0,0,0,0.5)',
+          backdropFilter: 'blur(20px)',
         //    borderRadius:'25px'
     },
     schedule:{
@@ -73,34 +78,69 @@ const useStyles = makeStyles((theme: Theme) =>
     temperatureLabel:{
         fontSize: '14px',
     },
-    // timeslotInfo:{
-    //     // display: 'none',
-    //     border: "1px solid orange",
-    //     position:'absolute',
-    //     top:'-80%',
-    //     // height: '50px'
-    // },
     infoLabel:{
         fontSize: '13px',
         marginLeft: '10px',
         zIndex: 10,
     },
+    closePageButton:{
+      position:'absolute',
+    },
   }),
 );
 
-const TimeslotMoreInfoOverlay: React.FC = () => { // timeslots type timeslot[] | null
-
+const TimeslotMoreInfoOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfiles}) => { // timeslots type timeslot[] | null
 
     const classes = useStyles();
     const dispatch = useDispatch()
+    const profilePeriodStart = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0)
+    const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
 
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
+    // const blbblbl = () => {
+    //   const profilePeriodStart = dayjs().set('hour', 0).set('minutes',15).set('seconds', 0);
+    //   const profilePeriodEnd = dayjs().set('hour', 0).set('minutes',45).set('seconds', 0);
+    //   dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
+    // }
+    
+    useEffect(()=>{
+      // const profilePeriodStart = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0)
+      // const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
+      dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
+
+    },[heatingProfiles.selectedProfile])
+    // console.log(heatingProfiles.energyPriceForSelectedProfile)
+
+
+    const closeOverlay = () => {
+      dispatch(setSelectedProfile(null))
+    }
+
 
   return (
-    <Grid container className={classes.container} direction="row" justifyContent="center" alignItems="center">
-        overlay chart and info for profile
+    <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
+      <CssBaseline/>
+          <Grid xs={1} item container direction="row" alignItems="center" justifyContent="flex-end">
+            <Grid item xs={0.5}></Grid>
+            <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start"><b>{heatingProfiles.selectedProfile.profileName}</b></Grid>
+            <Grid item xs={0.5}>
+              <IconButton className={classes.closePageButton} size='medium' edge='start' color='primary' onClick={closeOverlay}>
+                <HighlightOffIcon/>
+              </IconButton>
+            </Grid>
+          </Grid>
+          <Grid xs={1} item container direction="row" alignItems="center" justifyContent="flex-end">
+            <Grid item xs={0.5}></Grid>
+            <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start">
+              <Typography>From <b>{profilePeriodStart.format().split(/(?=[A-Z])/)[1].substr(1,5)} {heatingProfiles.selectedProfile.weekday} {profilePeriodStart.format().split(/(?=[A-Z])/)[0]}</b> to <b>{profilePeriodEnd.format().split(/(?=[A-Z])/)[1].substr(1,5)} {heatingProfiles.selectedProfile.weekday} {profilePeriodEnd.format().split(/(?=[A-Z])/)[0]}</b></Typography>
+            </Grid>
+            <Grid item xs={0.5}></Grid>
+          </Grid>
+        <Grid xs={10}item container direction="column" alignItems="center" justifyContent="center"> 
+          <Grid item xs={8} container direction="column" alignItems="center" justifyContent="center">
+            Chart
+          </Grid>
+          <Grid item xs={4}></Grid>
+        </Grid>
     </Grid>
   );
 };

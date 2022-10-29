@@ -174,39 +174,38 @@ const EditWeekdaySchedule: React.FC = () => {
     // console.log(weekdayScheduleToEdit, 'local')
   return (
     <Grid>
-    <Grid container className={classes.main} direction="column" alignItems="center" justifyContent="flex-start">
-      {/* <button onClick={krw}>krc</button> */}
-      <Grid xs={1} item container direction="row" alignItems="center" justifyContent="center">
-        <Grid xs={4}item ></Grid>
-        <Grid xs={4} item container direction="row" alignItems="center" justifyContent="center">
-          <Typography><b>{weekdaySchedule.weekday}</b></Typography>
+      <Grid container className={classes.main} direction="column" alignItems="center" justifyContent="flex-start">
+        <Grid xs={1} item container direction="row" alignItems="center" justifyContent="center">
+          <Grid xs={4}item ></Grid>
+          <Grid xs={4} item container direction="row" alignItems="center" justifyContent="center">
+            <Typography><b>{weekdaySchedule.weekday}</b></Typography>
+          </Grid>
+          <Grid xs={3.75} item container direction="row" alignItems="center" justifyContent="flex-end">
+              <IconButton className={classes.closePageButton} size='small' edge='start' color='primary' onClick={closeEditWeekdayPage}>
+                <HighlightOffIcon/>
+              </IconButton>
+          </Grid>
+          <Grid xs={0.25} item></Grid>
         </Grid>
-        <Grid xs={3.75} item container direction="row" alignItems="center" justifyContent="flex-end">
-            <IconButton className={classes.closePageButton} size='small' edge='start' color='primary' onClick={closeEditWeekdayPage}>
-              <HighlightOffIcon/>
-            </IconButton>
+        <Grid xs={6} className={classes.timeslotsData} item>
+          <TimeslotsData timeslots={weekdayScheduleToEdit} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} />
         </Grid>
-        <Grid xs={0.25} item></Grid>
-      </Grid>
-      <Grid xs={6} className={classes.timeslotsData} item>
-        <TimeslotsData timeslots={weekdayScheduleToEdit} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} />
-      </Grid>
-      <Grid xs={4.25} item>chart</Grid>
-      <Grid xs={0.75} item container direction="row" alignItems="flex-start" justifyContent="flex-end">
-        {weekdayScheduleToEdit !== weekdaySchedule.schedule ? 
-                                                                  <Grid xs={5} item className={classes.saveAndCancelButtons} container  direction="row" alignItems="flex-start" justifyContent="flex-end" spacing={1}>
-                                                                    <Grid item>
-                                                                      <Button variant="contained" color='primary' size='small' onClick={saveWeekdayScheduleChanges}>Save</Button>
+        <Grid xs={4.25} item>chart</Grid>
+        <Grid xs={0.75} item container direction="row" alignItems="flex-start" justifyContent="flex-end">
+          {weekdayScheduleToEdit !== weekdaySchedule.schedule ? 
+                                                                    <Grid xs={5} item className={classes.saveAndCancelButtons} container  direction="row" alignItems="flex-start" justifyContent="flex-end" spacing={1}>
+                                                                      <Grid item>
+                                                                        <Button variant="contained" color='primary' size='small' onClick={saveWeekdayScheduleChanges}>Save</Button>
+                                                                      </Grid>
+                                                                      <Grid item>
+                                                                        <Button variant="contained" color='secondary' size='small' onClick={cancelWeekdayScheduleChanges}>Cancel</Button>
+                                                                      </Grid>
+                                                                      <Grid xs={0.5}></Grid>
                                                                     </Grid>
-                                                                    <Grid item>
-                                                                      <Button variant="contained" color='secondary' size='small' onClick={cancelWeekdayScheduleChanges}>Cancel</Button>
-                                                                    </Grid>
-                                                                    <Grid xs={0.5}></Grid>
-                                                                  </Grid>
-                                                                  :null 
-        }
+                                                                    :null 
+          }
+        </Grid>
       </Grid>
-    </Grid>
     </Grid>
   );
 };
