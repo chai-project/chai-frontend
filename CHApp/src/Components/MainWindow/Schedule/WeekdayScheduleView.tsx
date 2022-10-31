@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '9px',
     },
     temperatureLabel:{
-        fontSize: '14px',
+        fontSize: '10px',
     },
     // timeslotInfo:{
     //     // display: 'none',
@@ -176,8 +176,8 @@ const setThisProfileAsSElectedProfile = (timeslot:any) => {
                 const colorOfATimeslot = parseInt(profile.temperature) < 17 ? '#57A6F0' : parseInt(profile.temperature) < 22 ? '#F6946B' : parseInt(profile.temperature) < 27 ? '#FE6262' : null 
                 return (
                     <Grid item container xs={sizeOfATimeslot} sx={{background:profile.color}} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center" onClick={()=>{setThisProfileAsSElectedProfile(profile)}}> {/* , borderRight: timeslots.length === index + 1 ? null : "1px solid #57CBCC"  */}
-                        <Typography className={classes.temperatureLabel}>{sizeOfATimeslot < 0.75 ? null : profile.temperature + '°C' }</Typography>
-                        <div className="timeslotInfo" style={{position:'absolute', top:"75%", background: "#57CBCC", width:'180px', height:"85px", borderRadius:'5%', borderTopRightRadius: '5%',zIndex: 10}}>
+                        <Typography className={classes.temperatureLabel}>{sizeOfATimeslot < 0.75 ? null : profile.profileName}</Typography>
+                        {/* <div className="timeslotInfo" style={{position:'absolute', top:"75%", background: "#57CBCC", width:'180px', height:"85px", borderRadius:'5%', borderTopRightRadius: '5%',zIndex: 10}}>
                             <Grid container  direction="column" justifyContent="center" alignItems="flex-start">
                                 <Grid item>
                                     <Typography className={classes.infoLabel} >Profile: <b>{profile.profileName}</b></Typography>
@@ -192,7 +192,7 @@ const setThisProfileAsSElectedProfile = (timeslot:any) => {
                                     <Typography className={classes.infoLabel}>Average temperature: <b>{profile.temperature}°C</b></Typography>
                                 </Grid>
                             </Grid>
-                        </div>
+                        </div> */}
                     </Grid>
                 )
             })}

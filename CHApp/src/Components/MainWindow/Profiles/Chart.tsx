@@ -53,7 +53,7 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
     labels: price,
     datasets: [
       {
-        label: "Setoint (°C)",
+        label: "Target temperature (°C)",
         data: calculateSetpoints(),
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
@@ -68,16 +68,19 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
     ]
   };
   const options:any = {
-  //   plugins: {
-  //     // title: {
-  //     //     display: true,
-  //     //     text: 'Custom Chart Title',
-  //     //     padding: {
-  //     //         top: 10,
-  //     //         bottom: 30
-  //     //     }
-  //     // },
-  // },
+    plugins: {
+      legend:{
+        display:false
+      }
+      // title: {
+      //     display: true,
+      //     text: 'Custom Chart Title',
+      //     padding: {
+      //         top: 10,
+      //         bottom: 30
+      //     }
+      // },
+  },
     scales: {
       x: {
         title: {
@@ -92,7 +95,7 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
       y: {
         title: {
           display: true,
-          text: '°C',
+          text: 'Target temperature (°C)',
         },
       },
     },

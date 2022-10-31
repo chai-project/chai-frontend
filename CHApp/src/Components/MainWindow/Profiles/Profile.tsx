@@ -19,7 +19,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import SelectProfileButton from './SelectProfileButton';
 import Chart from './Chart';
 import PriceSensivityGauge from './PriceSensivityGauge';
-import TimeslotMoreInfoOverlay from '../Schedule/TimeslotMoreInfoOverlay';
+import TimeslotMoreInfoOverlay from '../Schedule/Edit/SelectedTimeslot/TimeslotMoreInfoOverlay';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '75%',
         // border: "2px dashed red",
         width: '90%'
+    },
+    gauge:{
+      // border: "2px dashed red",
     }
   }),
 );
@@ -56,7 +59,9 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
 
     const classes = useStyles();
     const dispatch = useDispatch()
-    // console.log('profile: ', profile)
+    // const hmm:any = 0 <= profile.slope && profile.slope  <= (profile.bias -7)/35
+    // const krc = (5 / 6) + (0.5 / 6)
+    console.log('profile: ', profile)
 
 //   const getData = () => {
 //     dispatch(initializeData())
@@ -65,17 +70,14 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
   return (
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
-          {/* <TimeslotMoreInfoOverlay/> */}
             <Grid item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
                 <Grid item xs={1}></Grid>
-                <Grid item container xs={11} direction="row" justifyContent="center" alignItems="flex-start">
-                    <Grid xs={6} item>
-                        <Typography>Preferred temperature (if energy were free): {<b>22.4 °C</b>}</Typography>
+                <Grid item container xs={11} direction="column" justifyContent="center" alignItems="center">
+                    <Grid className={classes.gauge} xs={6}item>
+                        <PriceSensivityGauge profile={profile}/>
                     </Grid>
-                    <Grid xs={6}item>
-                      gauge
-                        {/* <Typography>Price sensitivity: {<b>{profile.slope}</b>}</Typography>  */}
-                        {/* <PriceSensivityGauge priceSensivity={profile.slope}/> */}
+                    <Grid xs={6} item>
+                        <Typography>Preferred temperature (if energy were free): {<b>{profile.bias}°C</b>}</Typography>
                     </Grid>
                 </Grid>
             </Grid>

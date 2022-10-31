@@ -14,14 +14,15 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 // import { initializeData } from './Redux-reducers/dataReducer';
-import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../Redux-reducers/heatingProfilesReduces'
+import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
 
 
 
 //types
-import timeslot from "../../../Types/types"
+import timeslot from "../../../../../Types/types"
 
 //components
+import ChartForSelectedTimeslot from './ChartForSelectedTimeslot';
 
 // Styles 
 
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
         borderRadius: 5,
           //  background: '#CFD8DC',
           // background: 'rgba(0,0,0,0.5)',
-          backdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(50px)',
         //    borderRadius:'25px'
     },
     schedule:{
@@ -137,7 +138,7 @@ const TimeslotMoreInfoOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfil
           </Grid>
         <Grid xs={10}item container direction="column" alignItems="center" justifyContent="center"> 
           <Grid item xs={8} container direction="column" alignItems="center" justifyContent="center">
-            Chart
+            <ChartForSelectedTimeslot selectedProfile={heatingProfiles.selectedProfile} heatingProfiles={heatingProfiles} pricesList={heatingProfiles.energyPriceForSelectedProfile}/>
           </Grid>
           <Grid item xs={4}></Grid>
         </Grid>

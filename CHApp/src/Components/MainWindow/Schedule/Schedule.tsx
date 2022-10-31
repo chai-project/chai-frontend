@@ -21,7 +21,7 @@ import timeslot from '../../../Types/types';
 import Weekday from './Weekday';
 import WeekdayPaste from './WeekdayPaste';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
-import TimeslotMoreInfoOverlay from './TimeslotMoreInfoOverlay';
+import TimeslotMoreInfoOverlay from './Edit/SelectedTimeslot/TimeslotMoreInfoOverlay';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>

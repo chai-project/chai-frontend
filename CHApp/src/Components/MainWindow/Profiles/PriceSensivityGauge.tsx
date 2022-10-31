@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 //mui
@@ -15,65 +15,8 @@ import {useSelector, useDispatch} from 'react-redux'
 //types
 
 
-//charts js
-import { Doughnut } from 'react-chartjs-2';
-
-import {
-    Chart,
-    ArcElement,
-    LineElement,
-    BarElement,
-    PointElement,
-    BarController,
-    BubbleController,
-    DoughnutController,
-    LineController,
-    PieController,
-    PolarAreaController,
-    RadarController,
-    ScatterController,
-    CategoryScale,
-    LinearScale,
-    LogarithmicScale,
-    RadialLinearScale,
-    TimeScale,
-    TimeSeriesScale,
-    Decimation,
-    Filler,
-    Legend,
-    Title,
-    Tooltip,
-    SubTitle
-  } from 'chart.js';
-  
-  Chart.register(
-    ArcElement,
-    LineElement,
-    BarElement,
-    PointElement,
-    BarController,
-    BubbleController,
-    DoughnutController,
-    LineController,
-    PieController,
-    PolarAreaController,
-    RadarController,
-    ScatterController,
-    CategoryScale,
-    LinearScale,
-    LogarithmicScale,
-    RadialLinearScale,
-    TimeScale,
-    TimeSeriesScale,
-    Decimation,
-    Filler,
-    Legend,
-    Title,
-    Tooltip,
-    SubTitle
-  );
-  
-//   const myChart = new Chart(ctx, {...});
+//gauge 
+import GaugeChart from "react-gauge-chart";
 
 
 // Styles 
@@ -91,8 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container:{
         // border: "2px dashed lime",
-        height: '100%',
-        width: '100%',
+        position:'relative',
+        width: '80%',
         // position: 'relative'
     },
     info:{
@@ -107,73 +50,77 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const PriceSensivityGauge: React.FC<{priceSensivity:any}> = ({priceSensivity}) => {//define type
-    // const [profile, setProfile] = useState('');
+const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define type
+    const [gaugeValue, setGaugeValue] = useState<number>(0);
 
-    const classes = useStyles();
+    const classes = useStyles()
     const dispatch = useDispatch()
-    // console.log('profile: ',typeof profile.slope)
 
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
-const gaugeNeedle = {
-    id: "gaugeNeedle",
-    afterDatasetDraw(chart:any, args:any,options:any){
-        console.log('tema!!!')
-        const { ctx, data, config, chartArea:{top,bottom,left,right,width, height} } = chart
-        ctx.save()
-        console.log(data)
-        const dataTotal = data.datasets[0].data.reduce((a:any,b:any)=> a+b,0);
-    }
-}
-const data = {
-    labels: [
-    //   'Bad',
-    //   'Good'
-    ],
-    datasets: [{
-      label: 'Price sensivity',
-      data: [25,50,50,50,50,25],
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(90, 203, 204)',
-        'rgb(90, 203, 204)',
-        'rgb(90, 203, 204)',
-        'rgb(90, 203, 204)',
-        'rgb(255, 99, 132)',
-
-      ],
-      needleValue: 30,
-      cutout: '75%',
-      circumference: 180,
-      rotation: 270,
-      borderRadius: 5,
-      borderWidth: 3,
-      hoverOffset: 4
-    }]
-  };
-
-  const options = {
-    plugin: [gaugeNeedle],
-    // title:'blbl',
-    legend: {
-      display: true,
-      position: "left"
-    },
-    elements: {
-      arc: {
-        borderWidth: 100
-      }
-    }
-  };
+    useEffect(()=>{
+      const priceSensivityBoundaries = (bias:any ) => {
+        const finiteIntervals = 4;
+        const minSetpoint = 7;
+        const maxPrice = 35;
+        const upperBound = (bias - minSetpoint) / maxPrice;
+        const intervalWidth = upperBound / finiteIntervals;
+        let boundaries:any[] = []
   
+        for(let i:number = 0; i<finiteIntervals+1; i++  ){
+          boundaries.push(intervalWidth*i)
+        }
+        return boundaries
+      };
+      let segment = 0
+      const boundaries = priceSensivityBoundaries(profile.bias);
+      console.log(boundaries);
+      for(let i:number = 0; i<boundaries.length; i++){
+        if(profile.slope >= boundaries[i]){
+          segment = i+1
+        }
+      };
+      setGaugeValue(segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.416666667 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : 0 )
+
+    },[profile])
+
+
+    // const priceSensivityBoundaries = (bias:any ) => {
+    //   const finiteIntervals = 4;
+    //   const minSetpoint = 7;
+    //   const maxPrice = 35;
+    //   const upperBound = (bias - minSetpoint) / maxPrice;
+    //   const intervalWidth = upperBound / finiteIntervals;
+    //   let boundaries:any[] = []
+
+    //   for(let i:number = 0; i<finiteIntervals+1; i++  ){
+    //     boundaries.push(intervalWidth*i)
+    //   }
+    //   return boundaries
+    // };
+    // const priceSensivitySegment = (bias: any, slope:any) => {
+    //   let segments = 0
+    //   const boundaries = priceSensivityBoundaries(bias);
+    //   console.log(boundaries);
+    //   for(let i:number = 0; i<boundaries.length; i++){
+    //     if(slope >= boundaries[i]){
+    //       segments = i+1
+    //     }
+    //   };
+    //   return segments;
+    // };
+
+    // console.log(priceSensivitySegment(20.448553121821558, 0.052908061786795565 ))
   return (
-    <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
-                <Doughnut id="gauge" data={data} options={options}/>
+          <GaugeChart
+            nrOfLevels={6}
+            colors={['#FE6262', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#FE6262']}
+            percent={gaugeValue}
+            hideText={false}
+            formatTextValue={(value:any)=>{return value < 1/6*100 ? 'Low' : value > 1/6*5*100 ? 'High' : '' }}
+            needleColor={gaugeValue < 1/6 ? '#FE6262' : gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
+            needleBaseColor={gaugeValue < 1/6 ? '#FE6262' : gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
+          />
         </Grid>
-    </div>
   );
 };
 
