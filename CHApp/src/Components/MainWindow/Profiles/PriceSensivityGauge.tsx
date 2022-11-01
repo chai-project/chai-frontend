@@ -72,9 +72,8 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
       };
       let segment = 0
       const boundaries = priceSensivityBoundaries(profile.bias);
-      console.log(boundaries);
       for(let i:number = 0; i<boundaries.length; i++){
-        if(profile.slope >= boundaries[i]){
+        if(-profile.slope >= boundaries[i]){
           segment = i+1
         }
       };
@@ -111,6 +110,7 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
     // console.log(priceSensivitySegment(20.448553121821558, 0.052908061786795565 ))
   return (
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
+          <Typography>Price sensitivity</Typography>
           <GaugeChart
             nrOfLevels={6}
             colors={['#FE6262', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#FE6262']}

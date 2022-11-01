@@ -61,7 +61,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
     const dispatch = useDispatch()
     // const hmm:any = 0 <= profile.slope && profile.slope  <= (profile.bias -7)/35
     // const krc = (5 / 6) + (0.5 / 6)
-    console.log('profile: ', profile)
+    // console.log('profile: ', profile)
 
 //   const getData = () => {
 //     dispatch(initializeData())
@@ -72,13 +72,16 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
             <Grid item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
                 <Grid item xs={1}></Grid>
-                <Grid item container xs={11} direction="column" justifyContent="center" alignItems="center">
-                    <Grid className={classes.gauge} xs={6}item>
+                <Grid item container xs={11} direction="row" justifyContent="center" alignItems="center">
+                    <Grid xs={7} item>
+                        <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
+                    </Grid>
+                    <Grid className={classes.gauge} xs={5}item>
                         <PriceSensivityGauge profile={profile}/>
                     </Grid>
-                    <Grid xs={6} item>
+                    {/* <Grid xs={6} item>
                         <Typography>Preferred temperature (if energy were free): {<b>{profile.bias}°C</b>}</Typography>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Grid>
             <Grid item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
