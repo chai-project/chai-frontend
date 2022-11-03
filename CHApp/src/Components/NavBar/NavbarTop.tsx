@@ -51,6 +51,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo:{
       height: '50px',
+      [theme.breakpoints.down('lg')]: {
+        margin: '5px',
+        height: '35px',
+      }
     },
     navigationMenuIcons:{
       width: '10px',
