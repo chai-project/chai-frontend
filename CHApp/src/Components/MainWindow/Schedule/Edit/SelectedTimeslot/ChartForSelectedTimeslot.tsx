@@ -48,15 +48,30 @@ const setpoint = pricesList?.map((timeframe:any)=>{
     })
     return Math.round((bias + slope * timeframe.rate)*2)/2;
 });
+const radius = (type: String) => {
+  const radius = pricesList?.map((item:any, index:any)=>{
+    return index === pricesList.length -1 ? 0 : type === 'radius' ? 3 : 1
+  });
+  console.log(type, radius)
+  return radius
+}
 
+// const blblbl = pricesList?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)})
+// blblbl.push(1)
+
+console.log(pricesList, 'list')
   const data:any = {
     labels: pricesList?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
+    // radius: 3,
+    // hitRadius: 1,
     datasets: [
       {
         label: "Target temperature (°C)",
         yAxisID: 'y1',
         type:'line',
         data: setpoint,
+        // radius: radius('radius'),
+        // hitRadius: radius('hitradius'),
         fill: false,
         backgroundColor: "#F6946B",
         borderColor: "#F6946B",
@@ -67,6 +82,8 @@ const setpoint = pricesList?.map((timeframe:any)=>{
         yAxisID: 'y2',
         type:'line',
         data: pricesList?.map((timeframe:any)=>{return timeframe.rate}),
+        // radius: radius('radius'),
+        // hitRadius: radius('hitradius'),
         fill: true,
         backgroundColor: "rgb(87, 203, 204,0.8)",
         borderColor: "rgb(87, 203, 204,1)",
