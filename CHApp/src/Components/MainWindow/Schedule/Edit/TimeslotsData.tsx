@@ -8,6 +8,7 @@ import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, Grid, IconButton, TextField, Box } from '@mui/material/';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddIcon from '@mui/icons-material/Add';
 import CircularProgress from '@mui/material/';
 
 // import TimePicker from '@mui/x-date-pickers-pro/TimePicker';
@@ -34,7 +35,7 @@ import Weekday from '../Weekday';
 import WeekdayPaste from '../WeekdayPaste';
 import ProgressCircular from '../../../ProgressBar/ProgressCircular';
 import { Typography } from '@material-ui/core';
-import { profile } from 'console';
+import { profile, time } from 'console';
 import TimeslotPeriodFromTo from './TimeslotPeriodFromTo';
 import ProfilePicker from './ProfilePicker';
 import Labels from './Labels';
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
         overflow: 'auto'
     },
     labels:{
-        height: '15%',
+        height: '7%',
         width: '100%',
         // border: "1px solid orange",
     },
@@ -154,18 +155,13 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
     const dispatch = useDispatch()
     const {weekday} = useParams();
     const navigate = useNavigate();
+    const emptyTimeslot = {profileName: null, profileStart: '00:00', profileEnd: '24:00' }
 
-    // console.log(timeslots,'timeslots')
     const deleteTimeslot = (id:number) => {
         if(timeslots.length > 1){
             const newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
             sortTimeslots(newTimeslots)
-        }
-        // error
-        // const newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
-        // sortTimeslots(newTimeslots)
-        // console.log(newTimeslots,'zeuru')
-        // setWeekdayScheduleToEdit(newTimeslots)
+        };
     };
 
     const sortTimeslots = (newTimeslots:any) => { //define types later
@@ -175,32 +171,66 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                 if(i === newTimeslots.length -1 && (timeslots[i].profileEnd !== "24:00" || timeslots[i].profileStart !== "00:00" )){
                     noDuplicates.push({...newTimeslots[i],profileStart: "00:00" ,profileEnd:'24:00'})
                 }else{
-                    noDuplicates.push({...newTimeslots[i], profileStart:'00:00'})
+                    if(newTimeslots[i].profileStart === newTimeslots[i].profileEnd){
+                        noDuplicates.push({...newTimeslots[i], profileStart:'00:00',profileEnd: "00:15"})
+                    }else{
+                        noDuplicates.push({...newTimeslots[i], profileStart:'00:00'})
+                    }
                 }
             }else{
                 if(noDuplicates[noDuplicates.length-1].profileName === newTimeslots[i].profileName){
                     noDuplicates[noDuplicates.length-1].profileEnd = newTimeslots[i].profileEnd
+                }else if(newTimeslots[i].profileStart === newTimeslots[i].profileEnd){
+                    newTimeslots.splice(i,1)
                 }else{
                     if(i === newTimeslots.length -1){
                         noDuplicates.push({...newTimeslots[i], profileEnd:'24:00'})
                     }else{
-                        noDuplicates.push(newTimeslots[i])
+                        if(newTimeslots[i].profileEnd < newTimeslots[i].profileStart){
+                            const timeFrame = parseInt(newTimeslots[i].profileStart.split(":")[1])
+                            noDuplicates.push({...newTimeslots[i], profileEnd: newTimeslots[i].profileStart.split(":")[0] + `:${timeFrame === 0 ? 15 : timeFrame === 15 ? 30 : timeFrame === 30 ? 45 : '00'}`})
+                        }else{
+                            noDuplicates.push(newTimeslots[i])
+                        }
                     }
                 }
             }
         };
-        // console.log(newTimeslots,'newTimeslots');
-        // console.log(noDuplicates,'noduplicates');
+        noDuplicates.forEach((timeslot:any, index:number, arr:any)=>{
+            if(index !== 0){
+                timeslot.profileStart = arr[index-1].profileEnd
+            }
+        })
+
+        for(let i = 0; i < noDuplicates.length; i++){
+            const profile = noDuplicates[i]
+            const deleteOne = (found:any) => {
+                if(found){
+                    const indexOfEarlier = noDuplicates.indexOf(found);
+                    noDuplicates.splice(indexOfEarlier,1)
+                    noDuplicates[indexOfEarlier-1].profileEnd = profile.profileStart
+                    const anotherCheck = noDuplicates.find((timeslot:any, indexOfATimeslot:number)=>{
+                        return profile.profileStart < timeslot.profileStart && i > indexOfATimeslot
+                    });
+                    deleteOne(anotherCheck)
+                }
+            }
+            const checkEarlier = noDuplicates.find((timeslot:any, indexOfATimeslot:number)=>{
+                return profile.profileStart <= timeslot.profileStart && i > indexOfATimeslot
+            });
+            deleteOne(checkEarlier)
+        }
         setWeekdayScheduleToEdit(noDuplicates);
     };
 
   return (
     <Grid className={classes.main} container direction="column" alignItems="center" justifyContent="flex-start" > 
         <Grid item className={classes.labels} >
-            <Labels/>
+            <Labels first={'Profile'} second={'Period'}/>
         </Grid>
         <Grid item className={classes.timeslots} container direction="row" alignItems="center" justifyContent="center">
             {timeslots?.map((timeslot:any)=>{
+                // console.log(timeslot)
                 return (
                     <Box className={classes.timeslot} bgcolor="background.default">
                         <Grid item container direction="row" alignItems="center" justifyContent="center">
@@ -213,19 +243,8 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                             <Grid item className={classes.period}>
                                 <TimeslotPeriodFromTo fromTo={[timeslot.profileStart, timeslot.profileEnd]} timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots}/>
                             </Grid>
-                            {/* <Grid item className={classes.estimatedCosts}>
-                                <Grid item container  direction="row" alignItems="center" justifyContent="center" >
-                                    <Grid item>10.23 £</Grid>
-                                    <Grid item xs={2}></Grid>
-                                    <Grid item className={classes.deleteButton} >
-                                        <IconButton size='small' edge='start' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
-                                            <DeleteForeverIcon/>
-                                        </IconButton>
-                                    </Grid>
-                                </Grid>
-                            </Grid> */}
                             <Grid item className={classes.deleteButton} >
-                                <IconButton size='small' edge='start' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
+                                <IconButton size='small' edge='end' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
                                     <DeleteForeverIcon/>
                                 </IconButton>
                             </Grid>
@@ -235,20 +254,28 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                 )
             })}
         </Grid>
-        <Grid item className={classes.addNew} >addnew</Grid>
+        <Grid item className={classes.labels} >
+            <Labels first={'Assign new profile'} second={''}/>
+        </Grid>
+        <Grid item className={classes.addNew} >
+            <Box className={classes.timeslot} bgcolor="primary.secondary">
+                <Grid item container direction="row" alignItems="center" justifyContent="center">
+                    <Grid item className={classes.profile}>
+                        <ProfilePicker timeslots={timeslots} asignedTimeslot={''} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots}/> 
+                    </Grid>
+                    <Grid item className={classes.period}>
+                                <TimeslotPeriodFromTo fromTo={['00:00', '00:00']} timeslots={timeslots} asignedTimeslot={emptyTimeslot} sortTimeslots={sortTimeslots}/>
+                    </Grid>
+                    <Grid className={classes.deleteButton}>
+                        <IconButton size='small' edge='start' color='primary'>
+                            <AddIcon/>
+                        </IconButton>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Grid>
     </Grid> 
   );
 };
 
 export default TimeslotsData;
-
-
-// else if(timeslots[0].profileStart === newTimeslots[i].profileStart){ //cia kad overwrite index 0
-//     noDuplicates.splice(0,1);
-//     noDuplicates.push({...newTimeslots[i]})
-// }else if(newTimeslots[i-1].profileStart === newTimeslots[i].profileStart){
-//     noDuplicates.splice(noDuplicates.indexOf(newTimeslots[i-1]),1);
-//     noDuplicates.push({...newTimeslots[i]})
-// }else if(timeslots[0].profileEnd === newTimeslots[newTimeslots.length - 1].profileEnd){
-//     console.log('seni!!!')
-// }

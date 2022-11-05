@@ -51,7 +51,7 @@ export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
             start: start.format(),
             end: end.format()
         }
-        console.log(start.format(),'startas')
+
         const pricesForPeriod = await services.getAverageHeatingPricePeriod(period);
         let pricePeriodWithSubIntervals:any[] = []
         pricesForPeriod.forEach((interval:any, index:number)=>{

@@ -56,10 +56,6 @@ const radius = (type: String) => {
   return radius
 }
 
-// const blblbl = pricesList?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)})
-// blblbl.push(1)
-
-console.log(pricesList, 'list')
   const data:any = {
     labels: pricesList?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
     // radius: 3,

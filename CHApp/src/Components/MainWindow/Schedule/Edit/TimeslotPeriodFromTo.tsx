@@ -95,12 +95,97 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
   const [minutesFrom, setMinutesFrom] = useState<string>("");
   const [hoursTo, setHoursTo] = useState<string>("");
   const [minutesTo, setMinutesTo] = useState<string>("");
+  const [listHoursToSelectFrom,  setListHoursToSelectFrom] = useState<number[]|null>(null)
+  const [listMinutesToSelectFrom,  setListMinutesToSelectFrom] = useState<number[]|null>(null)
+  const [listHoursToSelectTo,  setListHoursToSelectTo] = useState<number[]|null>(null)
+  const [listMinutesToSelectTo,  setListMinutesToSelectTo] = useState<number[]|null>(null)
 
   useEffect(()=>{
     setHoursFrom(asignedTimeslot.profileStart.split(':')[0]);
     setMinutesFrom(asignedTimeslot.profileStart.split(':')[1]);
     setHoursTo(asignedTimeslot.profileEnd.split(':')[0]);
     setMinutesTo(asignedTimeslot.profileEnd.split(':')[1]);
+
+    let asignedTimeslotMinutesFrom = parseInt(asignedTimeslot.profileStart.split(':')[1])
+    let asignedTimeslotMinutesTo = parseInt(asignedTimeslot.profileEnd.split(':')[1])
+    let asignedTimeslotHoursFrom = parseInt(asignedTimeslot.profileStart.split(':')[0])
+    let asignedTimeslotHoursTo = parseInt(asignedTimeslot.profileEnd.split(':')[0])
+
+    // console.log(timeslots.indexOf(asignedTimeslot))
+    const indexOfThisTimeslot = timeslots?.indexOf(asignedTimeslot)
+
+    if(asignedTimeslot.profileName === null){
+      setListHoursToSelectFrom(Array.from(Array(24).keys()))
+      setListMinutesToSelectFrom([0,15,30,45])
+    } else {
+      // setListHoursToSelectFrom(Array.from(Array(24).keys()))
+      if( asignedTimeslotMinutesTo > 0){
+        setListHoursToSelectFrom(Array.from(Array(parseInt(asignedTimeslot.profileEnd.split(':')[0])+1).keys()))
+        if(asignedTimeslotHoursTo === asignedTimeslotHoursFrom){
+          setListMinutesToSelectFrom(asignedTimeslotMinutesTo === 15 ? [0] : asignedTimeslotMinutesTo === 30 ? [0,15] : asignedTimeslotMinutesTo === 45 ? [0,15,30] : null )
+        }else{
+          setListMinutesToSelectFrom([0,15,30,45])
+        }
+        // setListMinutesToSelectFrom(asignedTimeslotHoursTo === asignedTimeslotHoursFrom ? [1] :null )
+      }else{
+        setListHoursToSelectFrom(Array.from(Array(parseInt(asignedTimeslot.profileEnd.split(':')[0])).keys()))
+        setListMinutesToSelectFrom(asignedTimeslotMinutesFrom === 0 ? [0,15,30,45] : asignedTimeslotMinutesFrom === 15 ? [15,30,45] : asignedTimeslotMinutesFrom === 30 ? [30,45] : asignedTimeslotMinutesFrom === 45 ? [45] : null)
+      }
+
+
+
+        // setListHoursToSelectFrom(Array.from(Array(parseInt(asignedTimeslot.profileEnd.split(':')[0])+1).keys()))
+        // if(asignedTimeslotHoursFrom !== asignedTimeslotHoursTo ){
+        //   setListMinutesToSelectFrom([0,15,30,45])
+        // }else if(asignedTimeslotHoursFrom === asignedTimeslotHoursTo){
+        //   setListMinutesToSelectFrom(asignedTimeslotMinutesTo === 0 ? [0, 15,30,45] :asignedTimeslotMinutesTo === 15 ? [0] : asignedTimeslotMinutesTo === 30 ? [0,15] : asignedTimeslotMinutesTo === 45 ? [0,15,30] : null )
+        // }else{
+        //   setListMinutesToSelectFrom([0,15,30,45])
+        // }
+      // }
+
+
+
+
+    }
+    let hourList:any[] = []
+    for(let i = asignedTimeslotHoursFrom; i<= 24; i++){
+      hourList.push(i)
+    }
+    setListHoursToSelectTo(hourList)
+    if(asignedTimeslotHoursTo === asignedTimeslotHoursFrom){
+      setListMinutesToSelectTo(asignedTimeslotMinutesFrom === 0 ? [15,30,45] : asignedTimeslotMinutesFrom === 15 ? [30,45] : asignedTimeslotMinutesFrom === 30 ? [45] : null)
+    }else{
+      if(asignedTimeslotHoursTo === 24){
+        setListMinutesToSelectTo([0])
+      }else{
+        setListMinutesToSelectTo([0,15,30,45])
+      }
+    }
+
+    // console.log(listMinutesToSelectTo)
+    // if(asignedTimeslotMinutesFrom > 0){
+    //   for(let i = asignedTimeslotHoursFrom; i<= 24; i++){
+    //     hourList.push(i)
+    //   }
+    //   if(asignedTimeslotHoursTo === asignedTimeslotHoursFrom){
+    //     setListMinutesToSelectTo([1,2,3,4,5,6])
+    //   }else{
+    //     setListMinutesToSelectTo([0,15,30,45])
+    //   }
+    //   // minutesList.push([15,30,45])
+    //   setListMinutesToSelectTo([0,15,30,45])
+    // }else{
+    //   for(let i = asignedTimeslotHoursFrom; i<= 24; i++){
+    //     hourList.push(i)
+    //   }
+    //   // minutesList.push([0,15,30,45])
+    //   setListMinutesToSelectTo([0,15,30,45])
+    // }
+    // // console.log(hourList, minutes,'naxui')
+    // setListHoursToSelectTo(hourList)
+    // // setListMinutesToSelectTo(minutesList)
+
   },[asignedTimeslot]);
 
   // console.log(asignedTimeslot,'blblb', timeslots)
@@ -110,24 +195,8 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
   const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
 
   const hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
-  const hoursTest:any[] = Array.from(Array(7).keys())
-//   const krc = () => {
-//     timeslots.find((timeslot:any, index:number, array:any)=>{
-//     if(timeslot.id === asignedTimeslot.id){
-//       console.log(Number(array[index+1]?.profileEnd.split(":")[0]))
-//       if(Number(array[index+1]?.profileEnd.split(":")[0] !== NaN)){
-//         for(let i= 0; i<=Number(array[index+1]?.profileEnd.split(":")[0]); i++ ){
-//           hoursTest.push(i)
-//         }
-//       }
-//       // Number("5")
-//     }
-//   })
-// }
-  // krc()
-  // console.log(timeslots[timeslots.indexOf(asignedTimeslot)+1]?.profileEnd.split(":")[0], Number('07'))
+  // const hours:any[] = Array.from(Array(7).keys())
   const minutes= [0,15,30,45]
-  // console.log(asignedTimeslot)
 
   const handleSetHoursFrom = (event: SelectChangeEvent) => {
     setHoursFrom(String(event.target.value)); //event.target.value as string buvo
@@ -137,25 +206,14 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
           if(newTimeslots[i-1]){
             newTimeslots[i-1].profileEnd = String(event.target.value)+":"+asignedTimeslot.profileStart.split(":")[1]
           }
-          // newTimeslots[i-1].profileEnd = String(event.target.value)+":"+asignedTimeslot.profileStart.split(":")[1]
           newTimeslots.push({...timeslots[i], profileStart: String(event.target.value)+":"+asignedTimeslot.profileStart.split(":")[1]})
         }else{
           newTimeslots.push({...timeslots[i]})
         }
     }
-    // const newTimeslots = timeslots.map((timeslot:any, index:number, self:any)=>{
-    //   if(asignedTimeslot.id === timeslot.id){
-    //     if(index !== 0){
-    //       return {...self[index-1], profileEnd: event.target.value + ":" + timeslot.profileStart.split(":")[1]} & { ...timeslot, profileStart:event.target.value + ":" + timeslot.profileStart.split(":")[1] }
-    //     }else {
-    //       return {...timeslot, profileStart:event.target.value + ":" + timeslot.profileStart.split(":")[1]  }
-    //     }
-    //   }else{
-    //     return {...timeslot}
-    //   }
-    // });
     sortTimeslots(newTimeslots)
   };
+
   const handleSetMinutesFrom = (event: SelectChangeEvent) => {
     setMinutesFrom(String(event.target.value)); //event.target.value as string buvo
     const newTimeslots: any[] = []
@@ -171,6 +229,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
     }
     sortTimeslots(newTimeslots)
   };
+
   const handleSetHoursTo = (event: SelectChangeEvent) => {
     setHoursTo(String(event.target.value)); //event.target.value as string buvo
     const newTimeslots: any[] = []
@@ -183,12 +242,16 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
           if(index!==null){
             newTimeslots.push({...timeslots[index+1], profileStart: String(event.target.value)+":"+timeslots[index].profileEnd.split(":")[1]});
             index = null;
-        }
+          }
+          // else {
+          //   newTimeslots.push({...timeslots[i]})
+          // }
           newTimeslots.push({...timeslots[i]})
         }
     }
     sortTimeslots(newTimeslots)
   };
+
   const handleSetMinutesTo = (event: SelectChangeEvent) => {
     setMinutesTo(String(event.target.value)); //event.target.value as string buvo
     const newTimeslots: any[] = []
@@ -208,6 +271,8 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
     sortTimeslots(newTimeslots)
   };
 
+
+  
   //netaip darai seni yra lentele pasidares esi reduserije tai pagal ja ir padarysi nes ten i back edna ne laika o skaiciu tik nusiust reike xD
   return (
     <Grid container className={classes.main} direction={breakpoint ? "column" : "row"} justifyContent="center" alignItems="center">
@@ -231,7 +296,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
                       },
                   }}
               >
-                {hours.map((hour)=>{
+                {listHoursToSelectFrom?.map((hour)=>{
                   return(
                     <MenuItem value={hour < 10 ? "0"+hour : hour}>{hour < 10 ? "0"+hour : hour}</MenuItem>
                   )
@@ -257,7 +322,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
                       },
                   }}
               >
-                {minutes.map((minutes)=>{
+                {listMinutesToSelectFrom?.map((minutes)=>{
                   return(
                     <MenuItem value={minutes < 15 ? "0"+minutes : minutes}>{minutes < 15 ? "0"+minutes : minutes}</MenuItem>
                   )
@@ -287,7 +352,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
                       },
                   }}
               >
-                {hours.map((hour)=>{
+                {listHoursToSelectTo?.map((hour)=>{
                   return(
                     <MenuItem value={hour < 10 ? "0"+hour : hour}>{hour < 10 ? "0"+hour : hour}</MenuItem>
                   )
@@ -313,7 +378,7 @@ const TimeslotPeriodFromTo: React.FC<{fromTo: any, timeslots:any, asignedTimeslo
                       },
                   }}
               >
-                {minutes.map((minutes)=>{
+                {listMinutesToSelectTo?.map((minutes)=>{
                   return(
                     <MenuItem value={minutes < 15 ? "0"+minutes : minutes}>{minutes < 15 ? "0"+minutes : minutes}</MenuItem>
                   )

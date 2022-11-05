@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Labels: React.FC = () => {
+const Labels: React.FC<{first:String, second:String}> = ({first, second}) => {
     const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(null); //define type
 
     const classes = useStyles();
@@ -91,9 +91,9 @@ const Labels: React.FC = () => {
 
   return (
     <Grid className={classes.mainContainer} container direction="row" alignItems="center" justifyContent="center" >
-        <Grid  className={classes.profile}>Profile</Grid>
+        <Grid  className={classes.profile}>{first}</Grid>
         {/* <Grid  className={classes.setpoint}>Setpoint</Grid> */}
-        <Grid  className={classes.period}>Period</Grid>
+        <Grid  className={classes.period}>{second}</Grid>
         {/* <Grid  className={classes.estimatedCosts}>Estimated cost</Grid> */}
     </Grid> 
   );
