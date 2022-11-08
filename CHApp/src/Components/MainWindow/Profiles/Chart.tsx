@@ -56,7 +56,7 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
         label: "Target temperature (°C)",
         data: calculateSetpoints(),
         fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
+        backgroundColor: "rgba(75,192,192,0.8)",
         borderColor: "rgba(75,192,192,1)"
       },
       // {
@@ -86,17 +86,29 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
         title: {
           display: true,
           text: 'Price (p/kWh)',
+          color: 'rgb(87, 203, 204,1)',
+
         },
         ticks: {
           autoSkip: true,
-          maxTicksLimit: 8
-        }
+          maxTicksLimit: 8,
+          color: 'rgb(87, 203, 204,1)',
+        },
+        
       },
       y: {
         title: {
           display: true,
           text: 'Target temperature (°C)',
+          color: 'rgb(87, 203, 204,1)',
         },
+        ticks: {
+          // autoSkip: true,
+          // maxTicksLimit: 8,
+          color: 'rgb(87, 203, 204,1)',
+        },
+        min:7,
+        max:30,
       },
     },
   };

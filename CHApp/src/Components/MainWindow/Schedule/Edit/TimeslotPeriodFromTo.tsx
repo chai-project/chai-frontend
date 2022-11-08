@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortTimeslots:any, setTimeslotToAdd:any, timeslotToAdd:any  }> = ({ timeslots, asignedTimeslot, sortTimeslots, setTimeslotToAdd , timeslotToAdd}) => {
+const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortTimeslots:any, setTimeslotToAdd:any, timeslotToAdd:any, isForAddingATimeslot:boolean  }> = ({ timeslots, asignedTimeslot, sortTimeslots, setTimeslotToAdd , timeslotToAdd, isForAddingATimeslot}) => {
   const [hoursFrom, setHoursFrom] = useState<string>("00");
   const [minutesFrom, setMinutesFrom] = useState<string>("00");
   const [hoursTo, setHoursTo] = useState<string>("24");
@@ -282,53 +282,61 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
       }
     }
     sortTimeslots(newTimeslots)
-  }
+  };
+
+  const checkAddNewTimeslot = (period:any) => {
+    if(period.to <= period.from ){
+      let fromPlus15Min = dayjs().set('hour', period.from.split(":")[0]).set('minute', period.from.split(":")[1]).set('second', 0).add(15,'minutes')
+      const hours:string = fromPlus15Min.hour() < 10 ? `0${fromPlus15Min.hour()}` : `${fromPlus15Min.hour()}`
+      const minutes:string = fromPlus15Min.minute() < 10 ? `0${fromPlus15Min.minute()}` : `${fromPlus15Min.minute()}` 
+      setHoursTo(hours)
+      setMinutesTo(minutes)
+      setTimeslotToAdd({...timeslotToAdd, profileStart: period.from, profileEnd: `${hours}:${minutes}` }) //add new profile needds to be updated!!!
+    }else {
+      setTimeslotToAdd({...timeslotToAdd, profileStart: period.from, profileEnd: period.to }) //add new profile needds to be updated!!!
+    }
+  };
 
   const handleSetHoursFrom = (event: SelectChangeEvent) => {
     setHoursFrom(String(event.target.value)); //event.target.value as string buvo
-    if(asignedTimeslot.profileName){
-      const period = {from: `${event.target.value}:${minutesFrom}`, to: `${hoursTo}:${minutesTo}`} 
+    const period = {from: `${event.target.value}:${minutesFrom}`, to: `${hoursTo}:${minutesTo}`} 
+
+    if(!isForAddingATimeslot){
       newTimeslotsTest(period)
     }else{
-      setTimeslotToAdd({...timeslotToAdd, profileStart: String(event.target.value)+":"+ minutesFrom })
+      checkAddNewTimeslot(period)
     }
   };
 
   const handleSetMinutesFrom = (event: SelectChangeEvent) => {
     setMinutesFrom(String(event.target.value)); //event.target.value as string buvo
-    if(asignedTimeslot.profileName){
-      const period = {from: `${hoursFrom}:${event.target.value}`, to: `${hoursTo}:${minutesTo}`} 
+    const period = {from: `${hoursFrom}:${event.target.value}`, to: `${hoursTo}:${minutesTo}`} 
+    if(!isForAddingATimeslot){
       newTimeslotsTest(period)
     }else{
-      setTimeslotToAdd({...timeslotToAdd, profileStart: String(event.target.value)+":"+ minutesFrom }) //add new profile needds to be updated!!!
+      checkAddNewTimeslot(period)
     }
   };
 
   const handleSetHoursTo = (event: SelectChangeEvent) => {
     setHoursTo(String(event.target.value)); //event.target.value as string buvo
-    if(asignedTimeslot.profileName){
-      const period = {from: `${hoursFrom}:${minutesFrom}`, to: `${event.target.value}:${minutesTo}`} 
+    const period = {from: `${hoursFrom}:${minutesFrom}`, to: `${event.target.value}:${minutesTo}`} 
+    if(!isForAddingATimeslot){
       newTimeslotsTest(period)
     }else{
-      setTimeslotToAdd({...timeslotToAdd, profileStart: String(event.target.value)+":"+ minutesFrom }) //add new profile needds to be updated!!!
+      checkAddNewTimeslot(period)
     }
   };
 
   const handleSetMinutesTo = (event: SelectChangeEvent) => {
     setMinutesTo(String(event.target.value)); //event.target.value as string buvo
-    if(asignedTimeslot.profileName){
-      const period = {from: `${hoursFrom}:${minutesFrom}`, to: `${hoursTo}:${event.target.value}`} 
+    const period = {from: `${hoursFrom}:${minutesFrom}`, to: `${hoursTo}:${event.target.value}`} 
+    if(!isForAddingATimeslot){
       newTimeslotsTest(period)
     }else{
-      setTimeslotToAdd({...timeslotToAdd, profileStart: String(event.target.value)+":"+ minutesFrom }) //add new profile needds to be updated!!!
-
+      checkAddNewTimeslot(period)
     }
   };
-
-
-
-
-
   
   return (
     <Grid container className={classes.main} direction={breakpoint ? "column" : "row"} justifyContent="center" alignItems="center">

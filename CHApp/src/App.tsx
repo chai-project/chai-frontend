@@ -303,9 +303,34 @@ const App: React.FC = () => {
     setOpenBackdrop(!openBackdrop);
   };
 
-  const getData = () => {
-    dispatch(initializeChartData())
+  const getData  = async () => {
+    // dispatch(initializeChartData())
+
+              //
+              const response = await axios.put(
+                `https://api.project-chai.org/heating/mode/?label=test_home_kevin&daymask=1`,
+                {
+                    '0': 2,
+                    '28':3,
+                    '36':4,
+                    '72':1,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            ).then((res)=>{
+                console.log(res);
+                return res.status
+            }).catch((e)=>{
+                console.error(e.errorMessage)
+            });
+            return response
+
   }
+
+
   const toogleTheme = () => {
     localStorage.setItem("Theme", String(!theme));
     setTheme(!theme)
@@ -354,7 +379,7 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      {/* <button onClick={()=>{console.log(";;;",currentState)}}>hmm</button> */}
+      <button onClick={()=>{getData()}}>hmm</button>
     <ThemeProvider theme={theme ? light : dark}>
       <div>
         <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>

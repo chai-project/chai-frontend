@@ -14,7 +14,9 @@ const heatingScheduleReducer = (state :any = null , action:any) => { //define ty
         case "SET_HEATING_SCHEDULE_DATA":
             return state = action.data;
         case "SET_NEW_HEATING_SCHEDULE":
-            return state = action.data;
+            return state = state.map((day:any)=>{
+                return day.weekday === action.data.weekday ? action.data : day
+            })
         default:
             return state
     }
@@ -23,7 +25,7 @@ const heatingScheduleReducer = (state :any = null , action:any) => { //define ty
 export const initializeHeatingSchedule = (label:String) => {
     return async (dispatch : Dispatch, getState:any) => {
         const heatingScheduleData = await services.getHeatingScheduleData(label);
-        console.log(heatingScheduleData)
+        console.log(heatingScheduleData,'blblbbl')
         const {heatingProfiles} = getState();
         // console.log(heatingProfiles,'blblblbls')
         // const allProfiles = await services.getHeatingProfiles();
@@ -903,6 +905,7 @@ export const initializeHeatingSchedule = (label:String) => {
 
 
 export const setNewHeatingSchedule = (newSchedule:any) => { //define type
+    // console.log(newSchedule,'reducer')
     return async (dispatch : Dispatch) => {
             dispatch({
                 type:"SET_NEW_HEATING_SCHEDULE",

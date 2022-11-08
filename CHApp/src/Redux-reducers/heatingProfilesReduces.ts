@@ -24,9 +24,10 @@ const heatingProfilesReducer = (state = {heatingProfiles:[], selectedProfile:nul
 export const initializeHeatingProfiles = (label:String) => {
     return async (dispatch : Dispatch) => {
         const profileLabels = ["Nights", "Mornings", "Weekdays", "Evenings", "Weekends"]
+        const colors = ["#57A6F0", "#d1ca69", "#F6946B", "#f03cdb" , "#FE6262"  ]
         const heatingProfiles = await services.getHeatingProfiles(label);
         const profilesWithLabels = heatingProfiles.map((profile:any)=>{ //define type later
-            return {...profile, profileName: profileLabels[profile.profile-1]}
+            return {...profile, profileName: profileLabels[profile.profile-1], profileColor: colors[profile.profile-1] }
         });
         dispatch({
             type:"SET_HEATING_PROFILES",

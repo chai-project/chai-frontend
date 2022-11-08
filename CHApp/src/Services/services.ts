@@ -100,6 +100,7 @@ const getHeatingScheduleData = async (label:String) => {
         // console.log('request: ',res.request)
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
+        // console.log(res.data,'viduje')
         return res.data
 }).catch((error) => {
     console.error('error',error);

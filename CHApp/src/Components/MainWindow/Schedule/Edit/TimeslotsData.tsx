@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 import { useParams, useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs'
 
 
 //mui
@@ -50,8 +51,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
     },
     timeslots:{
-        maxHeight: '70%',
-        width: '100%',
+        height: '55%',
+        maxHeight: '55%',
+        width: '100%!',
         // border: "1px solid red",
         overflow: 'auto'
     },
@@ -149,13 +151,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = ({timeslots, setWeekdayScheduleToEdit}) => {
-    // const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(null); //define type
 
     const classes = useStyles();
     const dispatch = useDispatch()
     const {weekday} = useParams();
     const navigate = useNavigate();
-    const emptyTimeslot = {profileName: null, profileStart: "00:00", profileEnd: '24:00' }
+    const emptyTimeslot = {profileName: null, profileStart: "00:00", profileEnd: '24:00', profileID:null }
     const [timeslotToAdd, setTimeslotToAdd] = useState<any>(emptyTimeslot)
 
     const deleteTimeslot = (id:number) => {
@@ -164,6 +165,134 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
             sortTimeslots(newTimeslots)
         };
     };
+//  1 check if the last one 2 >check if less 3 check if difference 4 assisgn // pervadinti constus laiko !! 
+    const addNewTimeslot = () => {
+        let newTimeslots:any[] = []
+        let biggerTimeslotSpaceIsAlreadyUsed = 0
+        for(let i = 0; i<timeslots.length;i++){ 
+            const alreadyInArray = newTimeslots.indexOf(timeslotToAdd)
+            const startTimeForATimeslot = newTimeslots.length !== 0 ? dayjs().set('hour', newTimeslots[newTimeslots.length -1].profileEnd.split(":")[0]).set('minute', newTimeslots[newTimeslots.length -1].profileEnd.split(":")[1]).set('second', 0) : dayjs().set('hour', timeslots[i].profileStart.split(":")[0]).set('minute', timeslots[i].profileStart.split(":")[1]).set('second', 0)
+            const hoursFrom:string = startTimeForATimeslot.hour() < 10 ? `0${startTimeForATimeslot.hour()}` : `${startTimeForATimeslot.hour()}`
+            const minutesFrom:string = startTimeForATimeslot.minute() < 10 ? `0${startTimeForATimeslot.minute()}` : `${startTimeForATimeslot.minute()}` 
+            const endTimeForATimeslot = dayjs().set('hour', timeslots[i].profileEnd.split(":")[0]).set('minute', timeslots[i].profileEnd.split(":")[1]).set('second', 0)
+            const hoursTo:string = endTimeForATimeslot.hour() < 10 ? `0${endTimeForATimeslot.hour()}` : `${endTimeForATimeslot.hour()}`
+            const minutesTo:string = endTimeForATimeslot.minute() < 10 ? `0${endTimeForATimeslot.minute()}` : `${endTimeForATimeslot.minute()}` 
+            // console.log(`${hoursFrom}:${minutesFrom} to ${hoursTo}:${minutesTo}`)
+            // newTimeslots.push({...timeslots[i]})
+            // console.log(newTimeslots.length !== 0  ?  timeslots[i].start : timeslots[i-1].profileEnd )
+            if(timeslotToAdd.profileStart <= timeslots[i].profileStart && alreadyInArray < 0){
+                if(timeslotToAdd.profileEnd >= timeslots[i].profileEnd){
+                    if(timeslotToAdd.profileEnd === "24:00"){
+                        newTimeslots.push(timeslotToAdd)
+                    }else{
+                        newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
+                        newTimeslots.push(timeslotToAdd)
+                    }
+                    // newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
+                    // newTimeslots.push(timeslotToAdd)
+                    
+                }else if(newTimeslots[i-1]){
+                    newTimeslots[i-1].profileEnd = timeslotToAdd.profileStart
+                    newTimeslots.push(timeslotToAdd)
+                    newTimeslots.push({...timeslots[i], profileStart: timeslotToAdd.profileEnd })
+                }else{
+                    newTimeslots.push(timeslotToAdd)
+                    newTimeslots.push({...timeslots[i], profileStart: timeslotToAdd.profileEnd })
+                }
+            }else{
+                if(timeslotToAdd.profileStart >= timeslots[i].profileStart && timeslotToAdd.profileEnd <= timeslots[i].profileEnd && alreadyInArray < 0){
+                    if(timeslotToAdd.profileEnd < timeslots[i].profileEnd){
+                        newTimeslots.push({...timeslots[i], profileEnd: timeslotToAdd.profileStart })
+                        newTimeslots.push(timeslotToAdd)
+                        newTimeslots.push({...timeslots[i], profileStart: timeslotToAdd.profileEnd })
+
+                    }else{
+                        newTimeslots.push({...timeslots[i], profileEnd: timeslotToAdd.profileStart })
+                        newTimeslots.push(timeslotToAdd)
+                    }
+                }else{
+                    if(timeslots[i].profileEnd <= newTimeslots[newTimeslots.length -1]?.profileEnd){
+                        //do nothing
+                    }else{
+                        // console.log('wyf???',i, timeslots[i])
+                        // newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
+                        // if(newTimeslots[newTimeslots.length - 1]){
+                        //     newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
+                        //     newTimeslots.push(timeslots[i])
+                        // }else{
+                        //     newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
+                        //     newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}` })
+
+                        // }
+                        newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}` })
+                    }
+                }
+            }
+            
+        }
+        sortTimeslots(newTimeslots)
+        setTimeslotToAdd(emptyTimeslot)
+        // console.log(emptyTimeslot)
+        // setWeekdayScheduleToEdit(newTimeslots)
+    };
+
+    // const addNewTimeslot = () => {
+    //     let newTimeslots:any[] = []
+    //     let biggerTimeslotSpaceIsAlreadyUsed = 0
+    //     for(let i = 0; i<timeslots.length;i++){ 
+    //         const alreadyInArray = newTimeslots.indexOf(timeslotToAdd)
+    //         const fromPlus15Min = timeslots[i-1] ? dayjs().set('hour', newTimeslots[i].profileEnd.split(":")[0]).set('minute', newTimeslots[i].profileEnd.split(":")[1]).set('second', 0) : dayjs().set('hour', timeslots[i].profileStart.split(":")[0]).set('minute', timeslots[i].profileStart.split(":")[1]).set('second', 0) // cia laikai kazkas pisasi ???
+    //         const hoursFrom:string = fromPlus15Min.hour() < 10 ? `0${fromPlus15Min.hour()}` : `${fromPlus15Min.hour()}`
+    //         const minutesFrom:string = fromPlus15Min.minute() < 10 ? `0${fromPlus15Min.minute()}` : `${fromPlus15Min.minute()}` 
+    //         const toPlus15Min = dayjs().set('hour', timeslots[i].profileEnd.split(":")[0]).set('minute', timeslots[i].profileEnd.split(":")[1]).set('second', 0).add(15,'minutes')
+    //         const hoursTo:string = toPlus15Min.hour() < 10 ? `0${toPlus15Min.hour()}` : `${toPlus15Min.hour()}`
+    //         const minutesTo:string = toPlus15Min.minute() < 10 ? `0${toPlus15Min.minute()}` : `${toPlus15Min.minute()}` 
+    //         // console.log(timeslots[i].profileName, timeslots[i].profileStart, "previous", hoursFrom, minutesFrom)
+    //         console.log(timeslots[i].profileName, ": ", newTimeslots[i]?.profileName , newTimeslots[i]?.profileEnd)
+    //         // console.log(i, timeslots.length -1 )
+
+    //         //check if timeslot has 15min space
+    //         const from = dayjs().set('hour', timeslots[i].profileStart.split(":")[0]).set('minute', timeslots[i].profileStart.split(":")[1]).set('second', 0);
+    //         const to = dayjs().set('hour', timeslots[i].profileEnd.split(":")[0]).set('minute', timeslots[i].profileEnd.split(":")[1]).set('second', 0);
+    //         if(i == timeslots.length - 1 ){
+    //             // console.log(timeslots[i].profileName, ": ", newTimeslots[i].profileEnd)
+    //             console.log('zeuru')
+    //             // const addAnother15MinFrom = fromPlus15Min.add(15,'minutes');
+    //             newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `24:00`})
+    //         }else 
+    //         if(timeslotToAdd.profileStart <= timeslots[i].profileStart && alreadyInArray < 0){
+    //             newTimeslots.push(timeslotToAdd)
+    //             const extra15MinAdd = fromPlus15Min.add(15,'minutes')
+    //             const hoursFromExtra15Add:string = extra15MinAdd.hour() < 10 ? `0${extra15MinAdd.hour()}` : `${extra15MinAdd.hour()}`
+    //             const minutesFromExtra15Add:string = extra15MinAdd.minute() < 10 ? `0${extra15MinAdd.minute()}` : `${extra15MinAdd.minute()}` 
+    //             newTimeslots.push({...timeslots[i], profileStart: `${hoursFromExtra15Add}:${minutesFromExtra15Add}`, profileEnd: `${hoursTo}:${minutesTo}`})
+    //         }else{
+    //             if(to.diff(from,'minutes') > 15 && biggerTimeslotSpaceIsAlreadyUsed < 1){
+    //                 biggerTimeslotSpaceIsAlreadyUsed++
+    //                 const addAnother15MinFrom = toPlus15Min.subtract(15,'minutes');
+    //                 const hoursFromExtraAnother15min:string = addAnother15MinFrom.hour() < 10 ? `0${addAnother15MinFrom.hour()}` : `${addAnother15MinFrom.hour()}`
+    //                 const minutesFromExtraAnother15min:string = addAnother15MinFrom.minute() < 10 ? `0${addAnother15MinFrom.minute()}` : `${addAnother15MinFrom.minute()}` 
+    //                 newTimeslots.push({...timeslots[i],profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `${hoursFromExtraAnother15min}:${minutesFromExtraAnother15min}`})
+    //             }else{
+    //                 // console.log(i, timeslots.length -1 )
+    //                 // if(i == timeslots.length - 1 ){
+    //                 //     // console.log(timeslots[i].profileName, ": ", newTimeslots[i].profileEnd)
+    //                 //     console.log('zeuru')
+    //                 //     // const addAnother15MinFrom = fromPlus15Min.add(15,'minutes');
+    //                 //     newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `24:00`})
+    //                 // }else{
+    //                 //     // console.log(timeslots[i].profileName)
+
+    //                 //     newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `${hoursTo}:${minutesTo}`})
+    //                 // }
+    //                 newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `${hoursTo}:${minutesTo}`})
+
+    //             }
+    //         }
+    //     }
+    //     console.log(newTimeslots,'zeuru')
+    //     setWeekdayScheduleToEdit(newTimeslots)
+    // };
 
     const sortTimeslots = (newTimeslots:any) => { //define types later
         let noDuplicates: any[] = []
@@ -184,60 +313,56 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                     noDuplicates[noDuplicates.length-1].profileEnd = newTimeslots[i].profileEnd
                 }else{
                     noDuplicates.push({...newTimeslots[i], profileStart: newTimeslots[i-1].profileEnd})
-                    // noDuplicates.push(newTimeslots[i])
-
                 }
             }
         };
-        // console.log(noDuplicates,'duplicates!!')
         setWeekdayScheduleToEdit(noDuplicates);
     };
 
   return (
     <Grid className={classes.main} container direction="column" alignItems="center" justifyContent="flex-start" > 
-        <Grid item className={classes.labels} >
+        <Grid xs={1} item className={classes.labels} >
             <Labels first={'Profile'} second={'Period'}/>
         </Grid>
-        <Grid item className={classes.timeslots} container direction="row" alignItems="center" justifyContent="center">
+        <Grid item className={classes.timeslots} container direction="row" alignItems="flex-start" justifyContent="center">
             {timeslots?.map((timeslot:any)=>{
-                // console.log(timeslot)
                 return (
                     <Box className={classes.timeslot} bgcolor="background.default">
                         <Grid item container direction="row" alignItems="center" justifyContent="center">
                             <Grid item className={classes.profile}>
-                                <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots}/> 
+                                <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/> 
                             </Grid>
                             {/* <Grid item className={classes.setpoint}>
                                 <Setpoint timeslots={timeslots} asignedTimeslot={timeslot}/>
                             </Grid> */}
                             <Grid item className={classes.period}>
-                                <TimeslotPeriodFromTo timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd}/>
+                                <TimeslotPeriodFromTo timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/>
                             </Grid>
                             <Grid item className={classes.deleteButton} >
                                 <IconButton size='small' edge='end' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
                                     <DeleteForeverIcon/>
                                 </IconButton>
                             </Grid>
-                            <Grid item xs={0.1}></Grid>
+                            {/* <Grid item xs={0.1}></Grid> */}
                         </Grid>
                     </Box>
                 )
             })}
         </Grid>
-        <Grid item className={classes.labels} >
+        <Grid xs={1} item className={classes.labels} >
             <Labels first={'Assign new profile'} second={''}/>
         </Grid>
-        <Grid item className={classes.addNew} >
+        <Grid xs={2} item className={classes.addNew} >
             <Box className={classes.timeslot} bgcolor="primary.secondary">
                 <Grid item container direction="row" alignItems="center" justifyContent="center">
                     <Grid item className={classes.profile}>
-                        <ProfilePicker timeslots={timeslots} asignedTimeslot={''} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots}/> 
+                        <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslotToAdd} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={true}/> 
                     </Grid>
                     <Grid item className={classes.period}>
-                                <TimeslotPeriodFromTo  timeslots={timeslots} asignedTimeslot={emptyTimeslot} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd}/>
+                                <TimeslotPeriodFromTo  timeslots={timeslots} asignedTimeslot={timeslotToAdd} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={true}/>
                     </Grid>
                     <Grid className={classes.deleteButton}>
-                        <IconButton size='small' edge='start' color='primary' disabled={!timeslotToAdd.profileName} onClick={()=>{console.log(timeslotToAdd)}}>
+                        <IconButton size='small' edge='start' color='primary' disabled={!timeslotToAdd.profileName} onClick={addNewTimeslot}>
                             <AddIcon/>
                         </IconButton>
                     </Grid>

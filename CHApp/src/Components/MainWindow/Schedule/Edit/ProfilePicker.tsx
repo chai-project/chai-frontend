@@ -40,11 +40,15 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdayScheduleToEdit:any,sortTimeslots:any }> = ({timeslots, asignedTimeslot,setWeekdayScheduleToEdit,sortTimeslots}) => {
-  const [profile, setProfile] = useState<string>('');
+const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdayScheduleToEdit:any,sortTimeslots:any,setTimeslotToAdd:any, timeslotToAdd:any, isForAddingATimeslot:boolean }> = ({timeslots, asignedTimeslot,setWeekdayScheduleToEdit,sortTimeslots, setTimeslotToAdd, timeslotToAdd, isForAddingATimeslot}) => {
+  const [profileName, setProfileName] = useState<string>('');
 
   useEffect(()=>{ // lygei ta paty padaryti ir ten !!!
-    setProfile(asignedTimeslot.profileName)
+    if(!isForAddingATimeslot){
+      setProfileName(asignedTimeslot.profileName)
+    }else{
+      setProfileName(asignedTimeslot.profileName)
+    }
   },[asignedTimeslot])
 
   const allProfiles = useSelector((state:any)=>{//define type
@@ -57,51 +61,31 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
   const classes = useStyles();
 
   const handleSetProfile = (event: SelectChangeEvent) => {
-    setProfile(String(event.target.value));
-    // let noDuplicates: any[] = []
-    const newTimeslots = timeslots.map((timeslot:any,index:number, arr:any)=>{ //define type later
+    setProfileName(String(event.target.value));
+    const foundProfile = allProfiles.find((profile:any)=>{
+      return profile.profileName === event.target.value
+    })
+    if(!isForAddingATimeslot){
+      const newTimeslots = timeslots.map((timeslot:any,index:number, arr:any)=>{ //define type later
         if(timeslot.id === asignedTimeslot.id){
-            // if(arr[index-1].profileName === String(event.target.value)){
-            //     console.log('yes!!!!')
-            //     // return {...arr[index-1], profileEnd: asignedTimeslot.profileEnd }
-            //     // arr[index-1].profileEnd = asignedTimeslot.profileEnd;
-            //     // arr.splice(index, index + 1)
-            // }
             return {...timeslot, profileName: String(event.target.value)}
         }else{
             return {...timeslot}
         }
-        // return timeslot
-    });
-    sortTimeslots(newTimeslots)
-    // timeslots.forEach((timeslot:any,index:number, arr:any)=>{ //define type later
+      });
+      sortTimeslots(newTimeslots)
+    }else{
+      setTimeslotToAdd({...timeslotToAdd, profileName: String(event.target.value) , profileID: foundProfile.profile, color: foundProfile.profileColor  }) //add new profile needds to be updated!!!
+
+    }
+    // const newTimeslots = timeslots.map((timeslot:any,index:number, arr:any)=>{ //define type later
     //     if(timeslot.id === asignedTimeslot.id){
-    //         // if(arr[index-1].profileName === String(event.target.value)){
-    //         //     console.log('yes!!!!')
-    //         //     // return {...arr[index-1], profileEnd: asignedTimeslot.profileEnd }
-    //         //     // arr[index-1].profileEnd = asignedTimeslot.profileEnd;
-    //         //     // arr.splice(index, index + 1)
-    //         // }
-    //         noDuplicates.push({...timeslot, profileName: String(event.target.value)}); 
+    //         return {...timeslot, profileName: String(event.target.value)}
     //     }else{
-    //         noDuplicates.push(timeslot);
+    //         return {...timeslot}
     //     }
-    //     // return timeslot
     // });
-    // const hmm :any[]=[] ;
-    // for(let i =0; i<newTimeslots.length; i++){
-    //     if(i===0){
-    //         noDuplicates.push(newTimeslots[i])
-    //     }else{
-    //         if(noDuplicates[noDuplicates.length-1].profileName === newTimeslots[i].profileName){
-    //             noDuplicates[noDuplicates.length-1].profileEnd = newTimeslots[i].profileEnd
-    //         }else{
-    //             noDuplicates.push(newTimeslots[i])
-    //         }
-    //     }
-    // }
-    // // console.log(noDuplicates,'zeurumelis seni xD');
-    // setWeekdayScheduleToEdit(noDuplicates);
+    // sortTimeslots(newTimeslots)
   };
 
   //netaip darai seni yra lentele pasidares esi reduserije tai pagal ja ir padarysi nes ten i back edna ne laika o skaiciu tik nusiust reike xD
@@ -113,7 +97,7 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
           <Select
             labelId="demo-select-small"
             id="demo-select-small"
-            value={profile}
+            value={profileName}
             label="Profile"
             onChange={handleSetProfile}
             className={classes.selectButton}
