@@ -109,16 +109,20 @@ const Schedule: React.FC<{weekSchedule:any, heatingProfiles:any}> = ({weekSchedu
     const saveNewWeekSchedule = () => {
       //define here new schedule/ send to reeducer and assign over there
       console.log('saving new week schedule')
-      let newWeekSchedule:any = weekSchedule;
-      weekdaysToPasteSchedule.forEach((weekday)=>{
-        newWeekSchedule.map((weekdaySchedule:any)=>{
-          return weekdaySchedule.weekday === weekday ? weekdaySchedule.schedule = scheduleToCopy.schedule : weekdaySchedule
-        })
-        //send to the server if 200, update redux
-        dispatch(setNewHeatingSchedule(newWeekSchedule));
-        setWeekdaysToPasteSchedule([]);
-        setCopyWeekdaySchedule(null);
-      });
+      // let newWeekSchedule:any = weekSchedule;
+      // weekdaysToPasteSchedule.forEach((weekday)=>{
+      //   newWeekSchedule.map((weekdaySchedule:any)=>{
+      //     return weekdaySchedule.weekday === weekday ? weekdaySchedule.schedule = scheduleToCopy.schedule : weekdaySchedule
+      //   })
+      //   // console.log(weekdaysToPasteSchedule,'conkretu')
+      //   //send to the server if 200, update redux
+      //   dispatch(setNewHeatingSchedule(weekdaysToPasteSchedule, scheduleToCopy.schedule ));
+      //   setWeekdaysToPasteSchedule([]);
+      //   setCopyWeekdaySchedule(null);
+      // });
+      dispatch(setNewHeatingSchedule(weekdaysToPasteSchedule, scheduleToCopy.schedule ));
+      setWeekdaysToPasteSchedule([]);
+      setCopyWeekdaySchedule(null);
     };
     const cancelWeekScheduleChanges = () => {
       setWeekdaysToPasteSchedule([]);
@@ -171,7 +175,7 @@ const Schedule: React.FC<{weekSchedule:any, heatingProfiles:any}> = ({weekSchedu
                 }else{
                   return (
                     <Grid item className={classes.weekday}>
-                        <WeekdayPaste weekday={weekday.weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule} scheduleToCopy={scheduleToCopy} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} weekdaysToPasteSchedule={weekdaysToPasteSchedule}  indexOfASchedeule={index}/>
+                        <WeekdayPaste weekday={weekday.weekday} scheduleForAWeekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule} scheduleToCopy={scheduleToCopy} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} weekdaysToPasteSchedule={weekdaysToPasteSchedule}  indexOfASchedeule={index}/>
                     </Grid>
                   )
                 }

@@ -77,17 +77,20 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const WeekdayPaste: React.FC<{weekday: String, setCopyWeekdaySchedule:any, scheduleToCopy:timeslot[]|null, setWeekdaysToPasteSchedule:any, weekdaysToPasteSchedule:String[],  indexOfASchedeule:number}>= ({weekday,setCopyWeekdaySchedule,scheduleToCopy, setWeekdaysToPasteSchedule, weekdaysToPasteSchedule,  indexOfASchedeule}) => {
+const WeekdayPaste: React.FC<{weekday: String, setCopyWeekdaySchedule:any, scheduleToCopy:timeslot[]|null, setWeekdaysToPasteSchedule:any, weekdaysToPasteSchedule:String[],  indexOfASchedeule:number, scheduleForAWeekday:any}>= ({weekday,setCopyWeekdaySchedule,scheduleToCopy, setWeekdaysToPasteSchedule, weekdaysToPasteSchedule,  indexOfASchedeule, scheduleForAWeekday}) => {
     const [pasteScheduleForAWeekday, setPasteScheduleForAWeekday] = useState<any>(null); //define type was timeslot[]|null
 
+
+    // console.log(scheduleForAWeekday)
     //delete weekday copy button
     const deleteWeekdayScheduleCopy = () => {
-      console.log('deleting copy of: ', weekday);
+      // console.log('deleting copy of: ', weekdaysToPasteSchedule, weekday);
+      setWeekdaysToPasteSchedule(weekdaysToPasteSchedule.filter((day:any)=>{return day !== weekday}))
       setPasteScheduleForAWeekday(null)
     };
     //paste weekday button
     const pasteWeekdaySchedule = () => {
-      console.log('pasting to: ', weekday);
+      // console.log('pasting to: ', weekday);
       setPasteScheduleForAWeekday(scheduleToCopy);
       setWeekdaysToPasteSchedule((weekdaysToPasteSchedule:String[]) => [...weekdaysToPasteSchedule, weekday])
     };

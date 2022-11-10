@@ -303,18 +303,22 @@ const App: React.FC = () => {
     setOpenBackdrop(!openBackdrop);
   };
 
+  // console.log('blblb', (20>>>0).toString(2), parseInt(  "0000010100".split('').join(''), 2 ))
   const getData  = async () => {
     // dispatch(initializeChartData())
 
               //
               const response = await axios.put(
-                `https://api.project-chai.org/heating/mode/?label=test_home_kevin&daymask=1`,
-                {
-                    '0': 2,
-                    '28':3,
-                    '36':4,
-                    '72':1,
-                },
+                `https://api.project-chai.org/schedule/?label=test_home_kevin&daymask=20`,
+                
+                    // '0': 2,
+                    // '28':3,
+                    // '36':4,
+                    // '72':1,
+                    // day:1,
+                    [{0: '2'},{14: '1'},{ 26: '2'},{37: '3'},{42: '1'},{48:'2'},{58:'3'},{64:'1'},{72:'5'}]
+                    // 0: '2', 28: '1', 36: '4', 72: '3'
+                ,
                 {
                     headers: {
                         'Content-Type': 'application/json'

@@ -46,13 +46,13 @@ import Setpoint from './Setpoint';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main:{
-    //   border: "1px solid lime",
-      height: '100%',
-      width: '100%',
+    //   border: "1px solid pink",
+    //   height: '100%',
+    //   width: '100%',
     },
     timeslots:{
-        height: '55%',
-        maxHeight: '55%',
+        // height: '55%',
+        // maxHeight: '55%',
         width: '100%!',
         // border: "1px solid red",
         overflow: 'auto'
@@ -160,6 +160,7 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
     const [timeslotToAdd, setTimeslotToAdd] = useState<any>(emptyTimeslot)
 
     const deleteTimeslot = (id:number) => {
+        // console.log(id)
         if(timeslots.length > 1){
             const newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
             sortTimeslots(newTimeslots)
@@ -300,19 +301,21 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
         for(let i =0; i<newTimeslots.length; i++){
             if(i===0){
                 if(i === newTimeslots.length -1 && (timeslots[i].profileEnd !== "24:00" || timeslots[i].profileStart !== "00:00" )){
-                    noDuplicates.push({...newTimeslots[i],profileStart: "00:00" ,profileEnd:'24:00'})
+                    noDuplicates.push({...newTimeslots[i],profileStart: "00:00" ,profileEnd:'24:00', id:i})
                 }else{
                     if(newTimeslots[i].profileStart === newTimeslots[i].profileEnd){
-                        noDuplicates.push({...newTimeslots[i], profileStart:'00:00',profileEnd: "00:15"})
+                        noDuplicates.push({...newTimeslots[i], profileStart:'00:00',profileEnd: "00:15", id:i})
                     }else{
-                        noDuplicates.push({...newTimeslots[i], profileStart:'00:00'})
+                        noDuplicates.push({...newTimeslots[i], profileStart:'00:00', id:i})
                     }
                 }
             }else{
                 if(noDuplicates[noDuplicates.length-1].profileName === newTimeslots[i].profileName){
                     noDuplicates[noDuplicates.length-1].profileEnd = newTimeslots[i].profileEnd
+                }else if(i === newTimeslots.length-1){
+                    noDuplicates.push({...newTimeslots[i], profileEnd: "24:00", id:i})
                 }else{
-                    noDuplicates.push({...newTimeslots[i], profileStart: newTimeslots[i-1].profileEnd})
+                    noDuplicates.push({...newTimeslots[i], profileStart: newTimeslots[i-1].profileEnd,id:i})
                 }
             }
         };
@@ -320,11 +323,11 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
     };
 
   return (
-    <Grid className={classes.main} container direction="column" alignItems="center" justifyContent="flex-start" > 
+    <Grid className={classes.main} item container direction="column" alignItems="center" justifyContent="flex-start" > 
         <Grid xs={1} item className={classes.labels} >
             <Labels first={'Profile'} second={'Period'}/>
         </Grid>
-        <Grid item className={classes.timeslots} container direction="row" alignItems="flex-start" justifyContent="center">
+        <Grid item xs={5} className={classes.timeslots} container direction="row" alignItems="flex-start" justifyContent="center">
             {timeslots?.map((timeslot:any)=>{
                 return (
                     <Box className={classes.timeslot} bgcolor="background.default">
@@ -374,3 +377,5 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
 };
 
 export default TimeslotsData;
+
+

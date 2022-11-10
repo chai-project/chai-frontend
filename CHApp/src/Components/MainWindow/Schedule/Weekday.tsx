@@ -10,6 +10,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
+import { setNewHeatingSchedule } from '../../../Redux-reducers/heatingScheduleReducer';
 // import { initializeData } from './Redux-reducers/dataReducer';
 
 
@@ -82,16 +83,21 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
     };
     //copy button
     const copyWeekdayScheduleButton = () => {
-      console.log('copy', scheduleForAWeekday.schedule);
+      // console.log('copy', scheduleForAWeekday.schedule);
       setCopyWeekdaySchedule(scheduleForAWeekday.weekday);
       setScheduleToCopy(scheduleForAWeekday);
       setAnchorEl(null);
     };
     //reset button
-    const resetWeekdaySchedule = () => {
-      console.log('reseting : ', scheduleForAWeekday.weekday)
-      console.log('scheudle for a weekday: ', scheduleForAWeekday.schedule)
-      
+    const resetWeekdaySchedule = () => { //define type !!!
+      const defaultProfile = {
+          profileName: "Nights",
+          profileID: 1,
+          color: "#57A6F0",
+          profileStart: "00:00",
+          profileEnd: "24:00"
+      }
+      dispatch(setNewHeatingSchedule([scheduleForAWeekday.weekday], [defaultProfile]))
       setAnchorEl(null);
     };
     //edit button
