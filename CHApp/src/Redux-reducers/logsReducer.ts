@@ -50,22 +50,24 @@ export const initialiseLogs = (label:String) => {
             const minutes = dayjs(rawLog.timestamp).get('minute') 
             const date = `${day}/${month}/${year}`
             const time =`${hours}:${minutes < 10 ? '0'+minutes : minutes }`
+            const price = Math.round(rawLog.parameters[1] * 100) / 100
+            const setpoint = Math.round(rawLog.parameters[2]*2)/2
             // const profile = currentState.heatingProfiles.heatingProfiles.find((profile:any)=>{return profile.profile === rawLog.parameters[0]})
             switch(rawLog.category) {
               case "VALVE_SET":
                 // console.log(rawLog.parameters)
                 // const profileName = currentState.heatingProfiles.heatingProfiles.find((profile:any)=>{return profile.profile === rawLog.parameters[0]})
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "System" , description: `The system set the target temperature to ${rawLog.parameters[2]}°C because the current price is ${rawLog.parameters[1]} p/kWh and the active profile is ${profileName} where the AI believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${rawLog.parameters[4]}°C.`}
+                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "System" , description: `The system set the target temperature to ${setpoint}°C because the current price is ${price} p/kWh and the active profile is ${profileName} where the AI believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${rawLog.parameters[4]}°C.`}
                 break;
               case "SETPOINT_MODE":
                 if(rawLog.parameters[0] === 'override' && rawLog.parameters[1] !== null ){
-                  return  {dateAndTime: rawLog.timestamp , date: date ,time: time , category: "User" , description: `You set the target temperature to ${rawLog.parameters[1]}°C (${rawLog.parameters[0]} mode is now active).` }
+                  return  {dateAndTime: rawLog.timestamp , date: date ,time: time , category: "User" , description: `You set the target temperature to ${Math.round(rawLog.parameters[1]*2)/2}°C (${rawLog.parameters[0]} mode is now active).` }
                 }else {
                   return  {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "User" , description: `You switched to ${rawLog.parameters[0]} mode.` }
                 }
                 break;
               case "PROFILE_UPDATE":
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time , category: "System" , description: `Profile ${profileName} has been updated because you set the target temperature to ${rawLog.parameters[2]}°C when the price was ${rawLog.parameters[1]} p/kWh where the AI now believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${rawLog.parameters[4]}°C.`}
+                return {dateAndTime: rawLog.timestamp ,date: date ,time: time , category: "System" , description: `Profile ${profileName} has been updated because you set the target temperature to ${setpoint}°C when the price was ${price} p/kWh where the AI now believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${rawLog.parameters[4]}°C.`}
                   // code block
                 break;
               case "PROFILE_RESET":

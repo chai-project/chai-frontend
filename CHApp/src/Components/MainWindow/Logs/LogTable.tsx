@@ -83,10 +83,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tableContainer: {
       position:'relative',
-      height:'630px', //600fullscreen
+      height:'640px', //600fullscreen
       zIndex:0,
       [theme.breakpoints.down('md')]: {
-        height: '480px',
+        height: '780px',
+        // minHeight: '650px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        height: '460px',
         // minHeight: '650px',
       }
       // overflow: 'hidden'
@@ -159,7 +163,7 @@ interface Props {
 const LogTable: React.FC <{logs:any}>= ({logs}) => {
   // const {logs} = props;
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
   const classes = useStyles();
   // const dispatch = useDispatch() //redux
@@ -215,7 +219,7 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[25, 50, 100]}
         component="div"
         count={logs?.length}
         rowsPerPage={rowsPerPage}
