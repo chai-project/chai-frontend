@@ -22,6 +22,7 @@ import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReduc
 import { initializeHeatingProfiles } from './Redux-reducers/heatingProfilesReduces';
 import { setErrorMessageForErrorComponentReducer } from './Redux-reducers/errorMessageForErrorComponentReducer';
 import { initializeEnergyPriceData } from './Redux-reducers/energyPriceDataReducer';
+import {initialiseLogs} from './Redux-reducers/logsReducer'
 
 
 // types
@@ -236,6 +237,7 @@ const App: React.FC = () => {
           dispatch(initializeHeatingProfiles(homeLabel))
           dispatch(initializeHeatingComponentData(homeLabel))
           dispatch(initializeHeatingSchedule(homeLabel))
+          dispatch(initialiseLogs(homeLabel))
         }else{
           dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
           navigate('/Error')
@@ -304,35 +306,35 @@ const App: React.FC = () => {
   };
 
   // console.log('blblb', (20>>>0).toString(2), parseInt(  "0000010100".split('').join(''), 2 ))
-  const getData  = async () => {
-    // dispatch(initializeChartData())
+  // const getData  = async () => {
+  //   // dispatch(initializeChartData())
 
-              //
-              const response = await axios.put(
-                `https://api.project-chai.org/schedule/?label=test_home_kevin&daymask=20`,
+  //             //
+  //             const response = await axios.put(
+  //               `https://api.project-chai.org/schedule/?label=test_home_kevin&daymask=20`,
                 
-                    // '0': 2,
-                    // '28':3,
-                    // '36':4,
-                    // '72':1,
-                    // day:1,
-                    [{0: '2'},{14: '1'},{ 26: '2'},{37: '3'},{42: '1'},{48:'2'},{58:'3'},{64:'1'},{72:'5'}]
-                    // 0: '2', 28: '1', 36: '4', 72: '3'
-                ,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-            ).then((res)=>{
-                console.log(res);
-                return res.status
-            }).catch((e)=>{
-                console.error(e.errorMessage)
-            });
-            return response
+  //                   // '0': 2,
+  //                   // '28':3,
+  //                   // '36':4,
+  //                   // '72':1,
+  //                   // day:1,
+  //                   [{0: '2'},{14: '1'},{ 26: '2'},{37: '3'},{42: '1'},{48:'2'},{58:'3'},{64:'1'},{72:'5'}]
+  //                   // 0: '2', 28: '1', 36: '4', 72: '3'
+  //               ,
+  //               {
+  //                   headers: {
+  //                       'Content-Type': 'application/json'
+  //                   }
+  //               }
+  //           ).then((res)=>{
+  //               console.log(res);
+  //               return res.status
+  //           }).catch((e)=>{
+  //               console.error(e.errorMessage)
+  //           });
+  //           return response
 
-  }
+  // }
 
 
   const toogleTheme = () => {
@@ -383,7 +385,7 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <button onClick={()=>{getData()}}>hmm</button>
+      {/* <button onClick={()=>{console.log(currentState)}}>hmm</button> */}
     <ThemeProvider theme={theme ? light : dark}>
       <div>
         <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>

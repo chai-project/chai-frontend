@@ -156,8 +156,8 @@ interface Props {
   logs: Log[] | []
 }
 
-const LogTable: React.FC <Props>= (props:Props) => {
-  const {logs} = props;
+const LogTable: React.FC <{logs:any}>= ({logs}) => {
+  // const {logs} = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -194,8 +194,8 @@ const LogTable: React.FC <Props>= (props:Props) => {
           </TableHead>
           <TableBody>
             {logs
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // cia probelema su duplication !
-              .map((log) => {
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // cia probelema su duplication !
+              .map((log:any) => {
                 return (
                   <TableRow className={classes.tableRow} tabIndex={-1} > {/* key={log.id} cia ir buvo problema del to ir duplikuodavosi*/}
                     {columns.map((column) => {
@@ -217,7 +217,7 @@ const LogTable: React.FC <Props>= (props:Props) => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={logs.length}
+        count={logs?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

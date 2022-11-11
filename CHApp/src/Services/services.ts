@@ -154,6 +154,24 @@ const getHeatingProfiles = async (label:String) => {
 }
 
 
+//Logs
+
+const getLogs = async (label:String) => {
+    const request = await axios.get(`${baseURL}/logs/?label=${label}`).then((res)=>{
+        // console.log('config: ',res.config)
+        // console.log('data: ',res.data)
+        // console.log('request: ',res.request)
+        // console.log('status: ',res.status)
+        // console.log('status text: ',res.statusText)
+        return res.data
+}).catch((error) => {
+    console.error('error',error);
+})
+    // console.log(request)
+    return request
+};
+
+
 // https://api.project-chai.org/schedule/?label=test_home_kim&daymask=127
 
 
@@ -175,4 +193,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs}

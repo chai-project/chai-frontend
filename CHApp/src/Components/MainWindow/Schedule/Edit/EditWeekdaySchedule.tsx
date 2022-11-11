@@ -203,7 +203,7 @@ const EditWeekdaySchedule: React.FC = () => {
         <Grid xs={5.25} item container> 
           <TimeslotsData timeslots={weekdayScheduleToEdit} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} />
         </Grid>
-        <Grid xs={5} item className={classes.XAIcharts}>{/** XAI CHARTS **/}</Grid>
+        <Grid xs={0} item className={classes.XAIcharts}>{/** XAI CHARTS **/}</Grid>
         <Grid xs={0.75} className={classes.saveAndCancelButtons} item container direction="row" alignItems="flex-start" justifyContent="flex-end">
           {weekdayScheduleToEdit !== weekdaySchedule.schedule || weekdayScheduleToEdit.length !== weekdaySchedule.schedule.length ? 
                                                                     <Grid xs={5} item className={classes.saveAndCancelButtons} container  direction="row" alignItems="flex-start" justifyContent="flex-end" spacing={1}>

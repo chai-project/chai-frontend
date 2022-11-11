@@ -52,7 +52,7 @@ const radius = (type: String) => {
   const radius = pricesList?.map((item:any, index:any)=>{
     return index === pricesList.length -1 ? 0 : type === 'radius' ? 3 : 1
   });
-  console.log(type, radius)
+  // console.log(type, radius)
   return radius
 }
 
@@ -66,8 +66,8 @@ const radius = (type: String) => {
         yAxisID: 'y1',
         type:'line',
         data: setpoint,
-        // radius: radius('radius'),
-        // hitRadius: radius('hitradius'),
+        radius: radius('radius'),
+        hitRadius: radius('hitradius'),
         fill: false,
         backgroundColor: "#F6946B",
         borderColor: "#F6946B",
@@ -78,8 +78,8 @@ const radius = (type: String) => {
         yAxisID: 'y2',
         type:'line',
         data: pricesList?.map((timeframe:any)=>{return timeframe.rate}),
-        // radius: radius('radius'),
-        // hitRadius: radius('hitradius'),
+        radius: radius('radius'),
+        hitRadius: radius('hitradius'),
         fill: true,
         backgroundColor: "rgb(87, 203, 204,0.8)",
         borderColor: "rgb(87, 203, 204,1)",

@@ -10,6 +10,7 @@ import { CssBaseline, Button, Paper, Grid, Typography } from '@mui/material/';
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
+import {setPriceSensitivityAndPreferedTemperature} from '../../../Redux-reducers/heatingProfilesReduces'
 
 
 //types
@@ -51,35 +52,34 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define type
-    const [gaugeValue, setGaugeValue] = useState<number>(0);
+    // const [gaugeValue, setGaugeValue] = useState<number>(0);
 
     const classes = useStyles()
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-      const priceSensivityBoundaries = (bias:any ) => {
-        const finiteIntervals = 4;
-        const minSetpoint = 7;
-        const maxPrice = 35;
-        const upperBound = (bias - minSetpoint) / maxPrice;
-        const intervalWidth = upperBound / finiteIntervals;
-        let boundaries:any[] = []
+    // useEffect(()=>{
+    //   const priceSensivityBoundaries = (bias:any ) => {
+    //     const finiteIntervals = 4;
+    //     const minSetpoint = 7;
+    //     const maxPrice = 35;
+    //     const upperBound = (bias - minSetpoint) / maxPrice;
+    //     const intervalWidth = upperBound / finiteIntervals;
+    //     let boundaries:any[] = []
   
-        for(let i:number = 0; i<finiteIntervals+1; i++  ){
-          boundaries.push(intervalWidth*i)
-        }
-        return boundaries
-      };
-      let segment = 0
-      const boundaries = priceSensivityBoundaries(profile.bias);
-      for(let i:number = 0; i<boundaries.length; i++){
-        if(-profile.slope >= boundaries[i]){
-          segment = i+1
-        }
-      };
-      setGaugeValue(segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.416666667 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : 0 )
-
-    },[profile])
+    //     for(let i:number = 0; i<finiteIntervals+1; i++  ){
+    //       boundaries.push(intervalWidth*i)
+    //     }
+    //     return boundaries
+    //   };
+    //   let segment = 0
+    //   const boundaries = priceSensivityBoundaries(profile.bias);
+    //   for(let i:number = 0; i<boundaries.length; i++){
+    //     if(-profile.slope >= boundaries[i]){
+    //       segment = i+1
+    //     }
+    //   };
+    //   setGaugeValue(segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.416666667 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : 0 )
+    // },[profile])
 
 
     // const priceSensivityBoundaries = (bias:any ) => {
@@ -114,14 +114,17 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
           <GaugeChart
             nrOfLevels={6}
             colors={['#FE6262', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#FE6262']}
-            percent={gaugeValue}
+            percent={profile.gaugeValue}
             hideText={false}
-            formatTextValue={(value:any)=>{return value < 1/6*100 ? 'Low' : value > 1/6*5*100 ? 'High' : '' }}
-            needleColor={gaugeValue < 1/6 ? '#FE6262' : gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
-            needleBaseColor={gaugeValue < 1/6 ? '#FE6262' : gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
+            formatTextValue={(value:any)=>{return profile.segment === 0 ? "Negative" : profile.segment === 1 ? "Very low" : profile.segment === 2 ? "Low" : profile.segment === 3 ? "Moderate" : profile.segment === 4 ? "High" :  "Very high" }}
+            needleColor={profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
+            needleBaseColor={profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
           />
         </Grid>
   );
 };
 
 export default PriceSensivityGauge;
+
+
+//  formatTextValue={(value:any)=>{return value < 1/6*100 ? 'Low' : value > 1/6*5*100 ? 'High' : '' }}

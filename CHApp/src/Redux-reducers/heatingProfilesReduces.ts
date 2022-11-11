@@ -8,7 +8,7 @@ interface heatingProfile {
 
 
 //Heating Component reducer
-const heatingProfilesReducer = (state = {heatingProfiles:[], selectedProfile:null, energyPriceForSelectedProfile: null} , action:any) => { //buvo empty array startas  (state: []| null = null , action:any)  state = {heatingProfiles:[], selectedProfile:null}
+const heatingProfilesReducer = (state:any = {heatingProfiles:[], selectedProfile:null, energyPriceForSelectedProfile: null} , action:any) => { //buvo empty array startas  (state: []| null = null , action:any)  state = {heatingProfiles:[], selectedProfile:null}
     switch(action.type) {
         case "SET_HEATING_PROFILES":
             return state = {...state, ...action.data}
@@ -27,7 +27,35 @@ export const initializeHeatingProfiles = (label:String) => {
         const colors = ["#57A6F0", "#d1ca69", "#F6946B", "#f03cdb" , "#FE6262"  ]
         const heatingProfiles = await services.getHeatingProfiles(label);
         const profilesWithLabels = heatingProfiles.map((profile:any)=>{ //define type later
-            return {...profile, profileName: profileLabels[profile.profile-1], profileColor: colors[profile.profile-1] }
+            const priceSensivityBoundaries = (bias:any ) => {
+                const finiteIntervals = 4;
+                const minSetpoint = 7;
+                const maxPrice = 35;
+                const upperBound = (bias - minSetpoint) / maxPrice;
+                const intervalWidth = upperBound / finiteIntervals;
+                let boundaries:any[] = []
+          
+                for(let i:number = 0; i<finiteIntervals+1; i++  ){
+                  boundaries.push(intervalWidth*i)
+                }
+                return boundaries
+              };
+              let segment = 0
+              const boundaries = priceSensivityBoundaries(profile.bias);
+              for(let i:number = 0; i<boundaries.length; i++){
+                if(-profile.slope >= boundaries[i]){
+                  segment = i+1
+                }
+              };
+            //   0	Negative
+            //     1	Very low
+            //     2	Low
+            //     3	Moderate
+            //     4	High
+            //     5	Very high
+              let gaugeValue = segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.416666667 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : 0 
+              let priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
+            return {...profile, profileName: profileLabels[profile.profile-1], profileColor: colors[profile.profile-1], gaugeValue: gaugeValue, priceSensitivity: priceSensitivity, prefferedTemperature: Math.round(profile.bias * 100)/100 , segment: segment   }
         });
         dispatch({
             type:"SET_HEATING_PROFILES",
@@ -41,6 +69,16 @@ export const setSelectedProfile = (selectedProfile:any) => {
         dispatch({
             type:"SET_SELECTED_PROFILE",
             data: {selectedProfile: selectedProfile}
+        })
+    };
+};
+
+export const setPriceSensitivityAndPreferedTemperature = (profile:any) => {
+    console.log(profile,'wtf???')
+    return async (dispatch : Dispatch) => {
+        dispatch({
+            type:"SET_PROFILE_PRICE_SENSITIVITY_AND_PREFFERED_TEMPERATURE",
+            data: profile
         })
     };
 };

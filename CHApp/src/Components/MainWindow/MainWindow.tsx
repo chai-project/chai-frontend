@@ -79,7 +79,7 @@ const MainWindow: React.FC = () => {
           <Route path='schedule' element={<Schedule weekSchedule={currentState.heatingSchedule} heatingProfiles={currentState.heatingProfiles}/>}/>
           <Route path='schedule/:weekday' element={<EditWeekdaySchedule />}/>
           <Route path='profiles' element={<Profiles/>}/>
-          <Route path='notifications' element={<Logs/>}/>
+          <Route path='notifications' element={<Logs currentState={currentState}/>}/>
           <Route path='/Error' element={<ErrorComponent/>}/>
           <Route path='*' element={<ErrorComponent/>}/>
         </Routes>
