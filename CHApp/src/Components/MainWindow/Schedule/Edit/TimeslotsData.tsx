@@ -46,21 +46,21 @@ import Setpoint from './Setpoint';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main:{
-    //   border: "1px solid pink",
-    //   height: '100%',
-    //   width: '100%',
+    //   border: "5px solid pink",
+      height: '100%',
+      width: '100%',
     },
     timeslots:{
         // height: '55%',
-        // maxHeight: '55%',
-        width: '100%!',
-        // border: "1px solid red",
-        overflow: 'auto'
+        maxHeight: '60%',
+        // width: '100%',
+        // border: "3px solid red",
+        overflow: 'scroll'
     },
     labels:{
         height: '7%',
         width: '100%',
-        // border: "1px solid orange",
+        // border: "1px dashed white",
     },
     addNew:{
         height: '15%',
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: '5px',
         borderBottom: '1px solid #5ACBCC',
         borderTop: '1px solid #5ACBCC',
-        // border: "4px solid lime",
+        // border: "3px solid lime",
     },
     profile:{
         // border: "1px solid red",
@@ -85,34 +85,12 @@ const useStyles = makeStyles((theme: Theme) =>
             // marginRight: 'auto',
           }
     },
-    setpoint:{
-        // border: "1px solid red",
-        width: '7%',
-        fontSize: '15px',
-        [theme.breakpoints.down('md')]: {
-            width: '15%',
-            fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
-          }
-    },
     period:{
         // border: "1px solid red",
-        width: '35%',
+        width: '36%',
         fontSize: '15px',
         [theme.breakpoints.down('md')]: {
-            width: '42%',
-            fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
-          }
-    },
-    estimatedCosts:{
-        // border: "1px solid red",
-        width: '12%',
-        fontSize: '15px',
-        [theme.breakpoints.down('md')]: {
-            width: '20%',
+            width: '50%',
             fontSize: '14px',
             // marginLeft: 'auto',
             // marginRight: 'auto',
@@ -129,24 +107,18 @@ const useStyles = makeStyles((theme: Theme) =>
             // marginRight: 'auto',
           }
     },
-    periodFrom:{
-        border: "1px solid red",
-        // width: '8%',
-    },
-    periodEnd:{
-        border: "1px solid red",
-        // width: '8%',
-    },
-    profileContainer:{
-        border: "1px solid orange",
-        width:'100%',
-        // marginTop: '5px',
-        // overflow: 'hidden'
-        borderBottom: '1px solid #5ACBCC'
-        // "&:hover": {
-        //     backgroundColor: '#5ACBCC'
-        //   }
-    }
+    // '@global': {
+    //     '*::-webkit-scrollbar': {
+    //       width: '0.4em'
+    //     },
+    //     '*::-webkit-scrollbar-track': {
+    //       '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    //     },
+    //     '*::-webkit-scrollbar-thumb': {
+    //       backgroundColor: '#5ACBCC',
+    //       outline: '1px solid slategrey'
+    //     }
+    //   },
   }),
 );
 
@@ -313,7 +285,7 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                 if(noDuplicates[noDuplicates.length-1].profileName === newTimeslots[i].profileName){
                     noDuplicates[noDuplicates.length-1].profileEnd = newTimeslots[i].profileEnd
                 }else if(i === newTimeslots.length-1){
-                    noDuplicates.push({...newTimeslots[i], profileEnd: "24:00", id:i})
+                    noDuplicates.push({...newTimeslots[i], profileStart: newTimeslots[i-1].profileEnd, profileEnd: "24:00", id:i})
                 }else{
                     noDuplicates.push({...newTimeslots[i], profileStart: newTimeslots[i-1].profileEnd,id:i})
                 }
@@ -327,7 +299,7 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
         <Grid xs={1} item className={classes.labels} >
             <Labels first={'Profile'} second={'Period'}/>
         </Grid>
-        <Grid item xs={5} className={classes.timeslots} container direction="row" alignItems="flex-start" justifyContent="center">
+        <Grid  className={classes.timeslots} container direction="row" alignItems="flex-start" justifyContent="flex-start">
             {timeslots?.map((timeslot:any)=>{
                 return (
                     <Box className={classes.timeslot} bgcolor="background.default">
@@ -335,9 +307,6 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                             <Grid item className={classes.profile}>
                                 <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/> 
                             </Grid>
-                            {/* <Grid item className={classes.setpoint}>
-                                <Setpoint timeslots={timeslots} asignedTimeslot={timeslot}/>
-                            </Grid> */}
                             <Grid item className={classes.period}>
                                 <TimeslotPeriodFromTo timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/>
                             </Grid>

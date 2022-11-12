@@ -115,6 +115,7 @@ const WeekdayScheduleView: React.FC<{timeslots:any, indexOfaWeekday:number, week
         <Grid item container xs={12} className={classes.schedule} direction="row" justifyContent="center" alignItems="center">
             {timeslots?.map((profile:any, index:number)=>{
                 const sizeOfTheTimeslot = getSizeOfTheTimeslot(profile.profileStart, profile.profileEnd)
+                // console.log(weekday,sizeOfTheTimeslot, profile)
                 return ( // Timeslot
                     <Timeslot indexOfaWeekday={indexOfaWeekday} weekday={weekday} profile={profile} sizeOfTheTimeslot={sizeOfTheTimeslot}/>
                 )
@@ -126,7 +127,7 @@ const WeekdayScheduleView: React.FC<{timeslots:any, indexOfaWeekday:number, week
                 return ( // Time Label
                     <Grid container xs={sizeOfTheTimeslot.sizeOfTheTimeslot}>
                         <Grid item xs={1}>
-                            <Typography className={classes.timeLabel}>{sizeOfTheTimeslot.sizeOfTheTimeslot < 0.4 ? null : profile.profileStart}</Typography>
+                            <Typography className={classes.timeLabel}>{sizeOfTheTimeslot.sizeOfTheTimeslot < 0.6 ? null : profile.profileStart}</Typography>
                         </Grid>
                         <Grid item style={{ flexGrow: "1" }}></Grid>
                         <Grid item xs={0}>

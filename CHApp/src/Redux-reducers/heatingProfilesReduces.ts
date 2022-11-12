@@ -1,6 +1,8 @@
 import { Dispatch } from 'redux';
 import services from '../Services/services';
+import utils from '../Components/Utils/utils';
 import dayjs from 'dayjs';
+
 
 interface heatingProfile {
 
@@ -27,26 +29,27 @@ export const initializeHeatingProfiles = (label:String) => {
         const colors = ["#57A6F0", "#d1ca69", "#F6946B", "#f03cdb" , "#FE6262"  ]
         const heatingProfiles = await services.getHeatingProfiles(label);
         const profilesWithLabels = heatingProfiles.map((profile:any)=>{ //define type later
-            const priceSensivityBoundaries = (bias:any ) => {
-                const finiteIntervals = 4;
-                const minSetpoint = 7;
-                const maxPrice = 35;
-                const upperBound = (bias - minSetpoint) / maxPrice;
-                const intervalWidth = upperBound / finiteIntervals;
-                let boundaries:any[] = []
+            const segment = utils.getSegment(profile.slope, profile.bias)
+            // const priceSensivityBoundaries = (bias:any ) => {
+            //     const finiteIntervals = 4;
+            //     const minSetpoint = 7;
+            //     const maxPrice = 35;
+            //     const upperBound = (bias - minSetpoint) / maxPrice;
+            //     const intervalWidth = upperBound / finiteIntervals;
+            //     let boundaries:any[] = []
           
-                for(let i:number = 0; i<finiteIntervals+1; i++  ){
-                  boundaries.push(intervalWidth*i)
-                }
-                return boundaries
-              };
-              let segment = 0
-              const boundaries = priceSensivityBoundaries(profile.bias);
-              for(let i:number = 0; i<boundaries.length; i++){
-                if(-profile.slope >= boundaries[i]){
-                  segment = i+1
-                }
-              };
+            //     for(let i:number = 0; i<finiteIntervals+1; i++  ){
+            //       boundaries.push(intervalWidth*i)
+            //     }
+            //     return boundaries
+            //   };
+            //   let segment = 0
+            //   const boundaries = priceSensivityBoundaries(profile.bias);
+            //   for(let i:number = 0; i<boundaries.length; i++){
+            //     if(-profile.slope >= boundaries[i]){
+            //       segment = i+1
+            //     }
+            //   };
             //   0	Negative
             //     1	Very low
             //     2	Low

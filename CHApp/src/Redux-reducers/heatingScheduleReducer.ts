@@ -937,7 +937,7 @@ export const initializeHeatingSchedule = (label:String) => {
 
 
 export const setNewHeatingSchedule = (dayOrDaysToSet:any,newSchedule:any) => { //define type
-    console.log(dayOrDaysToSet,newSchedule,'reducer');
+    // console.log(dayOrDaysToSet,newSchedule,'reducer');
     let initialMAsk = "0000000"
     dayOrDaysToSet.forEach((day:any)=>{
         const maskForThisDay = maskForADay.find((mask:any)=>{return mask.day === day.toLowerCase()});
@@ -962,7 +962,7 @@ export const setNewHeatingSchedule = (dayOrDaysToSet:any,newSchedule:any) => { /
 
     // const response = await services.setHeatingSchedule(maskToSend, scheduleToSet)
 
-
+    // console.log(scheduleToSet,'zeuru!!!!')
 
     return async (dispatch : Dispatch) => {
         const response = await services.setHeatingSchedule(maskToSend, scheduleToSet)

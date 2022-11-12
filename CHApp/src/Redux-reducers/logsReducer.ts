@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import services from '../Services/services';
+import utils from '../Components/Utils/utils';
 import dayjs from 'dayjs';
 
 
@@ -16,31 +17,33 @@ export const initialiseLogs = (label:String) => {
 
     return async (dispatch : Dispatch) => {
         const rawLogs = await services.getLogs(label)
+        // console.log(rawLogs)n
         const logs = rawLogs?.map((rawLog:any, index:number, arr:any)=>{
 
             let priceSensitivity = null
             if(rawLog.parameters.length === 5 ){
-              const priceSensivityBoundaries = (bias:any ) => {
-                const finiteIntervals = 4;
-                const minSetpoint = 7;
-                const maxPrice = 35;
-                const upperBound = (bias - minSetpoint) / maxPrice;
-                const intervalWidth = upperBound / finiteIntervals;
-                let boundaries:any[] = []
+            //   const priceSensivityBoundaries = (bias:any ) => {
+            //     const finiteIntervals = 4;
+            //     const minSetpoint = 7;
+            //     const maxPrice = 35;
+            //     const upperBound = (bias - minSetpoint) / maxPrice;
+            //     const intervalWidth = upperBound / finiteIntervals;
+            //     let boundaries:any[] = []
           
-                for(let i:number = 0; i<finiteIntervals+1; i++  ){
-                  boundaries.push(intervalWidth*i)
-                }
-                return boundaries
-              };
-              let segment = 0
-              const boundaries = priceSensivityBoundaries(rawLog.parameters[4]);
-              for(let i:number = 0; i<boundaries.length; i++){
-                if(-rawLog.parameters[3] >= boundaries[i]){
-                  segment = i+1
-                }
-              };
-              priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
+            //     for(let i:number = 0; i<finiteIntervals+1; i++  ){
+            //       boundaries.push(intervalWidth*i)
+            //     }
+            //     return boundaries
+            //   };
+            //   let segment = 0
+            //   const boundaries = priceSensivityBoundaries(rawLog.parameters[4]);
+            //   for(let i:number = 0; i<boundaries.length; i++){
+            //     if(-rawLog.parameters[3] >= boundaries[i]){
+            //       segment = i+1
+            //     }
+            //   };
+                const segment = utils.getSegment(rawLog.parameters[3], rawLog.parameters[4] )
+                priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
             }
             const profileName = rawLog.parameters[0] === 1 ? "Nights" :  rawLog.parameters[0] === 2 ? "Mornings" :  rawLog.parameters[0] === 3 ? "Weekdays" : rawLog.parameters[0] === 4 ? "Evenings" :  "Weekends"
             const day = dayjs(rawLog.timestamp).get('day');
@@ -67,6 +70,7 @@ export const initialiseLogs = (label:String) => {
                 }
                 break;
               case "PROFILE_UPDATE":
+                
                 return {dateAndTime: rawLog.timestamp ,date: date ,time: time , category: "System" , description: `Profile ${profileName} has been updated because you set the target temperature to ${setpoint}°C when the price was ${price} p/kWh where the AI now believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${rawLog.parameters[4]}°C.`}
                   // code block
                 break;
@@ -79,6 +83,7 @@ export const initialiseLogs = (label:String) => {
                 return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "User" , description: `You edited the schedule.`}
                 break;
               default:
+                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: rawLog.category , description: ""}
                 break;
                 // code block
             }

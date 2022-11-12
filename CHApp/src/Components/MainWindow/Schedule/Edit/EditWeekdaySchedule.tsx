@@ -39,40 +39,13 @@ const useStyles = makeStyles((theme: Theme) =>
       //  left: '4%',
       //  top: '10%',
     },
-    container:{
-        // border: "1px solid pink",
-        width: '100%',
-        height: '100%',
-        //    background: '#CFD8DC',
-    },
-    weekday:{
-        // border: "1px solid lime",
-        height: '12%',
-        width: '100%',
-        // marginTop: '10%',
-
-    },
     closePageButton:{
-        position:'absolute',
-    },
-    mainContainer:{
+      // position:'absolute',
       // border: "1px solid lime",
-      height: '100%'
-    },
-    XAIcharts:{
-      // border: "2px solid pink",
-      width: '100%'
-    },
-    secondaryContainer :{
-      // border: "1px solid pink",
-      width: '100%',
-      overflow: 'auto'
+
     },
     saveAndCancelButtons:{
       // border: "1px solid orange",
-      // position:'absolute',
-      // left: '82%',
-      // marginLeft:'50px',
     },
     timeslotsData:{
       // position:'relative',
@@ -200,12 +173,12 @@ const EditWeekdaySchedule: React.FC = () => {
           </Grid>
           <Grid xs={0.5} item></Grid>
         </Grid>
-        <Grid xs={5.25} item container> 
+        <Grid xs={10.25} item container className={classes.timeslotsData}> 
           <TimeslotsData timeslots={weekdayScheduleToEdit} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} />
         </Grid>
-        <Grid xs={0} item className={classes.XAIcharts}>{/** XAI CHARTS **/}</Grid>
+        {/* <Grid xs={0} item className={classes.XAIcharts}>* XAI CHARTS *</Grid> */}
         <Grid xs={0.75} className={classes.saveAndCancelButtons} item container direction="row" alignItems="flex-start" justifyContent="flex-end">
-          {weekdayScheduleToEdit !== weekdaySchedule.schedule || weekdayScheduleToEdit.length !== weekdaySchedule.schedule.length ? 
+          {weekdayScheduleToEdit !== weekdaySchedule?.schedule || weekdayScheduleToEdit?.length !== weekdaySchedule?.schedule.length ? 
                                                                     <Grid xs={5} item className={classes.saveAndCancelButtons} container  direction="row" alignItems="flex-start" justifyContent="flex-end" spacing={1}>
                                                                       <Grid item>
                                                                         <Button variant="contained" color='primary' size='small' onClick={saveWeekdayScheduleChanges}>Save</Button>

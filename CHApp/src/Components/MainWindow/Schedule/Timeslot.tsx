@@ -120,7 +120,7 @@ const Timeslot: React.FC<{indexOfaWeekday:any, weekday:any, profile:any, sizeOfT
     // console.log(weekday, sizeOfATimeslot, timeIntervals)
   return (
     <Grid item container xs={sizeOfTheTimeslot.sizeOfTheTimeslot} sx={{background:profile.color}} className={classes.timeslot} direction="row" justifyContent="center" alignItems="center" onClick={()=>{setThisProfileAsSElectedProfile(profile)}}> {/* , borderRight: timeslots.length === index + 1 ? null : "1px solid #57CBCC"  */}
-        <Typography className={classes.temperatureLabel}>{sizeOfTheTimeslot.sizeOfTheTimeslot! < 0.75 ? null : profile.profileName}</Typography>
+        <Typography className={classes.temperatureLabel}>{sizeOfTheTimeslot.sizeOfTheTimeslot! < 1.2 ? null : profile.profileName}</Typography>
     </Grid>
 );
 };
