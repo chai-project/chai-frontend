@@ -138,13 +138,13 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'date', label: 'Date', minWidth: 170 },
-  { id: 'time', label: 'Time', minWidth: 100 },
-  { id: 'category', label: 'Category', minWidth: 100},
+  { id: 'date', label: 'Date', minWidth: 120 },
+  { id: 'time', label: 'Time', minWidth: 120 },
+  { id: 'category', label: 'Category', minWidth: 160},
   {
     id: 'description',
     label: 'Description',
-    minWidth: 370,
+    minWidth: 400,
     // align: 'right', //atcomentuoti jeigu kevinas sutinka
     format: (value: number) => value.toLocaleString('en-US'),
   }
@@ -187,7 +187,7 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
                 <TableCell 
                   key={column.id}
                   align={column.align}
-                  // style={{ minWidth: column.minWidth }}
+                  style={{ width: column.minWidth }}
                 >
                   
                   {column.label}
