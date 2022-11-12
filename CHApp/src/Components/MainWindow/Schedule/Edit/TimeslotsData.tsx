@@ -157,6 +157,9 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                 if(timeslotToAdd.profileEnd >= timeslots[i].profileEnd){
                     if(timeslotToAdd.profileEnd === "24:00"){
                         newTimeslots.push(timeslotToAdd)
+                    }else if(i === 0){
+                        newTimeslots.push(timeslotToAdd)
+                        // newTimeslots.push({...timeslots[i], profileStart: timeslotToAdd.profileEnd ,profileEnd: timeslots[i+1].profileStart  })
                     }else{
                         newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
                         newTimeslots.push(timeslotToAdd)
