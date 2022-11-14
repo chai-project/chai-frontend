@@ -90,7 +90,7 @@ const Profiles: React.FC = () => {
 
   return (
     <div className={classes.main}>
-        {allProfiles ? 
+        {allProfiles.length !== 0 ? 
                         <Grid container className={classes.container} direction="column" justifyContent="flex-start" alignItems="center">
                             <Grid item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
                                 <Grid item className={classes.selectProfileButton}>

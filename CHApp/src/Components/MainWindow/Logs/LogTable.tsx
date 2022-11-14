@@ -138,9 +138,9 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'date', label: 'Date', minWidth: 120 },
-  { id: 'time', label: 'Time', minWidth: 120 },
-  { id: 'category', label: 'Category', minWidth: 160},
+  { id: 'date', label: 'Date', minWidth: 90 },
+  { id: 'time', label: 'Time', minWidth: 90 },
+  { id: 'category', label: 'Category', minWidth: 90},
   {
     id: 'description',
     label: 'Description',

@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
         maxHeight: '60%',
         // width: '100%',
         // border: "3px solid red",
-        overflow: 'scroll'
+        overflow: 'auto'
     },
     labels:{
         height: '7%',

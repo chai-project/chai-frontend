@@ -17,7 +17,7 @@ export const initialiseLogs = (label:String) => {
 
     return async (dispatch : Dispatch) => {
         const rawLogs = await services.getLogs(label)
-        // console.log(rawLogs)n
+        // console.log(rawLogs)
         const logs = rawLogs?.map((rawLog:any, index:number, arr:any)=>{
 
             let priceSensitivity = null
@@ -46,16 +46,18 @@ export const initialiseLogs = (label:String) => {
                 priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
             }
             const profileName = rawLog.parameters[0] === 1 ? "Nights" :  rawLog.parameters[0] === 2 ? "Mornings" :  rawLog.parameters[0] === 3 ? "Weekdays" : rawLog.parameters[0] === 4 ? "Evenings" :  "Weekends"
-            const day = dayjs(rawLog.timestamp).get('day');
-            const month = dayjs(rawLog.timestamp).get('month')
-            const year = dayjs(rawLog.timestamp).get('year')
-            const hours = dayjs(rawLog.timestamp).get('hour') 
-            const minutes = dayjs(rawLog.timestamp).get('minute') 
-            const date = `${day}/${month}/${year}`
+            const timestamp = dayjs(rawLog.timestamp)
+            // const day = timestamp.get('day');
+            // const month = timestamp.get('month')
+            // const year = timestamp.get('year')
+            const hours = timestamp.get('hour') 
+            const minutes = timestamp.get('minute') 
+            const date = timestamp.format('DD/MM/YYYY');
             const time =`${hours}:${minutes < 10 ? '0'+minutes : minutes }`
             const price = Math.round(rawLog.parameters[1] * 100) / 100
             const setpoint = Math.round(rawLog.parameters[2]*2)/2
             // const profile = currentState.heatingProfiles.heatingProfiles.find((profile:any)=>{return profile.profile === rawLog.parameters[0]})
+            // console.log(dayjs('2022-08-14T11:19:23.315153+00:00').format('DD/MM/YYYY hh:mm:ss'))
             switch(rawLog.category) {
               case "VALVE_SET":
                 // console.log(rawLog.parameters)

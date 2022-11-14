@@ -60,31 +60,77 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Estimations: React.FC<{periodState:any, energyPrice:any}> = ({periodState, energyPrice}) => {
-  const [avgPrice, setAvgPrice] = useState<number|null>(null);
+const Estimations: React.FC<{periodState:any, energyPrice:any ,type:any}> = ({periodState, energyPrice ,type}) => {
+  const [price, setPrice] = useState<number|null>(null);
   const classes = useStyles();
   const dispatch = useDispatch();
   
   useEffect(()=>{
-      switch(periodState) {
-        case 'Today':
-          setAvgPrice(energyPrice.averagePriceToday.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceToday.length)
+      switch(type){
+        case 'avg':
+          switch(periodState) {
+            case 'Today':
+              setPrice(energyPrice.averagePriceToday.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceToday.length)
+              break;
+            case 'This week':
+              setPrice(energyPrice.averagePriceThisWeek.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisWeek.length)
+              break;
+            case 'This month':
+              setPrice(energyPrice.averagePriceThisMonth.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisMonth.length)
+              break;
+            default:
+              setPrice(null)
+          }
           break;
-        case 'This week':
-          setAvgPrice(energyPrice.averagePriceThisWeek.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisWeek.length)
+        case "min":
+          switch(periodState) {
+            case 'Today':
+              setPrice(Math.min(...energyPrice.averagePriceToday?.map((period:any) => period.rate)))
+              break;
+            case 'This week':
+              setPrice(Math.min(...energyPrice?.averagePriceThisWeek.map((period:any) => period.rate)))
+              break;
+            case 'This month':
+              setPrice(Math.min(...energyPrice?.averagePriceThisMonth.map((period:any) => period.rate)))
+              break;
+            default:
+              setPrice(null)
+          }
           break;
-        case 'This month':
-          setAvgPrice(energyPrice.averagePriceThisMonth.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisMonth.length)
-          break;
-        default:
-          setAvgPrice(null)
+        case "max":
+          switch(periodState) {
+            case 'Today':
+              setPrice(Math.max(...energyPrice?.averagePriceToday.map((period:any) => period.rate)))
+              break;
+            case 'This week':
+              setPrice(Math.max(...energyPrice?.averagePriceThisWeek.map((period:any) => period.rate)))
+              break;
+            case 'This month':
+              setPrice(Math.max(...energyPrice?.averagePriceThisMonth.map((period:any) => period.rate)))
+              break;
+            default:
+              setPrice(null)
+          }
       }
+      // switch(periodState) {
+      //   case 'Today':
+      //     setPrice(energyPrice.averagePriceToday.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceToday.length)
+      //     break;
+      //   case 'This week':
+      //     setPrice(energyPrice.averagePriceThisWeek.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisWeek.length)
+      //     break;
+      //   case 'This month':
+      //     setPrice(energyPrice.averagePriceThisMonth.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisMonth.length)
+      //     break;
+      //   default:
+      //     setPrice(null)
+      // }
   },[periodState])
 
   
 
   return (
-    <Typography variant="inherit"><b>{avgPrice?.toFixed(2)}</b></Typography>
+    <Typography variant="inherit"><b>{price?.toFixed(2)}</b></Typography>
     // <div className={classes.root}>
     //     <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
     //         <Grid item xs={1}>

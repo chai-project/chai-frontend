@@ -105,7 +105,7 @@ const getHeatingScheduleData = async (label:String) => {
 }).catch((error) => {
     console.error('error',error);
 })
-    console.log(request)
+    // console.log(request)
     return request
 };
 
@@ -157,7 +157,7 @@ const getHeatingProfiles = async (label:String) => {
 //Logs
 
 const getLogs = async (label:String) => {
-    const request = await axios.get(`${baseURL}/logs/?label=${label}`).then((res)=>{
+    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)

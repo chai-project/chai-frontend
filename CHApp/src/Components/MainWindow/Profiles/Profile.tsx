@@ -70,7 +70,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
   return (
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
-            <Grid item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
+            <Grid xs={3}item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
                 <Grid item xs={1}></Grid>
                 <Grid item container xs={11} direction="row" justifyContent="center" alignItems="center">
                     <Grid xs={7} item>
@@ -84,7 +84,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
                     </Grid> */}
                 </Grid>
             </Grid>
-            <Grid item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
+            <Grid xs={9} item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
               <Chart profile={profile}/>
             </Grid>
         </Grid>

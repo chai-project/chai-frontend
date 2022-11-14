@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     main:{
-      height: '180px',
+      height: '190px', // was 180
       minWidth: '90%',
       borderRadius: '25px',
       // border: "7px solid orange",

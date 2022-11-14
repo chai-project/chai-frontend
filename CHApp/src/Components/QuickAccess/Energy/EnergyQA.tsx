@@ -26,6 +26,9 @@ import {useSelector, useDispatch} from 'react-redux'
 //components
 import ButtonsForEnergyQA from './ButtonsForEnergyQA';
 import EnergyPrice from './EnergyPrice';
+import AveragePrice from './AveragePrice';
+import MinimumPrice from './MinimumPrice';
+import MaximumPrice from './MaximumPrice';
 import Estimations from './Estimations';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 
@@ -43,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     container:{
-      height: '180px', //visi buvo 170
+      height: '190px', //visi buvo 180
       minWidth: '90%',
       borderRadius: '25px'
     },
@@ -95,8 +98,12 @@ const EnergyQA: React.FC = () => {
           <Grid item xs={3} className={classes.column}>
             <ButtonsForEnergyQA state={periodState} setState={setPeriodState} cases={periods}/>
           </Grid>
-          <Grid item xs={6} className={classes.estimation}>
-            <Grid item container direction="row" justifyContent="center" alignItems="flex-start">
+          <Grid item xs={6} container className={classes.estimation} direction="column" justifyContent="flex-start" alignItems="center">
+            <AveragePrice periodState={periodState} energyPrice={energyPrice} />
+            <MinimumPrice periodState={periodState} energyPrice={energyPrice} />
+            <MaximumPrice periodState={periodState} energyPrice={energyPrice} />
+
+            {/* <Grid item container direction="row" justifyContent="center" alignItems="flex-start">
               <Grid item xs={1}>
                   <CurrencyPoundIcon fontSize='small' color='primary'/>
               </Grid>
@@ -105,7 +112,7 @@ const EnergyQA: React.FC = () => {
                 {energyPrice !== null ?  <Estimations periodState={periodState} energyPrice={energyPrice}/> : <ProgressCircular size={20}/>}
               </Grid>
               <Grid item xs={2.3} fontSize={15}><Typography variant="inherit">p/kWh</Typography></Grid>
-            </Grid>
+            </Grid> */}
             {/* <Estimations periodState={periodState} energyPrice={energyPrice!}/> */}
           </Grid>
         </Grid>
