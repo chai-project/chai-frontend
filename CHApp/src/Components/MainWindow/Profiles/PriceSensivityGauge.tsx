@@ -107,7 +107,7 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
     //   return segments;
     // };
 
-    // console.log(priceSensivitySegment(20.448553121821558, 0.052908061786795565 ))
+    console.log(profile)
   return (
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
           <Typography>Price sensitivity</Typography>
