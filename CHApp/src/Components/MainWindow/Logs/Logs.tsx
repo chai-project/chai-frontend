@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
       //  top: '10%',
     },
     datepicker:{
-      position: 'relative',
+      position: 'absolute',
       height: '10%',
       left: '0.5%'
     },

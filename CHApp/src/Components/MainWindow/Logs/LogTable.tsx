@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     tableContainer: {
-      position:'relative',
+      // position:'relative',
       height:'640px', //600fullscreen
       zIndex:0,
       [theme.breakpoints.down('md')]: {
@@ -171,7 +171,7 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
   // const dispatch = useDispatch() //redux
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    ref.current.scrollIntoView();
+    ref.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     setPage(newPage);
   };
 
@@ -181,9 +181,9 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper  sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer className={classes.tableContainer}>  
-        <Table stickyHeader aria-label="sticky table">
+        <Table  stickyHeader aria-label="sticky table">
           <TableHead ref={ref} >
             <TableRow>
               {columns.map((column) => (
