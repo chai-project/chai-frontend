@@ -58,7 +58,8 @@
 
 // cia kita versija 
 
-import * as React from 'react';
+// import * as React from 'react';
+import React, { useRef } from "react";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -164,11 +165,13 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
   // const {logs} = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const ref = useRef<any>(null);
 
   const classes = useStyles();
   // const dispatch = useDispatch() //redux
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    ref.current.scrollIntoView();
     setPage(newPage);
   };
 
@@ -181,7 +184,7 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer className={classes.tableContainer}>  
         <Table stickyHeader aria-label="sticky table">
-          <TableHead>
+          <TableHead ref={ref} >
             <TableRow>
               {columns.map((column) => (
                 <TableCell 
