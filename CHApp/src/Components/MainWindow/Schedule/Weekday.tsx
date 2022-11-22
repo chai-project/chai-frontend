@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes, useNavigate } from "react-router-dom";
+import { createBrowserHistory } from 'history';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -68,7 +69,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,schedule:{id:number, profileName:String,profileStart:String,profileEnd:String, temperature:String}[]} ,  setCopyWeekdaySchedule:any, copyWeekdaySchedule:String|null, setScheduleToCopy:any, indexOfASchedeule:number}>= ({weekday, scheduleForAWeekday, setCopyWeekdaySchedule,copyWeekdaySchedule, setScheduleToCopy, indexOfASchedeule}) => {
-    
+      
+    const url = createBrowserHistory()
+    const parameters = new URLSearchParams(url.location.search);
+    const homeLabel =  parameters.get('home')
     const navigate = useNavigate();
     //more button
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -97,7 +101,7 @@ const Weekday: React.FC<{weekday: String, scheduleForAWeekday: {weekday:String,s
           profileStart: "00:00",
           profileEnd: "24:00"
       }
-      dispatch(setNewHeatingSchedule([scheduleForAWeekday.weekday], [defaultProfile]))
+      dispatch(setNewHeatingSchedule(homeLabel, [scheduleForAWeekday.weekday], [defaultProfile]))
       setAnchorEl(null);
     };
     //edit button

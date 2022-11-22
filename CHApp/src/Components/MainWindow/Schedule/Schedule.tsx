@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { createBrowserHistory } from 'history';
+
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -64,6 +66,10 @@ const Schedule: React.FC<{weekSchedule:any, heatingProfiles:any}> = ({weekSchedu
     const [scheduleToCopy, setScheduleToCopy] = useState<any>(null); // define type was timeslot[]|null
     const [weekdaysToPasteSchedule, setWeekdaysToPasteSchedule] = useState<String[]>([]);
 
+    const url = createBrowserHistory()
+    const parameters = new URLSearchParams(url.location.search);
+    const homeLabel =  parameters.get('home')
+
     // useEffect(()=>{
     //   // console.log(weekSchedule[0], 'zeuri temele')
     //   const activeProfile =  weekSchedule[0].schedule.find((profile:any)=>{//define type later
@@ -108,7 +114,7 @@ const Schedule: React.FC<{weekSchedule:any, heatingProfiles:any}> = ({weekSchedu
     //save&cancel buttons
     const saveNewWeekSchedule = () => {
       //define here new schedule/ send to reeducer and assign over there
-      console.log('saving new week schedule')
+      // console.log('saving new week schedule')
       // let newWeekSchedule:any = weekSchedule;
       // weekdaysToPasteSchedule.forEach((weekday)=>{
       //   newWeekSchedule.map((weekdaySchedule:any)=>{
@@ -120,7 +126,7 @@ const Schedule: React.FC<{weekSchedule:any, heatingProfiles:any}> = ({weekSchedu
       //   setWeekdaysToPasteSchedule([]);
       //   setCopyWeekdaySchedule(null);
       // });
-      dispatch(setNewHeatingSchedule(weekdaysToPasteSchedule, scheduleToCopy.schedule ));
+      dispatch(setNewHeatingSchedule(homeLabel, weekdaysToPasteSchedule, scheduleToCopy.schedule ));
       setWeekdaysToPasteSchedule([]);
       setCopyWeekdaySchedule(null);
     };

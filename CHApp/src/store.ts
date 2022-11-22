@@ -10,6 +10,7 @@ import heatingProfilesReducer from './Redux-reducers/heatingProfilesReduces';
 import errorMessageForErrorComponentReducer from './Redux-reducers/errorMessageForErrorComponentReducer';
 import energyPriceDataReducer from './Redux-reducers/energyPriceDataReducer';
 import logsReducer from './Redux-reducers/logsReducer';
+import notificationReducer from './Redux-reducers/notificationsReducer';
 
 const reducer = combineReducers({
     chartData: chartDataReducer,
@@ -18,7 +19,8 @@ const reducer = combineReducers({
     heatingSchedule: heatingScheduleReducer,
     heatingProfiles: heatingProfilesReducer,
     errorMessageForErrorComponent: errorMessageForErrorComponentReducer,
-    logs: logsReducer
+    logs: logsReducer,
+    notification: notificationReducer,
     //more if needed
 });
 

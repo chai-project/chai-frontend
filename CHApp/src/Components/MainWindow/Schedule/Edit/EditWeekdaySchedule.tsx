@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
 import { useParams, useNavigate } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+
 
 
 //mui
@@ -78,8 +80,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const EditWeekdaySchedule: React.FC = () => {
   const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(null); //define type
-  const [schedulesAreEqual, setSchedulesAreEqual] = useState<boolean>(true)
+  const [schedulesAreEqual, setSchedulesAreEqual] = useState<boolean>(true);
 
+  const url = createBrowserHistory()
+  const parameters = new URLSearchParams(url.location.search);
+  const homeLabel =  parameters.get('home')
   const {weekday} = useParams();
 
   const weekdaySchedule = useSelector((state:any)=>{//define type
@@ -137,7 +142,7 @@ const EditWeekdaySchedule: React.FC = () => {
 
     const saveWeekdayScheduleChanges = () => {
       // console.log(weekdayScheduleToEdit, 'blbbll')
-      dispatch(setNewHeatingSchedule([weekday], weekdayScheduleToEdit))
+      dispatch(setNewHeatingSchedule(homeLabel, [weekday], weekdayScheduleToEdit))
       // console.log('save')
     };
 

@@ -109,10 +109,10 @@ const getHeatingScheduleData = async (label:String) => {
     return request
 };
 
-const setHeatingSchedule = async (mask:any, schedule:any) => { //define types later
+const setHeatingSchedule = async (homeLabel:any, mask:any, schedule:any) => { //define types later // need labe over here!!
     
     const response = await axios.put(
-        `https://api.project-chai.org/schedule/?label=test_home_kevin&daymask=${mask}`, schedule
+        `https://api.project-chai.org/schedule/?label=${homeLabel}&daymask=${mask}`, schedule
     
                     // '0': 2,
                     // '28':3,
@@ -153,11 +153,29 @@ const getHeatingProfiles = async (label:String) => {
     return request
 }
 
+const resetProfile = async (label:any ,profile:any) => {
+    const request = await axios.get(`${baseURL}/profile/reset/?label=${label}&profile=${profile}`).then((res)=>{
+        // console.log('config: ',res.config)
+        // console.log('data: ',res.data)
+        // console.log('request: ',res.request)
+        // console.log('status: ',res.status)
+        // console.log('status text: ',res.statusText)
+        return res.status
+}).catch((error) => {
+    console.error('error',error);
+})
+    return request
+};
+
+const resetAllprofiles = async (label:any) => {
+    
+};
+
 
 //Logs
 
 const getLogs = async (label:String) => {
-    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT`).then((res)=>{
+    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT&skip=50&limit=75`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
@@ -193,4 +211,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile}

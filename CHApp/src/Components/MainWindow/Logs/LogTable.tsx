@@ -171,7 +171,8 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
   // const dispatch = useDispatch() //redux
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    ref.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
+    // ref.current && ref.current.scrollIntoView();
     setPage(newPage);
   };
 

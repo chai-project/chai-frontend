@@ -53,16 +53,17 @@ export const initialiseLogs = (label:String) => {
             const hours = timestamp.get('hour') 
             const minutes = timestamp.get('minute') 
             const date = timestamp.format('DD/MM/YYYY');
-            const time =`${hours}:${minutes < 10 ? '0'+minutes : minutes }`
-            const price = Math.round(rawLog.parameters[1] * 100) / 100
-            const setpoint = Math.round(rawLog.parameters[2]*2)/2
+            const time =`${hours}:${minutes < 10 ? '0'+minutes : minutes }`;
+            const price = Math.round(rawLog.parameters[1] * 100) / 100;
+            const setpoint = Math.round(rawLog.parameters[2]*2)/2;
+            const prefferedTemperature = Math.round(rawLog.parameters[4]*2)/2;
             // const profile = currentState.heatingProfiles.heatingProfiles.find((profile:any)=>{return profile.profile === rawLog.parameters[0]})
             // console.log(dayjs('2022-08-14T11:19:23.315153+00:00').format('DD/MM/YYYY hh:mm:ss'))
             switch(rawLog.category) {
               case "VALVE_SET":
                 // console.log(rawLog.parameters)
                 // const profileName = currentState.heatingProfiles.heatingProfiles.find((profile:any)=>{return profile.profile === rawLog.parameters[0]})
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "System" , description: `The system set the target temperature to ${setpoint}°C because the current price is ${price} p/kWh and the active profile is ${profileName} where the AI believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${rawLog.parameters[4]}°C.`}
+                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "System" , description: `The system set the target temperature to ${setpoint}°C because the current price is ${price} p/kWh and the active profile is ${profileName} where the AI believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${prefferedTemperature}°C.`}
                 break;
               case "SETPOINT_MODE":
                 if(rawLog.parameters[0] === 'override' && rawLog.parameters[1] !== null ){
@@ -73,7 +74,7 @@ export const initialiseLogs = (label:String) => {
                 break;
               case "PROFILE_UPDATE":
                 
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time , category: "System" , description: `Profile ${profileName} has been updated because you set the target temperature to ${setpoint}°C when the price was ${price} p/kWh where the AI now believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${rawLog.parameters[4]}°C.`}
+                return {dateAndTime: rawLog.timestamp ,date: date ,time: time , category: "System" , description: `Profile ${profileName} has been updated because you set the target temperature to ${setpoint}°C when the price was ${price} p/kWh where the AI now believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${prefferedTemperature}°C.`}
                   // code block
                 break;
               case "PROFILE_RESET":

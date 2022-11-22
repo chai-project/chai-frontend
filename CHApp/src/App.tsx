@@ -22,7 +22,8 @@ import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReduc
 import { initializeHeatingProfiles } from './Redux-reducers/heatingProfilesReduces';
 import { setErrorMessageForErrorComponentReducer } from './Redux-reducers/errorMessageForErrorComponentReducer';
 import { initializeEnergyPriceData } from './Redux-reducers/energyPriceDataReducer';
-import {initialiseLogs} from './Redux-reducers/logsReducer'
+import {initialiseLogs} from './Redux-reducers/logsReducer';
+import {setNotification} from './Redux-reducers/notificationsReducer';
 
 
 // types
@@ -36,6 +37,7 @@ import MainWindow from './Components/MainWindow/MainWindow';
 import QuickAccess from './Components/QuickAccess/QuickAccess';
 import SwitchButton from './Components/Buttons/SwitchButton';
 import DatePickerComponent from './Components/MainWindow/Logs/DatePickerComponent';
+import Notification from './Components/Notification/Notification';
 
 // theme
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -176,7 +178,7 @@ const App: React.FC = () => {
   
   const currentState: any = useSelector((state: any) => state);
   const classes = useStyles();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // const everystate: any = useSelector((state: any) => state.);
   
@@ -385,7 +387,7 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      {/* <button onClick={()=>{console.log(currentState)}}>hmm</button> */}
+      {/* <button onClick={()=>{dispatch(setNotification('karocia', 3000))}}>hmm</button> */}
     <ThemeProvider theme={theme ? light : dark}>
       <div>
         <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -414,7 +416,9 @@ const App: React.FC = () => {
               <Grid md={12} lg={8.5} item className={classes.navBottom}>
                 <NavBarBottom/>
               </Grid>
-              <Grid xs={3.3} item className={classes.notification}> notification</Grid>
+              <Grid xs={3.3} item className={classes.notification}>
+                <Notification notificationState={currentState.notification}/>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

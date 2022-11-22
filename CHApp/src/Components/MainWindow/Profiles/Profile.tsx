@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Typography } from '@mui/material/';
+import { CssBaseline, Button, Paper, Grid, Typography, Link } from '@mui/material/';
 
 
 
@@ -46,10 +46,17 @@ const useStyles = makeStyles((theme: Theme) =>
     chart:{
         height: '75%',
         // border: "2px dashed red",
+        // position: 'relative',
+        // top: '1px',
         width: '90%'
     },
     gauge:{
       // border: "2px dashed red",
+    },
+    moreInfoButton:{
+      // border: "2px dashed pink",
+      cursor: 'pointer',
+
     }
   }),
 );
@@ -70,11 +77,19 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
   return (
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
-            <Grid xs={3}item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
+            <Grid xs={1}item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
                 <Grid item xs={1}></Grid>
                 <Grid item container xs={11} direction="row" justifyContent="center" alignItems="center">
-                    <Grid xs={7} item>
-                        <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
+                    <Grid xs={7} item container direction="column" justifyContent="center" alignItems="flex-start" rowSpacing={2}>
+                        <Grid item xs={3}>
+                          <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
+                        </Grid>
+                        <Grid item xs={3} className={classes.moreInfoButton} onClick={()=>{console.log(0)}}>
+                          <Link><b>Want to know more about this proifle?</b></Link>
+                        </Grid>
+                        {/* <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography> */}
+                        {/* <Typography><b>What to know more about this proifle?</b></Typography> */}
+
                     </Grid>
                     <Grid className={classes.gauge} xs={5}item>
                         <PriceSensivityGauge profile={profile}/>
@@ -84,7 +99,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
                     </Grid> */}
                 </Grid>
             </Grid>
-            <Grid xs={9} item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
+            <Grid xs={8} item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
               <Chart profile={profile}/>
             </Grid>
         </Grid>

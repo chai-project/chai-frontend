@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { createBrowserHistory } from 'history';
+import services from '../../../Services/services'
+
+
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -8,7 +12,8 @@ import { CssBaseline, Button, Paper, Grid } from '@mui/material/';
 
 
 // redux
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux';
+import { setNotification, setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
 // import { initializeData } from './Redux-reducers/dataReducer';
 
 
@@ -80,16 +85,32 @@ const useStyles = makeStyles((theme: Theme) =>
 const Profiles: React.FC = () => {
     const [profile, setProfile] = useState<profile|null>(null);
 
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const url = createBrowserHistory()
+    const parameters = new URLSearchParams(url.location.search);
+    const homeLabel =  parameters.get('home');
+
+    const resetSelectedProfile = async (profileID:number) => {
+        const request = await services.resetProfile(homeLabel, profileID)
+        //if 200 ad notification
+        if(request === 200){
+            dispatch(setNotification(`Profile ${profile?.profileName} was successfully changed`, 3000));
+        }else{
+            dispatch(setErrorMessage(`Error`, 3000));
+        }
+
+    };
+
     const allProfiles = useSelector((state:any)=>{
         return(
           state.heatingProfiles.heatingProfiles
         )
       })
-    const classes = useStyles();
-    const dispatch = useDispatch()
 
   return (
     <div className={classes.main}>
+        {/* {heatingProfiles.selectedProfile ? <TimeslotMoreInfoOverlay heatingProfiles={heatingProfiles}/> : null} */}
         {allProfiles.length !== 0 ? 
                         <Grid container className={classes.container} direction="column" justifyContent="flex-start" alignItems="center">
                             <Grid item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
@@ -102,7 +123,7 @@ const Profiles: React.FC = () => {
                                 <Grid item className={classes.resetProfileButtons} direction="row" justifyContent="flex-end" alignItems="center">
                                     <Grid item container direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
                                         <Grid  item>
-                                            {profile? <Button variant="outlined" color='secondary' size='small' onClick={()=>{console.log('this profile')}}>Reset this profile</Button> : null}
+                                            {profile? <Button variant="outlined" color='secondary' size='small' onClick={()=>{resetSelectedProfile(profile.profile)}}>Reset this profile</Button> : null}
                                         </Grid>
                                         <Grid item>
                                             <Button variant="outlined" color='secondary' size='small' onClick={()=>{console.log('all profiles')}}>Reset all profiles</Button>
