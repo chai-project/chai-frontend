@@ -74,6 +74,10 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
 //     dispatch(initializeData())
 //   }
 
+    const openXAIOverlay = () => {
+      
+    };
+
   return (
     <div className={classes.main}>
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
@@ -85,7 +89,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
                           <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
                         </Grid>
                         <Grid item xs={3} className={classes.moreInfoButton} onClick={()=>{console.log(0)}}>
-                          <Link><b>Want to know more about this proifle?</b></Link>
+                          <Link><b>Want to know more about this profile?</b></Link>
                         </Grid>
                         {/* <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography> */}
                         {/* <Typography><b>What to know more about this proifle?</b></Typography> */}

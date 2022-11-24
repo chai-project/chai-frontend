@@ -10,11 +10,11 @@ interface heatingProfile {
 
 
 //Heating Component reducer
-const heatingProfilesReducer = (state:any = {heatingProfiles:[], selectedProfile:null, energyPriceForSelectedProfile: null} , action:any) => { //buvo empty array startas  (state: []| null = null , action:any)  state = {heatingProfiles:[], selectedProfile:null}
+const heatingProfilesReducer = (state:any = {heatingProfiles:[], selectedTimeslot:null, selectedProfile: null, energyPriceForSelectedTimeslot: null} , action:any) => { //buvo empty array startas  (state: []| null = null , action:any)  state = {heatingProfiles:[], selectedProfile:null}
     switch(action.type) {
         case "SET_HEATING_PROFILES":
             return state = {...state, ...action.data}
-        case "SET_SELECTED_PROFILE":
+        case "SET_SELECTED_TIMESLOT":
             return state = {...state, ...action.data}
         case "SET_ENERGY_PRICES_FOR_SELECTED_PROFILE":
             return state = {...state, ...action.data}
@@ -67,24 +67,23 @@ export const initializeHeatingProfiles = (label:String) => {
     };
 };
 
-export const setSelectedProfile = (selectedProfile:any) => {
+export const setSelectedTimeslot = (selectedTimeslot:any) => {
     return async (dispatch : Dispatch) => {
         dispatch({
-            type:"SET_SELECTED_PROFILE",
-            data: {selectedProfile: selectedProfile}
+            type:"SET_SELECTED_TIMESLOT",
+            data: {selectedTimeslot: selectedTimeslot}
         })
     };
 };
 
-export const setPriceSensitivityAndPreferedTemperature = (profile:any) => {
-    console.log(profile,'wtf???')
-    return async (dispatch : Dispatch) => {
-        dispatch({
-            type:"SET_PROFILE_PRICE_SENSITIVITY_AND_PREFFERED_TEMPERATURE",
-            data: profile
-        })
-    };
-};
+// export const setPriceSensitivityAndPreferedTemperature = (profile:any) => {
+//     return async (dispatch : Dispatch) => {
+//         dispatch({
+//             type:"SET_PROFILE_PRICE_SENSITIVITY_AND_PREFFERED_TEMPERATURE",
+//             data: profile
+//         })
+//     };
+// };
 
 
 export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
@@ -119,7 +118,7 @@ export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
 
         dispatch({
             type:"SET_ENERGY_PRICES_FOR_SELECTED_PROFILE",
-            data: {energyPriceForSelectedProfile: pricePeriodWithSubIntervals}
+            data: {energyPriceForSelectedTimeslot: pricePeriodWithSubIntervals}
         })
     };
 };

@@ -90,12 +90,10 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const XaiFeaturesOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfiles}) => { // timeslots type timeslot[] | null
+const XaiFeaturesOverlay: React.FC<{heatingProfile:any}> = ({heatingProfile}) => { // timeslots type timeslot[] | null
 
     const classes = useStyles();
     const dispatch = useDispatch()
-    const profilePeriodStart = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0)
-    const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
 
     // const blbblbl = () => {
     //   const profilePeriodStart = dayjs().set('hour', 0).set('minutes',15).set('seconds', 0);
@@ -108,7 +106,7 @@ const XaiFeaturesOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfiles}) 
       // const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
       // dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
 
-    },[heatingProfiles.selectedProfile])
+    },[])
     // console.log(heatingProfiles.energyPriceForSelectedProfile)
 
 
@@ -122,7 +120,7 @@ const XaiFeaturesOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfiles}) 
       <CssBaseline/>
           <Grid xs={12} item container direction="row" alignItems="center" justifyContent="flex-end">
             <Grid item xs={0.5}></Grid>
-            <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start"><b>{heatingProfiles.selectedProfile.profileName}</b></Grid>
+            <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start"><b>profile name</b></Grid>
             <Grid item xs={0.5}>
               <IconButton className={classes.closePageButton} size='medium' edge='start' color='primary' onClick={closeOverlay}>
                 <HighlightOffIcon/>

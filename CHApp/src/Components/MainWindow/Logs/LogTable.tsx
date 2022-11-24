@@ -225,7 +225,7 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
       <TablePagination
         rowsPerPageOptions={[25, 50, 100]}
         component="div"
-        count={logs?.length}
+        count={logs?.length} //-1 or 0
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

@@ -13,7 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 // import { initializeData } from './Redux-reducers/dataReducer';
-import {setSelectedProfile} from '../../../Redux-reducers/heatingProfilesReduces'
+import {setSelectedTimeslot} from '../../../Redux-reducers/heatingProfilesReduces'
 
 
 //types
@@ -115,7 +115,7 @@ const Timeslot: React.FC<{indexOfaWeekday:any, weekday:any, profile:any, sizeOfT
 
 
     const setThisProfileAsSElectedProfile = (timeslot:any) => {
-        dispatch(setSelectedProfile({...timeslot, indexOfaWeekday: indexOfaWeekday, weekday:weekday}))
+        dispatch(setSelectedTimeslot({...timeslot, indexOfaWeekday: indexOfaWeekday, weekday:weekday}))
     };
     // console.log(weekday, sizeOfATimeslot, timeIntervals)
   return (

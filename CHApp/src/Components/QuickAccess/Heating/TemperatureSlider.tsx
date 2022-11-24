@@ -47,90 +47,240 @@ const iOSBoxShadow =
 
 const marks = [
   {
-    value: 11,
+    value: 21,
+    realValue: 7,
+    label: '7'
+  },
+  {
+    value: 22,
+    realValue: 7.5,
+    label: '7.5'
+  },
+  {
+    value: 23,
+    realValue: 8,
+    label: '8'
+  },
+  {
+    value: 24,
+    realValue: 8.5,
+    label: '8.5'
+  },
+  {
+    value: 25,
+    realValue: 9,
+    label: '9'
+  },
+  {
+    value: 26,
+    realValue: 9.5,
+    label: '9.5'
+  },
+  {
+    value: 27,
+    realValue: 10,
+    label: '10'
+  },
+  {
+    value: 28,
+    realValue: 10.5,
+    label: '10.5'
+  },
+  {
+    value: 29,
+    realValue: 11,
+    label: '11'
+  },
+  {
+    value: 30,
+    realValue: 11.5,
+    label: '11.5'
+  },
+  {
+    value: 31,
+    realValue: 12,
+    label: '12'
+  },
+  {
+    value: 32,
+    realValue: 12.5,
+    label: '12.5'
+  },
+  {
+    value: 33,
+    realValue: 13,
+    label: '13'
+  },
+  {
+    value: 34,
+    realValue: 13.5,
+    label: '13.5'
+  },
+  {
+    value: 35,
+    realValue: 14,
+    label: '14'
+  },
+  {
+    value: 36,
+    realValue: 14.5,
+    label: '14.5'
+  },
+  {
+    value: 37,
+    realValue: 15,
+    label: '15'
+  },
+  {
+    value: 38,
+    realValue: 15.5,
+    label: '15.5'
+  },
+  {
+    value: 39,
+    realValue: 16,
+    label: '16'
+  },
+  {
+    value: 40,
+    realValue: 16.5,
+    label: '16.5',
+  },
+  {
+    value: 41,
     realValue: 17,
     label: '17'
   },
   {
-    value: 12,
+    value: 42,
     realValue: 17.5,
     label: '17.5'
   },
   {
-    value: 13,
+    value: 43,
     realValue: 18,
     label: '18'
   },
   {
-    value: 14,
+    value: 44,
     realValue: 18.5,
     label: '18.5'
   },
   {
-    value: 15,
+    value: 45,
     realValue: 19,
     label: '19'
   },
   {
-    value: 16,
+    value: 46,
     realValue: 19.5,
     label: '19.5'
   },
   {
-    value: 17,
+    value: 47,
     realValue: 20,
     label: '20'
   },
   {
-    value: 18,
+    value: 48,
     realValue: 20.5,
     label: '20.5'
   },
   {
-    value: 19,
+    value: 49,
     realValue: 21,
     label: '21'
   },
   {
-    value: 20,
+    value: 50,
     realValue: 21.5,
     label: '21.5'
   },
   {
-    value: 21,
+    value: 51,
     realValue: 22,
     label: '22'
   },
   {
-    value: 22,
+    value: 52,
     realValue: 22.5,
     label: '22.5'
   },
   {
-    value: 23,
+    value: 53,
     realValue: 23,
     label: '23'
   },
   {
-    value: 24,
+    value: 54,
     realValue: 23.5,
     label: '23.5'
   },
   {
-    value: 25,
+    value: 55,
     realValue: 24,
     label: '24'
   },
   {
-    value: 26,
+    value: 56,
     realValue: 24.5,
     label: '24.5'
   },
   {
-    value: 27,
+    value: 57,
     realValue: 25,
     label: '25',
-  }
+  },
+  {
+    value: 58,
+    realValue: 25.5,
+    label: '25.5'
+  },
+  {
+    value: 59,
+    realValue: 26,
+    label: '26'
+  },
+  {
+    value: 60,
+    realValue: 26.5,
+    label: '26.5'
+  },
+  {
+    value: 61,
+    realValue: 27,
+    label: '27'
+  },
+  {
+    value: 62,
+    realValue: 27.5,
+    label: '27.5'
+  },
+  {
+    value: 63,
+    realValue: 28,
+    label: '28'
+  },
+  {
+    value: 64,
+    realValue: 28.5,
+    label: '28.5'
+  },
+  {
+    value: 65,
+    realValue: 29,
+    label: '29'
+  },
+  {
+    value: 66,
+    realValue: 29.5,
+    label: '29.5'
+  },
+  {
+    value: 67,
+    realValue: 30,
+    label: '30'
+  },
 ];
 
 
@@ -199,8 +349,8 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
     },
     '& .MuiSlider-markLabel':{ // temperature slider labels
         // color: 'red',
-        top: '-9%',
-        fontSize: 11,
+        top: '-4%', // was 9
+        fontSize: 8, //was 11
         '&[data-index="1"]' : { //every label thats has .5 in it.
             display: 'none'
           },
@@ -225,11 +375,59 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
           '&[data-index="15"]' : {
             display: 'none'
           },
+          '&[data-index="17"]' : {
+            display: 'none'
+          },
+          '&[data-index="19"]' : {
+            display: 'none'
+          },
+          '&[data-index="21"]' : {
+            display: 'none'
+          },
+          '&[data-index="23"]' : {
+            display: 'none'
+          },
+          '&[data-index="25"]' : {
+            display: 'none'
+          },
+          '&[data-index="27"]' : {
+            display: 'none'
+          },
+          '&[data-index="29"]' : {
+            display: 'none'
+          },
+          '&[data-index="31"]' : {
+            display: 'none'
+          },
+          '&[data-index="33"]' : {
+            display: 'none'
+          },
+          '&[data-index="35"]' : {
+            display: 'none'
+          },
+          '&[data-index="37"]' : {
+            display: 'none'
+          },
+          '&[data-index="39"]' : {
+            display: 'none'
+          },
+          '&[data-index="41"]' : {
+            display: 'none'
+          },
+          '&[data-index="43"]' : {
+            display: 'none'
+          },
+          '&[data-index="45"]' : {
+            display: 'none'
+          },
+          '&[data-index="47"]' : {
+            display: 'none'
+          },
       },
     '& .MuiSlider-mark': { // temperature  marks
       backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' :'#57CBCC', //spalva po thumbo
       height: '10px',
-      width: '2px',
+      width: '1px',
       top: '15%',
       '&[data-index="1"]' : {
         height: '8px',
@@ -260,6 +458,66 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
         top: '16%',
       },
       '&[data-index="15"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="17"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="19"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="21"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="23"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="25"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="27"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="29"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="31"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="33"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="35"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="37"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="39"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="41"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="43"]' : {
+        height: '8px',
+        top: '16%',
+      },
+      '&[data-index="45"]' : {
         height: '8px',
         top: '16%',
       },
@@ -361,16 +619,16 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
     newValue: number | number[], 
     activeThumb: number,
   ) => {
-    const minValue = 11
-    const maxValue = 27
+    const minValue = 21
+    const maxValue = 67
 
 
     if(activeThumb === 0 ) { // prachekinti ar nera array
       let realValue
-        if(newValue <= 11 ){
+        if(newValue <= 23 ){
             realValue = marks.find(mark => mark.value === minValue)
             setValue(minValue)
-        }else if (newValue >= 28 ){
+        }else if (newValue >= 68 ){
             realValue = marks.find(mark => mark.value === maxValue)
             setValue(maxValue)
         } else {
@@ -413,7 +671,7 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
         onChange={handleChange}
         disableSwap
         // min={25}
-        max={30}
+        max={70} // 80
       />
     </div>
   );

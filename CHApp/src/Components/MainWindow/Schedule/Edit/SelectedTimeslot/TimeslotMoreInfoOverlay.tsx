@@ -14,7 +14,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 // import { initializeData } from './Redux-reducers/dataReducer';
-import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
+import {setSelectedTimeslot, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
 
 
 
@@ -94,8 +94,8 @@ const TimeslotMoreInfoOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfil
 
     const classes = useStyles();
     const dispatch = useDispatch()
-    const profilePeriodStart = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0)
-    const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
+    const profilePeriodStart = heatingProfiles.selectedTimeslot.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedTimeslot.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedTimeslot.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedTimeslot.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedTimeslot.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedTimeslot.profileStart.split(':')[1]).set('seconds', 0)
+    const profilePeriodEnd = heatingProfiles.selectedTimeslot.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedTimeslot.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedTimeslot.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedTimeslot.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedTimeslot.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedTimeslot.profileEnd.split(':')[1]).set('seconds', 0)
 
     // const blbblbl = () => {
     //   const profilePeriodStart = dayjs().set('hour', 0).set('minutes',15).set('seconds', 0);
@@ -108,12 +108,12 @@ const TimeslotMoreInfoOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfil
       // const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
       dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
 
-    },[heatingProfiles.selectedProfile])
+    },[heatingProfiles.selectedTimeslot])
     // console.log(heatingProfiles.energyPriceForSelectedProfile)
 
 
     const closeOverlay = () => {
-      dispatch(setSelectedProfile(null))
+      dispatch(setSelectedTimeslot(null))
     }
 
 
@@ -122,7 +122,7 @@ const TimeslotMoreInfoOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfil
       <CssBaseline/>
           <Grid xs={1} item container direction="row" alignItems="center" justifyContent="flex-end">
             <Grid item xs={0.5}></Grid>
-            <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start"><b>{heatingProfiles.selectedProfile.profileName}</b></Grid>
+            <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start"><b>{heatingProfiles.selectedTimeslot.profileName}</b></Grid>
             <Grid item xs={0.5}>
               <IconButton className={classes.closePageButton} size='medium' edge='start' color='primary' onClick={closeOverlay}>
                 <HighlightOffIcon/>
@@ -132,13 +132,13 @@ const TimeslotMoreInfoOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfil
           <Grid xs={1} item container direction="row" alignItems="center" justifyContent="flex-end">
             <Grid item xs={0.5}></Grid>
             <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start">
-              <Typography>From <b>{profilePeriodStart.format().split(/(?=[A-Z])/)[1].substr(1,5)} {heatingProfiles.selectedProfile.weekday} {profilePeriodStart.format().split(/(?=[A-Z])/)[0]}</b> to <b>{profilePeriodEnd.format().split(/(?=[A-Z])/)[1].substr(1,5)} {heatingProfiles.selectedProfile.weekday} {profilePeriodEnd.format().split(/(?=[A-Z])/)[0]}</b></Typography>
+              <Typography>From <b>{profilePeriodStart.format().split(/(?=[A-Z])/)[1].substr(1,5)} {heatingProfiles.selectedTimeslot.weekday} {profilePeriodStart.format().split(/(?=[A-Z])/)[0]}</b> to <b>{profilePeriodEnd.format().split(/(?=[A-Z])/)[1].substr(1,5)} {heatingProfiles.selectedTimeslot.weekday} {profilePeriodEnd.format().split(/(?=[A-Z])/)[0]}</b></Typography>
             </Grid>
             <Grid item xs={0.5}></Grid>
           </Grid>
         <Grid xs={10}item container direction="column" alignItems="center" justifyContent="center"> 
           <Grid item xs={8} container direction="column" alignItems="center" justifyContent="center">
-            <ChartForSelectedTimeslot selectedProfile={heatingProfiles.selectedProfile} heatingProfiles={heatingProfiles} pricesList={heatingProfiles.energyPriceForSelectedProfile}/>
+            <ChartForSelectedTimeslot selectedTimeslot={heatingProfiles.selectedTimeslot} heatingProfiles={heatingProfiles} pricesList={heatingProfiles.energyPriceForSelectedTimeslot}/>
           </Grid>
           <Grid item xs={4}></Grid>
         </Grid>

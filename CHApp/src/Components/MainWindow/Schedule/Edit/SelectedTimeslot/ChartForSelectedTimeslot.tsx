@@ -38,13 +38,13 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const ChartForSelectedTimeslot: React.FC<{selectedProfile:any, pricesList:any, heatingProfiles:any}> = ({selectedProfile, pricesList, heatingProfiles}) => {
+const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, heatingProfiles:any}> = ({selectedTimeslot, pricesList, heatingProfiles}) => {
   const classes = useStyles();
 
 
 const setpoint = pricesList?.map((timeframe:any)=>{
     const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
-        return profile.profile === selectedProfile.profileID
+        return profile.profile === selectedTimeslot.profileID
     })
     return Math.round((bias + slope * timeframe.rate)*2)/2;
 });

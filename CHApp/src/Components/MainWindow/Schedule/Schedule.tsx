@@ -162,7 +162,7 @@ const Schedule: React.FC<{weekSchedule:any, heatingProfiles:any}> = ({weekSchedu
   return (
     //atkreipk demesi i spacing ant container class
     <div className={classes.main}>
-        {heatingProfiles.selectedProfile ? <TimeslotMoreInfoOverlay heatingProfiles={heatingProfiles}/> : null}
+        {heatingProfiles.selectedTimeslot ? <TimeslotMoreInfoOverlay heatingProfiles={heatingProfiles}/> : null}
         <Grid container className={classes.container} direction="column" justifyContent={weekSchedule ? "center" : "center"} alignItems="center" spacing={0.5} > {/* buvo justify content center*/}
         <Grid item xs={0.2}></Grid> 
           {weekSchedule ? null :           

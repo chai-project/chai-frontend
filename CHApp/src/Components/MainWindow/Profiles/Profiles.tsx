@@ -87,6 +87,7 @@ const Profiles: React.FC = () => {
 
     const classes = useStyles();
     const dispatch = useDispatch();
+    // kazka su sitais parametrais daryt kad nesikartoti!!
     const url = createBrowserHistory()
     const parameters = new URLSearchParams(url.location.search);
     const homeLabel =  parameters.get('home');
@@ -95,9 +96,28 @@ const Profiles: React.FC = () => {
         const request = await services.resetProfile(homeLabel, profileID)
         //if 200 ad notification
         if(request === 200){
-            dispatch(setNotification(`Profile ${profile?.profileName} was successfully changed`, 3000));
+            dispatch(setNotification(`Profile ${profile?.profileName} was successfully reset.`, 3000));
         }else{
             dispatch(setErrorMessage(`Error`, 3000));
+        }
+
+    };
+
+    const resetAllProfiles = async () => {
+
+        const profilesList = [1,2,3,4,5]
+        for (let i = 0 ; i< profilesList.length; i++ ){
+            const request = await services.resetProfile(homeLabel, profilesList[i])
+            //if 200 ad notification
+            // console.log(request)
+            if(request !== 200){
+                dispatch(setErrorMessage(`Error`, 3000));
+                break;
+            }else {
+                if(i === profilesList.length - 1){
+                dispatch(setNotification(`All profiles were successfully reset.`, 3000));
+                }
+            }
         }
 
     };
@@ -126,7 +146,7 @@ const Profiles: React.FC = () => {
                                             {profile? <Button variant="outlined" color='secondary' size='small' onClick={()=>{resetSelectedProfile(profile.profile)}}>Reset this profile</Button> : null}
                                         </Grid>
                                         <Grid item>
-                                            <Button variant="outlined" color='secondary' size='small' onClick={()=>{console.log('all profiles')}}>Reset all profiles</Button>
+                                            <Button variant="outlined" color='secondary' size='small' onClick={resetAllProfiles}>Reset all profiles</Button>
                                         </Grid>
                                     </Grid>
                                 </Grid>

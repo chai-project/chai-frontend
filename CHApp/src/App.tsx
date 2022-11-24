@@ -182,8 +182,8 @@ const App: React.FC = () => {
 
   // const everystate: any = useSelector((state: any) => state.);
   
-
   useEffect(() => {
+    
     // const blet = new URLSearchParams(window.location.href);
     // console.log(window.location.href.split('?')[1].split("&"),'wtf?')
     // console.log(window.location.href.split('?')[1].split("&")[0].split('=')[1],'wtf?')

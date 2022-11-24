@@ -77,26 +77,26 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '50%'
     },
     actualTemperatureContainer:{
-    //   border: "2px dashed yellow",
+      // border: "2px dashed yellow",
       position: 'relative',
-      top: '-75px', //was 65 change because of leter C
-      left:'10px' //was 8 change because of leter C
+      top: '-70px', //was 65 change because of leter C
+      left:'3px' //was 10 change because of leter C
       // top: '%'
     },
     actualTemperature:{
-      fontSize:32, //was 45 change because of leter C
+      fontSize:30, //was 32,, was 45 change because of leter C
       // border: "2px dashed red",
-      height: '40px'
+      height: '35px' //was 40
     },
     actualTemperatureLabel:{
       // border: "2px dashed red",
-      fontSize:20
+      fontSize:19 //was 20
     },
     valveStatusContainer:{
-    //   border: "2px dashed red",
+      // border: "2px dashed red",
       height:'100%',
       // position: 'relative',
-      // left:'8px'
+      // left:'3px'
     },
     valveStatus:{
       fontSize:15,

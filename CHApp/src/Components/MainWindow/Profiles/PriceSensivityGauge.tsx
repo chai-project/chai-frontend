@@ -10,7 +10,7 @@ import { CssBaseline, Button, Paper, Grid, Typography } from '@mui/material/';
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
-import {setPriceSensitivityAndPreferedTemperature} from '../../../Redux-reducers/heatingProfilesReduces'
+// import {setPriceSensitivityAndPreferedTemperature} from '../../../Redux-reducers/heatingProfilesReduces'
 
 
 //types
@@ -55,7 +55,7 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
     // const [gaugeValue, setGaugeValue] = useState<number>(0);
 
     const classes = useStyles()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     // useEffect(()=>{
     //   const priceSensivityBoundaries = (bias:any ) => {
@@ -115,7 +115,7 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
             nrOfLevels={6}
             colors={['#FE6262', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#FE6262']}
             percent={profile.gaugeValue}
-            hideText={false}
+            hideText={true} //false to show text
             formatTextValue={(value:any)=>{return profile.segment === 0 ? "Negative" : profile.segment === 1 ? "Very low" : profile.segment === 2 ? "Low" : profile.segment === 3 ? "Moderate" : profile.segment === 4 ? "High" :  "Very high" }}
             needleColor={profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
             needleBaseColor={profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }

@@ -13,7 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 // import { initializeData } from './Redux-reducers/dataReducer';
-import {setSelectedProfile} from '../../../Redux-reducers/heatingProfilesReduces'
+import {setSelectedTimeslot} from '../../../Redux-reducers/heatingProfilesReduces'
 
 
 //types
