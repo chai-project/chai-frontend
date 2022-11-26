@@ -1,6 +1,7 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+// import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -53,23 +54,26 @@ const DatePickerComponent: React.FC<{valueFrom:any, setValueFrom:any, valueTo:an
   // const [valueFrom, setValueFrom] = React.useState<Date | null>(new Date());
   // const [valueTo, setValueTo] = React.useState<Date | null>(new Date()); // is visu surasti seniause!
   const classes = useStyles();
-  // console.log(valueFrom?.split('T')[0])
+  // console.log(valueFrom?.split('T')[0])  
+  
+
+  // console.log(valueFrom,valueTo)
 
   return (
     // <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Grid xs={12} container direction="row" justifyContent="flex-start" alignItems="center" spacing={1}>
           <Grid item>
             <DatePicker
               disableFuture
-              inputFormat="DD/MM/yyyy"
+              inputFormat="DD/MM/YYYY"
               // shouldDisableDate={}
-              minDate={moment('2022-09-27')}
+              // minDate={moment('2022-09-27')}
               // defaultValue={'23-09-2022'}
               label="From"
               openTo='day'
               views={['month', 'day']}
-              value={new Date('2022-10-4').toISOString()} //new Date('2022-09-27').toISOString()
+              value={valueFrom} //new Date('2022-09-27').toISOString()
               onChange={(newValue:any) => {
                 setValueFrom(newValue);
               }}
@@ -79,7 +83,8 @@ const DatePickerComponent: React.FC<{valueFrom:any, setValueFrom:any, valueTo:an
           <Grid item>
           <DatePicker
             disableFuture
-            inputFormat="DD/MM/yyyy"
+            minDate={valueFrom}
+            inputFormat="DD/MM/YYYY"
             label="To"
             openTo='day'
             views={['month', 'day']}

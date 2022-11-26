@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     actualTemperatureLabel:{
       // border: "2px dashed red",
-      fontSize:19 //was 20
+      fontSize:20 //was 20
     },
     valveStatusContainer:{
       // border: "2px dashed red",

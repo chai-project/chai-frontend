@@ -3,11 +3,91 @@ import services from '../Services/services';
 import utils from '../Components/Utils/utils';
 import dayjs from 'dayjs';
 
+const currentTime = dayjs();
+const today = currentTime.startOf('day');
+const sevenDaysBack = today.subtract(7,'day')
 
-const logsReducer = (state: any[]|null = null , action:any) => {
+const getLogs = (rawLogs:any, lastLogInTheArray:any) => {
+
+  return rawLogs.filter((rawLog:any, index:any ,arr:any)=>{
+    if(index === 0){
+      if(rawLog.category === lastLogInTheArray?.category){
+        if(!utils.areEqualArray(rawLog.parameters, lastLogInTheArray?.parameters)){
+          return rawLog
+        }
+      }else{
+        return rawLog
+      }
+    }else {
+      if(rawLog.category === arr[index-1]?.category){
+        if(!utils.areEqualArray(rawLog.parameters, arr[index-1]?.parameters)){
+          return rawLog
+        }
+      }else{
+        return rawLog
+      }
+      // if(!utils.areEqualArray(rawLog.parameters, arr[index-1]?.parameters)){
+      //   return rawLog
+      // }
+    }
+  });
+};
+
+const transformLogs = (rawLogs:any[]) => {
+  return rawLogs.map((rawLog:any, index:number, arr:any)=>{
+    let priceSensitivity = null
+    if(rawLog.parameters.length === 5 ){
+        const segment = utils.getSegment(rawLog.parameters[3], rawLog.parameters[4] )
+        priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
+    }
+    const profileName = rawLog.parameters[0] === 1 ? "Nights" :  rawLog.parameters[0] === 2 ? "Mornings" :  rawLog.parameters[0] === 3 ? "Weekdays" : rawLog.parameters[0] === 4 ? "Evenings" :  "Weekends"
+    const timestamp = dayjs(rawLog.timestamp)
+    const hours = timestamp.get('hour') 
+    const minutes = timestamp.get('minute') 
+    const date = timestamp.format('DD/MM/YYYY');
+    const time =`${hours}:${minutes < 10 ? '0'+minutes : minutes }`;
+    const price = Math.round(rawLog.parameters[1] * 100) / 100;
+    const setpoint = Math.round(rawLog.parameters[2]*2)/2;
+    // const prefferedTemperature = Math.round(rawLog.parameters[4]*2)/2;
+    const prefferedTemperature = rawLog.parameters[4]?.toFixed(2);
+
+    // console.log(timestamp , time)
+    
+    switch(rawLog.category) {
+      case "VALVE_SET":
+        return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "System" , description: `The system set the target temperature to ${setpoint}°C because the current price is ${price} p/kWh and the active profile is ${profileName} where the AI believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${prefferedTemperature}°C.`}
+        break;
+      case "SETPOINT_MODE":
+        if(rawLog.parameters[0] === 'override' && rawLog.parameters[1] !== null ){
+          return  {dateAndTime: rawLog.timestamp , date: date ,time: time , category: "User" , description: `You set the target temperature to ${Math.round(rawLog.parameters[1]*2)/2}°C (${rawLog.parameters[0]} mode is now active).` }
+        }else {
+          return  {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "User" , description: `You switched to ${rawLog.parameters[0]} mode.` }
+        }
+        break;
+      case "PROFILE_UPDATE":
+        
+        return {dateAndTime: rawLog.timestamp ,date: date ,time: time , category: "System" , description: `Profile ${profileName} has been updated because you set the target temperature to ${setpoint}°C when the price was ${price} p/kWh where the AI now believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${prefferedTemperature}°C.`}
+        break;
+      case "PROFILE_RESET":
+        return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "User" , description: `You reset profile ${profileName}`}
+        break;
+      case "SCHEDULE_EDIT":
+        return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "User" , description: `You edited the schedule.`}
+        break;
+      default:
+        return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: rawLog.category , description: ""}
+        break;
+    }
+  })
+};
+
+
+const logsReducer = (state: any = {logs:null, skip:0, lastRawLog:null, from: sevenDaysBack , to: today} , action:any) => {
     switch(action.type) {
         case "INITIALISE_LOGS":
-            return state = action.data
+            return  state = {...state, ...action.data}
+        case "GET_MORE_LOGS_ON_USER_CLICK":
+            return   state = {...state, logs: state.logs.concat(action.data.logs) ,skip:action.data.skip, lastRawLog: action.data.lastRawLog}
         default:
             return state
     }
@@ -15,89 +95,74 @@ const logsReducer = (state: any[]|null = null , action:any) => {
 
 export const initialiseLogs = (label:String) => {
 
-    return async (dispatch : Dispatch) => {
-        const rawLogs = await services.getLogs(label)
-        // console.log(rawLogs)
-        const logs = rawLogs?.map((rawLog:any, index:number, arr:any)=>{
 
-            let priceSensitivity = null
-            if(rawLog.parameters.length === 5 ){
-            //   const priceSensivityBoundaries = (bias:any ) => {
-            //     const finiteIntervals = 4;
-            //     const minSetpoint = 7;
-            //     const maxPrice = 35;
-            //     const upperBound = (bias - minSetpoint) / maxPrice;
-            //     const intervalWidth = upperBound / finiteIntervals;
-            //     let boundaries:any[] = []
-          
-            //     for(let i:number = 0; i<finiteIntervals+1; i++  ){
-            //       boundaries.push(intervalWidth*i)
-            //     }
-            //     return boundaries
-            //   };
-            //   let segment = 0
-            //   const boundaries = priceSensivityBoundaries(rawLog.parameters[4]);
-            //   for(let i:number = 0; i<boundaries.length; i++){
-            //     if(-rawLog.parameters[3] >= boundaries[i]){
-            //       segment = i+1
-            //     }
-            //   };
-                const segment = utils.getSegment(rawLog.parameters[3], rawLog.parameters[4] )
-                priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
-            }
-            const profileName = rawLog.parameters[0] === 1 ? "Nights" :  rawLog.parameters[0] === 2 ? "Mornings" :  rawLog.parameters[0] === 3 ? "Weekdays" : rawLog.parameters[0] === 4 ? "Evenings" :  "Weekends"
-            const timestamp = dayjs(rawLog.timestamp)
-            // const day = timestamp.get('day');
-            // const month = timestamp.get('month')
-            // const year = timestamp.get('year')
-            const hours = timestamp.get('hour') 
-            const minutes = timestamp.get('minute') 
-            const date = timestamp.format('DD/MM/YYYY');
-            const time =`${hours}:${minutes < 10 ? '0'+minutes : minutes }`;
-            const price = Math.round(rawLog.parameters[1] * 100) / 100;
-            const setpoint = Math.round(rawLog.parameters[2]*2)/2;
-            const prefferedTemperature = Math.round(rawLog.parameters[4]*2)/2;
-            // const profile = currentState.heatingProfiles.heatingProfiles.find((profile:any)=>{return profile.profile === rawLog.parameters[0]})
-            // console.log(dayjs('2022-08-14T11:19:23.315153+00:00').format('DD/MM/YYYY hh:mm:ss'))
-            switch(rawLog.category) {
-              case "VALVE_SET":
-                // console.log(rawLog.parameters)
-                // const profileName = currentState.heatingProfiles.heatingProfiles.find((profile:any)=>{return profile.profile === rawLog.parameters[0]})
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "System" , description: `The system set the target temperature to ${setpoint}°C because the current price is ${price} p/kWh and the active profile is ${profileName} where the AI believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${prefferedTemperature}°C.`}
-                break;
-              case "SETPOINT_MODE":
-                if(rawLog.parameters[0] === 'override' && rawLog.parameters[1] !== null ){
-                  return  {dateAndTime: rawLog.timestamp , date: date ,time: time , category: "User" , description: `You set the target temperature to ${Math.round(rawLog.parameters[1]*2)/2}°C (${rawLog.parameters[0]} mode is now active).` }
-                }else {
-                  return  {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "User" , description: `You switched to ${rawLog.parameters[0]} mode.` }
-                }
-                break;
-              case "PROFILE_UPDATE":
-                
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time , category: "System" , description: `Profile ${profileName} has been updated because you set the target temperature to ${setpoint}°C when the price was ${price} p/kWh where the AI now believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${prefferedTemperature}°C.`}
-                  // code block
-                break;
-              case "PROFILE_RESET":
-                  // code block
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "User" , description: `You reset profile ${profileName}`}
-                break;
-              case "SCHEDULE_EDIT":
-                  // code block
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: "User" , description: `You edited the schedule.`}
-                break;
-              default:
-                return {dateAndTime: rawLog.timestamp ,date: date ,time: time  , category: rawLog.category , description: ""}
-                break;
-                // code block
-            }
-          })
-        dispatch({
-            type:"INITIALISE_LOGS",
-            data: logs
-        })
+    return async (dispatch : Dispatch) => {
+        let logs:any[] = []
+        let skip = 0;
+        let limit = 200;
+
+        while (logs.length < limit + 1) {
+          const rawLogsRequest = await services.getLogs(label, skip, limit, today.format(), sevenDaysBack.format() );
+          if(rawLogsRequest.length === 0){
+            break;
+          }else{
+            const rawLogs = getLogs(rawLogsRequest, logs[logs.length-1]);
+            logs =  logs.concat(rawLogs);
+            const transformedLogs = transformLogs(logs)
+            skip += limit;
+            dispatch({
+              type:"INITIALISE_LOGS",
+              data: {logs:transformedLogs, skip:skip, lastRawLog: rawLogs[rawLogs.length - 1]}
+            })
+          };
+        };
+
+        // const transformedLogs = transformLogs(twoHunderOneLog)
+
+        // dispatch({
+        //     type:"INITIALISE_LOGS",
+        //     data: {logs:transformedLogs, skip:skip}
+        // })
     };
 };
 
+
+export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousLog:any) => { //cia bus datos nuo iki...
+
+  return async (dispatch : Dispatch) => {
+
+      let logs:any[] = []
+      let skip = previousSkip;
+      let limit:number|null = 200;
+      let lastRawLog = previousLog
+
+      while (logs.length < limit + 1) {
+        const rawLogsRequest = await services.getLogs(label, skip, limit, today.format(), sevenDaysBack.format() );
+        if(rawLogsRequest.length === 0 ){
+          limit = null
+          break;
+        }else {
+          const rawLogs = getLogs(rawLogsRequest, lastRawLog);
+          logs =  logs.concat(rawLogs);
+          // const transformedLogs = transformLogs(logs)
+          // console.log(transformedLogs.length)
+          lastRawLog = rawLogs[rawLogs.length - 1]
+          skip += limit;
+        //   dispatch({
+        //     type:"GET_MORE_LOGS_ON_USER_CLICK",
+        //     data: {logs:transformedLogs, skip:skip}
+        // })
+        }
+      };
+      const transformedLogs = transformLogs(logs)
+      // console.log(transformedLogs.length)
+
+      dispatch({
+          type:"GET_MORE_LOGS_ON_USER_CLICK",
+          data: {logs:transformedLogs, skip:skip, lastRawLog: lastRawLog}
+      })
+  };
+};
 
 
 

@@ -174,8 +174,8 @@ const resetAllprofiles = async (label:any) => {
 
 //Logs
 
-const getLogs = async (label:String) => {
-    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT&skip=50&limit=75`).then((res)=>{
+const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) => {
+    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT&skip=${skip}&limit=${limit}`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)

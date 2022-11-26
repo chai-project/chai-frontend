@@ -72,6 +72,10 @@ import TableRow from '@mui/material/TableRow';
 // import { withStyles } from '@mui/material/styles';
 import {makeStyles, Theme, createStyles, withStyles  } from '@material-ui/core/styles';
 
+//redux 
+import {useSelector, useDispatch} from 'react-redux'
+import { getMoreLogsOnUserClick } from "../../../Redux-reducers/logsReducer";
+
 //styles 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -161,18 +165,23 @@ interface Props {
   logs: Log[] | []
 }
 
-const LogTable: React.FC <{logs:any}>= ({logs}) => {
+const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawLog:any, setIsGettingMoreLogs:any , isGettingMoreLogs:boolean}>= ({logs, label, previousSkip, lastRawLog, setIsGettingMoreLogs, isGettingMoreLogs}) => {
   // const {logs} = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const ref = useRef<any>(null);
 
   const classes = useStyles();
-  // const dispatch = useDispatch() //redux
+  const dispatch = useDispatch() //redux
 
   const handleChangePage = (event: unknown, newPage: number) => {
     ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
     // ref.current && ref.current.scrollIntoView();
+    // console.log(newPage > page)
+    if(newPage > page && !isGettingMoreLogs ){
+      setIsGettingMoreLogs(true)
+      dispatch(getMoreLogsOnUserClick(label, previousSkip, lastRawLog));
+    }
     setPage(newPage);
   };
 
@@ -225,7 +234,7 @@ const LogTable: React.FC <{logs:any}>= ({logs}) => {
       <TablePagination
         rowsPerPageOptions={[25, 50, 100]}
         component="div"
-        count={logs?.length} //-1 or 0
+        count={logs?.length} //-1 or 0 logs?.length
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

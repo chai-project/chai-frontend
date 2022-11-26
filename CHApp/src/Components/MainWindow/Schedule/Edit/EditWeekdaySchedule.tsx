@@ -149,7 +149,8 @@ const EditWeekdaySchedule: React.FC = () => {
     const cancelWeekdayScheduleChanges = () => {
       setWeekdayScheduleToEdit(weekdaySchedule.schedule);
     };
-
+    // console.log(weekdayScheduleToEdit, weekdaySchedule?.schedule)
+    // console.log(JSON.stringify(weekdayScheduleToEdit) === JSON.stringify(weekdaySchedule?.schedule))
     // console.log(weekdaySchedule.schedule, 'redux');
     // console.log(weekdayScheduleToEdit, 'local')
   return (

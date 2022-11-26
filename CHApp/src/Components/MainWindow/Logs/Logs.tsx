@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import dayjs from 'dayjs'
 import moment from 'moment';
 
+import { createBrowserHistory } from 'history';
+
+
 //mui
 import {makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, TextField, Grid } from '@mui/material/';
@@ -12,6 +15,7 @@ import { CssBaseline, Button, Paper, TextField, Grid } from '@mui/material/';
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
+import { initialiseLogs } from '../../../Redux-reducers/logsReducer';
 
 
 //types
@@ -105,8 +109,23 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Logs: React.FC<{currentState:any}> = ({currentState}) => {
   const [valueFrom, setValueFrom] = React.useState<String | null>(null);
-  const [valueTo, setValueTo] = React.useState<String | null>(new Date().toISOString()); // is visu surasti seniause!
-  const [logs, setLogs] = useState<any[]|null>(null)
+  // const [valueTo, setValueTo] = React.useState<String | null>(new Date().toISOString()); // is visu surasti seniause!
+  const [valueTo, setValueTo] = React.useState<String | null>(null); // is visu surasti seniause!
+  const [isGettingMoreLogs, setIsGettingMoreLogs] = React.useState<boolean>(false); // is visu surasti seniause!
+
+
+  const [logs, setLogs] = useState<any[]|null>(null);
+
+  const classes = useStyles();
+  const dispatch = useDispatch()
+  
+
+
+  const url = createBrowserHistory()
+  const parameters = new URLSearchParams(url.location.search);
+  const homeLabel =  parameters.get('home')
+
+
 
     const logsai = [
       {
@@ -223,6 +242,10 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
     ]
 
     useEffect(()=>{
+      
+      // const homeLabel =  parameters.get('home')
+      // dispatch(initialiseLogs(homeLabel!, 0, 100))
+
       // const logs = currentState.logs?.map((rawLog:any, index:number, arr:any)=>{
 
       //   let priceSensitivity = null
@@ -281,18 +304,20 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
       //       // code block
       //   }
       // })
-      // setLogs(logs)
-      // console.log(logs)
-      setLogs(currentState.logs)
-      const earliest = logsai.reduce((a, b) => (a.dateAndTime > b.dateAndTime ? a : b));
-      setValueFrom(moment(earliest.dateAndTime.split('T')[0]).format())
+      // console.log(currentState.logs.lastRawLog);
 
+      setLogs(currentState.logs.logs)
+      setValueFrom(currentState.logs.from);
+      setValueTo(currentState.logs.to);
+      setIsGettingMoreLogs(false)
     },[currentState.logs])
+
+
 
   
 
-    const classes = useStyles();
-    const dispatch = useDispatch()
+    // const classes = useStyles();
+    // const dispatch = useDispatch()
 
 //   const getData = () => {
 //     dispatch(initializeData())
@@ -310,7 +335,7 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
       </Grid>
     </Grid>
     <Grid item xs={10.5}className={classes.logs}>
-      <LogTable logs={logs}/>
+      <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} />
     </Grid>
   </Grid>
 

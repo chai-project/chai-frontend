@@ -29,7 +29,20 @@ const getSegment = (slope:any, bias:any) => {
     //     5	Very high
     //   let gaugeValue = segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.416666667 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : 0 
     //   let priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
+};
+
+
+
+
+const  areEqualArray = (a:any[], b:any[]) => {
+
+  return JSON.stringify(a) === JSON.stringify(b);
+  // return Array.isArray(a) &&
+  //     Array.isArray(b) &&
+  //     a.length === b.length &&
+  //     a.every((val, index) => val === b[index]);
 }
 
 
-export default {getSegment}
+
+export default {getSegment, areEqualArray}
