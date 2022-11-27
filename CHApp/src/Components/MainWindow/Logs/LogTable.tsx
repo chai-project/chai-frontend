@@ -165,9 +165,9 @@ interface Props {
   logs: Log[] | []
 }
 
-const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawLog:any, setIsGettingMoreLogs:any , isGettingMoreLogs:boolean}>= ({logs, label, previousSkip, lastRawLog, setIsGettingMoreLogs, isGettingMoreLogs}) => {
+const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawLog:any, setIsGettingMoreLogs:any , isGettingMoreLogs:boolean, fromRedux:any, toRedux:any, page:number, setPage:any, fromDatePicker:any, toDatePicker:any}>= ({logs, label, previousSkip, lastRawLog, setIsGettingMoreLogs, isGettingMoreLogs, fromRedux, toRedux, page, setPage, fromDatePicker, toDatePicker}) => {
   // const {logs} = props;
-  const [page, setPage] = React.useState(0);
+  // const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const ref = useRef<any>(null);
 
@@ -177,10 +177,10 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
   const handleChangePage = (event: unknown, newPage: number) => {
     ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
     // ref.current && ref.current.scrollIntoView();
-    // console.log(newPage > page)
+    // console.log(from,to)
     if(newPage > page && !isGettingMoreLogs ){
       setIsGettingMoreLogs(true)
-      dispatch(getMoreLogsOnUserClick(label, previousSkip, lastRawLog));
+      dispatch(getMoreLogsOnUserClick(label, previousSkip, lastRawLog, fromRedux, toRedux));
     }
     setPage(newPage);
   };

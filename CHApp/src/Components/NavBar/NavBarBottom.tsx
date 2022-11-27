@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import dayjs from 'dayjs';
+
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, AppBar, Toolbar, Grid, Button, IconButton, Stack, Link, Tabs, Tab} from '@mui/material/';
@@ -21,6 +23,9 @@ import chartDataType from '../../Types/types'
 //components
 import SwitchButton from '../Buttons/SwitchButton';
 import DrawerComponent from './Drawer';
+
+//services
+import services from '../../Services/services';
 
 
 // Styles 
@@ -47,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const NavBarBottom: React.FC = () => {
+const NavBarBottom: React.FC<{homeLabel:string|null}> = ({homeLabel}) => {
 
     const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false)
     const cases = ['Home', 'Schedule', 'Profiles', 'Notifications'];
@@ -56,7 +61,19 @@ const NavBarBottom: React.FC = () => {
     const navigate = useNavigate();
     const notifications = 15;
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    
+
+    const handleChange = (eachCase:any) => {
+      const now = dayjs()
+      // console.log(homeLabel, now.format(), 'TAB_CHANGE', [eachCase])
+      // services.addLogEntry(homeLabel, now.format(), 'TAB_CHANGE', [eachCase])
+      if(homeLabel && eachCase !== "Home"){
+        services.addLogEntry(homeLabel, now.toISOString(), 'TAB_CHANGE', [eachCase])
+      }
+      navigate(`${eachCase === "Home" ? "/" + search : eachCase + search}`)
+    };
 
 
     // console.log('nx', search)
@@ -79,7 +96,7 @@ const NavBarBottom: React.FC = () => {
             {cases.map((eachCase)=>{
                 return (
                     <Grid item >
-                        <Button size='small' color="inherit" onClick={()=>{navigate(`${eachCase === "Home" ? "/" + search : eachCase + search}`)}}> {(location.pathname === "/" && eachCase=== "Home") ? <b>{eachCase}</b> : location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
+                        <Button size='small' color="inherit" onClick={()=>{handleChange(eachCase)}}> {(location.pathname === "/" && eachCase=== "Home") ? <b>{eachCase}</b> : location.pathname !== "/"+eachCase ? eachCase : <b>{eachCase}</b>}</Button>
                         {(location.pathname === "/" && eachCase === "Home") ? <div className={classes.underLine}></div> : location.pathname.split("/")[1] !== eachCase ? null : <div className={classes.underLine}></div> }
                     </Grid>
                 )

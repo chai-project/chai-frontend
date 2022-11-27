@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 const currentTime = dayjs();
 const today = currentTime.startOf('day');
-const sevenDaysBack = today.subtract(7,'day')
+const sevenDaysBack = today.subtract(7,'day');
 
 const getLogs = (rawLogs:any, lastLogInTheArray:any) => {
 
@@ -82,7 +82,7 @@ const transformLogs = (rawLogs:any[]) => {
 };
 
 
-const logsReducer = (state: any = {logs:null, skip:0, lastRawLog:null, from: sevenDaysBack , to: today} , action:any) => {
+const logsReducer = (state: any = {logs:null, skip:0, lastRawLog:null, from: null , to: null} , action:any) => {
     switch(action.type) {
         case "INITIALISE_LOGS":
             return  state = {...state, ...action.data}
@@ -93,7 +93,7 @@ const logsReducer = (state: any = {logs:null, skip:0, lastRawLog:null, from: sev
     }
 }
 
-export const initialiseLogs = (label:String) => {
+export const initialiseLogs = (label:String, from:any, to:any) => {
 
 
     return async (dispatch : Dispatch) => {
@@ -102,7 +102,7 @@ export const initialiseLogs = (label:String) => {
         let limit = 200;
 
         while (logs.length < limit + 1) {
-          const rawLogsRequest = await services.getLogs(label, skip, limit, today.format(), sevenDaysBack.format() );
+          const rawLogsRequest = await services.getLogs(label, skip, limit, from, to.add(1,'day') );
           if(rawLogsRequest.length === 0){
             break;
           }else{
@@ -112,7 +112,7 @@ export const initialiseLogs = (label:String) => {
             skip += limit;
             dispatch({
               type:"INITIALISE_LOGS",
-              data: {logs:transformedLogs, skip:skip, lastRawLog: rawLogs[rawLogs.length - 1]}
+              data: {logs:transformedLogs, skip:skip, lastRawLog: rawLogs[rawLogs.length - 1], from: from, to: to> today ? today : to }
             })
           };
         };
@@ -127,7 +127,7 @@ export const initialiseLogs = (label:String) => {
 };
 
 
-export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousLog:any) => { //cia bus datos nuo iki...
+export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousLog:any, from:any, to:any) => { //cia bus datos nuo iki...
 
   return async (dispatch : Dispatch) => {
 
@@ -137,7 +137,7 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       let lastRawLog = previousLog
 
       while (logs.length < limit + 1) {
-        const rawLogsRequest = await services.getLogs(label, skip, limit, today.format(), sevenDaysBack.format() );
+        const rawLogsRequest = await services.getLogs(label, skip, limit, from, to.add(1,'day'), );
         if(rawLogsRequest.length === 0 ){
           limit = null
           break;

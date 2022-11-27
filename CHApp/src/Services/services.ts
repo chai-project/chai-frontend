@@ -1,4 +1,5 @@
 import axios, {AxiosInstance}  from 'axios';
+import { time } from 'console';
 const baseURL = 'https://api.project-chai.org';
 
 //token interceptor
@@ -175,7 +176,8 @@ const resetAllprofiles = async (label:any) => {
 //Logs
 
 const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) => {
-    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT&skip=${skip}&limit=${limit}`).then((res)=>{
+    // console.log(start, end)
+    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT&skip=${skip}&limit=${limit}&start=${start.toISOString()}&end=${end.toISOString()}`).then((res)=>{ //&start=${start.toISOString()}&end=${end.toISOString()}
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
@@ -188,6 +190,27 @@ const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) =>
     // console.log(request)
     return request
 };
+
+// Log entry for user interation
+
+const addLogEntry = async (homeLabel:string, timestamp:string, category:string, parameters:String[]) => { //define types later // need labe over here!!
+    // console.log(homeLabel, timestamp, category,parameters,'blbl')
+    const response = await axios.put(
+        `https://api.project-chai.org/logs/?label=${homeLabel}&timestamp=${encodeURIComponent(timestamp)}&category=${category}`, {parameters: parameters},
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+            }
+    ).then((res)=>{
+            // console.log(res.status);
+            return res.status
+    }).catch((e)=>{
+            // console.error(e.errorMessage)
+    });
+    return response 
+};
+
 
 
 // https://api.project-chai.org/schedule/?label=test_home_kim&daymask=127
@@ -211,4 +234,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile, addLogEntry}

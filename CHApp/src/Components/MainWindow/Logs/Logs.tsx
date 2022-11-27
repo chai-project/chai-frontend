@@ -114,6 +114,11 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
   const [isGettingMoreLogs, setIsGettingMoreLogs] = React.useState<boolean>(false); // is visu surasti seniause!
 
 
+  //pages and ref for logtable
+  const [page, setPage] = React.useState(0);
+
+
+
   const [logs, setLogs] = useState<any[]|null>(null);
 
   const classes = useStyles();
@@ -330,12 +335,12 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
     <Grid item xs={1.4}className={classes.buttons}>
       <Grid container xs={12} direction="row" justifyContent='flex-start' alignItems='center' className={classes.datepickerContainer}>
         <Grid item xs={12} className={classes.datepickerbuttons}> 
-          <DatePickerComponent valueFrom={valueFrom} setValueFrom={setValueFrom} valueTo={valueTo} setValueTo={setValueTo} />
+          <DatePickerComponent valueFrom={valueFrom} setValueFrom={setValueFrom} valueTo={valueTo} setValueTo={setValueTo} homeLabel={homeLabel} logs={logs} setLogs={setLogs} page={page} setPage={setPage}/>
         </Grid>
       </Grid>
     </Grid>
     <Grid item xs={10.5}className={classes.logs}>
-      <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} />
+      <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} />
     </Grid>
   </Grid>
 

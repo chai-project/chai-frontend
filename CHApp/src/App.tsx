@@ -3,6 +3,8 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createBrowserHistory } from 'history';
+import dayjs from 'dayjs';
+
 //Axios
 import axios, {AxiosInstance}  from 'axios';
 //mui
@@ -174,11 +176,28 @@ const App: React.FC = () => {
 
   const location = useLocation()
   const navigate = useNavigate();
-  const params = new URLSearchParams(location.search);
+  // const params = new URLSearchParams(location.search);
   
   const currentState: any = useSelector((state: any) => state);
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  let bearerToken = localStorage.getItem("bearerToken")
+  //browser router
+  // const homeLabel = params.get("home");
+  // const userToken = params.get("token");
+
+  
+  const themeFromLocalStorage = localStorage.getItem("Theme");
+  //hasrouter
+  const url = createBrowserHistory();
+  const parameters = new URLSearchParams(url.location.search);
+
+  const homeLabel =  parameters.get('home');
+  const userToken = parameters.get('token');
+  const currentTime = dayjs();
+  const today = currentTime.startOf('day').add(1,'day');
+  const sevenDaysBack = today.subtract(7,'day');
 
   // const everystate: any = useSelector((state: any) => state.);
   
@@ -189,19 +208,19 @@ const App: React.FC = () => {
     // console.log(window.location.href.split('?')[1].split("&")[0].split('=')[1],'wtf?')
     // console.log(window.location.href.split('?')[1].split("&")[1].split("#")[0].split('=')[1],'wtf?')
 
-    let bearerToken = localStorage.getItem("bearerToken")
-    //browser router
-    // const homeLabel = params.get("home");
-    // const userToken = params.get("token");
+    // let bearerToken = localStorage.getItem("bearerToken")
+    // //browser router
+    // // const homeLabel = params.get("home");
+    // // const userToken = params.get("token");
 
     
-    const themeFromLocalStorage = localStorage.getItem("Theme")
-    //hasrouter
-    const url = createBrowserHistory()
-    const parameters = new URLSearchParams(url.location.search);
+    // const themeFromLocalStorage = localStorage.getItem("Theme")
+    // //hasrouter
+    // const url = createBrowserHistory()
+    // const parameters = new URLSearchParams(url.location.search);
 
-    const homeLabel =  parameters.get('home')
-    const userToken = parameters.get('token')
+    // const homeLabel =  parameters.get('home')
+    // const userToken = parameters.get('token')
 
     if(themeFromLocalStorage){
       if(themeFromLocalStorage === "true"){
@@ -239,7 +258,7 @@ const App: React.FC = () => {
           dispatch(initializeHeatingProfiles(homeLabel))
           dispatch(initializeHeatingComponentData(homeLabel))
           dispatch(initializeHeatingSchedule(homeLabel))
-          dispatch(initialiseLogs(homeLabel))
+          dispatch(initialiseLogs(homeLabel, sevenDaysBack, today))
         }else{
           dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
           navigate('/Error')
@@ -414,7 +433,7 @@ const App: React.FC = () => {
             </Grid>
             <Grid xs={12} item container direction="row" justifyContent="space-between" className={classes.navAndNotificationContainer}>
               <Grid md={12} lg={8.5} item className={classes.navBottom}>
-                <NavBarBottom/>
+                <NavBarBottom homeLabel={homeLabel}/>
               </Grid>
               <Grid xs={3.3} item className={classes.notification}>
                 <Notification notificationState={currentState.notification}/>

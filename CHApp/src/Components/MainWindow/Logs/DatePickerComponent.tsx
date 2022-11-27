@@ -9,7 +9,10 @@ import { styled } from '@mui/material/styles';
 import { CssBaseline, AppBar, Toolbar, IconButton, Stack, Link, Grid} from '@mui/material/';
 // import Stack from '@mui/material/Stack';
 import {makeStyles, Theme, createStyles, withStyles  } from '@material-ui/core/styles';
-import moment from 'moment';
+
+// redux
+import {useSelector, useDispatch} from 'react-redux'
+import { initialiseLogs } from '../../../Redux-reducers/logsReducer';
 
 //styles 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,14 +53,42 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const DatePickerComponent: React.FC<{valueFrom:any, setValueFrom:any, valueTo:any, setValueTo:any }> = ({ valueFrom, setValueFrom, valueTo, setValueTo}) => {
+const DatePickerComponent: React.FC<{valueFrom:any, setValueFrom:any, valueTo:any, setValueTo:any, homeLabel:any, logs:any, setLogs:any, page:number, setPage:any }> = ({ valueFrom, setValueFrom, valueTo, setValueTo, homeLabel, logs, setLogs, page, setPage}) => {
   // const [valueFrom, setValueFrom] = React.useState<Date | null>(new Date());
   // const [valueTo, setValueTo] = React.useState<Date | null>(new Date()); // is visu surasti seniause!
   const classes = useStyles();
+  const dispatch = useDispatch()
   // console.log(valueFrom?.split('T')[0])  
   
-
+  // console.log(valueFrom, valueTo)
   // console.log(valueFrom,valueTo)
+
+
+  const handleSetFrom = (newFromValue:any) => {
+    // if(newFromValue < valueFrom){
+    //   dispatch(initialiseLogs(homeLabel, newFromValue, valueTo))
+    // }else{
+    //   const filteredLogs = logs.filter((log:any)=>{
+    //     // console.log(log)
+    //     const formatedFromvalue = newFromValue.format("DD/MM/YYYY");
+    //     // console.log(log.date > formatedFromvalue)
+    //     if(log.date >= formatedFromvalue){
+    //       return log
+    //     };
+    //   });
+    //   setLogs(filteredLogs)
+
+    // }
+    dispatch(initialiseLogs(homeLabel, newFromValue, valueTo))
+    setPage(0)
+    setValueFrom(newFromValue);
+
+  };
+  const handleSetTo = (newToValue:any) => {
+    dispatch(initialiseLogs(homeLabel, valueFrom, newToValue))
+    setPage(0)
+    setValueTo(newToValue);
+  };
 
   return (
     // <ThemeProvider theme={theme}>
@@ -75,7 +106,9 @@ const DatePickerComponent: React.FC<{valueFrom:any, setValueFrom:any, valueTo:an
               views={['month', 'day']}
               value={valueFrom} //new Date('2022-09-27').toISOString()
               onChange={(newValue:any) => {
-                setValueFrom(newValue);
+              // console.log(newValue.toISOString(),'wtf???')
+                handleSetFrom(newValue);
+                // setValueFrom(newValue);
               }}
               renderInput={(params) => <TextField className={classes.textfield} sx={{svg:{color:'#5ACBCC'}}} {...params} />}
             />
@@ -90,8 +123,8 @@ const DatePickerComponent: React.FC<{valueFrom:any, setValueFrom:any, valueTo:an
             views={['month', 'day']}
             value={valueTo}
             onChange={(newValue:any) => {
-              // console.log(newValue._d.toISOString(),'wtf???')
-              setValueTo(newValue);
+              // console.log(newValue.toISOString(),'wtf???')
+              handleSetTo(newValue);
             }}
             renderInput={(params) => <TextField className={classes.textfield} sx={{svg:{color:'#5ACBCC'}}} {...params} />}
           />
