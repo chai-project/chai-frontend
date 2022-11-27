@@ -59,7 +59,7 @@
 // cia kita versija 
 
 // import * as React from 'react';
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -174,8 +174,12 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
   const classes = useStyles();
   const dispatch = useDispatch() //redux
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  useEffect(()=>{
     ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
+  },[page])
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    // ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
     // ref.current && ref.current.scrollIntoView();
     // console.log(from,to)
     if(newPage > page && !isGettingMoreLogs ){
