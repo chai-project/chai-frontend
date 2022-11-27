@@ -34,7 +34,7 @@ const getSegment = (slope:any, bias:any) => {
 
 
 
-const  areEqualArray = (a:any[], b:any[]) => {
+const  areEqualArray = (a:any[], b:any[]) => { //any[]
 
   return JSON.stringify(a) === JSON.stringify(b);
   // return Array.isArray(a) &&

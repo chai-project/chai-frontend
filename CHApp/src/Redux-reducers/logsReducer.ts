@@ -10,8 +10,9 @@ const sevenDaysBack = today.subtract(7,'day');
 const getLogs = (rawLogs:any, lastLogInTheArray:any) => {
 
   return rawLogs.filter((rawLog:any, index:any ,arr:any)=>{
+    // console.log(rawLog, lastLogInTheArray)
     if(index === 0){
-      if(rawLog.category === lastLogInTheArray?.category){
+      if(rawLog.category === lastLogInTheArray?.category && rawLog.category === 'VALVE_SET' ){
         if(!utils.areEqualArray(rawLog.parameters, lastLogInTheArray?.parameters)){
           return rawLog
         }
@@ -19,7 +20,7 @@ const getLogs = (rawLogs:any, lastLogInTheArray:any) => {
         return rawLog
       }
     }else {
-      if(rawLog.category === arr[index-1]?.category){
+      if(rawLog.category === arr[index-1]?.category && rawLog.category === 'VALVE_SET'){
         if(!utils.areEqualArray(rawLog.parameters, arr[index-1]?.parameters)){
           return rawLog
         }
