@@ -75,7 +75,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
 //   }
 
     const openXAIOverlay = () => {
-      
+      // services.addLogEntry(homeLabel, now.toISOString(), 'TAB_CHANGE', [eachCase]) 
     };
 
   return (

@@ -52,7 +52,7 @@ const transformLogs = (rawLogs:any[]) => {
     // const prefferedTemperature = Math.round(rawLog.parameters[4]*2)/2;
     const prefferedTemperature = rawLog.parameters[4]?.toFixed(2);
 
-    // console.log(timestamp , time)
+    // console.log("timestamp: ",timestamp , "formated time",time)
     
     switch(rawLog.category) {
       case "VALVE_SET":

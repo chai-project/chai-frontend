@@ -958,7 +958,9 @@ export const setNewHeatingSchedule = (homeLabel:any, dayOrDaysToSet:any,newSched
         let timeslotObject:any = {}
         timeslotObject[parseInt(timeframe)] = timeslot.profileID.toString()
         return timeslotObject
-    })
+    });
+
+    // console.log(newSchedule)
 
     // const response = await services.setHeatingSchedule(maskToSend, scheduleToSet)
 

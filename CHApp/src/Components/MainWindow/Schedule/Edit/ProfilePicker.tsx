@@ -68,7 +68,7 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
     if(!isForAddingATimeslot){
       const newTimeslots = timeslots.map((timeslot:any,index:number, arr:any)=>{ //define type later
         if(timeslot.id === asignedTimeslot.id){
-            return {...timeslot, profileName: String(event.target.value)}
+            return {...timeslot, profileName: String(event.target.value), profileID: foundProfile.profile, color: foundProfile.profileColor}
         }else{
             return {...timeslot}
         }
@@ -78,6 +78,7 @@ const ProfilePicker: React.FC<{timeslots:any, asignedTimeslot:any,setWeekdaySche
       setTimeslotToAdd({...timeslotToAdd, profileName: String(event.target.value) , profileID: foundProfile.profile, color: foundProfile.profileColor  }) //add new profile needds to be updated!!!
 
     }
+
     // const newTimeslots = timeslots.map((timeslot:any,index:number, arr:any)=>{ //define type later
     //     if(timeslot.id === asignedTimeslot.id){
     //         return {...timeslot, profileName: String(event.target.value)}
