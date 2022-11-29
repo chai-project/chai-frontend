@@ -9,39 +9,60 @@ const today = currentTime.startOf('day');
 // const sevenDaysBack = today.subtract(7,'day');
 
 const getLogs = (rawLogs:any, lastLogInTheArray:any) => {
+  let previousValveSetCategoryLog:any
 
-  // console.log(rawLogs, 'krc: ', lastLogInTheArray)
-  // if(!lastLogInTheArray){
-  //   console.log('bl')
-  // }
   return rawLogs.filter((rawLog:any, index:any ,arr:any)=>{
-    // console.log(rawLog.category)
-    if(index === 0){
-      if(rawLog.category === lastLogInTheArray?.category && rawLog.category === 'VALVE_SET' ){
-        if(!utils.areEqualArray(rawLog.parameters, lastLogInTheArray?.parameters)){
-          return rawLog
-        }
-        // else if (!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){ //cia + taciau tada reikes kazka suziuret su last array.
-        //   return rawLog
-        // }
-      }else{
-        // return rawLog
-        if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){ //cia + taciau tada reikes kazka suziuret su last array.
-          return rawLog
-        }
+    console.log(rawLog)
+    if(rawLog.category === arr[index+1]?.category && rawLog.category === 'VALVE_SET' ){
+      previousValveSetCategoryLog = rawLog
+      if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){
+        return rawLog
       }
-    }else {
-      if(rawLog.category === arr[index-1]?.category && rawLog.category === 'VALVE_SET'){
-        if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){ //cia + taciau tada reikes kazka suziuret su last array.
+    }else{
+      if(rawLog.category === previousValveSetCategoryLog?.category && rawLog.category === 'VALVE_SET' ){
+        if(!utils.areEqualArray(rawLog.parameters, previousValveSetCategoryLog?.parameters)){
           return rawLog
         }
       }else{
         return rawLog
       }
-      // if(!utils.areEqualArray(rawLog.parameters, arr[index-1]?.parameters)){
-      //   return rawLog
-      // }
+      // return rawLog
     }
+    // if(index === 0 ){
+    //   if(rawLog.category === arr[index+1]?.category && rawLog.category === 'VALVE_SET' ){
+    //     if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){
+    //       return rawLog
+    //     }
+    //   }else{
+    //     return rawLog
+    //   }
+    // }else{
+
+    // }
+    // if(index === 0){
+    //   if(rawLog.category === lastLogInTheArray?.category && rawLog.category === 'VALVE_SET' ){
+    //     if(!utils.areEqualArray(rawLog.parameters, lastLogInTheArray?.parameters)){
+    //       return rawLog
+    //     }else {
+          // if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){
+          //   return rawLog
+          // }
+    //     }
+    //   }else{
+    //     // return rawLog
+    //     if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){ //cia + taciau tada reikes kazka suziuret su last array.
+    //       return rawLog
+    //     }
+    //   }
+    // }else {
+    //   if(rawLog.category === arr[index+1]?.category && rawLog.category === 'VALVE_SET'){
+    //     if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){ //cia + taciau tada reikes kazka suziuret su last array.
+    //       return rawLog
+    //     }
+    //   }else{
+    //     return rawLog
+    //   }
+    // }
   });
 };
 
@@ -94,45 +115,12 @@ const transformLogs = (rawLogs:any[]) => {
 };
 
 
-const logsReducer = (state: any = {logs:null, skip:0, lastRawLog:null, from: null , to: null} , action:any) => {
+const logsReducer = (state: any = {logs:null, skip:0, lastRawLog:null, previousValveSetLog:null, previousValveSetLogIndex:null, from: null , to: null} , action:any) => {
     switch(action.type) {
         case "INITIALISE_LOGS":
             return  state = {...state, ...action.data}
         case "GET_MORE_LOGS_ON_USER_CLICK":
-          // console.log(state.lastRawLog.category,  action.data.lastRawLog.category  )
-          if(state.lastRawLog?.category === action.data.lastRawLog?.category && state.lastRawLog?.category === 'VALVE_SET' ){
-            console.log('krc')
-            if(utils.areEqualArray(state.lastRawLog.parameters, action.data.lastRawLog.parameters)){
-              state.logs.pop()
-
-              // const timestampLastRawLog = dayjs(state.lastRawLog.timestamp)
-              // const hoursLastRawLog = timestampLastRawLog.get('hour') 
-              // const minutesLastRawLog = timestampLastRawLog.get('minute') 
-              // const dateLastRawLog = timestampLastRawLog.format('DD/MM/YYYY');
-              // const formatedLastRawLog =`${dateLastRawLog} >>>> ${hoursLastRawLog}:${minutesLastRawLog < 10 ? '0'+minutesLastRawLog : minutesLastRawLog }`;
-
-
-              // const timestampNewLastRawLog = dayjs(action.data.lastRawLog.timestamp)
-              // const hoursNewLastRawLog = timestampNewLastRawLog.get('hour') 
-              // const minutesNewLastRawLog = timestampNewLastRawLog.get('minute') 
-              // const dateNewLastRawLog = timestampLastRawLog.format('DD/MM/YYYY');
-              // const formatedNewLastRawLog =`${dateNewLastRawLog} >>>> ${hoursNewLastRawLog}:${minutesNewLastRawLog < 10 ? '0'+minutesNewLastRawLog : minutesNewLastRawLog }`;
-
-              // console.log('pop reduseryje ', state.lastRawLog, action.data.lastRawLog)
-              // // console.log(formatedLastRawLog, formatedNewLastRawLog)
-              //  if(state.lastRawLog.timestamp !== action.data.lastRawLog.timestamp ){
-              //   // console.log( formatedLastRawLog, formatedNewLastRawLog , 'op now')
-              //   state.logs.pop()
-
-              //  }
-              // state.logs.pop()
-            }
-            
-          }
-          // if(utils.areEqualArray(state.logs[state.logs.length -1], action.data.logs[0])){
-          //   console.log('pop reduseryje ')
-          //   state.logs.pop()
-          // }
+            //need first in action dat! raw log that is valveset log!! 
             return   state = {...state, logs: state.logs.concat(action.data.logs) ,skip:action.data.skip, lastRawLog: action.data.lastRawLog}
         default:
             return state
@@ -146,6 +134,8 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
         let logs:any[] = []
         let skip = 0;
         let limit = 200;
+        let previousValveSetLog:any
+        let i: number = 1; //index of previous raw log 
         // console.log(logs[10],'tema')
         while (logs.length < limit + 1) {
           const rawLogsRequest = await services.getLogs(label, skip, limit, from, to.add(1,'day') );
@@ -154,21 +144,40 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
             break;
           }else{
             const rawLogs = getLogs(rawLogsRequest, logs[logs.length-1]);
-
-            //check if the last item in array same as the first in the new array
-            if(rawLogs[0].category === logs[logs.length -1]?.category && logs[logs.length -1]?.category === "VALVE_SET"){
-              if(utils.areEqualArray(rawLogs[0].parameters, logs[logs.length -1]?.parameters )){
-                logs.pop()
+            // let previousValveSetLog:any
+            // let i: number = 1;
+            while (!previousValveSetLog){
+              if(!logs[logs.length -i]){
+                break;
+              }else{
+                if(logs[logs.length -i].category === 'VALVE_SET'){
+                  previousValveSetLog = logs[logs.length -i]
+                }else if (!logs[logs.length -i].category ){
+                  previousValveSetLog = null
+                  i = 1
+                  break;
+                }else {
+                  i++
+                }
               }
-              // console.log(rawLogs[0].timestamp, logs[logs.length -1]?.timestamp)
             }
+            // console.log(i, logs[logs.length -i], logs[logs.length -1])
+            //check if the last item in array same as the first in the new array
+            if(rawLogs[0].category ===  previousValveSetLog?.category && rawLogs[0].category === "VALVE_SET"){
+              if(utils.areEqualArray(rawLogs[0].parameters, previousValveSetLog?.parameters )){
+                // logs.pop()
+                logs.slice(logs.length - i, 1)
+              }
+            }
+
+            // console.log(logs, rawLogs)
             logs =  logs.concat(rawLogs);
-            console.log(logs)
+            // console.log(logs)
             const transformedLogs = transformLogs(logs) //transfor in the component instead of here 
             skip += limit;
             dispatch({
               type:"INITIALISE_LOGS",
-              data: {logs:transformedLogs, skip:skip, lastRawLog: rawLogs[rawLogs.length - 1], from: from, to: to> today ? today : to }
+              data: {logs:transformedLogs, skip:skip, lastRawLog: rawLogs[rawLogs.length - 1], previousValveSetRawLog: previousValveSetLog, previousValveSetRawLogIndex: i, from: from, to: to> today ? today : to }
             })
           };
         };
@@ -191,6 +200,8 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       let skip = previousSkip;
       let limit:number|null = 200;
       let lastRawLog = previousLog
+      let previousValveSetLog:any
+      let i: number = 1; //index of previous raw log 
 
 
       while (logs.length < limit + 1) {
@@ -201,12 +212,36 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
           break;
         }else {
           const rawLogs = getLogs(rawLogsRequest, lastRawLog);
-          if(rawLogs[0].category === logs[logs.length -1]?.category && logs[logs.length -1]?.category === "VALVE_SET"){
-            if(utils.areEqualArray(rawLogs[0].parameters, logs[logs.length -1]?.parameters )){
-              logs.pop()
+          while (!previousValveSetLog){
+            if(!logs[logs.length -i]){
+              break;
+            }else{
+              if(logs[logs.length -i].category === 'VALVE_SET'){
+                previousValveSetLog = logs[logs.length -i]
+              }else if (!logs[logs.length -i].category ){
+                previousValveSetLog = null
+                i = 1
+                break;
+              }else {
+                i++
+              }
             }
-            // console.log(rawLogs[0].timestamp, logs[logs.length -1]?.timestamp)
           }
+          // console.log(i, logs[logs.length -i], logs[logs.length -1])
+          //check if the last item in array same as the first in the new array
+          if(rawLogs[0].category ===  previousValveSetLog?.category && rawLogs[0].category === "VALVE_SET"){
+            if(utils.areEqualArray(rawLogs[0].parameters, previousValveSetLog?.parameters )){
+              // logs.pop()
+              logs.slice(logs.length - i, 1)
+            }
+          }
+
+          // if(rawLogs[0].category === logs[logs.length -1]?.category && logs[logs.length -1]?.category === "VALVE_SET"){
+          //   if(utils.areEqualArray(rawLogs[0].parameters, logs[logs.length -1]?.parameters )){
+          //     logs.pop()
+          //   }
+          //   // console.log(rawLogs[0].timestamp, logs[logs.length -1]?.timestamp)
+          // }
           logs =  logs.concat(rawLogs);
           // const transformedLogs = transformLogs(logs)
           // console.log(transformedLogs.length)
@@ -223,7 +258,7 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
 
       dispatch({
           type:"GET_MORE_LOGS_ON_USER_CLICK",
-          data: {logs:transformedLogs, skip:skip, lastRawLog: lastRawLog}
+          data: {logs:transformedLogs, skip:skip, lastRawLog: lastRawLog,  previousValveSetLog: previousValveSetLog, previousValveSetLogIndex: i}
       })
   };
 };
