@@ -12,15 +12,18 @@ const getLogs = (rawLogs:any, lastLogInTheArray:any) => {
   let previousValveSetCategoryLog:any
 
   return rawLogs.filter((rawLog:any, index:any ,arr:any)=>{
-    console.log(rawLog)
+
+    // console.log(rawLog)
     if(rawLog.category === arr[index+1]?.category && rawLog.category === 'VALVE_SET' ){
-      previousValveSetCategoryLog = rawLog
-      if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){
+      // previousValveSetCategoryLog = rawLog
+      if(!utils.areEqualArray(rawLog.parameters, arr[index+1].parameters)){
+        previousValveSetCategoryLog = rawLog
         return rawLog
       }
     }else{
       if(rawLog.category === previousValveSetCategoryLog?.category && rawLog.category === 'VALVE_SET' ){
         if(!utils.areEqualArray(rawLog.parameters, previousValveSetCategoryLog?.parameters)){
+          previousValveSetCategoryLog = rawLog
           return rawLog
         }
       }else{
@@ -212,6 +215,7 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
           break;
         }else {
           const rawLogs = getLogs(rawLogsRequest, lastRawLog);
+
           while (!previousValveSetLog){
             if(!logs[logs.length -i]){
               break;
@@ -264,7 +268,7 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
 };
 
 
-
+// kai requestinu more logs, tada patikrinam pati pirma valve set log su paskutiniuoju kuris bus issaugotas reduseryje ir pareis is clicko!!! jeigu sutampa uzmetam index kuri reike iskirpti is reduser., jeigu ne null 
 
 
 
