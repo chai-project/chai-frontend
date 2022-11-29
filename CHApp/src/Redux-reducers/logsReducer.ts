@@ -2,26 +2,37 @@ import { Dispatch } from 'redux';
 import services from '../Services/services';
 import utils from '../Components/Utils/utils';
 import dayjs from 'dayjs';
+// import { stat } from 'fs';
 
 const currentTime = dayjs();
 const today = currentTime.startOf('day');
-const sevenDaysBack = today.subtract(7,'day');
+// const sevenDaysBack = today.subtract(7,'day');
 
 const getLogs = (rawLogs:any, lastLogInTheArray:any) => {
 
+  // console.log(rawLogs, 'krc: ', lastLogInTheArray)
+  // if(!lastLogInTheArray){
+  //   console.log('bl')
+  // }
   return rawLogs.filter((rawLog:any, index:any ,arr:any)=>{
-    // console.log(rawLog, lastLogInTheArray)
+    // console.log(rawLog.category)
     if(index === 0){
       if(rawLog.category === lastLogInTheArray?.category && rawLog.category === 'VALVE_SET' ){
         if(!utils.areEqualArray(rawLog.parameters, lastLogInTheArray?.parameters)){
           return rawLog
         }
+        // else if (!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){ //cia + taciau tada reikes kazka suziuret su last array.
+        //   return rawLog
+        // }
       }else{
-        return rawLog
+        // return rawLog
+        if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){ //cia + taciau tada reikes kazka suziuret su last array.
+          return rawLog
+        }
       }
     }else {
       if(rawLog.category === arr[index-1]?.category && rawLog.category === 'VALVE_SET'){
-        if(!utils.areEqualArray(rawLog.parameters, arr[index-1]?.parameters)){
+        if(!utils.areEqualArray(rawLog.parameters, arr[index+1]?.parameters)){ //cia + taciau tada reikes kazka suziuret su last array.
           return rawLog
         }
       }else{
@@ -88,6 +99,40 @@ const logsReducer = (state: any = {logs:null, skip:0, lastRawLog:null, from: nul
         case "INITIALISE_LOGS":
             return  state = {...state, ...action.data}
         case "GET_MORE_LOGS_ON_USER_CLICK":
+          // console.log(state.lastRawLog.category,  action.data.lastRawLog.category  )
+          if(state.lastRawLog?.category === action.data.lastRawLog?.category && state.lastRawLog?.category === 'VALVE_SET' ){
+            console.log('krc')
+            if(utils.areEqualArray(state.lastRawLog.parameters, action.data.lastRawLog.parameters)){
+              state.logs.pop()
+
+              // const timestampLastRawLog = dayjs(state.lastRawLog.timestamp)
+              // const hoursLastRawLog = timestampLastRawLog.get('hour') 
+              // const minutesLastRawLog = timestampLastRawLog.get('minute') 
+              // const dateLastRawLog = timestampLastRawLog.format('DD/MM/YYYY');
+              // const formatedLastRawLog =`${dateLastRawLog} >>>> ${hoursLastRawLog}:${minutesLastRawLog < 10 ? '0'+minutesLastRawLog : minutesLastRawLog }`;
+
+
+              // const timestampNewLastRawLog = dayjs(action.data.lastRawLog.timestamp)
+              // const hoursNewLastRawLog = timestampNewLastRawLog.get('hour') 
+              // const minutesNewLastRawLog = timestampNewLastRawLog.get('minute') 
+              // const dateNewLastRawLog = timestampLastRawLog.format('DD/MM/YYYY');
+              // const formatedNewLastRawLog =`${dateNewLastRawLog} >>>> ${hoursNewLastRawLog}:${minutesNewLastRawLog < 10 ? '0'+minutesNewLastRawLog : minutesNewLastRawLog }`;
+
+              // console.log('pop reduseryje ', state.lastRawLog, action.data.lastRawLog)
+              // // console.log(formatedLastRawLog, formatedNewLastRawLog)
+              //  if(state.lastRawLog.timestamp !== action.data.lastRawLog.timestamp ){
+              //   // console.log( formatedLastRawLog, formatedNewLastRawLog , 'op now')
+              //   state.logs.pop()
+
+              //  }
+              // state.logs.pop()
+            }
+            
+          }
+          // if(utils.areEqualArray(state.logs[state.logs.length -1], action.data.logs[0])){
+          //   console.log('pop reduseryje ')
+          //   state.logs.pop()
+          // }
             return   state = {...state, logs: state.logs.concat(action.data.logs) ,skip:action.data.skip, lastRawLog: action.data.lastRawLog}
         default:
             return state
@@ -101,15 +146,25 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
         let logs:any[] = []
         let skip = 0;
         let limit = 200;
-
+        // console.log(logs[10],'tema')
         while (logs.length < limit + 1) {
           const rawLogsRequest = await services.getLogs(label, skip, limit, from, to.add(1,'day') );
           if(rawLogsRequest.length === 0){
+            //error notification here!!!
             break;
           }else{
             const rawLogs = getLogs(rawLogsRequest, logs[logs.length-1]);
+
+            //check if the last item in array same as the first in the new array
+            if(rawLogs[0].category === logs[logs.length -1]?.category && logs[logs.length -1]?.category === "VALVE_SET"){
+              if(utils.areEqualArray(rawLogs[0].parameters, logs[logs.length -1]?.parameters )){
+                logs.pop()
+              }
+              // console.log(rawLogs[0].timestamp, logs[logs.length -1]?.timestamp)
+            }
             logs =  logs.concat(rawLogs);
-            const transformedLogs = transformLogs(logs)
+            console.log(logs)
+            const transformedLogs = transformLogs(logs) //transfor in the component instead of here 
             skip += limit;
             dispatch({
               type:"INITIALISE_LOGS",
@@ -137,13 +192,21 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       let limit:number|null = 200;
       let lastRawLog = previousLog
 
+
       while (logs.length < limit + 1) {
         const rawLogsRequest = await services.getLogs(label, skip, limit, from, to.add(1,'day'), );
         if(rawLogsRequest.length === 0 ){
           limit = null
+          lastRawLog = null
           break;
         }else {
           const rawLogs = getLogs(rawLogsRequest, lastRawLog);
+          if(rawLogs[0].category === logs[logs.length -1]?.category && logs[logs.length -1]?.category === "VALVE_SET"){
+            if(utils.areEqualArray(rawLogs[0].parameters, logs[logs.length -1]?.parameters )){
+              logs.pop()
+            }
+            // console.log(rawLogs[0].timestamp, logs[logs.length -1]?.timestamp)
+          }
           logs =  logs.concat(rawLogs);
           // const transformedLogs = transformLogs(logs)
           // console.log(transformedLogs.length)
