@@ -169,7 +169,17 @@ const resetProfile = async (label:any ,profile:any) => {
 };
 
 const resetAllprofiles = async (label:any) => {
-    
+    const request = await axios.get(`${baseURL}/profile/reset/?label=${label}`).then((res)=>{
+        // console.log('config: ',res.config)
+        // console.log('data: ',res.data)
+        // console.log('request: ',res.request)
+        // console.log('status: ',res.status)
+        // console.log('status text: ',res.statusText)
+        return res.status
+}).catch((error) => {
+    console.error('error',error);
+})
+    return request
 };
 
 
@@ -234,4 +244,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile, addLogEntry}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile,resetAllprofiles, addLogEntry}

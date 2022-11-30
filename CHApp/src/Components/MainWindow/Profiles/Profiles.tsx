@@ -105,20 +105,35 @@ const Profiles: React.FC = () => {
 
     const resetAllProfiles = async () => {
 
-        const profilesList = [1,2,3,4,5]
-        for (let i = 0 ; i< profilesList.length; i++ ){
-            const request = await services.resetProfile(homeLabel, profilesList[i])
-            //if 200 ad notification
-            // console.log(request)
-            if(request !== 200){
-                dispatch(setErrorMessage(`Error`, 3000));
-                break;
-            }else {
-                if(i === profilesList.length - 1){
-                dispatch(setNotification(`All profiles were successfully reset.`, 3000));
-                }
-            }
+        const request = await services.resetAllprofiles(homeLabel)
+        //if 200 ad notification
+        // console.log(request)
+        if(request === 200){
+            dispatch(setNotification(`All profiles were successfully reset.`, 3000));
+            // dispatch(setErrorMessage(`Error`, 3000));
+            // break;
+        }else {
+            dispatch(setErrorMessage(`Error`, 3000));
+
+            // if(i === profilesList.length - 1){
+            // dispatch(setNotification(`All profiles were successfully reset.`, 3000));
+            // }
         }
+
+        // const profilesList = [1,2,3,4,5]
+        // for (let i = 0 ; i< profilesList.length; i++ ){
+        //     const request = await services.resetProfile(homeLabel, profilesList[i])
+        //     //if 200 ad notification
+        //     // console.log(request)
+        //     if(request !== 200){
+        //         dispatch(setErrorMessage(`Error`, 3000));
+        //         break;
+        //     }else {
+        //         if(i === profilesList.length - 1){
+        //         dispatch(setNotification(`All profiles were successfully reset.`, 3000));
+        //         }
+        //     }
+        // }
 
     };
 
