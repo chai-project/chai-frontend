@@ -26,6 +26,7 @@ import SwitchButton from '../../Buttons/SwitchButton';
 import DatePickerComponent from './DatePickerComponent';
 import LogTable from './LogTable';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
+import Checkboxes from './Checkboxes';
 
 import { profile } from 'console';
 
@@ -120,6 +121,10 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
 
 
   const [logs, setLogs] = useState<any[]|null>(null);
+
+  // Filtering
+  const [uniquefilterValues, setUniquefilterValues] = useState<any>({'System': true, 'User': true});
+
 
   const classes = useStyles();
   const dispatch = useDispatch()
@@ -310,12 +315,29 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
       //   }
       // })
       // console.log(currentState.logs.lastRawLog);
-
-      setLogs(currentState.logs.logs)
+      // console.log('test',uniquefilterValues)
+      // if(uniquefilterValues.System && uniquefilterValues.User){
+      //   setLogs(currentState.logs.logs)
+      // }else{
+      //   // const krc = Object.keys(uniquefilterValues)
+      //   setLogs(currentState.logs.logs.filter((log:any)=>{return  uniquefilterValues[log.category]}))
+      //   // if(uniquefilterValues.System){
+      //   //   setLogs(currentState.logs.logs.filter((log:any)=>{return log.category === "System"}))
+      //   // }
+      //   // if(uniquefilterValues.User){
+      //   //   setLogs(currentState.logs.logs.filter((log:any)=>{return log.category === "User"}))
+      //   // }
+      //   // if(!uniquefilterValues.User && ! uniquefilterValues.System){
+      //   //   setLogs(null)
+      //   // }
+      // }
+      // setLogs(currentState.logs.logs)
+      setLogs(currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]}));
+      setPage(0)
       setValueFrom(currentState.logs.from);
       setValueTo(currentState.logs.to);
       setIsGettingMoreLogs(false)
-    },[currentState.logs])
+    },[currentState.logs, uniquefilterValues])
 
 
 
@@ -334,8 +356,11 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
     {/* <button onClick={()=>{setValueFrom("2022-9-23T20:50:33.000Z")}}> zeur</button> */}
     <Grid item xs={1.4}className={classes.buttons}>
       <Grid container xs={12} direction="row" justifyContent='flex-start' alignItems='center' className={classes.datepickerContainer}>
-        <Grid item xs={12} className={classes.datepickerbuttons}> 
+        <Grid item xs={9} className={classes.datepickerbuttons}> 
           <DatePickerComponent valueFrom={valueFrom} setValueFrom={setValueFrom} valueTo={valueTo} setValueTo={setValueTo} homeLabel={homeLabel} logs={logs} setLogs={setLogs} page={page} setPage={setPage}/>
+        </Grid>
+        <Grid xs={3} item>
+          <Checkboxes logs={logs} setLogs={setLogs} uniquefilterValues={uniquefilterValues} setUniquefilterValues={setUniquefilterValues}/>
         </Grid>
       </Grid>
     </Grid>

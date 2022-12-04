@@ -110,7 +110,7 @@ const Profiles: React.FC = () => {
         // console.log(request)
         if(request === 200){
             dispatch(setNotification(`All profiles were successfully reset.`, 3000));
-            // dispatch(setErrorMessage(`Error`, 3000));
+            //update notifications
             // break;
         }else {
             dispatch(setErrorMessage(`Error`, 3000));

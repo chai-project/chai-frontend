@@ -409,15 +409,15 @@ const App: React.FC = () => {
       {/* <button onClick={()=>{dispatch(setNotification('karocia', 3000))}}>hmm</button> */}
       {/* <button onClick={()=>{console.log(currentState.logs)}}>swx</button> */}
     <ThemeProvider theme={theme ? light : dark}>
-      <div>
+      {/* <div>
         <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <div>
             <SwitchButton status={theme} labelLeft={"Dark"} labelRight={"Light"} action={toogleTheme}/>
           </div>
         </Backdrop>
-      </div>
+      </div> */}
       <CssBaseline/>
-      <NavbarTop handleBackDrop={handleBackDrop}/>
+      {/* <NavbarTop handleBackDrop={handleBackDrop}/> */}
         <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.centerContainer}>
           <Grid item container direction="row" className={classes.containerAll}>
             <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainWindowAndQuickAccessContainer}>
