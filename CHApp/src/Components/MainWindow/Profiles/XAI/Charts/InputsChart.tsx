@@ -100,6 +100,9 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any}> = ({dat
   const options:any = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: {
+      duration: 0
+    },
     plugins: {
       title: {
         display: true,
