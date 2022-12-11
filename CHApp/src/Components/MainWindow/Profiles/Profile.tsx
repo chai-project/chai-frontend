@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import dayjs from 'dayjs';
+
+
+//services
+import services from '../../../Services/services';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -10,6 +15,7 @@ import { CssBaseline, Button, Paper, Grid, Typography, Link } from '@mui/materia
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
+import {setSelectedProfile} from '../../../Redux-reducers/xaiFeaturesReducer'
 
 
 //types
@@ -20,6 +26,7 @@ import SelectProfileButton from './SelectProfileButton';
 import Chart from './Chart';
 import PriceSensivityGauge from './PriceSensivityGauge';
 import TimeslotMoreInfoOverlay from '../Schedule/Edit/SelectedTimeslot/TimeslotMoreInfoOverlay';
+import XaiFeaturesOverlay from './XAI/XaiFeaturesOverlay';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -61,11 +68,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
+const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) => {//define type
     // const [profile, setProfile] = useState('');
 
     const classes = useStyles();
     const dispatch = useDispatch()
+    // const url = createBrowserHistory()
+    // const parameters = new URLSearchParams(url.location.search);
+    // const homeLabel =  parameters.get('home');
     // const hmm:any = 0 <= profile.slope && profile.slope  <= (profile.bias -7)/35
     // const krc = (5 / 6) + (0.5 / 6)
     // console.log('profile: ', profile)
@@ -75,7 +85,13 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
 //   }
 
     const openXAIOverlay = () => {
-      // services.addLogEntry(homeLabel, now.toISOString(), 'TAB_CHANGE', [eachCase]) 
+      if(homeLabel){
+        const now = dayjs()
+        services.addLogEntry(homeLabel, now.toISOString(), 'XAI', ['Profiles']);
+        dispatch(setSelectedProfile(profile))
+      }
+      // services.addLogEntry(homeLabel, now.toISOString(), 'Timeslot', ['Scedule']) 
+      // dispatch(setSelectedProfile(profile))
     };
 
   return (
@@ -88,7 +104,7 @@ const Profile: React.FC<{profile:any}> = ({profile}) => {//define type
                         <Grid item xs={3}>
                           <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
                         </Grid>
-                        <Grid item xs={3} className={classes.moreInfoButton} onClick={()=>{console.log(0)}}>
+                        <Grid item xs={3} className={classes.moreInfoButton} onClick={openXAIOverlay}>
                           <Link><b>Want to know more about this profile?</b></Link>
                         </Grid>
                         {/* <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography> */}

@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import dayjs from 'dayjs' 
+import { createBrowserHistory } from 'history';
+
+//services
+import services from '../../../Services/services';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -111,11 +115,24 @@ const Timeslot: React.FC<{indexOfaWeekday:any, weekday:any, profile:any, sizeOfT
 
 
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const url = createBrowserHistory()
+    const parameters = new URLSearchParams(url.location.search);
+    const homeLabel =  parameters.get('home');
 
 
     const setThisProfileAsSElectedProfile = (timeslot:any) => {
-        dispatch(setSelectedTimeslot({...timeslot, indexOfaWeekday: indexOfaWeekday, weekday:weekday}))
+        
+        if(homeLabel){
+            const now = dayjs()
+            services.addLogEntry(homeLabel, now.toISOString(), 'Timeslot', ['Schedule']);
+            dispatch(setSelectedTimeslot({...timeslot, indexOfaWeekday: indexOfaWeekday, weekday:weekday}));
+
+        }
+        //else error 
+        // dispatch(setSelectedTimeslot({...timeslot, indexOfaWeekday: indexOfaWeekday, weekday:weekday}));
+
     };
     // console.log(weekday, sizeOfATimeslot, timeIntervals)
   return (

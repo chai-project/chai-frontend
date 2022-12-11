@@ -15,6 +15,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 // import { initializeData } from './Redux-reducers/dataReducer';
 // import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
+import {setSelectedProfile} from '../../../../Redux-reducers/xaiFeaturesReducer'
 
 
 
@@ -23,6 +24,7 @@ import { Typography } from '@material-ui/core';
 
 //components
 // import ChartForSelectedTimeslot from './ChartForSelectedTimeslot';
+import XAICharts from './XAICharts'
 
 // Styles 
 
@@ -32,7 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
         // border: "2px dashed red",
         // width: '80%',
         position:'absolute',
-        top:'4px',
+        // top:'4px',
+        // left: "-0.01px",
         height: '100%',
         width: '100%',
         zIndex: 10,
@@ -84,13 +87,23 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: '10px',
         zIndex: 10,
     },
-    closePageButton:{
-      position:'absolute',
+    closeButton:{
+        // border: "1px solid orange",
+
+      // position:'absolute',
     },
+    chartsComponent:{
+      // border: "1px solid pink",
+
+    },
+    charts:{
+      // border: "1px solid red",
+
+    }
   }),
 );
 
-const XaiFeaturesOverlay: React.FC<{heatingProfile:any}> = ({heatingProfile}) => { // timeslots type timeslot[] | null
+const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeaturesState, homeLabel}) => { // timeslots type timeslot[] | null
 
     const classes = useStyles();
     const dispatch = useDispatch()
@@ -100,7 +113,7 @@ const XaiFeaturesOverlay: React.FC<{heatingProfile:any}> = ({heatingProfile}) =>
     //   const profilePeriodEnd = dayjs().set('hour', 0).set('minutes',45).set('seconds', 0);
     //   dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
     // }
-    
+    // console.log(xaiFeaturesState.selectedProfile.profileName)
     useEffect(()=>{
       // const profilePeriodStart = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0)
       // const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
@@ -112,21 +125,24 @@ const XaiFeaturesOverlay: React.FC<{heatingProfile:any}> = ({heatingProfile}) =>
 
     const closeOverlay = () => {
       // dispatch(setSelectedProfile(null))
+      dispatch(setSelectedProfile(null))
     }
 
 
   return (
     <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
       <CssBaseline/>
-          <Grid xs={12} item container direction="row" alignItems="center" justifyContent="flex-end">
+          <Grid xs={1} item container direction="row" alignItems="center" justifyContent="flex-end" className={classes.closeButton}>
             <Grid item xs={0.5}></Grid>
-            <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start"><b>profile name</b></Grid>
-            <Grid item xs={0.5}>
-              <IconButton className={classes.closePageButton} size='medium' edge='start' color='primary' onClick={closeOverlay}>
+            <Grid item xs={10.5} container direction="row" alignItems="center" justifyContent="flex-start"><b>{xaiFeaturesState.selectedProfile.profileName}</b></Grid>
+            <Grid item xs={1} container direction="row" alignItems="center" justifyContent="center">
+              <IconButton size='medium' edge='start' color='primary' onClick={closeOverlay}>
                 <HighlightOffIcon/>
               </IconButton>
             </Grid>
           </Grid>
+          <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} />
+          <Grid xs={0.5} className={classes.closeButton}/>
     </Grid>
   );
 };

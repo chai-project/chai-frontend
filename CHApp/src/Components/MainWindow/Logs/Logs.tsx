@@ -333,11 +333,15 @@ const Logs: React.FC<{currentState:any}> = ({currentState}) => {
       // }
       // setLogs(currentState.logs.logs)
       setLogs(currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]}));
-      setPage(0)
+      // setPage(0)
       setValueFrom(currentState.logs.from);
       setValueTo(currentState.logs.to);
       setIsGettingMoreLogs(false)
     },[currentState.logs, uniquefilterValues])
+
+    useEffect(()=>{
+      setPage(0)
+    },[uniquefilterValues])
 
 
 

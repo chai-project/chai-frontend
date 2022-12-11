@@ -11,6 +11,7 @@ import errorMessageForErrorComponentReducer from './Redux-reducers/errorMessageF
 import energyPriceDataReducer from './Redux-reducers/energyPriceDataReducer';
 import logsReducer from './Redux-reducers/logsReducer';
 import notificationReducer from './Redux-reducers/notificationsReducer';
+import xaiFeaturesReducer from './Redux-reducers/xaiFeaturesReducer';
 
 const reducer = combineReducers({
     chartData: chartDataReducer,
@@ -21,6 +22,7 @@ const reducer = combineReducers({
     errorMessageForErrorComponent: errorMessageForErrorComponentReducer,
     logs: logsReducer,
     notification: notificationReducer,
+    xaiFeatures: xaiFeaturesReducer,
     //more if needed
 });
 

@@ -25,6 +25,7 @@ import profile from '../../../Types/types'
 import SelectProfileButton from './SelectProfileButton';
 import Profile from './Profile';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
+import XaiFeaturesOverlay from './XAI/XaiFeaturesOverlay';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-const Profiles: React.FC = () => {
+const Profiles: React.FC<{currentState:any}> = ({currentState}) => {
     const [profile, setProfile] = useState<profile|null>(null);
 
     const classes = useStyles();
@@ -110,11 +111,10 @@ const Profiles: React.FC = () => {
         // console.log(request)
         if(request === 200){
             dispatch(setNotification(`All profiles were successfully reset.`, 3000));
-            //update notifications
+            //update notifications!!!
             // break;
         }else {
             dispatch(setErrorMessage(`Error`, 3000));
-
             // if(i === profilesList.length - 1){
             // dispatch(setNotification(`All profiles were successfully reset.`, 3000));
             // }
@@ -145,7 +145,8 @@ const Profiles: React.FC = () => {
 
   return (
     <div className={classes.main}>
-        {/* {heatingProfiles.selectedProfile ? <TimeslotMoreInfoOverlay heatingProfiles={heatingProfiles}/> : null} */}
+        {currentState.xaiFeatures.selectedProfile ? <XaiFeaturesOverlay xaiFeaturesState={currentState.xaiFeatures} homeLabel={homeLabel}/> : null }
+        {/* <XaiFeaturesOverlay heatingProfile={profile}/> */}
         {allProfiles.length !== 0 ? 
                         <Grid container className={classes.container} direction="column" justifyContent="flex-start" alignItems="center">
                             <Grid item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
@@ -167,7 +168,7 @@ const Profiles: React.FC = () => {
                                 </Grid>
                             </Grid>
                             <Grid item className={classes.content}>
-                                {profile ? <Profile profile={profile}/> : null}
+                                {profile ? <Profile profile={profile} homeLabel={homeLabel}/> : null}
                             </Grid>
                         </Grid>
                      : 
