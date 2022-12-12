@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     chart:{
-        height: '25vh',
-        width: '100%',
+        height: '20vh',
+        width: '95%',
         // border: "2px dashed purple",
     }
   }),

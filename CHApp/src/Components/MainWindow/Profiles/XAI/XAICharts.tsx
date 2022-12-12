@@ -124,9 +124,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     button:{
-      border: "1px solid pink",
+    //   border: "1px solid pink",
 
     },
+    Chartcontainer:{
+    //   border: "1px solid pink",
+
+    },
+    Chart:{
+    //   border: "1px solid lime",
+
+    }
   }),
 );
 
@@ -175,7 +183,9 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         setFrameCount(frameCount-1)
         // console.log(frameCount)
 
-        setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount));
+        setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount-1));
+        // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount)); good one if first 
+
         // console.log(mappedDataForInputsChart.slice(0,frameCount));
 
 
@@ -190,31 +200,34 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         // console.log(frameCount)
         
         setFrameCount(frameCount+1);
-        setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+2));
-        // console.log(mappedDataForInputsChart.slice(0,frameCount+2));
+        setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
+        // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+2)); //good one
+        // console.log(mappedDataForInputsChart.slice(0,frameCount+1));
 
         
         
     };
 
+    // console.log(mappedDataForInputsChart,'naxui')
+
 
 
   return (
     <Grid item container xs={10.5} className={classes.chartsComponent} direction="column" justifyContent="center" alignItems="center">
-        <Grid item container xs={10.5} className={classes.charts} direction={breakpoint ? "column" : 'row'} justifyContent="center" alignItems="center">
-            <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center">
-                <Grid item xs={6}>
-                    <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart}/>
+        <Grid item container xs={10.5} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
+            <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
+                <Grid item xs={6} className={classes.Chart}>
+                    <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount}/>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} className={classes.Chart}>
                     <UpdateModelChart/>
                 </Grid>
             </Grid>
-            <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center">
-                <Grid item xs={6}>
+            <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
+                <Grid item xs={6} className={classes.Chart}>
                     <PredictionsChart/>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} className={classes.Chart}>
                     <SetpointScheduleChart/>
                 </Grid>
             </Grid>
@@ -231,7 +244,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
                         <Typography variant='subtitle2' >Inputs</Typography>
                     </Grid>
                     <Grid item>
-                        <IconButton disabled={frameCount >= xaiFeaturesState.inputsChart?.count -1 } size='large'  color='primary' onClick={nextFrame}>
+                        <IconButton disabled={frameCount >= xaiFeaturesState.inputsChart?.count } size='large'  color='primary' onClick={nextFrame}>
                             <NavigateNextIcon/>
                         </IconButton>
                     </Grid>

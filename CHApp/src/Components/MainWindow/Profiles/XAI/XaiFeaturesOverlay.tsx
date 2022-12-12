@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
         zIndex: 10,
         borderRadius: 5,
           //  background: '#CFD8DC',
-          // background: 'rgba(0,0,0,0.5)',
+          background: 'rgba(0,0,0,0.4)',
           backdropFilter: 'blur(50px)',
         //    borderRadius:'25px'
     },

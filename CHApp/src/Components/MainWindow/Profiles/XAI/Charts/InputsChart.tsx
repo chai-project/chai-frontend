@@ -30,12 +30,13 @@ const useStyles = makeStyles((theme: Theme) =>
         // border: "2px dashed pink",
     },
     label:{
-        // border: "2px dashed pink",
-
+        border: "2px dashed yellow",
+        height: '100%',
+        width: '100%',
     },
     chart:{
-        height: '25vh',
-        width: '100%',
+        height: '20vh',
+        width: '95%',
         // [theme.breakpoints.down('md')]: {
         //   height: '20vh',
         // }
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any}> = ({dataSet, mappedDataForInputsChart}) => {
+const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:number}> = ({dataSet, mappedDataForInputsChart, inputs}) => {
   // const [dataSet1, setDataSet1] = useState<any>();
   // const [dataSet2, setDataSet2] = useState<any>();
 
@@ -72,7 +73,7 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any}> = ({dat
 
   // },[dataSet])
   
-  // console.log(dataSet,'zeuru')
+  // console.log(Math.max(...mappedDataForInputsChart.map((price:any)=>{return Math.trunc(price[0])})),'zeuru')
   const data = {
     labels: price,
     datasets: [
@@ -88,7 +89,8 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any}> = ({dat
       },
       {
         label: "Target temperature (°C)",
-        data:  dataSet?.length < 2 ? mappedDataForInputsChart.slice(0,1) : dataSet?.slice(0,dataSet.length - 1),
+        data:  dataSet?.length < 1 ? null : dataSet?.length < 2 ? mappedDataForInputsChart?.slice(0,1) : dataSet?.slice(0,dataSet.length - 1),
+        // data:  dataSet?.length < 2 ? mappedDataForInputsChart?.slice(0,1) : dataSet?.slice(0,dataSet.length - 1),
         // data:dataSet,
         fill: false,
         // borderColor: "red"
@@ -106,7 +108,7 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any}> = ({dat
     plugins: {
       title: {
         display: true,
-        text: `Inputs ${10}`, // put value of inputs
+        text: `Inputs ${inputs}`, // put value of inputs
         color: 'rgb(87, 203, 204,1)'
       },
       legend:{
@@ -135,6 +137,8 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any}> = ({dat
           maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
+        min: mappedDataForInputsChart ? Math.min(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) - 5 : null,
+        max: mappedDataForInputsChart ? Math.max(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) + 5 :null,
         
       },
       y: {
@@ -149,14 +153,16 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any}> = ({dat
           // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
-        // min:7,
-        // max:30,
+        min: mappedDataForInputsChart ? Math.min(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) - 5 : null,
+        max: mappedDataForInputsChart ? Math.max(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) + 5 : null,
+        // min: 1,
+        // max: 10,
       },
     },
   };
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" >
+    <Grid xs={12} item container direction="column" justifyContent="center" alignItems="center">
         <Grid item className={classes.chart}>
             <Scatter data={data} options={options}/>
         </Grid>
