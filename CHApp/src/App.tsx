@@ -417,7 +417,7 @@ const App: React.FC = () => {
         </Backdrop>
       </div> */}
       <CssBaseline/>
-      {/* <NavbarTop handleBackDrop={handleBackDrop}/> */}
+      <NavbarTop handleBackDrop={handleBackDrop}/>
         <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.centerContainer}>
           <Grid item container direction="row" className={classes.containerAll}>
             <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainWindowAndQuickAccessContainer}>

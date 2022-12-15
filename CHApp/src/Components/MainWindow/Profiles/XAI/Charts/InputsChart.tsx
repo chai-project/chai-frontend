@@ -100,15 +100,15 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
     ]
   };
   const options:any = {
-    responsive: true,
-    maintainAspectRatio: false,
+    // responsive: true,
+    // maintainAspectRatio: false,
     animation: {
       duration: 0
     },
     plugins: {
       title: {
         display: true,
-        text: `Inputs ${inputs}`, // put value of inputs
+        text: `After ${inputs} input${inputs !== 1 ? "s": ""}`, // put value of inputs
         color: 'rgb(87, 203, 204,1)'
       },
       legend:{
@@ -125,12 +125,18 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
   },
     scales: {
       x: {
+        
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Price (p/kWh)',
+          text: 'p/kWh',
+          // text: 'Price (p/kWh)',
           color: 'rgb(87, 203, 204,1)',
           stepped: 'before',
+        },
+        grid: {
+          drawBorder: true,
+          color: 'grey',
         },
         ticks: {
           autoSkip: true,
@@ -142,11 +148,17 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
         
       },
       y: {
+        
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Setpoint (°C)',
+          text: '°C',
+          // text: 'Setpoint (°C)',
           color: 'rgb(87, 203, 204,1)',
+        },
+        grid: {
+          drawBorder: true,
+          color: 'grey',
         },
         ticks: {
           // autoSkip: true,

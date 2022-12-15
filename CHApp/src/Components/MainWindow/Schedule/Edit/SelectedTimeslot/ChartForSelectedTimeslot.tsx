@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, heatingProfiles:any}> = ({selectedTimeslot, pricesList, heatingProfiles}) => {
   const classes = useStyles();
 
+  console.log(pricesList,'zeuru')
 
 const setpoint = pricesList?.map((timeframe:any)=>{
     const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
@@ -88,6 +89,11 @@ const radius = (type: String) => {
     ]
   };
   const options:any = {
+    // responsive: true,
+    // maintainAspectRatio: false,
+    animation: {
+      duration: 0
+    },
     plugins: {
         legend:{
             // position:'left'

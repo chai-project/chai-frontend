@@ -115,6 +115,7 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
             nrOfLevels={6}
             colors={['#FE6262', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#FE6262']}
             percent={profile.gaugeValue}
+            animate={false}
             hideText={true} //false to show text
             formatTextValue={(value:any)=>{return profile.segment === 0 ? "Negative" : profile.segment === 1 ? "Very low" : profile.segment === 2 ? "Low" : profile.segment === 3 ? "Moderate" : profile.segment === 4 ? "High" :  "Very high" }}
             needleColor={profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }

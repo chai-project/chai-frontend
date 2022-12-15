@@ -78,7 +78,7 @@ const UpdateModelChart: React.FC = () => {
     plugins: {
       title: {
         display: true,
-        text: `Updated model`,
+        text: `AI model`,
         color: 'rgb(87, 203, 204,1)'
       },
       legend:{
@@ -102,6 +102,10 @@ const UpdateModelChart: React.FC = () => {
           color: 'rgb(87, 203, 204,1)',
 
         },
+        grid: {
+            drawBorder: true,
+            color: 'grey',
+          },
         ticks: {
           autoSkip: true,
           maxTicksLimit: 8,
@@ -116,6 +120,10 @@ const UpdateModelChart: React.FC = () => {
           text: 'Preferred temperature (°C) (if energy were free)',
           color: 'rgb(87, 203, 204,1)',
         },
+        grid: {
+            drawBorder: true,
+            color: 'grey',
+          },
         ticks: {
           // autoSkip: true,
           // maxTicksLimit: 8,

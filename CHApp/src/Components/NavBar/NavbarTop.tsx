@@ -100,11 +100,11 @@ const NavbarTop: React.FC<{handleBackDrop:(event:any) => void}> = ({handleBackDr
               {drawerOpenState ? <CloseIcon/> : <MenuIcon/> }
             </IconButton>
           </Grid>
-          <Grid item xs={5}>
+          {/* <Grid item xs={5}>
             <IconButton size='small' color='primary' onClick={handleBackDrop}>
               <SettingsIcon/>
             </IconButton>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Grid container direction="row" justifyContent="flex-end">
           <Grid item xs={3} sm={2} md={1.5} lg={1} className={classes.logoContainer}>

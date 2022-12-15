@@ -222,7 +222,7 @@ const addLogEntry = async (homeLabel:string, timestamp:string, category:string, 
 };
 
 // Charts for profile overlay
-
+//1st chart
 const getInputsChartData = async (label:any, profile:any) => {
     const request = await axios.get(`${baseURL}/xai/scatter/?label=${label}&profile=${profile}`).then((res)=>{
         // console.log('config: ',res.config)
@@ -237,7 +237,22 @@ const getInputsChartData = async (label:any, profile:any) => {
     return request
 };
 
-
+//4th chart
+const getSetpointScheduleChartData = async (label:any, profile:any, skip:number) => {
+    const request = await axios.get(`${baseURL}/xai/region/?label=${label}&profile=${profile}&skip=${skip}`).then((res)=>{
+        // console.log('config: ',res.config)
+        console.log('data: ',res.data)
+        // console.log('request: ',res.request)
+        console.log('status: ',res.status)
+        // console.log('status text: ',res.statusText)
+        return {status: res.status, data: res.data}
+}).catch((error) => {
+    console.error('error',error);
+})
+    return request
+};
+// getSetpointScheduleChartData('test_home_kim', 2, 0);
+// https://api.project-chai.org/xai/region/?label=[label]&profile=1&skip=1'
 
 // https://api.project-chai.org/schedule/?label=test_home_kim&daymask=127
 
@@ -260,4 +275,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile,resetAllprofiles, addLogEntry, getInputsChartData}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile,resetAllprofiles, addLogEntry, getInputsChartData, getSetpointScheduleChartData}

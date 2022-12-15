@@ -100,7 +100,7 @@ const PredictionsChart: React.FC = () => {
     plugins: {
       title: {
         display: true,
-        text: `Predictions (summary)`,
+        text: `AI predictions`,
         color: 'rgb(87, 203, 204,1)'
       },
       legend:{
@@ -120,10 +120,15 @@ const PredictionsChart: React.FC = () => {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Price (p/kWh)',
+          text: 'p/kWh',
+        //   text: 'Price (p/kWh)',
           color: 'rgb(87, 203, 204,1)',
 
         },
+        grid: {
+            drawBorder: true,
+            color: 'grey',
+          },
         ticks: {
           autoSkip: true,
           maxTicksLimit: 8,
@@ -135,9 +140,14 @@ const PredictionsChart: React.FC = () => {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Setpoint (°C)',
+          text: '°C',
+        //   text: 'Setpoint (°C)',
           color: 'rgb(87, 203, 204,1)',
         },
+        grid: {
+            drawBorder: true,
+            color: 'grey',
+          },
         ticks: {
           // autoSkip: true,
           // maxTicksLimit: 8,

@@ -25,9 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const SetpointScheduleChart: React.FC = () => {
+const SetpointScheduleChart: React.FC<{setpointScheduleChartData:any}> = ({setpointScheduleChartData}) => {
   const classes = useStyles();
 
+
+//  const swx =  setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe})
+// console.log(setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[0] + " " + timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}))
 
 // const setpoint = pricesList?.map((timeframe:any)=>{
 //     const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
@@ -44,7 +47,9 @@ const SetpointScheduleChart: React.FC = () => {
 // }
 
   const data:any = {
-    labels: [0,1,2,3,4,5,6,7,8,9,10],
+    labels: setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[0] + " " + timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
+    // labels: setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start}),
+
     // radius: 3,
     // hitRadius: 1,
     datasets: [
@@ -52,7 +57,7 @@ const SetpointScheduleChart: React.FC = () => {
         label: "Price (p/kWh)",
         yAxisID: 'y1',
         type:'line',
-        data: [1,2,6,8,9,0],
+        data: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],
         // radius: radius('radius'),
         // hitRadius: radius('hitradius'),
         fill: false,
@@ -61,7 +66,7 @@ const SetpointScheduleChart: React.FC = () => {
         stepped: 'before',
       },
       {
-        label: "Setpoint (°C)",
+        label: "Target temperature (°C)",
         yAxisID: 'y2',
         type:'line',
         data: [30,35,70,23,45],
@@ -80,7 +85,7 @@ const SetpointScheduleChart: React.FC = () => {
     plugins: {
         title: {
             display: true,
-            text: `Setpoint schedule`,
+            text: `Target temperature schedule`,
             color: 'rgb(87, 203, 204,1)'
         },
         legend:{
@@ -117,6 +122,10 @@ const SetpointScheduleChart: React.FC = () => {
           text: 'Timeframe',
           color: 'rgb(87, 203, 204,1)',
         },
+        grid: {
+            drawBorder: true,
+            color: 'grey',
+          },
         ticks: {
           autoSkip: true,
           maxTicksLimit: 8,
@@ -133,6 +142,10 @@ const SetpointScheduleChart: React.FC = () => {
         },
         // min:7,
         // max:30,
+        grid: {
+            drawBorder: true,
+            color: 'grey',
+          },
         ticks: {
             color: '#F6946B',
             // beginAtZero: true,
@@ -146,9 +159,13 @@ const SetpointScheduleChart: React.FC = () => {
         fontColor:'rgb(87, 203, 204,1)',
         title: {
           display: true,
-          text: 'Setpoint (°C)',
+          text: 'Target temperature (°C)',
           color:'rgb(87, 203, 204,1)'
         },
+        grid: {
+            drawBorder: true,
+            color: 'grey',
+          },
         ticks: {
             color: 'rgb(87, 203, 204,1)',
           }

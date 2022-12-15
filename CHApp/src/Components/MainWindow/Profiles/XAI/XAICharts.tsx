@@ -17,7 +17,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
-import { setInputChartData } from '../../../../Redux-reducers/xaiFeaturesReducer';
+import { setInputChartData, setSetpointScheduleChartPeriod, setSetpointScheduleChartBiasAndSlope } from '../../../../Redux-reducers/xaiFeaturesReducer';
 // import { initializeData } from './Redux-reducers/dataReducer';
 // import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
 
@@ -149,6 +149,10 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     const [mappedDataForInputsChart, setMappedDataForInputsChart] = useState<any>([]);
     const [frameCount, setFrameCount] = useState(0);
 
+    const startOfToday = dayjs().set('hour',0).set('minutes',0).set('seconds',0);
+    const endOfToday = dayjs().add(1, 'days').set('hour',0).set('minutes',0).set('seconds',0);
+    // console.log(startOfToday.format(), endOfToday.format())
+
     // console.log(xaiFeaturesState.selectedProfile.profile)
     // const blbblbl = () => {
     //   const profilePeriodStart = dayjs().set('hour', 0).set('minutes',15).set('seconds', 0);
@@ -158,14 +162,19 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     
     useEffect(()=>{
         dispatch(setInputChartData(homeLabel, xaiFeaturesState.selectedProfile.profile))
+        dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,0))
+        dispatch(setSetpointScheduleChartPeriod(startOfToday,endOfToday))
         // setMappedDataForInputsChart(xaiFeaturesState.inputsChart.entries?.map((entry:any)=>{return [entry.price,entry.temperature]}))
 
 
     },[])
 
     useEffect(()=>{
+        const mappedData = xaiFeaturesState.inputsChart?.entries.map((entry:any)=>{return [entry.price,entry.temperature]})
         // setDataSetForInputsChart([[xaiFeaturesState.inputsChart?.entries[0].price, xaiFeaturesState.inputsChart?.entries[0]?.temperature]]);
-        setMappedDataForInputsChart(xaiFeaturesState.inputsChart?.entries.map((entry:any)=>{return [entry.price,entry.temperature]}));
+        setMappedDataForInputsChart(mappedData);
+        setDataSetForInputsChart(mappedData)
+        setFrameCount(xaiFeaturesState.inputsChart?.entries.length)
         // setDataSetForInputsChart(mappedDataForInputsChart?.slice(0,1));
 
 
@@ -228,7 +237,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
                     <PredictionsChart/>
                 </Grid>
                 <Grid item xs={6} className={classes.Chart}>
-                    <SetpointScheduleChart/>
+                    <SetpointScheduleChart setpointScheduleChartData={xaiFeaturesState.setpointScheduleChart}/>
                 </Grid>
             </Grid>
         </Grid>
