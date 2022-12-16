@@ -29,25 +29,35 @@ const SetpointScheduleChart: React.FC<{setpointScheduleChartData:any}> = ({setpo
   const classes = useStyles();
 
 
+  const profile =  setpointScheduleChartData.biasAndSlope?.data.profile
+  const centre_x =  setpointScheduleChartData.biasAndSlope?.data.centre_x
+  const centre_y =  setpointScheduleChartData.biasAndSlope?.data.centre_y
+
+//   const {profile, centre_x, centre_y, angle, height} = setpointScheduleChartData.biasAndSlope?.data ;
+
+    // console.log(setpointScheduleChartData.period[0].start, setpointScheduleChartData.period[setpointScheduleChartData.period.length -1].end )
+// console.log(setpointScheduleChartData.biasAndSlope.data)
 //  const swx =  setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe})
 // console.log(setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[0] + " " + timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}))
 
-// const setpoint = pricesList?.map((timeframe:any)=>{
-//     const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
-//         return profile.profile === selectedTimeslot.profileID
-//     })
-//     return Math.round((bias + slope * timeframe.rate)*2)/2;
-// });
+const setpoint = setpointScheduleChartData.period?.map((timeframe:any)=>{
+    // const {profile, centre_x, centre_y, angle, height} = setpointScheduleChartData.biasAndSlope?.data ;
+    // const prediction = centre_x * centre_y * timeframe.rate
+
+    return Math.round((centre_x + centre_y * timeframe.rate)*2)/2;
+});
 // const radius = (type: String) => {
 //   const radius = pricesList?.map((item:any, index:any)=>{
 //     return index === pricesList.length -1 ? 0 : type === 'radius' ? 3 : 1
 //   });
 //   // console.log(type, radius)
 //   return radius
-// }
-
+// }      
+//setpointScheduleChartData.period[setpointScheduleChartData.period.length -1].end.split(/(?=[A-Z])/)[0]
+//setpointScheduleChartData.period[0].start.split(/(?=[A-Z])/)[0]
+// timeframe.start.split(/(?=[A-Z])/)[0] + " " +
   const data:any = {
-    labels: setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[0] + " " + timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
+    labels: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
     // labels: setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start}),
 
     // radius: 3,
@@ -57,7 +67,8 @@ const SetpointScheduleChart: React.FC<{setpointScheduleChartData:any}> = ({setpo
         label: "Price (p/kWh)",
         yAxisID: 'y1',
         type:'line',
-        data: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],
+        // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
+        data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
         // radius: radius('radius'),
         // hitRadius: radius('hitradius'),
         fill: false,
@@ -69,7 +80,8 @@ const SetpointScheduleChart: React.FC<{setpointScheduleChartData:any}> = ({setpo
         label: "Target temperature (°C)",
         yAxisID: 'y2',
         type:'line',
-        data: [30,35,70,23,45],
+        // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
+        data: setpoint,
         // radius: radius('radius'),
         // hitRadius: radius('hitradius'),
         fill: true,
@@ -82,10 +94,13 @@ const SetpointScheduleChart: React.FC<{setpointScheduleChartData:any}> = ({setpo
   const options:any = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: {
+        duration: 0
+      },
     plugins: {
         title: {
             display: true,
-            text: `Target temperature schedule`,
+            text: `Target temperature schedule from ${ setpointScheduleChartData.period ? setpointScheduleChartData.period[0].start.split(/(?=[A-Z])/)[0] : null } to ${setpointScheduleChartData.period ? setpointScheduleChartData?.period[setpointScheduleChartData.period.length -1].end.split(/(?=[A-Z])/)[0] : null}`,
             color: 'rgb(87, 203, 204,1)'
         },
         legend:{

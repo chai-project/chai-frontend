@@ -63,7 +63,7 @@ export const setSetpointScheduleChartPeriod = (start:any, end:any) => {
 
         // const scheduleChartData = await services.getSetpointScheduleChartData(label,profile,skip);
         const pricesForPeriod = await services.getAverageHeatingPricePeriod(period);
-        // console.log(pricesForPeriod)
+        // console.log(period,pricesForPeriod)
         dispatch({
             type:"SET_SETPOINT_SCHEDULE_CHART_PERIOD",
             data: {period: pricesForPeriod}
@@ -72,7 +72,7 @@ export const setSetpointScheduleChartPeriod = (start:any, end:any) => {
 };
 
 export const setSetpointScheduleChartBiasAndSlope = (label:string, profile:number, skip:number) => {
-    // console.log(label, profile)
+    // console.log(label, profile, skip)
     return async (dispatch : Dispatch) => {
 
         const scheduleChartBiasAndSlope = await services.getSetpointScheduleChartData(label,profile,skip);

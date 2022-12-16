@@ -148,9 +148,13 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     const [dataSetForInputsChart, setDataSetForInputsChart] = useState<any>([]);
     const [mappedDataForInputsChart, setMappedDataForInputsChart] = useState<any>([]);
     const [frameCount, setFrameCount] = useState(0);
+    //target temperature schedule chart
+    const [skip, setSkip] = useState(0);
+    const [startOfTheDay, setStartOfTheDay] = useState(dayjs().set('hour',0).set('minutes',0).set('seconds',0));
+    const [startOfTheNextDay, setStartOfTheNextDay] = useState(dayjs().add(1, 'days').set('hour',0).set('minutes',0).set('seconds',0));
 
-    const startOfToday = dayjs().set('hour',0).set('minutes',0).set('seconds',0);
-    const endOfToday = dayjs().add(1, 'days').set('hour',0).set('minutes',0).set('seconds',0);
+    // let startOfTheDay= dayjs().set('hour',0).set('minutes',0).set('seconds',0);
+    // let startOfTheNextDay = dayjs().add(1, 'days').set('hour',0).set('minutes',0).set('seconds',0);
     // console.log(startOfToday.format(), endOfToday.format())
 
     // console.log(xaiFeaturesState.selectedProfile.profile)
@@ -161,9 +165,9 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     // }
     
     useEffect(()=>{
-        dispatch(setInputChartData(homeLabel, xaiFeaturesState.selectedProfile.profile))
-        dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,0))
-        dispatch(setSetpointScheduleChartPeriod(startOfToday,endOfToday))
+        dispatch(setInputChartData(homeLabel, xaiFeaturesState.selectedProfile.profile));
+        dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,skip));
+        dispatch(setSetpointScheduleChartPeriod(startOfTheDay,startOfTheNextDay));
         // setMappedDataForInputsChart(xaiFeaturesState.inputsChart.entries?.map((entry:any)=>{return [entry.price,entry.temperature]}))
 
 
@@ -188,12 +192,16 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
 
 
     const previousFrame = () => {
-        // console.log(frameCount)
-        setFrameCount(frameCount-1)
-        // console.log(frameCount)
+        const newFrameCount = frameCount-1
+        setFrameCount(newFrameCount)
 
-        setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount-1));
+        //
+        setDataSetForInputsChart(mappedDataForInputsChart.slice(0,newFrameCount));
         // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount)); good one if first 
+
+        const newSkip = skip + 1;
+        setSkip(newSkip)
+        dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
 
         // console.log(mappedDataForInputsChart.slice(0,frameCount));
 
@@ -210,6 +218,9 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         
         setFrameCount(frameCount+1);
         setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
+        const newSkip = skip - 1;
+        setSkip(newSkip)
+        dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
         // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+2)); //good one
         // console.log(mappedDataForInputsChart.slice(0,frameCount+1));
 
@@ -217,6 +228,24 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         
     };
 
+    const nextTimeslots = () => {
+        //next two days
+        const startOfTheDayPlusOneDay = startOfTheDay.add(1,'days')
+        const startOfTheNextDayPlusOneDay = startOfTheNextDay.add(1,'days')
+        setStartOfTheDay(startOfTheDayPlusOneDay)
+        setStartOfTheNextDay(startOfTheNextDayPlusOneDay)
+        dispatch(setSetpointScheduleChartPeriod(startOfTheDayPlusOneDay,startOfTheNextDayPlusOneDay))
+
+    };
+
+    const previousTimeslots = () => {
+        const startOfTheDayMinusOneDay = startOfTheDay.subtract(1,'days')
+        const startOfTheNextDayMinusOneDay = startOfTheNextDay.subtract(1,'days')
+        setStartOfTheDay(startOfTheDayMinusOneDay)
+        setStartOfTheNextDay(startOfTheNextDayMinusOneDay)
+        dispatch(setSetpointScheduleChartPeriod(startOfTheDayMinusOneDay,startOfTheNextDayMinusOneDay))
+
+    };
     // console.log(mappedDataForInputsChart,'naxui')
 
 
@@ -262,7 +291,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
             <Grid item container xs={6} direction="row" justifyContent="center" alignItems="center">
                 <Grid item container direction="row" justifyContent="center" alignItems="center">
                     <Grid item>
-                        <IconButton size='large'  color='primary' onClick={()=>{console.log('swx')}}>
+                        <IconButton size='large'  color='primary' onClick={previousTimeslots}>
                             <NavigateBeforeIcon/>
                         </IconButton>
                     </Grid>
@@ -270,7 +299,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
                         <Typography variant='subtitle2' >Timeslots</Typography>
                     </Grid>
                     <Grid item>
-                        <IconButton size='large'  color='primary' onClick={()=>{console.log(xaiFeaturesState)}}>
+                        <IconButton size='large'  color='primary' onClick={nextTimeslots}>
                             <NavigateNextIcon/>
                         </IconButton>
                     </Grid>

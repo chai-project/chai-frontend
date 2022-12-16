@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, heatingProfiles:any}> = ({selectedTimeslot, pricesList, heatingProfiles}) => {
   const classes = useStyles();
 
-  console.log(pricesList,'zeuru')
+  // console.log(pricesList,'zeuru')
 
 const setpoint = pricesList?.map((timeframe:any)=>{
     const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
