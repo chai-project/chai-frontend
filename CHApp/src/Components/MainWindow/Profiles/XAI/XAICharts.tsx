@@ -218,6 +218,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         
         setFrameCount(frameCount+1);
         setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
+        // xaiFeaturesState.setpointScheduleChart.biasAndSlope?.data.skip, perhaps better use this to set new skip ?
         const newSkip = skip - 1;
         setSkip(newSkip)
         dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
@@ -229,7 +230,6 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     };
 
     const nextTimeslots = () => {
-        //next two days
         const startOfTheDayPlusOneDay = startOfTheDay.add(1,'days')
         const startOfTheNextDayPlusOneDay = startOfTheNextDay.add(1,'days')
         setStartOfTheDay(startOfTheDayPlusOneDay)
@@ -246,7 +246,6 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         dispatch(setSetpointScheduleChartPeriod(startOfTheDayMinusOneDay,startOfTheNextDayMinusOneDay))
 
     };
-    // console.log(mappedDataForInputsChart,'naxui')
 
 
 

@@ -46,13 +46,13 @@ const setpoint = setpointScheduleChartData.period?.map((timeframe:any)=>{
 
     return Math.round((centre_x + centre_y * timeframe.rate)*2)/2;
 });
-// const radius = (type: String) => {
-//   const radius = pricesList?.map((item:any, index:any)=>{
-//     return index === pricesList.length -1 ? 0 : type === 'radius' ? 3 : 1
-//   });
-//   // console.log(type, radius)
-//   return radius
-// }      
+const radius = (type: String) => {
+  const radius = setpointScheduleChartData.period?.map((item:any, index:any)=>{
+    return index === setpointScheduleChartData.period?.length -1 ? 0 : type === 'radius' ? 3 : 1
+  });
+  // console.log(type, radius)
+  return radius
+}      
 //setpointScheduleChartData.period[setpointScheduleChartData.period.length -1].end.split(/(?=[A-Z])/)[0]
 //setpointScheduleChartData.period[0].start.split(/(?=[A-Z])/)[0]
 // timeframe.start.split(/(?=[A-Z])/)[0] + " " +
@@ -69,8 +69,8 @@ const setpoint = setpointScheduleChartData.period?.map((timeframe:any)=>{
         type:'line',
         // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
         data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
-        // radius: radius('radius'),
-        // hitRadius: radius('hitradius'),
+        radius: radius('radius'),
+        hitRadius: radius('hitradius'),
         fill: false,
         backgroundColor: "#F6946B",
         borderColor: "#F6946B",
@@ -82,8 +82,8 @@ const setpoint = setpointScheduleChartData.period?.map((timeframe:any)=>{
         type:'line',
         // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
         data: setpoint,
-        // radius: radius('radius'),
-        // hitRadius: radius('hitradius'),
+        radius: radius('radius'),
+        hitRadius: radius('hitradius'),
         fill: true,
         backgroundColor: "rgb(87, 203, 204,0.8)",
         borderColor: "rgb(87, 203, 204,1)",
@@ -100,7 +100,7 @@ const setpoint = setpointScheduleChartData.period?.map((timeframe:any)=>{
     plugins: {
         title: {
             display: true,
-            text: `Target temperature schedule from ${ setpointScheduleChartData.period ? setpointScheduleChartData.period[0].start.split(/(?=[A-Z])/)[0] : null } to ${setpointScheduleChartData.period ? setpointScheduleChartData?.period[setpointScheduleChartData.period.length -1].end.split(/(?=[A-Z])/)[0] : null}`,
+            text: `Target temperature schedule for ${ setpointScheduleChartData.period ? setpointScheduleChartData.period[0].start.split(/(?=[A-Z])/)[0] : null }`,
             color: 'rgb(87, 203, 204,1)'
         },
         legend:{
@@ -183,7 +183,9 @@ const setpoint = setpointScheduleChartData.period?.map((timeframe:any)=>{
           },
         ticks: {
             color: 'rgb(87, 203, 204,1)',
-          }
+          },
+          min:7,
+          max:30,
       },
     },
   };

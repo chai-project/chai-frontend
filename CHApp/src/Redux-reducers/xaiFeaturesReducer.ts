@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import services from '../Services/services';
+import dayjs from 'dayjs';
 
 const xaiFeaturesReducer = (state: any = { selectedProfile:null, inputsChart:null, updateModelChart:null, predictionsChart:null, setpointScheduleChart:{biasAndSlope:null, period:null}} , action:any) => {
     switch(action.type) {
@@ -62,8 +63,11 @@ export const setSetpointScheduleChartPeriod = (start:any, end:any) => {
     return async (dispatch : Dispatch) => {
 
         // const scheduleChartData = await services.getSetpointScheduleChartData(label,profile,skip);
-        const pricesForPeriod = await services.getAverageHeatingPricePeriod(period);
-        // console.log(period,pricesForPeriod)
+        let pricesForPeriod = await services.getAverageHeatingPricePeriod(period);
+        // const endOfAtimeFrame = pricesForPeriod[pricesForPeriod.length - 1].end
+        const timeFrameToAdd = {...pricesForPeriod[pricesForPeriod.length - 1], start: pricesForPeriod[pricesForPeriod.length - 1].end, end: dayjs(pricesForPeriod[pricesForPeriod.length - 1].end).add(30,'minutes').format()}
+        pricesForPeriod.push(timeFrameToAdd)
+        
         dispatch({
             type:"SET_SETPOINT_SCHEDULE_CHART_PERIOD",
             data: {period: pricesForPeriod}
@@ -76,6 +80,8 @@ export const setSetpointScheduleChartBiasAndSlope = (label:string, profile:numbe
     return async (dispatch : Dispatch) => {
 
         const scheduleChartBiasAndSlope = await services.getSetpointScheduleChartData(label,profile,skip);
+        // const lastTimeframe = scheduleChartBiasAndSlope.data[scheduleChartBiasAndSlope.data.length-1];
+        // console.log()
 
         dispatch({
             type:"SET_SETPOINT_SCHEDULE_CHART_PERIOD",

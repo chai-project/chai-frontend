@@ -201,9 +201,9 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
             return  state = {...state, ...action.data}
         case "GET_MORE_LOGS_ON_USER_CLICK":
             if(utils.areEqualArray(state.lastValveSetTypeRawLog.rawLog?.parameters, action.data.lastValveSetTypeRawLog.rawLog?.parameters) ){
-              // console.log(state.lastValveSetTypeRawLog.rawLog?.parameters, action.data.lastValveSetTypeRawLog.rawLog?.parameters)
-              state.logs.slice(state.lastValveSetTypeRawLog.index,1)
-              console.log('pop')
+              // console.log(state.lastValveSetTypeRawLog.rawLog?.parameters, action.data.lastValveSetTypeRawLog.rawLog?.parameters) 
+              state.logs.splice(state.lastValveSetTypeRawLog.index,1) // buvo slice, taciau splcie iskerpa is previous array
+              // console.log('pop')
             }
             //need first in action dat! raw log that is valveset log!! 
             return   state = {...state, logs: state.logs.concat(action.data.logs) ,skip:action.data.skip, lastValveSetTypeRawLog: {rawLog: action.data.lastValveSetTypeRawLog.rawLog ? action.data.lastValveSetTypeRawLog.rawLog : state.lastValveSetTypeRawLog.rawLog , index: action.data.lastValveSetTypeRawLog.index ? state.logs.length + action.data.lastValveSetTypeRawLog.index : state.lastValveSetTypeRawLog.index} } //state.logs.length + action.data.lastValveSetTypeRawLog.index
@@ -230,7 +230,9 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
             // console.log(logs.length , "+", previousNextAndLast.last.index, '=',  logs.length + previousNextAndLast.last.index)
             
             if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
-              logs.slice(logs.length - previousNextAndLast.previous.index, 1)
+              logs.splice(previousNextAndLast.previous.index, 1);
+              // logs.splice(logs.length - previousNextAndLast.previous.index, 1); //sitas buvo , taciua buvo duplicates
+              // console.log('poop',previousNextAndLast.previous)
             }
             logs =  logs.concat(rawLogs);
             const transformedLogs = transformLogs(logs) //transfor in the component instead of here 
@@ -273,8 +275,9 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
           previousNextAndLast = getPreviousNextAndLastValveSetTypeLog(logs, rawLogs)
           // console.log(previousNextAndLast,' beleka')
           if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
-            logs.slice(logs.length - previousNextAndLast.previous.index, 1)
-            // console.log('popinam')
+            logs.splice(previousNextAndLast.previous.index, 1)
+            // logs.splice(logs.length - previousNextAndLast.previous.index, 1); //sitas buvo , taciua buvo duplicates
+            // console.log('popinam',previousNextAndLast.previous)
           }
 
           // while (!previousValveSetLog){

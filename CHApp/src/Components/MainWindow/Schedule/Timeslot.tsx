@@ -126,7 +126,7 @@ const Timeslot: React.FC<{indexOfaWeekday:any, weekday:any, profile:any, sizeOfT
         
         if(homeLabel){
             const now = dayjs()
-            services.addLogEntry(homeLabel, now.toISOString(), 'Timeslot', ['Schedule']);
+            services.addLogEntry(homeLabel, now.toISOString(), 'OVERLAY_VIEW', ['Schedule']);
             dispatch(setSelectedTimeslot({...timeslot, indexOfaWeekday: indexOfaWeekday, weekday:weekday}));
 
         }
