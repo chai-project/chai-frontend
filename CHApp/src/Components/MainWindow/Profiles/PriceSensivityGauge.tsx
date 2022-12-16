@@ -58,6 +58,13 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
     const dispatch = useDispatch();
 
     // useEffect(()=>{
+    //   const needle = document.getElementsByClassName('needle');
+    //   // needle.style.display= "none";
+      
+    //   console.log(typeof needle)
+    // },[])
+
+    // useEffect(()=>{
     //   const priceSensivityBoundaries = (bias:any ) => {
     //     const finiteIntervals = 4;
     //     const minSetpoint = 7;
@@ -114,12 +121,13 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
           <GaugeChart
             nrOfLevels={6}
             colors={['#FE6262', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#5ACBCC', '#FE6262']}
-            percent={profile.gaugeValue}
+            percent={profile.gaugeValue ? profile.gaugeValue : 0 }
             animate={false}
-            hideText={true} //false to show text
-            formatTextValue={(value:any)=>{return profile.segment === 0 ? "Negative" : profile.segment === 1 ? "Very low" : profile.segment === 2 ? "Low" : profile.segment === 3 ? "Moderate" : profile.segment === 4 ? "High" :  "Very high" }}
-            needleColor={profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
-            needleBaseColor={profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
+            hideText={false} //false to show text
+            formatTextValue={(value:any)=>{return profile.segment === null ? "Unknown" : "" }}
+            // formatTextValue={(value:any)=>{return profile.segment === 0 ? "Negative" : profile.segment === 1 ? "Very low" : profile.segment === 2 ? "Low" : profile.segment === 3 ? "Moderate" : profile.segment === 4 ? "High" :  "Very high" }}
+            needleColor={profile.gaugeValue === null ? 'rgba(0%, 0%, 0%, 0)' : profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
+            needleBaseColor={profile.gaugeValue === null ? 'rgba(0%, 0%, 0%, 0)' : profile.gaugeValue < 1/6 ? '#FE6262' : profile.gaugeValue > 1/6*5 ? '#FE6262' : '#5ACBCC' }
           />
         </Grid>
   );

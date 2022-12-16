@@ -1,26 +1,43 @@
 const getSegment = (slope:any, bias:any) => {
     const priceSensivityBoundaries = (bias:any ) => {
         const finiteIntervals = 4;
-        const minSetpoint = 7;
+        const minSetpoint = 12.2; // was 7
         const maxPrice = 35;
         const upperBound = (bias - minSetpoint) / maxPrice;
         const intervalWidth = upperBound / finiteIntervals;
         let boundaries:any[] = []
-  
-        for(let i:number = 0; i<finiteIntervals+1; i++  ){
-          boundaries.push(intervalWidth*i)
-        }
+        if(bias > minSetpoint){
+          for(let i:number = 0; i<finiteIntervals+1; i++  ){
+            boundaries.push(intervalWidth*i)
+          }
         return boundaries
-      };
-      let segment = 0
-      const boundaries = priceSensivityBoundaries(bias);
-      for(let i:number = 0; i<boundaries.length; i++){
-        if(-slope >= boundaries[i]){
-          segment = i+1
+        }else{
+          return boundaries
         }
+  
+        // for(let i:number = 0; i<finiteIntervals+1; i++  ){
+        //   boundaries.push(intervalWidth*i)
+        // }
+        // return boundaries
       };
-
-      return segment
+      let segment:any = 0
+      const boundaries = priceSensivityBoundaries(bias);
+      if(boundaries.length > 0){
+        for(let i:number = 0; i<boundaries.length; i++){
+          if(-slope >= boundaries[i]){
+            segment = i+1
+          }
+        };
+      }else{
+        segment = null
+      }
+      // for(let i:number = 0; i<boundaries.length; i++){
+      //   if(-slope >= boundaries[i]){
+      //     segment = i+1
+      //   }
+      // };
+      // console.log(segment,'segment', boundaries.length > 0)
+      return segment // segment
     //   0	Negative
     //     1	Very low
     //     2	Low

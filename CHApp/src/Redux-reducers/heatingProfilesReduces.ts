@@ -56,8 +56,8 @@ export const initializeHeatingProfiles = (label:String) => {
             //     3	Moderate
             //     4	High
             //     5	Very high
-              let gaugeValue = segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.58 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : 0 
-              let priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
+              let gaugeValue = segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.58 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : null 
+              let priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" : segment === 5 ? "Very high" : "Unknown"
             return {...profile, profileName: profileLabels[profile.profile-1], profileColor: colors[profile.profile-1], gaugeValue: gaugeValue, priceSensitivity: priceSensitivity, prefferedTemperature: Math.round(profile.bias * 100)/100 , segment: segment   }
         });
         dispatch({

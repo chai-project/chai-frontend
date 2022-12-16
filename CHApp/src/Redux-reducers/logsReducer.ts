@@ -150,8 +150,10 @@ const transformLogs = (rawLogs:any[]) => {
   return rawLogs.map((rawLog:any, index:number, arr:any)=>{
     let priceSensitivity = null
     if(rawLog.parameters.length === 5 ){
+      // console.log(rawLog.parameters[3], rawLog.parameters[4])
         const segment = utils.getSegment(rawLog.parameters[3], rawLog.parameters[4] )
-        priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" :  "Very high" 
+        // console.log(segment)
+        priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" : segment === 5 ?  "Very high" : "Unknown"
     }
     const profileName = rawLog.parameters[0] === 1 ? "Nights" :  rawLog.parameters[0] === 2 ? "Mornings" :  rawLog.parameters[0] === 3 ? "Weekdays" : rawLog.parameters[0] === 4 ? "Evenings" :  "Weekends"
     const timestamp = dayjs(rawLog.timestamp)
