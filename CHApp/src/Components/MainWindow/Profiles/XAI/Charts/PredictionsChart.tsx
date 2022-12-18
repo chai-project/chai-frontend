@@ -41,11 +41,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const PredictionsChart: React.FC = () => {
+const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
   const classes = useStyles();
+    // console.log(Math.min(...xaiBandData?.prediction),'zeuru')
+    // const mean = xaiBandData?.prediction.reduce((sum:number, value:number)=>(sum+value),0) / xaiBandData?.prediction.length
+    // console.log(mean)
 
 
-  const price = [33,0]
+  const price = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
 
 //   const calculateSetpoints = () => {
 //     const setpoints: any [] = price.map((price:any)=>{return profile.bias + profile.slope * price });
@@ -58,33 +61,36 @@ const PredictionsChart: React.FC = () => {
     labels: price,
     datasets: [
       {
-        label: "Target temperature (°C)",
-        data: price,
+        label: "°C",
+        data: xaiBandData?.prediction,
         fill: false,
         backgroundColor: "rgba(75,192,192,0.8)",
         borderColor: "rgba(75,192,192,1)",
         pointRadius: 0,
 
       },
+      //Lower and upper confidence
       {
-        label: "Second dataset",
-        data: [33.8, 0.6],
-        fill: false,
-        // backgroundColor: "#742774",
+        label: "Lower confidence",
+        data: xaiBandData?.lower_confidence,
+        // fill: '-1',
+        backgroundColor: "rgba(246, 148, 107, 0.25)",
 
-        borderColor: "#742774",
-        // borderColor: "transparent",
+        // borderColor: "red",
+        borderColor: "rgba(246, 148, 107, 0.5)",
         pointRadius: 0,
-        // fill: 0,
+        // fill: true,
         tension: 0,
       },
       {
-        label: "Third dataset",
-        data: [32.1, -0.8],
-        fill: false,
-        // backgroundColor: "#742774",
+        label: "99% confidence",
+        data: xaiBandData?.upper_confidence,
+        fill: '-1',
+        backgroundColor: "rgba(246, 148, 107, 0.25)",
+        borderColor: "rgba(246, 148, 107, 0.5)",
 
-        borderColor: "#742774",
+
+        // borderColor: "#742774",
         // borderColor: "transparent",
         pointRadius: 0,
         // fill: 0,
@@ -104,8 +110,24 @@ const PredictionsChart: React.FC = () => {
         color: 'rgb(87, 203, 204,1)'
       },
       legend:{
-        display:false
-      }
+        display:true,
+        position: 'chartArea',
+        labels: {
+            filter: function(item:any, chart:any) {
+                // Logic to remove a particular legend item goes here
+                return !item.text.includes('Lower confidence');
+            },
+            color: '#FFFFFF',
+            
+          },
+        onClick: (click:any,legenItem:any,legend:any)=>{
+            // console.log(click);
+            // legend.chart.update();
+            return;
+
+        },
+        // fontColor: 'rgb(87, 203, 204,1)'
+    },
       // title: {
       //     display: true,
       //     text: 'Custom Chart Title',
@@ -117,6 +139,7 @@ const PredictionsChart: React.FC = () => {
   },
     scales: {
       x: {
+        stacked:true,
         beginAtZero: true,
         title: {
           display: true,
@@ -137,6 +160,7 @@ const PredictionsChart: React.FC = () => {
         
       },
       y: {
+        // stacked:true,
         beginAtZero: true,
         title: {
           display: true,
@@ -153,8 +177,8 @@ const PredictionsChart: React.FC = () => {
           // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
-        // min:7,
-        // max:30,
+        min: xaiBandData ? Math.min(...xaiBandData.lower_confidence) - 5 : null,
+        max: xaiBandData ? Math.max(...xaiBandData.upper_confidence) + 5 : null,
       },
     },
   };

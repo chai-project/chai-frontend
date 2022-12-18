@@ -51,6 +51,13 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
 
   // const [options, setOptions] = useState<any>();
 
+  // console.log(dataSet.reduce((a:any, b:any) => (a + b[1]),0) / dataSet.length)
+
+
+  // console.log(mappedDataForInputsChart?.length)
+
+  
+
 
   const classes = useStyles();
   
@@ -66,7 +73,6 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
   // calculateSetpoints()
 
   // useEffect(()=>{
-  //   console.log('eiknx')
   //   // setData()
   //   // setOptions()
   //   setDataSet1(dataSet?.length > 1 ? dataSet.slice(dataSet.length - 1) : null,)
@@ -75,7 +81,7 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
   
   // console.log(Math.max(...mappedDataForInputsChart.map((price:any)=>{return Math.trunc(price[0])})),'zeuru')
   const data = {
-    labels: price,
+    // labels: price,
     datasets: [
       {
         label: "Target temperature (°C)",
@@ -143,8 +149,8 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
           maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
-        min: mappedDataForInputsChart ? Math.min(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) - 5 : null,
-        max: mappedDataForInputsChart ? Math.max(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) + 5 :null,
+        min: mappedDataForInputsChart?.length > 0 ? Math.min(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) - 5 : 0,
+        max: mappedDataForInputsChart?.length > 0 ? Math.max(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) + 5 : 40,
         
       },
       y: {
@@ -165,8 +171,8 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
           // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
-        min: mappedDataForInputsChart ? Math.min(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) - 5 : null,
-        max: mappedDataForInputsChart ? Math.max(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) + 5 : null,
+        min: mappedDataForInputsChart?.length > 0 ? Math.min(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) - 5 : 0,
+        max: mappedDataForInputsChart?.length > 0 ? Math.max(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) + 5 : 35,
         // min: 1,
         // max: 10,
       },

@@ -2,21 +2,27 @@ import { Dispatch } from 'redux';
 import services from '../Services/services';
 import dayjs from 'dayjs';
 
-const xaiFeaturesReducer = (state: any = { selectedProfile:null, inputsChart:null, updateModelChart:null, predictionsChart:null, setpointScheduleChart:{biasAndSlope:null, period:null}} , action:any) => {
+const xaiFeaturesReducer = (state: any = { selectedProfile:null, xaiScatterData:null, xaiRegionData:null,xaiBandData:null, periodPriceData:null} , action:any) => {
     switch(action.type) {
         case 'SET_SELECTED_PROFILE':
             return state = {...state, ...action.data} 
-        case 'SET_INPUTS_CHART_DATA':
+        case 'SET_XAI_SCATTER_DATA':
             return state = {...state, ...action.data} 
             // return state = {...state, setpointSchdeuleChart:{...setpointSchdeuleChart, }}
-        case 'SET_SETPOINT_SCHEDULE_CHART_PERIOD':
-            return state = state = {...state, setpointScheduleChart:{...state.setpointScheduleChart, ...action.data}} 
-        case 'SET_SETPOINT_SCHEDULE_CHART_BIAS_AND_SLOPE':
-            return state = state = {...state, setpointScheduleChart:{...state.setpointScheduleChart, ...action.data}} 
+        case 'SET_PERIOD_PRICE_DATA':
+            return state = {...state, ...action.data} 
+            // return state = state = {...state, setpointScheduleChart:{...state.setpointScheduleChart, ...action.data}} 
+        case 'SET_XAI_REGION_DATA':
+            // return state = state = {...state, setpointScheduleChart:{...state.setpointScheduleChart, ...action.data}} 
+            return state = {...state, ...action.data} 
+        case 'SET_XAI_BAND_DATA':
+            return state = {...state, ...action.data} 
         default:
             return state 
     }
 };
+
+
 
 export const setSelectedProfile = (profile:any) => {
 
@@ -35,16 +41,16 @@ export const setSelectedProfile = (profile:any) => {
 };
 
 //1st chart
-export const setInputChartData = (label:string, profile:number) => {
+export const setXaiScatterData = (label:string, profile:number) => {
 
     // console.log(label, profile)
     return async (dispatch : Dispatch) => {
 
-        const inputsChartData = await services.getInputsChartData(label,profile);
+        const xaiScatterData = await services.getXaiScatterData(label,profile);
 
         dispatch({
-            type:"SET_INPUTS_CHART_DATA",
-            data: {inputsChart: inputsChartData}
+            type:"SET_XAI_SCATTER_DATA",
+            data: {xaiScatterData: xaiScatterData}
         })
     };
 };
@@ -52,7 +58,7 @@ export const setInputChartData = (label:string, profile:number) => {
 // getSetpointScheduleChartData
 
 //4th chart
-export const setSetpointScheduleChartPeriod = (start:any, end:any) => {
+export const setPeriodPriceData = (start:any, end:any) => {
 
     const period = {
         start: start.format(),
@@ -69,27 +75,42 @@ export const setSetpointScheduleChartPeriod = (start:any, end:any) => {
         pricesForPeriod.push(timeFrameToAdd)
         
         dispatch({
-            type:"SET_SETPOINT_SCHEDULE_CHART_PERIOD",
-            data: {period: pricesForPeriod}
+            type:"SET_PERIOD_PRICE_DATA",
+            data: {periodPriceData: pricesForPeriod}
         })
     };
 };
 
-export const setSetpointScheduleChartBiasAndSlope = (label:string, profile:number, skip:number) => {
+export const setXaiRegionData = (label:string, profile:number, skip:number) => {
     // console.log(label, profile, skip)
     return async (dispatch : Dispatch) => {
 
-        const scheduleChartBiasAndSlope = await services.getSetpointScheduleChartData(label,profile,skip);
+        const xaiRegionData = await services.getXaiRegionData(label,profile,skip);
         // const lastTimeframe = scheduleChartBiasAndSlope.data[scheduleChartBiasAndSlope.data.length-1];
         // console.log()
 
         dispatch({
-            type:"SET_SETPOINT_SCHEDULE_CHART_PERIOD",
-            data: {biasAndSlope: scheduleChartBiasAndSlope}
+            type:"SET_XAI_REGION_DATA",
+            data: {xaiRegionData: xaiRegionData}
         })
     };
 };
 
+
+export const setXaiBandData = (label:string, profile:number, skip:number) => {
+    // console.log(label, profile, skip)
+    return async (dispatch : Dispatch) => {
+
+        const xaiBandData = await services.getXaiBandData(label,profile,skip);
+        // const lastTimeframe = scheduleChartBiasAndSlope.data[scheduleChartBiasAndSlope.data.length-1];
+        // console.log(xaiBandData)
+
+        dispatch({
+            type:"SET_XAI_BAND_DATA",
+            data: {xaiBandData: xaiBandData}
+        })
+    };
+};
 // SET_SETPOINT_SCHEDULE_CHART_BIAS_AND_SLOPE
 
 

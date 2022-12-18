@@ -4,8 +4,38 @@ import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/mate
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 //chartjs 
-import 'chart.js/auto'
-import {Scatter} from 'react-chartjs-2'
+
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  } from "chart.js";
+  import { Scatter } from "react-chartjs-2";
+  
+  import annotationPlugin from "chartjs-plugin-annotation";
+  
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    annotationPlugin
+  );
+// import 'chart.js/auto'
+// import {Scatter} from 'react-chartjs-2'
+// import 'chartjs-plugin-annotation';
+// import annotationPlugin from 'chartjs-plugin-annotation';
+// Scatter.pluginService.register({annotationPlugin});
+
+
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,11 +71,19 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const UpdateModelChart: React.FC = () => {
-  const classes = useStyles();
+const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
+    const classes = useStyles();
+
+    // const x = 0.10579808810668156;  // Assume that mean2 is on the x-axis
+    // const y = 21.96713444650198;  // Assume that mean1 is on the y-axis
+    const x = xaiRegionData?.data.centre_y;  // Assume that mean2 is on the x-axis
+    const y = xaiRegionData?.data.centre_x;  // Assume that mean1 is on the y-axis
+    const angle =  xaiRegionData?.data.angle
+    const height =  xaiRegionData?.data.height
+    const width =  xaiRegionData?.data.width
+    // console.log(x,y,angle,height,width)
 
 
-  const price = [0,1,2,3,4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20,21,22,23,24, 25,26,27,28,29,30,31,32,33,34,35]
 
 //   const calculateSetpoints = () => {
 //     const setpoints: any [] = price.map((price:any)=>{return profile.bias + profile.slope * price });
@@ -55,20 +93,20 @@ const UpdateModelChart: React.FC = () => {
   // calculateSetpoints()
 
   const data = {
-    labels: price,
+    // labels: price,
     datasets: [
       {
-        label: "Target temperature (°C)",
-        data: price,
-        fill: true,
+        label: "Mean",
+        data: [{x,y}],
+        // fill: true,
         backgroundColor: "rgba(75,192,192,0.8)",
-        borderColor: "rgba(75,192,192,1)"
+        // borderColor: "rgba(75,192,192,1)"
       },
       {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76],
-        fill: false,
-        borderColor: "#742774"
+        label: "99% confidence",
+        data: [{}],
+        // fill: false,
+        backgroundColor: "rgba(246, 148, 107, 0.25)"
       }
     ]
   };
@@ -76,23 +114,83 @@ const UpdateModelChart: React.FC = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      title: {
-        display: true,
-        text: `AI model`,
-        color: 'rgb(87, 203, 204,1)'
-      },
-      legend:{
-        display:false
-      }
-      // title: {
-      //     display: true,
-      //     text: 'Custom Chart Title',
-      //     padding: {
-      //         top: 10,
-      //         bottom: 30
-      //     }
-      // },
-  },
+        autocolors: false,
+        title: {
+            display: true,
+            text: `AI model`,
+            color: 'rgb(87, 203, 204,1)'
+        },
+        legend:{
+            display:true,
+            position: 'chartArea',
+            labels: {
+                color: '#FFFFFF'
+              },
+            onClick: (click:any,legenItem:any,legend:any)=>{
+                // console.log(click);
+                // legend.chart.update();
+                return;
+
+            },
+            // fontColor: 'rgb(87, 203, 204,1)'
+        },
+        // annotation: {
+        //     annotations: [{
+        //             type: 'ellipse' as 'ellipse',
+        //             // mode: 'vertical',
+        //             xMin: x - (width / 2),
+        //             xMax: x + (width / 2),
+        //             yMin: y - (height / 2),
+        //             yMax: y + (height / 2),
+        //             rotation: angle,
+        //             backgroundColor: 'rgba(255, 99, 132, 0.25)',
+        //             borderWidth: 0
+        //     }]
+        // }
+        annotation: {
+            annotations: {
+                ellipse1: {
+                    type: 'ellipse',
+                    xMin: x - (width / 2),
+                    xMax: x + (width / 2),
+                    yMin: y - (height / 2),
+                    yMax: y + (height / 2),
+                    rotation: angle,
+                    backgroundColor: 'rgba(246, 148, 107, 0.25)',
+                    borderWidth: 0
+                }
+            }
+        }
+        // annotation: {
+        //     events: ["onClick"],
+        //     annotations: [
+        //         {
+        //             drawTime: "afterDatasetsDraw" as "afterDatasetsDraw",
+        //             type: "box" as "box",
+        //             // xScaleID: "x-axis-0",
+        //             // yScaleID: "y-axis-0",
+        //             xMin: 0.01,
+        //             xMax: 0.02,
+        //             yMin: 4,
+        //             yMax: 14,
+        //             backgroundColor: "green",
+        //             borderColor: "red",
+        //             borderWidth: 1,
+        //             onClick: function (e: any) {
+        //                 // console.log("Box", e.type, this);
+        //             },
+        //         },
+        //     ],
+        // },
+        // title: {
+        //     display: true,
+        //     text: 'Custom Chart Title',
+        //     padding: {
+        //         top: 10,
+        //         bottom: 30
+        //     }
+        // },
+    },
     scales: {
       x: {
         beginAtZero: true,
@@ -138,7 +236,7 @@ const UpdateModelChart: React.FC = () => {
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" >
         <Grid item className={classes.chart}>
-            <Scatter data={data} options={options}/>
+            <Scatter data={data} options={options} plugins={[annotationPlugin]}/>
         </Grid>
     </Grid>
   )
@@ -146,3 +244,5 @@ const UpdateModelChart: React.FC = () => {
 
 
 export default UpdateModelChart
+
+// plugins={[ChartDataLabels]}

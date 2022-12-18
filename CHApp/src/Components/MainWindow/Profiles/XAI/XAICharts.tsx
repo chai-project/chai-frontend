@@ -17,7 +17,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
-import { setInputChartData, setSetpointScheduleChartPeriod, setSetpointScheduleChartBiasAndSlope } from '../../../../Redux-reducers/xaiFeaturesReducer';
+import { setXaiScatterData, setPeriodPriceData, setXaiRegionData, setXaiBandData } from '../../../../Redux-reducers/xaiFeaturesReducer';
 // import { initializeData } from './Redux-reducers/dataReducer';
 // import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
 
@@ -33,6 +33,7 @@ import InputsChart from './Charts/InputsChart';
 import UpdateModelChart from './Charts/UpdateModelChart';
 import PredictionsChart from './Charts/PredictionsChart';
 import SetpointScheduleChart from './Charts/SetpointScheduleChart';
+
 
 // Styles 
 
@@ -149,7 +150,10 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     const [mappedDataForInputsChart, setMappedDataForInputsChart] = useState<any>([]);
     const [frameCount, setFrameCount] = useState(0);
     //target temperature schedule chart
-    const [skip, setSkip] = useState(0);
+    const [skipXaiRegionData, setSkipXaiRegionData] = useState(0);
+    const [skipXaiBandData, setSkipXaiBandData] = useState(0);
+
+
     const [startOfTheDay, setStartOfTheDay] = useState(dayjs().set('hour',0).set('minutes',0).set('seconds',0));
     const [startOfTheNextDay, setStartOfTheNextDay] = useState(dayjs().add(1, 'days').set('hour',0).set('minutes',0).set('seconds',0));
 
@@ -165,24 +169,25 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     // }
     
     useEffect(()=>{
-        dispatch(setInputChartData(homeLabel, xaiFeaturesState.selectedProfile.profile));
-        dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,skip));
-        dispatch(setSetpointScheduleChartPeriod(startOfTheDay,startOfTheNextDay));
+        dispatch(setXaiScatterData(homeLabel, xaiFeaturesState.selectedProfile.profile));
+        dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiRegionData));
+        dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiBandData));
+        dispatch(setPeriodPriceData(startOfTheDay,startOfTheNextDay));
         // setMappedDataForInputsChart(xaiFeaturesState.inputsChart.entries?.map((entry:any)=>{return [entry.price,entry.temperature]}))
 
 
     },[])
 
     useEffect(()=>{
-        const mappedData = xaiFeaturesState.inputsChart?.entries.map((entry:any)=>{return [entry.price,entry.temperature]})
+        const mappedData = xaiFeaturesState.xaiScatterData?.entries.map((entry:any)=>{return [entry.price,entry.temperature]})
         // setDataSetForInputsChart([[xaiFeaturesState.inputsChart?.entries[0].price, xaiFeaturesState.inputsChart?.entries[0]?.temperature]]);
         setMappedDataForInputsChart(mappedData);
         setDataSetForInputsChart(mappedData)
-        setFrameCount(xaiFeaturesState.inputsChart?.entries.length)
+        setFrameCount(xaiFeaturesState.xaiScatterData?.entries.length)
         // setDataSetForInputsChart(mappedDataForInputsChart?.slice(0,1));
 
 
-    },[xaiFeaturesState.inputsChart])
+    },[xaiFeaturesState.xaiScatterData])
     // console.log(heatingProfiles.energyPriceForSelectedProfile)
 
 
@@ -199,9 +204,20 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         setDataSetForInputsChart(mappedDataForInputsChart.slice(0,newFrameCount));
         // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount)); good one if first 
 
-        const newSkip = skip + 1;
-        setSkip(newSkip)
-        dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
+        // const newSkipXaiBandData = skipXaiBandData + 1;
+        // setSkip(newSkip);
+        if(xaiFeaturesState.xaiBandData?.status === 200){
+            const newSkipXaiBandData = skipXaiBandData + 1;
+            setSkipXaiBandData(newSkipXaiBandData);
+            dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkipXaiBandData));
+        };
+        if(xaiFeaturesState.xaiRegionData?.status === 200){
+            const newSkipXaiRegionData = skipXaiRegionData + 1;
+            setSkipXaiRegionData(newSkipXaiRegionData);
+            dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkipXaiRegionData));
+        };
+        // dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
+        // dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
 
         // console.log(mappedDataForInputsChart.slice(0,frameCount));
 
@@ -212,6 +228,8 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     };
 
 
+    // console.log(xaiFeaturesState.xaiBandData.status)
+    // console.log(xaiFeaturesState.xaiRegionData.status)
     const nextFrame = () => {
         // console.log('next')
         // console.log(frameCount)
@@ -219,9 +237,21 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         setFrameCount(frameCount+1);
         setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
         // xaiFeaturesState.setpointScheduleChart.biasAndSlope?.data.skip, perhaps better use this to set new skip ?
-        const newSkip = skip - 1;
-        setSkip(newSkip)
-        dispatch(setSetpointScheduleChartBiasAndSlope(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
+        // const newSkip = skip - 1;
+        // setSkip(newSkip);
+        if(skipXaiBandData > 0){
+            const newSkipXaiBandData = skipXaiBandData - 1;
+            setSkipXaiBandData(newSkipXaiBandData);
+            dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkipXaiBandData));
+        }
+        if(skipXaiRegionData > 0){
+            const newSkipXaiRegionData = skipXaiRegionData - 1;
+            setSkipXaiRegionData(newSkipXaiRegionData);
+            dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkipXaiRegionData));
+        }
+        // dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
+        // dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
+        
         // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+2)); //good one
         // console.log(mappedDataForInputsChart.slice(0,frameCount+1));
 
@@ -234,7 +264,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         const startOfTheNextDayPlusOneDay = startOfTheNextDay.add(1,'days')
         setStartOfTheDay(startOfTheDayPlusOneDay)
         setStartOfTheNextDay(startOfTheNextDayPlusOneDay)
-        dispatch(setSetpointScheduleChartPeriod(startOfTheDayPlusOneDay,startOfTheNextDayPlusOneDay))
+        dispatch(setPeriodPriceData(startOfTheDayPlusOneDay,startOfTheNextDayPlusOneDay))
 
     };
 
@@ -243,10 +273,12 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         const startOfTheNextDayMinusOneDay = startOfTheNextDay.subtract(1,'days')
         setStartOfTheDay(startOfTheDayMinusOneDay)
         setStartOfTheNextDay(startOfTheNextDayMinusOneDay)
-        dispatch(setSetpointScheduleChartPeriod(startOfTheDayMinusOneDay,startOfTheNextDayMinusOneDay))
+        dispatch(setPeriodPriceData(startOfTheDayMinusOneDay,startOfTheNextDayMinusOneDay))
 
     };
 
+    // console.log(xaiFeaturesState)
+    // console.log(xaiFeaturesState.xaiRegionData.status)
 
 
   return (
@@ -257,15 +289,15 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
                     <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount}/>
                 </Grid>
                 <Grid item xs={6} className={classes.Chart}>
-                    <UpdateModelChart/>
+                    <UpdateModelChart xaiRegionData={xaiFeaturesState.xaiRegionData}/>
                 </Grid>
             </Grid>
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
                 <Grid item xs={6} className={classes.Chart}>
-                    <PredictionsChart/>
+                    <PredictionsChart xaiBandData={xaiFeaturesState.xaiBandData?.data}/>
                 </Grid>
                 <Grid item xs={6} className={classes.Chart}>
-                    <SetpointScheduleChart setpointScheduleChartData={xaiFeaturesState.setpointScheduleChart}/>
+                    <SetpointScheduleChart xaiRegionData={xaiFeaturesState.xaiRegionData} periodPriceData={xaiFeaturesState.periodPriceData}/>
                 </Grid>
             </Grid>
         </Grid>
@@ -281,7 +313,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
                         <Typography variant='subtitle2' >Inputs</Typography>
                     </Grid>
                     <Grid item>
-                        <IconButton disabled={frameCount >= xaiFeaturesState.inputsChart?.count } size='large'  color='primary' onClick={nextFrame}>
+                        <IconButton disabled={frameCount >= xaiFeaturesState.xaiScatterData?.count } size='large'  color='primary' onClick={nextFrame}>
                             <NavigateNextIcon/>
                         </IconButton>
                     </Grid>

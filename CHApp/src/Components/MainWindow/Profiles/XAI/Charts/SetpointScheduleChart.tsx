@@ -25,13 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const SetpointScheduleChart: React.FC<{setpointScheduleChartData:any}> = ({setpointScheduleChartData}) => {
+const SetpointScheduleChart: React.FC<{periodPriceData:any, xaiRegionData:any}> = ({periodPriceData, xaiRegionData}) => {
   const classes = useStyles();
 
-
-  const profile =  setpointScheduleChartData.biasAndSlope?.data.profile
-  const centre_x =  setpointScheduleChartData.biasAndSlope?.data.centre_x
-  const centre_y =  setpointScheduleChartData.biasAndSlope?.data.centre_y
+  const profile =  xaiRegionData?.data.profile
+  const centre_x =  xaiRegionData?.data.centre_x
+  const centre_y =  xaiRegionData?.data.centre_y
 
 //   const {profile, centre_x, centre_y, angle, height} = setpointScheduleChartData.biasAndSlope?.data ;
 
@@ -40,15 +39,15 @@ const SetpointScheduleChart: React.FC<{setpointScheduleChartData:any}> = ({setpo
 //  const swx =  setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe})
 // console.log(setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[0] + " " + timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}))
 
-const setpoint = setpointScheduleChartData.period?.map((timeframe:any)=>{
+const setpoint = periodPriceData?.map((timeframe:any)=>{
     // const {profile, centre_x, centre_y, angle, height} = setpointScheduleChartData.biasAndSlope?.data ;
     // const prediction = centre_x * centre_y * timeframe.rate
 
     return Math.round((centre_x + centre_y * timeframe.rate)*2)/2;
 });
 const radius = (type: String) => {
-  const radius = setpointScheduleChartData.period?.map((item:any, index:any)=>{
-    return index === setpointScheduleChartData.period?.length -1 ? 0 : type === 'radius' ? 3 : 1
+  const radius = periodPriceData?.map((item:any, index:any)=>{
+    return index === periodPriceData?.length -1 ? 0 : type === 'radius' ? 3 : 1
   });
   // console.log(type, radius)
   return radius
@@ -57,7 +56,7 @@ const radius = (type: String) => {
 //setpointScheduleChartData.period[0].start.split(/(?=[A-Z])/)[0]
 // timeframe.start.split(/(?=[A-Z])/)[0] + " " +
   const data:any = {
-    labels: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
+    labels: periodPriceData?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
     // labels: setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start}),
 
     // radius: 3,
@@ -68,7 +67,7 @@ const radius = (type: String) => {
         yAxisID: 'y1',
         type:'line',
         // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
-        data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
+        data: periodPriceData?.map((timeframe:any)=>{return timeframe.rate}),
         radius: radius('radius'),
         hitRadius: radius('hitradius'),
         fill: false,
@@ -100,7 +99,7 @@ const radius = (type: String) => {
     plugins: {
         title: {
             display: true,
-            text: `Target temperature schedule for ${ setpointScheduleChartData.period ? setpointScheduleChartData.period[0].start.split(/(?=[A-Z])/)[0] : null }`,
+            text: `Target temperature schedule for ${ periodPriceData ? periodPriceData[0].start.split(/(?=[A-Z])/)[0] : null }`,
             color: 'rgb(87, 203, 204,1)'
         },
         legend:{

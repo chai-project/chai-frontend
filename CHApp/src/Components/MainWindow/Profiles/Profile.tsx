@@ -87,7 +87,7 @@ const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) =
     const openXAIOverlay = () => {
       if(homeLabel){
         const now = dayjs()
-        services.addLogEntry(homeLabel, now.toISOString(), 'OVERLAY_VIEW', ['Profiles']);
+        services.addLogEntry(homeLabel, now.toISOString(), 'OVERLAY_VIEW', ['XAI']);
         dispatch(setSelectedProfile(profile))
       }
       // services.addLogEntry(homeLabel, now.toISOString(), 'Timeslot', ['Scedule']) 

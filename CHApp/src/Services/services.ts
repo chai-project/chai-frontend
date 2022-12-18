@@ -221,9 +221,9 @@ const addLogEntry = async (homeLabel:string, timestamp:string, category:string, 
     return response 
 };
 
-// Charts for profile overlay
-//1st chart
-const getInputsChartData = async (label:any, profile:any) => {
+// XAI features
+//XAI scatter
+const getXaiScatterData = async (label:any, profile:any) => {
     const request = await axios.get(`${baseURL}/xai/scatter/?label=${label}&profile=${profile}`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
@@ -237,13 +237,28 @@ const getInputsChartData = async (label:any, profile:any) => {
     return request
 };
 
-//4th chart
-const getSetpointScheduleChartData = async (label:any, profile:any, skip:number) => {
+//XAI region
+const getXaiRegionData = async (label:any, profile:any, skip:number) => {
     const request = await axios.get(`${baseURL}/xai/region/?label=${label}&profile=${profile}&skip=${skip}`).then((res)=>{
         // console.log('config: ',res.config)
-        console.log('data: ',res.data)
+        // console.log('data: ',res.data)
         // console.log('request: ',res.request)
-        console.log('status: ',res.status)
+        // console.log('status: ',res.status)
+        // console.log('status text: ',res.statusText)
+        return {status: res.status, data: res.data}
+}).catch((error) => {
+    console.error('error',error);
+})
+    return request
+};
+
+//XAI band
+const getXaiBandData = async (label:any, profile:any, skip:number) => {
+    const request = await axios.get(`${baseURL}/xai/band/?label=${label}&profile=${profile}&skip=${skip}`).then((res)=>{
+        // console.log('config: ',res.config)
+        // console.log('data: ',res.data)
+        // console.log('request: ',res.request)
+        // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
         return {status: res.status, data: res.data}
 }).catch((error) => {
@@ -275,4 +290,4 @@ const getBatteryData = async () => {
      return request.data;
  };
 
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile,resetAllprofiles, addLogEntry, getInputsChartData, getSetpointScheduleChartData}
+export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile,resetAllprofiles, addLogEntry, getXaiScatterData, getXaiRegionData, getXaiBandData}
