@@ -33,6 +33,7 @@ import InputsChart from './Charts/InputsChart';
 import UpdateModelChart from './Charts/UpdateModelChart';
 import PredictionsChart from './Charts/PredictionsChart';
 import SetpointScheduleChart from './Charts/SetpointScheduleChart';
+import ProgressCircular from '../../../ProgressBar/ProgressCircular';
 
 
 // Styles 
@@ -288,19 +289,27 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     <Grid xs={12} item container className={classes.chartsComponent} direction="column" justifyContent="center" alignItems="center">
         <Grid item container xs={breakpoint ? 10.9 : 11} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
-                <Grid item xs={6} className={classes.Chart}>
-                    <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount}/>
+                <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
+                    {!dataSetForInputsChart  ? <ProgressCircular size={40}/> :
+                        <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount}/>
+                    }
                 </Grid>
-                <Grid item xs={6} className={classes.Chart}>
-                    <UpdateModelChart xaiRegionData={xaiFeaturesState.xaiRegionData}/>
+                <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
+                    {!xaiFeaturesState.xaiRegionData  ? <ProgressCircular size={40}/> :
+                        <UpdateModelChart xaiRegionData={xaiFeaturesState.xaiRegionData}/>
+                    }
                 </Grid>
             </Grid>
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
-                <Grid item xs={6} className={classes.Chart}>
-                    <PredictionsChart xaiBandData={xaiFeaturesState.xaiBandData?.data}/>
+                <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
+                    {!xaiFeaturesState.xaiBandData?.data ? <ProgressCircular size={40}/> : 
+                        <PredictionsChart xaiBandData={xaiFeaturesState.xaiBandData?.data}/>
+                    }
                 </Grid>
-                <Grid item xs={6} className={classes.Chart}>
-                    <SetpointScheduleChart xaiRegionData={xaiFeaturesState.xaiRegionData} periodPriceData={xaiFeaturesState.periodPriceData}/>
+                <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
+                    {!xaiFeaturesState.xaiRegionData || !xaiFeaturesState.periodPriceData ? <ProgressCircular size={40}/> : 
+                        <SetpointScheduleChart xaiRegionData={xaiFeaturesState.xaiRegionData} periodPriceData={xaiFeaturesState.periodPriceData}/>
+                    }
                 </Grid>
             </Grid>
         </Grid>
