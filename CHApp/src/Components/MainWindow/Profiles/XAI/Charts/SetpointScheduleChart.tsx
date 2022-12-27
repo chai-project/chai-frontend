@@ -18,8 +18,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     chart:{
-        height: '20vh',
+        height: '25vh',
         width: '95%',
+        [theme.breakpoints.down('md')]: {
+            height: '28vh',
+          }
         // border: "2px dashed purple",
     }
   }),
@@ -154,8 +157,8 @@ const radius = (type: String) => {
           text: 'Price (p/kWh)',
           color:'#F6946B',
         },
-        // min:7,
-        // max:30,
+        min:0,
+        max:35,
         grid: {
             drawBorder: true,
             color: 'grey',

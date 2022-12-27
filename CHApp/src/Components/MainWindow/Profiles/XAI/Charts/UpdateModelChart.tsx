@@ -64,8 +64,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     chart:{
-        height: '20vh',
+        height: '25vh',
         width: '95%',
+        [theme.breakpoints.down('md')]: {
+            height: '28vh',
+          }
         // border: "2px dashed purple",
     }
   }),
@@ -96,14 +99,14 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
     // labels: price,
     datasets: [
       {
-        label: "Mean",
+        label: "Most likely",
         data: [{x,y}],
         // fill: true,
         backgroundColor: "rgba(75,192,192,0.8)",
         // borderColor: "rgba(75,192,192,1)"
       },
       {
-        label: "99% confidence",
+        label: "Confidence region",
         data: [{}],
         // fill: false,
         backgroundColor: "rgba(246, 148, 107, 0.25)"
@@ -113,6 +116,9 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
   const options:any = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: {
+      duration: 0
+    },
     plugins: {
         autocolors: false,
         title: {
@@ -227,8 +233,8 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
           // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
-        // min:7,
-        // max:30,
+        min:7,
+        max:30,
       },
     },
   };

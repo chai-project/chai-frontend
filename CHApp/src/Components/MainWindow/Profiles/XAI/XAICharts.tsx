@@ -95,18 +95,21 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: '10px',
         zIndex: 10,
     },
-    closeButton:{
-        border: "1px solid orange",
+    navigateButtons:{
+        // border: "1px solid orange",
 
       // position:'absolute',
     },
     chartsComponent:{
-    //   border: "1px solid pink",
+    //   border: "1px solid red",
+    //   height: '100%',
+    //   flex: 0,
+
 
     },
     charts:{
     //   border: "1px solid red",
-      height: "100%"
+    //   height: "100%"
 
     },
     scatterChart:{
@@ -282,8 +285,8 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
 
 
   return (
-    <Grid item container xs={10.5} className={classes.chartsComponent} direction="column" justifyContent="center" alignItems="center">
-        <Grid item container xs={10.5} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
+    <Grid xs={12} item container className={classes.chartsComponent} direction="column" justifyContent="center" alignItems="center">
+        <Grid item container xs={breakpoint ? 10.9 : 11} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
                 <Grid item xs={6} className={classes.Chart}>
                     <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount}/>
@@ -301,7 +304,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
                 </Grid>
             </Grid>
         </Grid>
-        <Grid item container xs={1} className={classes.charts}  direction="row" justifyContent="center" alignItems="center">
+        <Grid item container xs={0.5} className={classes.navigateButtons}  direction="row" justifyContent="center" alignItems="center">
             <Grid item container xs={6} direction="row" justifyContent="center" alignItems="center">
                 <Grid item container direction="row" justifyContent="center" alignItems="center">
                     <Grid item>
@@ -327,7 +330,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
                         </IconButton>
                     </Grid>
                     <Grid item>
-                        <Typography variant='subtitle2' >Timeslots</Typography>
+                        <Typography variant='subtitle2' >Day</Typography>
                     </Grid>
                     <Grid item>
                         <IconButton size='large'  color='primary' onClick={nextTimeslots}>

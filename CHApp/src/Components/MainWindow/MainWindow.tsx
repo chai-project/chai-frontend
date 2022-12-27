@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const MainWindow: React.FC = () => {
+const MainWindow: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
 
     const classes = useStyles();
     const dispatch = useDispatch()
@@ -78,8 +78,8 @@ const MainWindow: React.FC = () => {
           <Route path='/' element={<p>Home</p>}/>
           <Route path='schedule' element={<Schedule weekSchedule={currentState.heatingSchedule} heatingProfiles={currentState.heatingProfiles}/>}/>
           <Route path='schedule/:weekday' element={<EditWeekdaySchedule />}/>
-          <Route path='profiles' element={<Profiles currentState={currentState}/>}/>
-          <Route path='notifications' element={<Logs currentState={currentState}/>}/>
+          <Route path='profiles' element={<Profiles currentState={currentState} homeLabel={homeLabel}/>}/>
+          <Route path='notifications' element={<Logs currentState={currentState} homeLabel={homeLabel}/>}/>
           <Route path='/Error' element={<ErrorComponent/>}/>
           <Route path='*' element={<ErrorComponent/>}/>
         </Routes>

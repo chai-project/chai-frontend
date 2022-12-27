@@ -4,6 +4,11 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
 import Grow, { GrowProps } from '@mui/material/Grow';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
+
+
+
 
 
 
@@ -25,20 +30,25 @@ function GrowTransition(props: GrowProps) {
 
 const Notification: React.FC<{notificationState:any}> = ({notificationState}) => {
     const [open, setOpen] = useState<any>(true);
-    const [notificationContent, setNotificationContent] = useState<any>('This is a success message!');
-    const [severity, setSeverity] = useState<string|null>(null);
-    const vertical:any = "bottom";
+    const [notificationContent, setNotificationContent] = useState<any>();
+    const [severity, setSeverity] = useState<any>(null);
+
+    const theme = useTheme();
+    const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
+    const vertical:any = breakpoint ? "top" : "bottom";
     const horizontal: any = "right";
 
     useEffect(()=>{
         if(notificationState){
             setOpen(true)
-            setSeverity('success')
+            setSeverity(notificationState.severity)
             setNotificationContent(notificationState.content)
 
         }else{
             setOpen(false)
+            // setSeverity(null)
             setNotificationContent(null)
+            // setSeverity(null)
         }
     },[notificationState])
 
@@ -46,16 +56,17 @@ const Notification: React.FC<{notificationState:any}> = ({notificationState}) =>
       if (reason === 'clickaway') {
         return;
       }
-  
+      setSeverity(null)
+      setNotificationContent(null)
       setOpen(false);
     };
   
     
   return (
-    <Box sx={{ display: 'flex' }}>
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} TransitionComponent={TransitionRight} anchorOrigin={{ vertical, horizontal }}  key={"top" + "center"}>
-            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                {notificationContent}
+    <Box sx={{ display: 'flex' }}> {/* in Snackbar autoHideDuration={6000} to hide, but it is implemented in the reducer*/}
+        <Snackbar open={open} onClose={handleClose} TransitionComponent={TransitionRight} anchorOrigin={{ vertical, horizontal }}  key={"top" + "center"}> 
+            <Alert onClose={handleClose} severity={severity ? severity : undefined} sx={{ width: '100%' }}>
+                {notificationContent} 
             </Alert>
         </Snackbar>
     </Box>

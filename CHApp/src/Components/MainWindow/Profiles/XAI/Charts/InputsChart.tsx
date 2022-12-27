@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '100%',
     },
     chart:{
-        height: '20vh',
+        height: '25vh',
         width: '95%',
-        // [theme.breakpoints.down('md')]: {
-        //   height: '20vh',
-        // }
+        [theme.breakpoints.down('md')]: {
+          height: '28vh',
+        }
         // border: "2px dashed purple",
     }
   }),
@@ -106,8 +106,8 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
     ]
   };
   const options:any = {
-    // responsive: true,
-    // maintainAspectRatio: false,
+    responsive: true,
+    maintainAspectRatio: false,
     animation: {
       duration: 0
     },
@@ -150,7 +150,7 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
           color: 'rgb(87, 203, 204,1)',
         },
         min: mappedDataForInputsChart?.length > 0 ? Math.min(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) - 5 : 0,
-        max: mappedDataForInputsChart?.length > 0 ? Math.max(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) + 5 : 40,
+        max: mappedDataForInputsChart?.length > 0 ? Math.max(...mappedDataForInputsChart?.map((price:any)=>{return Math.trunc(price[0])})) + 5 : 35,
         
       },
       y: {
@@ -171,8 +171,8 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
           // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
-        min: mappedDataForInputsChart?.length > 0 ? Math.min(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) - 5 : 0,
-        max: mappedDataForInputsChart?.length > 0 ? Math.max(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) + 5 : 35,
+        min: mappedDataForInputsChart?.length > 0 ? Math.min(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) - 5 : 7,
+        max: mappedDataForInputsChart?.length > 0 ? Math.max(...mappedDataForInputsChart?.map((temperature:any)=>{return Math.trunc(temperature[1])})) + 5 : 30,
         // min: 1,
         // max: 10,
       },

@@ -31,6 +31,7 @@ import XAICharts from './XAICharts'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container:{
+        flex: 1,
         // border: "2px dashed red",
         // width: '80%',
         position:'absolute',
@@ -99,6 +100,10 @@ const useStyles = makeStyles((theme: Theme) =>
     charts:{
       // border: "1px solid red",
 
+    },
+    navbarTop:{
+      // border: "1px solid red",
+
     }
   }),
 );
@@ -126,13 +131,14 @@ const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xa
     const closeOverlay = () => {
       // dispatch(setSelectedProfile(null))
       dispatch(setSelectedProfile(null))
+      // console.log(xaiFeaturesState)
     }
 
 
   return (
     <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
       <CssBaseline/>
-          <Grid xs={1} item container direction="row" alignItems="center" justifyContent="flex-end" className={classes.closeButton}>
+          <Grid xs={0.5} item container direction="row" alignItems="center" justifyContent="center" className={classes.navbarTop}>
             <Grid item xs={0.5}></Grid>
             <Grid item xs={10.5} container direction="row" alignItems="center" justifyContent="flex-start"><b>{xaiFeaturesState.selectedProfile.profileName}</b></Grid>
             <Grid item xs={1} container direction="row" alignItems="center" justifyContent="center">
@@ -141,8 +147,11 @@ const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xa
               </IconButton>
             </Grid>
           </Grid>
-          <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} />
-          <Grid xs={0.5} className={classes.closeButton}/>
+          <Grid xs={11} item container direction="column" justifyContent="center" alignItems="center" className={classes.chartsComponent}>
+            <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} />
+          </Grid>
+          {/* <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} /> */}
+          {/* <Grid xs={0.5} className={classes.closeButton}/> */}
     </Grid>
   );
 };

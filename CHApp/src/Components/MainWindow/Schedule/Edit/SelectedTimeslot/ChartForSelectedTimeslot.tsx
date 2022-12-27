@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
+
 
 //chartjs 
 import 'chart.js/auto'
@@ -8,6 +10,10 @@ import {Chart} from 'react-chartjs-2'
 import ReactDOM from 'react-dom';
 // import Chart from 'chart.js';
 // 
+
+//components
+
+import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,26 +47,21 @@ const useStyles = makeStyles((theme: Theme) =>
 const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, heatingProfiles:any}> = ({selectedTimeslot, pricesList, heatingProfiles}) => {
   const classes = useStyles();
 
-  // console.log(pricesList,'zeuru')
-
-const setpoint = pricesList?.map((timeframe:any)=>{
-    const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
-        return profile.profile === selectedTimeslot.profileID
-    })
-    return Math.round((bias + slope * timeframe.rate)*2)/2;
-});
-const radius = (type: String) => {
-  const radius = pricesList?.map((item:any, index:any)=>{
-    return index === pricesList.length -1 ? 0 : type === 'radius' ? 3 : 1
+  const setpoint = pricesList?.map((timeframe:any)=>{
+      const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
+          return profile.profile === selectedTimeslot.profileID
+      })
+      return Math.round((bias + slope * timeframe.rate)*2)/2;
   });
-  // console.log(type, radius)
-  return radius
-}
+  const radius = (type: String) => {
+    const radius = pricesList?.map((item:any, index:any)=>{
+      return index === pricesList.length -1 ? 0 : type === 'radius' ? 3 : 1
+    });
+    return radius
+  }
 
   const data:any = {
     labels: pricesList?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
-    // radius: 3,
-    // hitRadius: 1,
     datasets: [
       {
         label: "Target temperature (°C)",
@@ -123,6 +124,10 @@ const radius = (type: String) => {
   },
     scales: {
       x: {
+        grid: {
+          drawBorder: true,
+          color: 'grey',
+        },
         title: {
           display: false,
           text: 'Timeframe',
@@ -135,6 +140,10 @@ const radius = (type: String) => {
         }
       },
       y1: {
+        grid: {
+          drawBorder: true,
+          color: 'grey',
+        },
         position:'right',
         stacked: false,
         title: {
@@ -152,6 +161,10 @@ const radius = (type: String) => {
           }
       },
       y2: {
+        grid: {
+          drawBorder: true,
+          color: 'grey',
+        },
         position:'left',
         stacked: false,
         fontColor:'rgb(87, 203, 204,1)',
@@ -168,9 +181,11 @@ const radius = (type: String) => {
   };
   
   return (
-    <div className={classes.chart}>
-      <Chart type={'line'} data={data} options={options}/>
-    </div>
+    <Grid className={classes.chart} container direction="column" justifyContent="center" alignItems="center">
+      {!pricesList ? <ProgressCircular size={40}/>: 
+        <Chart type={'line'} data={data} options={options}/>
+      }
+    </Grid>
   )
 }
 

@@ -26,17 +26,23 @@ const xaiFeaturesReducer = (state: any = { selectedProfile:null, xaiScatterData:
 
 export const setSelectedProfile = (profile:any) => {
 
-    // console.log(profile)
     return async (dispatch : Dispatch) => {
+        if(!profile){
+            dispatch({
+                type:"SET_SELECTED_PROFILE",
+                data: {selectedProfile:null, xaiScatterData:null, xaiRegionData:null,xaiBandData:null, periodPriceData:null}
+            })
+        }else{
+            dispatch({
+                type:"SET_SELECTED_PROFILE",
+                data: {selectedProfile: profile}
+            })
+        }
 
-        // const priceData = await services.getPriceData();
-        // const electricityConsumptionData = await services.getConsumptionData();
-        // const batteryData = await services.getBatteryData();
-
-        dispatch({
-            type:"SET_SELECTED_PROFILE",
-            data: {selectedProfile: profile}
-        })
+        // dispatch({
+        //     type:"SET_SELECTED_PROFILE",
+        //     data: {selectedProfile: profile}
+        // })
     };
 };
 

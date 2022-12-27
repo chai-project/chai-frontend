@@ -12,7 +12,7 @@ interface heatingComponent {
 //state = {mode:null, target_temperature: null, temperature: null, valve_open: null}
 //state:heatingComponent|null  = null
 //Heating Component reducer
-const heatingComponentReducer = (state = {mode:null, target_temperature: null, temperature: null, valve_open: null, activeProfile: null} , action:any) => {
+const heatingComponentReducer = (state = {mode:null, target_temperature: null, temperature: null, valve_open: null, activeProfile: null, isValid:null} , action:any) => {
     switch(action.type) {
         case "SET_HEATING_COMPONENT_DATA":
             return state = action.data
@@ -37,11 +37,21 @@ export const initializeHeatingComponentData = (label:String) => {
         // console.log("hmm")
         const heatingComponentData = await services.getHeatingComponentData(label);
         // console.log(heatingComponentData)
-
-        dispatch({
-            type:"SET_HEATING_COMPONENT_DATA",
-            data: heatingComponentData
-        })
+        if(heatingComponentData){
+            dispatch({
+                type:"SET_HEATING_COMPONENT_DATA",
+                data: {...heatingComponentData, isValid:true}
+            })
+        }else{
+            dispatch({
+                type:"SET_HEATING_COMPONENT_DATA",
+                data: {isValid:false}
+            })
+        }
+        // dispatch({
+        //     type:"SET_HEATING_COMPONENT_DATA",
+        //     data: heatingComponentData
+        // })
     };
 };
 

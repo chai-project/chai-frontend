@@ -76,10 +76,20 @@ const getHeatingComponentData = async (label:String) => {
 const getAverageHeatingPricePeriod = async (period:any) => {
     const encodedStart = encodeURIComponent(period.start);
     const encodedEnd = encodeURIComponent(period.end);
-    const response = await axios.get(`${baseURL}/electricity/prices/?start=${encodedStart}&end=${encodedEnd}`).then((res)=>{
-        return res
-    });
-    return response.data
+    const request = await axios.get(`${baseURL}/electricity/prices/?start=${encodedStart}&end=${encodedEnd}`).then((res)=>{
+        // console.log('config: ',res.config)
+        // console.log('data: ',res.data)
+        // console.log('request: ',res.request)
+        // console.log('status: ',res.status)
+        // console.log('status text: ',res.statusText)
+        
+        return res.data
+    }).catch((error) => {
+        // console.log(error)
+        return {error: 'server error'}
+    })
+
+    return request
 
 };
 // getAverageHeatingPricePeriod('2022-10-24T00:00:00+01:00', '2022-10-25T00:00:00+01:00')
@@ -104,7 +114,8 @@ const getHeatingScheduleData = async (label:String) => {
         // console.log(res.data,'viduje')
         return res.data
 }).catch((error) => {
-    console.error('error',error);
+    // console.error('error',error);
+    return {error: 'Server error'}
 })
     // console.log(request)
     return request
@@ -113,21 +124,12 @@ const getHeatingScheduleData = async (label:String) => {
 const setHeatingSchedule = async (homeLabel:any, mask:any, schedule:any) => { //define types later // need labe over here!!
     
     const response = await axios.put(
-        `https://api.project-chai.org/schedule/?label=${homeLabel}&daymask=${mask}`, schedule
-    
-                    // '0': 2,
-                    // '28':3,
-                    // '36':4,
-                    // '72':1,
-                    // day:1,
-                    // [{0: '2'},{14: '1'},{ 26: '2'},{37: '3'},{42: '1'},{48:'2'},{58:'3'},{64:'1'},{72:'5'}]
-                    // 0: '2', 28: '1', 36: '4', 72: '3'
-        ,
+        `https://api.project-chai.org/schedule/?label=${homeLabel}&daymask=${mask}`, schedule,
         {
             headers: {
                 'Content-Type': 'application/json'
             }
-            }
+        }
     ).then((res)=>{
             // console.log(res.status);
             return res.status
@@ -187,7 +189,7 @@ const resetAllprofiles = async (label:any) => {
 
 const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) => {
     // console.log(start, end)
-    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT&skip=${skip}&limit=${limit}&start=${start.toISOString()}&end=${end.toISOString()}`).then((res)=>{ //&start=${start.toISOString()}&end=${end.toISOString()}
+    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT%2CWELCOME&skip=${skip}&limit=${limit}&start=${start.toISOString()}&end=${end.toISOString()}`).then((res)=>{ //&start=${start.toISOString()}&end=${end.toISOString()}
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
@@ -200,6 +202,14 @@ const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) =>
     // console.log(request)
     return request
 };
+
+
+// console.log('zeuru',getWelcomeLog)
+
+
+
+
+
 
 // Log entry for user interation
 
@@ -220,6 +230,9 @@ const addLogEntry = async (homeLabel:string, timestamp:string, category:string, 
     });
     return response 
 };
+
+
+
 
 // XAI features
 //XAI scatter

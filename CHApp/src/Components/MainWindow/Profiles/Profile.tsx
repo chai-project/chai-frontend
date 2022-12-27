@@ -27,6 +27,7 @@ import Chart from './Chart';
 import PriceSensivityGauge from './PriceSensivityGauge';
 import TimeslotMoreInfoOverlay from '../Schedule/Edit/SelectedTimeslot/TimeslotMoreInfoOverlay';
 import XaiFeaturesOverlay from './XAI/XaiFeaturesOverlay';
+import ProgressCircular from '../../ProgressBar/ProgressCircular';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -107,20 +108,16 @@ const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) =
                         <Grid item xs={3} className={classes.moreInfoButton} onClick={openXAIOverlay}>
                           <Link><b>Want to know more about this profile?</b></Link>
                         </Grid>
-                        {/* <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography> */}
-                        {/* <Typography><b>What to know more about this proifle?</b></Typography> */}
-
                     </Grid>
                     <Grid className={classes.gauge} xs={5}item>
                         <PriceSensivityGauge profile={profile}/>
                     </Grid>
-                    {/* <Grid xs={6} item>
-                        <Typography>Preferred temperature (if energy were free): {<b>{profile.bias}°C</b>}</Typography>
-                    </Grid> */}
                 </Grid>
             </Grid>
             <Grid xs={8} item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
-              <Chart profile={profile}/>
+              {!profile ? <ProgressCircular size={40}/> : 
+                <Chart profile={profile}/>
+              }
             </Grid>
         </Grid>
     </div>

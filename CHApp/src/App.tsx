@@ -176,16 +176,12 @@ const App: React.FC = () => {
 
   const location = useLocation()
   const navigate = useNavigate();
-  // const params = new URLSearchParams(location.search);
   
   const currentState: any = useSelector((state: any) => state);
   const classes = useStyles();
   const dispatch = useDispatch();
 
   let bearerToken = localStorage.getItem("bearerToken")
-  //browser router
-  // const homeLabel = params.get("home");
-  // const userToken = params.get("token");
 
   
   const themeFromLocalStorage = localStorage.getItem("Theme");
@@ -199,29 +195,9 @@ const App: React.FC = () => {
   const today = currentTime.startOf('day').add(1,'day');
   const sevenDaysBack = today.subtract(7,'day');
 
-  // const everystate: any = useSelector((state: any) => state.);
   
   useEffect(() => {
-    
-    // const blet = new URLSearchParams(window.location.href);
-    // console.log(window.location.href.split('?')[1].split("&"),'wtf?')
-    // console.log(window.location.href.split('?')[1].split("&")[0].split('=')[1],'wtf?')
-    // console.log(window.location.href.split('?')[1].split("&")[1].split("#")[0].split('=')[1],'wtf?')
-
-    // let bearerToken = localStorage.getItem("bearerToken")
-    // //browser router
-    // // const homeLabel = params.get("home");
-    // // const userToken = params.get("token");
-
-    
-    // const themeFromLocalStorage = localStorage.getItem("Theme")
-    // //hasrouter
-    // const url = createBrowserHistory()
-    // const parameters = new URLSearchParams(url.location.search);
-
-    // const homeLabel =  parameters.get('home')
-    // const userToken = parameters.get('token')
-
+  
     if(themeFromLocalStorage){
       if(themeFromLocalStorage === "true"){
         setTheme(true)
@@ -231,93 +207,57 @@ const App: React.FC = () => {
     }else {
       setTheme(false)
     }
-    // const homeLabel = params.get("home");
-    // const userToken = params.get("token");
-    // console.log(homeLabel, userToken)
     if(!homeLabel || !userToken){
       dispatch(setErrorMessageForErrorComponentReducer('Home label or user token was not provided.'));
       navigate('/Error')
     }else{
-      bearerToken = "8dbb9774-970c-4f9d-8992-65f88e501d0e"
-      services.setBearerToken(bearerToken, userToken )
-      const checkIfTokenOrHomeLabelIsValid = async () => {
-
-        const isValid = await axios.get(`https://api.project-chai.org/heating/mode/?label=${homeLabel}`).then((res)=>{
-          if(res.status===200){
-            return true
-          }else{
-            return false
-          }
-        }).catch((error) => {
-          return false
-        })
-
-        if(isValid && homeLabel && userToken ){
-          dispatch(initializeChartData())
-          dispatch(initializeEnergyPriceData())
-          dispatch(initializeHeatingProfiles(homeLabel))
-          dispatch(initializeHeatingComponentData(homeLabel))
-          dispatch(initializeHeatingSchedule(homeLabel))
-          dispatch(initialiseLogs(homeLabel, sevenDaysBack, today))
-        }else{
-          dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
-          navigate('/Error')
-        }
-      }
-      checkIfTokenOrHomeLabelIsValid()
-
-      // dispatch(initializeChartData())
-      // dispatch(initializeHeatingProfiles(homeLabel))
-      // dispatch(initializeHeatingComponentData(homeLabel))
-      // dispatch(initializeHeatingSchedule(homeLabel))
+      bearerToken = "8dbb9774-970c-4f9d-8992-65f88e501d0e";
+      services.setBearerToken(bearerToken, userToken );
+      dispatch(initializeHeatingComponentData(homeLabel));
     }
-    // else{
-    //   navigate('?home=swx#token="bl')
-    
-    // }
-    
-    
-
-    // if(!token){
-    //   token = "8dbb9774-970c-4f9d-8992-65f88e501d0e"
-    //   let userAuthorizationHeader = "7019b90ca050fce31331c2a0"
-    //   let label ='test_home_kim'
-    //   // let label = params.get("label");
-    //   // let userToken = params.get("token");
-    //   services.setBearerToken(token, userAuthorizationHeader )
-    //   dispatch(initializeChartData())
-    //   dispatch(initializeHeatingProfiles(label))
-    //   dispatch(initializeHeatingComponentData(label))
-    //   dispatch(initializeHeatingSchedule(label))
-      
-    //   //set to local storage! 
-    // }
-
-
 }, [])
 
-// if(currentState.heatingSchedule){
-//   const activeProfile =  currentState.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
-//     const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-//     if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-//       if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-//         return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-//       } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-//         return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-//       } else {
-//         return profile
-//       }
-//     }
-//   })
-//   dispatch(setActiveProfile(activeProfile))
-// }
+useEffect(()=>{
+  if(currentState.heatingComponent.isValid === true && homeLabel && userToken ){
+    dispatch(initializeEnergyPriceData())
+    dispatch(initializeHeatingProfiles(homeLabel))
+    dispatch(initializeHeatingSchedule(homeLabel))
+    dispatch(initialiseLogs(homeLabel, sevenDaysBack, today)) //, from:any, to:any
+  }else if(currentState.heatingComponent.isValid === true && homeLabel && userToken ){
+    dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
+    navigate('/Error')
+  }
+},[currentState.heatingComponent.isValid])
+
 
 
 
 // cia viskas ok, tik reike kad po kiekvieno update atsinaujintu 
-// const hmm = () => {
-//   console.log('update')
-//   dispatch(initializeHeatingComponentData())
+// const hmm = (value:any) => {
+//   console.log(value)
+
+//   }
+  // setTimeout(()=>{
+  //   console.log('update')
+  // }, 5000);
+
+  // hmm()
+
+  // hmm(2)
+  // function startTimer() {
+  //   setTimeout(() => {
+  //     // Call the function here:
+  //     // console.log('krw');
+  //     hmm(1)
+  //     // Call startTimer() again to schedule the next call:
+  //     startTimer();
+  //   }, 2000);
+  // }
+  
+  // startTimer();
+  
+
+
 // }
 
 // setInterval(hmm, 10000)
@@ -326,83 +266,12 @@ const App: React.FC = () => {
     setOpenBackdrop(!openBackdrop);
   };
 
-  // console.log('blblb', (20>>>0).toString(2), parseInt(  "0000010100".split('').join(''), 2 ))
-  // const getData  = async () => {
-  //   // dispatch(initializeChartData())
-
-  //             //
-  //             const response = await axios.put(
-  //               `https://api.project-chai.org/schedule/?label=test_home_kevin&daymask=20`,
-                
-  //                   // '0': 2,
-  //                   // '28':3,
-  //                   // '36':4,
-  //                   // '72':1,
-  //                   // day:1,
-  //                   [{0: '2'},{14: '1'},{ 26: '2'},{37: '3'},{42: '1'},{48:'2'},{58:'3'},{64:'1'},{72:'5'}]
-  //                   // 0: '2', 28: '1', 36: '4', 72: '3'
-  //               ,
-  //               {
-  //                   headers: {
-  //                       'Content-Type': 'application/json'
-  //                   }
-  //               }
-  //           ).then((res)=>{
-  //               console.log(res);
-  //               return res.status
-  //           }).catch((e)=>{
-  //               console.error(e.errorMessage)
-  //           });
-  //           return response
-
-  // }
-
 
   const toogleTheme = () => {
     localStorage.setItem("Theme", String(!theme));
     setTheme(!theme)
   }
 
-  // const handleToken = async () =>{
-  //   const token = "39b01478-134f-41e7-8393-8ad91f6815cf"
-  //   const tokenRes =  await services.setBearerToken(token)
-  //   console.log(tokenRes)
-
-  // }
-
-  // const handleData = async() => {
-  //   const data = await services.getHeatingComponentData();
-  //   console.log(data)
-  // //   const data = useSelector((state: any) => {
-  // //     return state;
-  // // });
-
-  // }
-
-  // const activeProfile = useSelector( (state:any)=>{ //define type later 
-  //   if(state.heatingSchedule){
-  //     const activeProfile =  state.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
-  //       const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-  //       if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-  //         if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-  //           return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-  //         } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-  //           return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-  //         } else {
-  //           return profile
-  //         }
-  //       }
-  //     });
-  //     dispatch(setActiveProfile(activeProfile))
-  //     return activeProfile
-  //   };
-  // });
-
-  // console.log('tema', activeProfile) 
-  //kazkoke nesamone krc 
-
-
-  // 
 
   return (
     <div className={classes.root}>
@@ -423,7 +292,7 @@ const App: React.FC = () => {
             <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainWindowAndQuickAccessContainer}>
               <Grid xs={12} sm={12} md={12} lg={8.5} xl={8.5} item className={classes.mainWindowContainer}>
                 <Paper className={classes.mainWindow}>
-                  <MainWindow />
+                  <MainWindow homeLabel={homeLabel}/>
                 </Paper>
               </Grid>
               <Grid xs={3.3} sm={3.3} md={3.3} lg={3.3} xl={3.3} item >

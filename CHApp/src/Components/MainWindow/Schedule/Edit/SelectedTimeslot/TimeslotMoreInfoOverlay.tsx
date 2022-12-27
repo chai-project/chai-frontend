@@ -15,6 +15,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 // import { initializeData } from './Redux-reducers/dataReducer';
 import {setSelectedTimeslot, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
+import { setErrorMessage, setNotification } from '../../../../../Redux-reducers/notificationsReducer';
 
 
 
@@ -23,7 +24,7 @@ import timeslot from "../../../../../Types/types"
 
 //components
 import ChartForSelectedTimeslot from './ChartForSelectedTimeslot';
-
+import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -112,6 +113,17 @@ const TimeslotMoreInfoOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfil
     // console.log(heatingProfiles.energyPriceForSelectedProfile)
 
 
+    useEffect(()=>{
+      // const profilePeriodStart = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0)
+      // const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
+
+      if(heatingProfiles.error){
+        dispatch(setErrorMessage(heatingProfiles.error, 5000))
+      }
+
+    },[heatingProfiles.error])
+
+
     const closeOverlay = () => {
       dispatch(setSelectedTimeslot(null))
     }
@@ -138,7 +150,9 @@ const TimeslotMoreInfoOverlay: React.FC<{heatingProfiles:any}> = ({heatingProfil
           </Grid>
         <Grid xs={10}item container direction="column" alignItems="center" justifyContent="center"> 
           <Grid item xs={8} container direction="column" alignItems="center" justifyContent="center">
-            <ChartForSelectedTimeslot selectedTimeslot={heatingProfiles.selectedTimeslot} heatingProfiles={heatingProfiles} pricesList={heatingProfiles.energyPriceForSelectedTimeslot}/>
+            {heatingProfiles.error ? <h1>No data</h1>: 
+              <ChartForSelectedTimeslot selectedTimeslot={heatingProfiles.selectedTimeslot} heatingProfiles={heatingProfiles} pricesList={heatingProfiles.energyPriceForSelectedTimeslot}/>
+            }
           </Grid>
           <Grid item xs={4}></Grid>
         </Grid>

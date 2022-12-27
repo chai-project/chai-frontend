@@ -34,8 +34,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     chart:{
-        height: '20vh',
+        height: '25vh',
         width: '95%',
+        [theme.breakpoints.down('md')]: {
+            height: '28vh',
+          }
         // border: "2px dashed purple",
     }
   }),
@@ -61,7 +64,7 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
     labels: price,
     datasets: [
       {
-        label: "°C",
+        label: "Most likely",
         data: xaiBandData?.prediction,
         fill: false,
         backgroundColor: "rgba(75,192,192,0.8)",
@@ -83,7 +86,7 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
         tension: 0,
       },
       {
-        label: "99% confidence",
+        label: "Confidence region",
         data: xaiBandData?.upper_confidence,
         fill: '-1',
         backgroundColor: "rgba(246, 148, 107, 0.25)",
@@ -103,6 +106,9 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
   const options:any = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: {
+      duration: 0
+    },
     plugins: {
       title: {
         display: true,
@@ -177,8 +183,10 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
           // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
-        min: xaiBandData ? Math.min(...xaiBandData.lower_confidence) - 5 : null,
-        max: xaiBandData ? Math.max(...xaiBandData.upper_confidence) + 5 : null,
+        min:7,
+        max: 30
+        // min: xaiBandData ? Math.min(...xaiBandData.lower_confidence) - 5 : 7,
+        // max: xaiBandData ? Math.max(...xaiBandData.upper_confidence) + 5 : 30,
       },
     },
   };

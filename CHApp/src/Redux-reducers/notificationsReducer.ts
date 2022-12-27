@@ -18,16 +18,14 @@ const notificationReducer = (state = null , action:any) => {
 let timeoutId:any
 
 export const setNotification = (content:String , timeout:number) => {
-    const style = {
-        'color': 'green'
-      }
+    const severity = "success"
     
     return async (dispatch : Dispatch) => {
         await dispatch({
             type: 'NOTIFICATION_SET',
             data: {
                 content,
-                style
+                severity
             }
         })
         if(timeoutId){
@@ -44,16 +42,14 @@ export const setNotification = (content:String , timeout:number) => {
 
 export const setErrorMessage = (content:String , timeout:number) => {
 
-    const style = {
-        'color': 'red'
-      }
+    const severity = "error"
 
     return async (dispatch : Dispatch) => {
         await dispatch({
             type: 'NOTIFICATION_ERROR',
             data:{
                 content,
-                style
+                severity
             }
         })
         if(timeoutId){

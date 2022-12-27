@@ -349,27 +349,48 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
     },
     '& .MuiSlider-markLabel':{ // temperature slider labels
         // color: 'red',
-        top: '-4%', // was 9
-        fontSize: 8, //was 11
+        top: '-9%', // was 9
+        fontSize: 11, //was 11
         '&[data-index="1"]' : { //every label thats has .5 in it.
+            display: 'none'
+          },
+          '&[data-index="2"]' : { //every label thats has .5 in it.
             display: 'none'
           },
           '&[data-index="3"]' : {
             display: 'none'
           },
+          // '&[data-index="4"]' : {
+          //   display: 'none'
+          // },
           '&[data-index="5"]' : {
+            display: 'none'
+          },
+          '&[data-index="6"]' : {
             display: 'none'
           },
           '&[data-index="7"]' : {
             display: 'none'
           },
+          '&[data-index="8"]' : {
+            display: 'none'
+          },
           '&[data-index="9"]' : {
             display: 'none'
           },
+          // '&[data-index="10"]' : {
+          //   display: 'none'
+          // },
           '&[data-index="11"]' : {
             display: 'none'
           },
+          '&[data-index="12"]' : {
+            display: 'none'
+          },
           '&[data-index="13"]' : {
+            display: 'none'
+          },
+          '&[data-index="14"]' : {
             display: 'none'
           },
           '&[data-index="15"]' : {
@@ -378,25 +399,49 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
           '&[data-index="17"]' : {
             display: 'none'
           },
+          '&[data-index="18"]' : {
+            display: 'none'
+          },
           '&[data-index="19"]' : {
+            display: 'none'
+          },
+          '&[data-index="20"]' : {
             display: 'none'
           },
           '&[data-index="21"]' : {
             display: 'none'
           },
+          // '&[data-index="22"]' : {
+          //   display: 'none'
+          // },
           '&[data-index="23"]' : {
+            display: 'none'
+          },
+          '&[data-index="24"]' : {
             display: 'none'
           },
           '&[data-index="25"]' : {
             display: 'none'
           },
+          '&[data-index="26"]' : {
+            display: 'none'
+          },
           '&[data-index="27"]' : {
             display: 'none'
           },
+          // '&[data-index="28"]' : {
+          //   display: 'none'
+          // },
           '&[data-index="29"]' : {
             display: 'none'
           },
+          '&[data-index="30"]' : {
+            display: 'none'
+          },
           '&[data-index="31"]' : {
+            display: 'none'
+          },
+          '&[data-index="32"]' : {
             display: 'none'
           },
           '&[data-index="33"]' : {
@@ -405,7 +450,13 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
           '&[data-index="35"]' : {
             display: 'none'
           },
+          '&[data-index="36"]' : {
+            display: 'none'
+          },
           '&[data-index="37"]' : {
+            display: 'none'
+          },
+          '&[data-index="38"]' : {
             display: 'none'
           },
           '&[data-index="39"]' : {
@@ -414,7 +465,13 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
           '&[data-index="41"]' : {
             display: 'none'
           },
+          '&[data-index="42"]' : {
+            display: 'none'
+          },
           '&[data-index="43"]' : {
+            display: 'none'
+          },
+          '&[data-index="44"]' : {
             display: 'none'
           },
           '&[data-index="45"]' : {
@@ -658,7 +715,7 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
             let labelValue
             marks.forEach((mark)=>{
                 if(mark.value === value){
-                    labelValue = mark.label
+                    labelValue = mark.label // label arba realvalue
                 }
             })
             return(

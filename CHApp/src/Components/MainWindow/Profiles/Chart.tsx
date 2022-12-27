@@ -88,6 +88,10 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
   },
     scales: {
       x: {
+        grid: {
+          drawBorder: true,
+          color: 'grey',
+        },
         title: {
           display: true,
           text: 'Price (p/kWh)',
@@ -102,6 +106,10 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
         
       },
       y: {
+        grid: {
+          drawBorder: true,
+          color: 'grey',
+        },
         title: {
           display: true,
           text: 'Target temperature (°C)',
