@@ -131,18 +131,18 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
 export const initialiseLogs = (label:String, from:any, to:any) => {
 
   const period = {
-    from: from ? from : today.subtract(7,'day'),
-    to: to ? to : currentTime.startOf('day').add(1,'day')
+    from: from ? from : today.subtract(6,'day'),
+    to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
   }
 
-
+  // console.log(period,'zeuru')
     return async (dispatch : Dispatch) => {
         let logs:any[] = []
         let skip = 0;
         let limit = 200;
         let previousIndex = 0
         while (logs.length < limit + 1) {
-          const rawLogsRequest = await services.getLogs(label, skip, limit, period.from, period.to.add(1,'day') );
+          const rawLogsRequest = await services.getLogs(label, skip, limit, period.from, period.to );
           if(rawLogsRequest.length === 0){
             break;
           }else{

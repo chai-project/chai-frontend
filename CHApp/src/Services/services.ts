@@ -86,7 +86,7 @@ const getAverageHeatingPricePeriod = async (period:any) => {
         return res.data
     }).catch((error) => {
         // console.log(error)
-        return {error: 'server error'}
+        return {error: 'Server error, failed to load heating price data'}
     })
 
     return request
@@ -245,9 +245,12 @@ const getXaiScatterData = async (label:any, profile:any) => {
         // console.log('status text: ',res.statusText)
         return res.data
 }).catch((error) => {
-    console.error('error',error);
+    // console.error('error',error);
+    return {error: "Server error, failed to load XAI scatter data"}
 })
     return request
+    // return {error: "Server error, failed to load XAI scatter data"}
+
 };
 
 //XAI region
@@ -260,9 +263,12 @@ const getXaiRegionData = async (label:any, profile:any, skip:number) => {
         // console.log('status text: ',res.statusText)
         return {status: res.status, data: res.data}
 }).catch((error) => {
-    console.error('error',error);
+    // console.error('error',error);
+    return {error: "Server error, failed to load XAI region data"}
 })
-    return request
+    return request // atcomentuoti sita!!!!
+    // return {error: "Server error, failed to load XAI region data"}
+
 };
 
 //XAI band
@@ -275,9 +281,11 @@ const getXaiBandData = async (label:any, profile:any, skip:number) => {
         // console.log('status text: ',res.statusText)
         return {status: res.status, data: res.data}
 }).catch((error) => {
-    console.error('error',error);
+    // console.error('error',error);
+    return {error: "Server error, failed to load XAI band data"}
 })
     return request
+    // return {error: "Server error, failed to load XAI band data"}
 };
 // getSetpointScheduleChartData('test_home_kim', 2, 0);
 // https://api.project-chai.org/xai/region/?label=[label]&profile=1&skip=1'

@@ -3,6 +3,9 @@ import React, {useState} from 'react';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
+//components
+import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
+
 //chartjs 
 
 import {
@@ -240,10 +243,8 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
   };
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" >
-        <Grid item className={classes.chart}>
-            <Scatter data={data} options={options} plugins={[annotationPlugin]}/>
-        </Grid>
+    <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
+      { !xaiRegionData ? <ProgressCircular size={40}/> : <Scatter data={data} options={options} plugins={[annotationPlugin]}/>}
     </Grid>
   )
 }
@@ -251,4 +252,6 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
 
 export default UpdateModelChart
 
+
+// !xaiFeaturesState.xaiRegionData || !xaiFeaturesState.periodPriceData ? <ProgressCircular size={40}/>
 // plugins={[ChartDataLabels]}

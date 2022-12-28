@@ -9,7 +9,9 @@ import 'chart.js/auto'
 import {Line} from 'react-chartjs-2'
 import ReactDOM from 'react-dom';
 // import Chart from 'chart.js';
-// 
+// components
+
+import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -193,10 +195,8 @@ const radius = (type: String) => {
   };
   
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" >
-        <Grid item className={classes.chart}>
-            <Line data={data} options={options}/>
-        </Grid>
+    <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart} >
+      {!xaiRegionData || !periodPriceData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/>}
     </Grid>
   )
 }

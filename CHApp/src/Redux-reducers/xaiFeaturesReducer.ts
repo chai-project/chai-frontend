@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 import services from '../Services/services';
 import dayjs from 'dayjs';
 
-const xaiFeaturesReducer = (state: any = { selectedProfile:null, xaiScatterData:null, xaiRegionData:null,xaiBandData:null, periodPriceData:null} , action:any) => {
+const xaiFeaturesReducer = (state: any = { selectedProfile:null, xaiScatterData:null, xaiScatterDataError:null, xaiRegionData:null, xaiRegionDataError:null, xaiBandData:null, xaiBandDataError:null, periodPriceData:null, periodPriceDataError:null} , action:any) => {
     switch(action.type) {
         case 'SET_SELECTED_PROFILE':
             return state = {...state, ...action.data} 
@@ -30,7 +30,7 @@ export const setSelectedProfile = (profile:any) => {
         if(!profile){
             dispatch({
                 type:"SET_SELECTED_PROFILE",
-                data: {selectedProfile:null, xaiScatterData:null, xaiRegionData:null,xaiBandData:null, periodPriceData:null}
+                data: {selectedProfile:null, xaiScatterData:null, xaiScatterDataError:null, xaiRegionData:null, xaiRegionDataError:null, xaiBandData:null, xaiBandDataError:null, periodPriceData:null, periodPriceDataError:null}
             })
         }else{
             dispatch({
@@ -53,11 +53,22 @@ export const setXaiScatterData = (label:string, profile:number) => {
     return async (dispatch : Dispatch) => {
 
         const xaiScatterData = await services.getXaiScatterData(label,profile);
+        if(xaiScatterData.error){
+            dispatch({
+                type:"SET_XAI_SCATTER_DATA",
+                data: {xaiScatterData: null, xaiScatterDataError: xaiScatterData.error}
+            })
+        }else{
+            dispatch({
+                type:"SET_XAI_SCATTER_DATA",
+                data: {xaiScatterData: xaiScatterData}
+            })
+        }
 
-        dispatch({
-            type:"SET_XAI_SCATTER_DATA",
-            data: {xaiScatterData: xaiScatterData}
-        })
+        // dispatch({
+        //     type:"SET_XAI_SCATTER_DATA",
+        //     data: {xaiScatterData: xaiScatterData}
+        // })
     };
 };
 
@@ -76,14 +87,27 @@ export const setPeriodPriceData = (start:any, end:any) => {
 
         // const scheduleChartData = await services.getSetpointScheduleChartData(label,profile,skip);
         let pricesForPeriod = await services.getAverageHeatingPricePeriod(period);
-        // const endOfAtimeFrame = pricesForPeriod[pricesForPeriod.length - 1].end
-        const timeFrameToAdd = {...pricesForPeriod[pricesForPeriod.length - 1], start: pricesForPeriod[pricesForPeriod.length - 1].end, end: dayjs(pricesForPeriod[pricesForPeriod.length - 1].end).add(30,'minutes').format()}
-        pricesForPeriod.push(timeFrameToAdd)
+        if(pricesForPeriod.error){
+            dispatch({
+                type:"SET_PERIOD_PRICE_DATA",
+                data: {periodPriceData: null, periodPriceDataError: pricesForPeriod.error }
+            })
+        }else{
+            const timeFrameToAdd = {...pricesForPeriod[pricesForPeriod.length - 1], start: pricesForPeriod[pricesForPeriod.length - 1].end, end: dayjs(pricesForPeriod[pricesForPeriod.length - 1].end).add(30,'minutes').format()}
+            pricesForPeriod.push(timeFrameToAdd)
+            dispatch({
+                type:"SET_PERIOD_PRICE_DATA",
+                // data: {periodPriceData: null, periodPriceDataError: "Server error, failed to load heating price data" }
+                data: {periodPriceData: pricesForPeriod}
+            })
+        }
+        // const timeFrameToAdd = {...pricesForPeriod[pricesForPeriod.length - 1], start: pricesForPeriod[pricesForPeriod.length - 1].end, end: dayjs(pricesForPeriod[pricesForPeriod.length - 1].end).add(30,'minutes').format()}
+        // pricesForPeriod.push(timeFrameToAdd)
         
-        dispatch({
-            type:"SET_PERIOD_PRICE_DATA",
-            data: {periodPriceData: pricesForPeriod}
-        })
+        // dispatch({
+        //     type:"SET_PERIOD_PRICE_DATA",
+        //     data: {periodPriceData: pricesForPeriod}
+        // })
     };
 };
 
@@ -91,14 +115,27 @@ export const setXaiRegionData = (label:string, profile:number, skip:number) => {
     // console.log(label, profile, skip)
     return async (dispatch : Dispatch) => {
 
-        const xaiRegionData = await services.getXaiRegionData(label,profile,skip);
+        const xaiRegionData:any = await services.getXaiRegionData(label,profile,skip);
+
+        if(xaiRegionData.error){
+            // xaiRegionDataError
+            dispatch({
+                type:"SET_XAI_REGION_DATA",
+                data: {xaiRegionData: null, xaiRegionDataError: xaiRegionData.error}
+            }) 
+        }else{
+            dispatch({
+                type:"SET_XAI_REGION_DATA",
+                data: {xaiRegionData: xaiRegionData}
+            })
+        }
         // const lastTimeframe = scheduleChartBiasAndSlope.data[scheduleChartBiasAndSlope.data.length-1];
         // console.log()
 
-        dispatch({
-            type:"SET_XAI_REGION_DATA",
-            data: {xaiRegionData: xaiRegionData}
-        })
+        // dispatch({
+        //     type:"SET_XAI_REGION_DATA",
+        //     data: {xaiRegionData: xaiRegionData}
+        // })
     };
 };
 
@@ -107,14 +144,25 @@ export const setXaiBandData = (label:string, profile:number, skip:number) => {
     // console.log(label, profile, skip)
     return async (dispatch : Dispatch) => {
 
-        const xaiBandData = await services.getXaiBandData(label,profile,skip);
+        const xaiBandData:any = await services.getXaiBandData(label,profile,skip);
         // const lastTimeframe = scheduleChartBiasAndSlope.data[scheduleChartBiasAndSlope.data.length-1];
         // console.log(xaiBandData)
+        if(xaiBandData.error){
+            dispatch({
+                type:"SET_XAI_BAND_DATA",
+                data: {xaiBandData: null, xaiBandDataError: xaiBandData.error}, 
+            })
+        }else{
+            dispatch({
+                type:"SET_XAI_BAND_DATA",
+                data: {xaiBandData: xaiBandData}
+            })
+        }      
 
-        dispatch({
-            type:"SET_XAI_BAND_DATA",
-            data: {xaiBandData: xaiBandData}
-        })
+        // dispatch({
+        //     type:"SET_XAI_BAND_DATA",
+        //     data: {xaiBandData: xaiBandData}
+        // })
     };
 };
 // SET_SETPOINT_SCHEDULE_CHART_BIAS_AND_SLOPE

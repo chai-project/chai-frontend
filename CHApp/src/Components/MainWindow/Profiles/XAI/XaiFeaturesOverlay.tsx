@@ -150,8 +150,6 @@ const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xa
           <Grid xs={11} item container direction="column" justifyContent="center" alignItems="center" className={classes.chartsComponent}>
             <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} />
           </Grid>
-          {/* <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} /> */}
-          {/* <Grid xs={0.5} className={classes.closeButton}/> */}
     </Grid>
   );
 };

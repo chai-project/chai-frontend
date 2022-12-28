@@ -3,6 +3,9 @@ import React, {useEffect, useState} from 'react';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
+//components
+import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
+
 //chartjs 
 import 'chart.js/auto'
 import {Scatter} from 'react-chartjs-2'
@@ -180,10 +183,8 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
   };
 
   return (
-    <Grid xs={12} item container direction="column" justifyContent="center" alignItems="center">
-        <Grid item className={classes.chart}>
-            <Scatter data={data} options={options}/>
-        </Grid>
+    <Grid xs={12} item container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
+      {!dataSet ? <ProgressCircular size={40}/> : <Scatter data={data} options={options}/> }
     </Grid>
   )
 }

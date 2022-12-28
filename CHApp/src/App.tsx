@@ -194,6 +194,7 @@ const App: React.FC = () => {
   const currentTime = dayjs();
   const today = currentTime.startOf('day').add(1,'day');
   const sevenDaysBack = today.subtract(7,'day');
+  // console.log(today, sevenDaysBack)
 
   
   useEffect(() => {
@@ -222,7 +223,7 @@ useEffect(()=>{
     dispatch(initializeEnergyPriceData())
     dispatch(initializeHeatingProfiles(homeLabel))
     dispatch(initializeHeatingSchedule(homeLabel))
-    dispatch(initialiseLogs(homeLabel, sevenDaysBack, today)) //, from:any, to:any
+    dispatch(initialiseLogs(homeLabel, null, null)) //, from:any, to:any, sevenDaysBack, today
   }else if(currentState.heatingComponent.isValid === true && homeLabel && userToken ){
     dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
     navigate('/Error')

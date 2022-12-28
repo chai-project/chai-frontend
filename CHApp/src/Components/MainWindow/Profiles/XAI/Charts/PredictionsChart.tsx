@@ -3,6 +3,9 @@ import React, {useState} from 'react';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
+// components
+import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
+
 //chartjs 
 import 'chart.js/auto'
 import {Line} from 'react-chartjs-2'
@@ -192,10 +195,8 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
   };
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" >
-        <Grid item className={classes.chart}>
-            <Line data={data} options={options}/>
-        </Grid>
+    <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
+      {!xaiBandData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/> }
     </Grid>
   )
 }

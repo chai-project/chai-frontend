@@ -18,6 +18,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 import { setXaiScatterData, setPeriodPriceData, setXaiRegionData, setXaiBandData } from '../../../../Redux-reducers/xaiFeaturesReducer';
+import { setErrorMessage } from '../../../../Redux-reducers/notificationsReducer';
 // import { initializeData } from './Redux-reducers/dataReducer';
 // import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
 
@@ -138,6 +139,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     Chart:{
     //   border: "1px solid lime",
+      height: '25vh',
+      width: '95%',
+      [theme.breakpoints.down('md')]: {
+          height: '29vh',
+        }
 
     }
   }),
@@ -161,25 +167,12 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     const [startOfTheDay, setStartOfTheDay] = useState(dayjs().set('hour',0).set('minutes',0).set('seconds',0));
     const [startOfTheNextDay, setStartOfTheNextDay] = useState(dayjs().add(1, 'days').set('hour',0).set('minutes',0).set('seconds',0));
 
-    // let startOfTheDay= dayjs().set('hour',0).set('minutes',0).set('seconds',0);
-    // let startOfTheNextDay = dayjs().add(1, 'days').set('hour',0).set('minutes',0).set('seconds',0);
-    // console.log(startOfToday.format(), endOfToday.format())
-
-    // console.log(xaiFeaturesState.selectedProfile.profile)
-    // const blbblbl = () => {
-    //   const profilePeriodStart = dayjs().set('hour', 0).set('minutes',15).set('seconds', 0);
-    //   const profilePeriodEnd = dayjs().set('hour', 0).set('minutes',45).set('seconds', 0);
-    //   dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
-    // }
-    
     useEffect(()=>{
         dispatch(setXaiScatterData(homeLabel, xaiFeaturesState.selectedProfile.profile));
         dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiRegionData));
         dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiBandData));
         dispatch(setPeriodPriceData(startOfTheDay,startOfTheNextDay));
         // setMappedDataForInputsChart(xaiFeaturesState.inputsChart.entries?.map((entry:any)=>{return [entry.price,entry.temperature]}))
-
-
     },[])
 
     useEffect(()=>{
@@ -190,77 +183,62 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         setFrameCount(xaiFeaturesState.xaiScatterData?.entries.length)
         // setDataSetForInputsChart(mappedDataForInputsChart?.slice(0,1));
 
-
     },[xaiFeaturesState.xaiScatterData])
-    // console.log(heatingProfiles.energyPriceForSelectedProfile)
 
 
-    const closeOverlay = () => {
-      // dispatch(setSelectedProfile(null))
-    }
+    //useEffect for error notifications!
+    useEffect(()=>{
+        if(xaiFeaturesState.periodPriceDataError){
+            dispatch(setErrorMessage(xaiFeaturesState.periodPriceDataError, 5000))
+        }else if(xaiFeaturesState.xaiRegionDataError){
+            dispatch(setErrorMessage(xaiFeaturesState.xaiRegionDataError, 5000))
+        } else if (xaiFeaturesState.xaiBandDataError){
+            dispatch(setErrorMessage(xaiFeaturesState.xaiBandDataError, 5000))
+        }else if(xaiFeaturesState.xaiScatterDataError){
+            dispatch(setErrorMessage(xaiFeaturesState.xaiScatterDataError, 5000))
+        }
+    },[xaiFeaturesState.periodPriceDataError, xaiFeaturesState.xaiRegionDataError, xaiFeaturesState.xaiBandDataError, xaiFeaturesState.xaiScatterDataError])
 
+    // useEffect(()=>{
+    //     console.log(frameCount, skipXaiBandData, skipXaiRegionData)
+    // },[frameCount, skipXaiBandData, skipXaiRegionData])
 
+    
     const previousFrame = () => {
         const newFrameCount = frameCount-1
         setFrameCount(newFrameCount)
-
-        //
-        setDataSetForInputsChart(mappedDataForInputsChart.slice(0,newFrameCount));
-        // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount)); good one if first 
-
-        // const newSkipXaiBandData = skipXaiBandData + 1;
-        // setSkip(newSkip);
-        if(xaiFeaturesState.xaiBandData?.status === 200){
+        if(!xaiFeaturesState.xaiScatterDataError){
+            setDataSetForInputsChart(mappedDataForInputsChart.slice(0,newFrameCount));
+        }
+        // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,newFrameCount));
+        if(xaiFeaturesState.xaiBandData?.status === 200 && !xaiFeaturesState.xaiBandDataError){
             const newSkipXaiBandData = skipXaiBandData + 1;
             setSkipXaiBandData(newSkipXaiBandData);
             dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkipXaiBandData));
         };
-        if(xaiFeaturesState.xaiRegionData?.status === 200){
+        if(xaiFeaturesState.xaiRegionData?.status === 200 && !xaiFeaturesState.xaiRegionDataError){
             const newSkipXaiRegionData = skipXaiRegionData + 1;
             setSkipXaiRegionData(newSkipXaiRegionData);
             dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkipXaiRegionData));
         };
-        // dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
-        // dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
-
-        // console.log(mappedDataForInputsChart.slice(0,frameCount));
-
-
-
-
-
     };
 
-
-    // console.log(xaiFeaturesState.xaiBandData.status)
-    // console.log(xaiFeaturesState.xaiRegionData.status)
     const nextFrame = () => {
-        // console.log('next')
-        // console.log(frameCount)
-        
         setFrameCount(frameCount+1);
-        setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
-        // xaiFeaturesState.setpointScheduleChart.biasAndSlope?.data.skip, perhaps better use this to set new skip ?
-        // const newSkip = skip - 1;
-        // setSkip(newSkip);
-        if(skipXaiBandData > 0){
+        if(!xaiFeaturesState.xaiScatterDataError){
+            setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
+        }
+        // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
+        if(skipXaiBandData > 0 && !xaiFeaturesState.xaiBandDataError){
             const newSkipXaiBandData = skipXaiBandData - 1;
             setSkipXaiBandData(newSkipXaiBandData);
             dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkipXaiBandData));
         }
-        if(skipXaiRegionData > 0){
+        if(skipXaiRegionData > 0 && !xaiFeaturesState.xaiRegionDataError){
             const newSkipXaiRegionData = skipXaiRegionData - 1;
             setSkipXaiRegionData(newSkipXaiRegionData);
             dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkipXaiRegionData));
-        }
-        // dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
-        // dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,newSkip));
-        
-        // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+2)); //good one
-        // console.log(mappedDataForInputsChart.slice(0,frameCount+1));
-
-        
-        
+        }  
     };
 
     const nextTimeslots = () => {
@@ -281,33 +259,29 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
 
     };
 
-    // console.log(xaiFeaturesState)
-    // console.log(xaiFeaturesState.xaiRegionData.status)
-
-
   return (
     <Grid xs={12} item container className={classes.chartsComponent} direction="column" justifyContent="center" alignItems="center">
         <Grid item container xs={breakpoint ? 10.9 : 11} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    {!dataSetForInputsChart  ? <ProgressCircular size={40}/> :
+                    {xaiFeaturesState.xaiScatterDataError ? <Typography>No data</Typography> :
                         <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount}/>
                     }
                 </Grid>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    {!xaiFeaturesState.xaiRegionData  ? <ProgressCircular size={40}/> :
+                    {xaiFeaturesState.xaiRegionDataError  ? <Typography>No data</Typography> :
                         <UpdateModelChart xaiRegionData={xaiFeaturesState.xaiRegionData}/>
                     }
                 </Grid>
             </Grid>
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    {!xaiFeaturesState.xaiBandData?.data ? <ProgressCircular size={40}/> : 
+                    {xaiFeaturesState.xaiBandDataError ? <Typography>No data</Typography> : 
                         <PredictionsChart xaiBandData={xaiFeaturesState.xaiBandData?.data}/>
                     }
                 </Grid>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    {!xaiFeaturesState.xaiRegionData || !xaiFeaturesState.periodPriceData ? <ProgressCircular size={40}/> : 
+                    {xaiFeaturesState.periodPriceDataError || xaiFeaturesState.xaiRegionDataError ? <Typography>No data</Typography> : 
                         <SetpointScheduleChart xaiRegionData={xaiFeaturesState.xaiRegionData} periodPriceData={xaiFeaturesState.periodPriceData}/>
                     }
                 </Grid>
@@ -354,3 +328,12 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
 };
 
 export default XAICharts;
+
+// {!dataSetForInputsChart  ? <ProgressCircular size={40}/> :
+// !xaiFeaturesState.xaiBandData?.data ? <ProgressCircular size={40}/> : 
+// !xaiFeaturesState.xaiRegionData || !xaiFeaturesState.periodPriceData ? <ProgressCircular size={40}/>
+
+
+// jeigu sufeilina requestai uzdeti error i redux ir rodyti no data vietoj to kad suktusi iki begalybes! cia rytojuj
+//useffect errorui butent jeigu jis yra parodyti useriui kas sufeilino
+// yra pavyzdys su chertais for timeslots!
