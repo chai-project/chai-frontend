@@ -1,8 +1,4 @@
-# CHAI-UI
-
-![Project Image](https://project-chai.org/images/logo.png)
-
-old version old-chapp-ui 
+# SQUID UI
 
 ### Table of Contents
 
