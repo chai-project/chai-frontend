@@ -15,6 +15,7 @@ import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
 import {setHeatingComponentMode} from '../../../Redux-reducers/heatingComponentReducer'
 import { setTemperature } from '../../../Redux-reducers/heatingComponentReducer';
+import { setNotification, setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
 
 
 //components
@@ -143,34 +144,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const HeatingQATEST: React.FC = () => {
+const HeatingQATEST: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
   
   //main component state from redux
   const heatingComponentState = useSelector( (state:any)=>{ // async await problemos, su switch button, reike giliau pasikapstyt, bet async await neupdeitina steito.
     return  state.heatingComponent
   })
 
-  // const activeProfile = useSelector((state:any)=>{ //define type later 
-  //   return state.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
-  //     const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-  //     if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-  //       if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-  //         return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-  //       } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-  //         return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-  //       } else {
-  //         return profile
-  //       }
-  //     }
-  //   });
-  //   // return activeProfile
-  // }) // iskelti sita i app,tsx ir pervest i sita ir tada i i profiles ir set profile su situo kaip default .
-
   const [heatingAutoMode, setHeatingAutoMode] = useState<boolean>(true)
-  // const [heatingOnMode, setHeatingOnMode] = useState<boolean>(false)
-  // const [showRadioButtons, setShowRadioButtons] = useState<boolean>(false)
   const [heatingManualMode, setHeatingManualMode] = useState<String|null>(null)
-//   const [temperature, setTemperature] = useState<String | null>(null)
   const [targetTemperature, setTargetTemperature] = useState<number>(17)
   const [isSetTargetTemperature, setIsSetTargetTemperature] = useState<boolean>(false)
   const [requestTargetTemperatureValue , setRequestTargetTemperature] = useState<number | null>(null)
@@ -182,35 +164,9 @@ const HeatingQATEST: React.FC = () => {
 
   const url = createBrowserHistory()
   const parameters = new URLSearchParams(url.location.search);
-  const homeLabel =  parameters.get('home')
+  // const homeLabel =  parameters.get('home')
 
   
-
-//   // let timerID:any 
-//   const doNotShowTheButtons = () => {
-//     const timerForRadioButtons = setTimeout(doNotShowTheRadioButtons,5000)
-//     setTimerID(timerForRadioButtons)
-//     // console.log(timerForRadioButtons, 'id')
-//   }
-//   const doNotShowTheRadioButtons = () => {
-//     // setShowRadioButtons(true) // paziureti ties cia kazka rytoj, bet jau beveik esi cia 
-//     setHeatingAutoMode(true)
-//     setTimerID(null)
-//   }
-
-
-// const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//   setHeatingManualMode(event.target.value);
-//   dispatch(setHeatingComponentMode(event.target.value))
-//   clearTimeout(timerID)
-//   setTimerID(null)
-// };
-
-// const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-// console.log('hmhm', activeProfile)
-
-
-// console.log(heatingComponentState,'blblbl')
 
 //confirm buttons actions
 
@@ -221,7 +177,9 @@ const confirmYes = async () => {
     if(response === 200){
       dispatch(setTemperature(requestTargetTemperatureValue));
       dispatch(setHeatingComponentMode('override'));
-      //set notification!! 
+      setNotification(`Target temperature is set sucessfully to ${requestTargetTemperatureValue}`,5000)
+    }else{
+      setErrorMessage(`Failed to set target temperature to ${requestTargetTemperatureValue}`,5000)
     }
   };
   setIsSetTargetTemperature(false);
@@ -231,7 +189,7 @@ const confirmYes = async () => {
 const confirmCancel = () => {
   setIsSetTargetTemperature(false)
 }
-// console.log('blblb',heatingComponentState)
+
 
 const confirmComponent = () => {
   return(

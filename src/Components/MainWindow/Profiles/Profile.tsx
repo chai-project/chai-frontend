@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import useMediaQuery from '@mui/material/useMediaQuery';
 import dayjs from 'dayjs';
 
 
@@ -7,7 +8,7 @@ import dayjs from 'dayjs';
 import services from '../../../Services/services';
 
 //mui
-import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, Grid, Typography, Link } from '@mui/material/';
 
 
@@ -48,16 +49,38 @@ const useStyles = makeStyles((theme: Theme) =>
         // position: 'relative'
     },
     info:{
-        height: '25%',
+        height: '100%',
+        width: '100%',
         // border: "2px dashed pink",
     },
-    chart:{
-        height: '75%',
+    moreInfo:{
+      // border: "1px dashed orange",
+      height: '100%',
+      width: '100%',
+
+    },
+    gaugeChart:{
+      // border: "1px dashed lime",
+      height: '100%',
+      // width: '90%',
+
+    },
+    profileChartContainer:{
+        height: '100%',
+        width: '100%',
         // border: "2px dashed red",
         // position: 'relative',
         // top: '1px',
-        width: '90%'
+        // width: '90%'
     },
+    profileChart:{
+      height: '95%',
+      width: '100%',
+      // border: "2px dashed red",
+      // position: 'relative',
+      // top: '1px',
+      // width: '90%'
+  },
     gauge:{
       // border: "2px dashed red",
     },
@@ -73,7 +96,9 @@ const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) =
     // const [profile, setProfile] = useState('');
 
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const theme = useTheme();
+    const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
     // const url = createBrowserHistory()
     // const parameters = new URLSearchParams(url.location.search);
     // const homeLabel =  parameters.get('home');
@@ -96,32 +121,59 @@ const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) =
     };
 
   return (
-    <div className={classes.main}>
-        <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
-            <Grid xs={1}item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
-                <Grid item xs={1}></Grid>
-                <Grid item container xs={11} direction="row" justifyContent="center" alignItems="center">
-                    <Grid xs={7} item container direction="column" justifyContent="center" alignItems="flex-start" rowSpacing={2}>
-                        <Grid item xs={3}>
-                          <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
-                        </Grid>
-                        <Grid item xs={3} className={classes.moreInfoButton} onClick={openXAIOverlay}>
-                          <Link><b>Want to know more about this profile?</b></Link>
-                        </Grid>
-                    </Grid>
-                    <Grid className={classes.gauge} xs={5}item>
-                        <PriceSensivityGauge profile={profile}/>
-                    </Grid>
-                </Grid>
-            </Grid>
-            <Grid xs={8} item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
-              {!profile ? <ProgressCircular size={40}/> : 
-                <Chart profile={profile}/>
-              }
-            </Grid>
+    <Grid xs={12} container className={classes.container} direction={breakpoint ? 'column' : 'row'} justifyContent="center" alignItems="center">
+      <Grid xs={breakpoint ? 4 : 5} className={classes.info} item container direction={breakpoint ? 'row' : 'column'} justifyContent="center" alignItems="center">
+        <Grid xs={breakpoint ? 8 : 4} item container className={classes.moreInfo} direction="column" justifyContent="center" alignItems="flex-start" padding={1}>
+          <Grid item>
+            <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
+          </Grid>
+          <Grid item>
+            <Link onClick={openXAIOverlay}><b>Want to know more about this profile?</b></Link>
+          </Grid>
         </Grid>
-    </div>
+        <Grid xs={breakpoint ? 4 : 8} item container className={classes.gaugeChart} direction="column" justifyContent="center" alignItems="center">
+          <Grid item container={breakpoint ? true : false}>
+            <PriceSensivityGauge profile={profile}/>
+          </Grid>
+          {/* <PriceSensivityGauge profile={profile}/> */}
+        </Grid>
+      </Grid>
+      <Grid item container xs={breakpoint ? 8 : 7} className={classes.profileChartContainer} direction="column" justifyContent="center" alignItems="center">
+        <Grid item  className={classes.profileChart}>
+          {!profile ? <ProgressCircular size={40}/> : <Chart profile={profile}/> }
+        </Grid >
+          {/* {!profile ? <ProgressCircular size={40} /> : 
+                  <Grid item xs={12} className={classes.profileChart}>  <Chart profile={profile}/> </Grid>
+          } */}
+      </Grid>
+    </Grid>
+    // <div className={classes.main}>
+    //     <Grid xs={12} container className={classes.container} direction="column" justifyContent="center" alignItems="center">
+    //         <Grid xs={1}item container className={classes.info} direction="row" justifyContent="flex-start" alignItems="center">
+    //             <Grid item xs={1}></Grid>
+    //             <Grid item container xs={11} direction="row" justifyContent="center" alignItems="center">
+    //                 <Grid xs={7} item container direction="column" justifyContent="center" alignItems="flex-start" rowSpacing={2}>
+    //                     <Grid item xs={3}>
+    //                       <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
+    //                     </Grid>
+    //                     <Grid item xs={3} className={classes.moreInfoButton} onClick={openXAIOverlay}>
+    //                       <Link><b>Want to know more about this profile?</b></Link>
+    //                     </Grid>
+    //                 </Grid>
+    //                 <Grid className={classes.gauge} xs={5}item>
+    //                     <PriceSensivityGauge profile={profile}/>
+    //                 </Grid>
+    //             </Grid>
+    //         </Grid>
+    //         <Grid xs={8} item container className={classes.chart}  direction="column" justifyContent="center" alignItems="center">
+              // {!profile ? <ProgressCircular size={40}/> : 
+              //   <Chart profile={profile}/>
+              // }
+    //         </Grid>
+    //     </Grid>
+    // </div>
   );
 };
 
 export default Profile;
+

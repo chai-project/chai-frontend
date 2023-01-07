@@ -32,24 +32,25 @@ import ConfirmOverlay from './ConfirmOverlay';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    main: {
+    mainContainer: {
       //  boxSizing: 'border-box',
-       position: 'relative', //sitas!!!
-       width: '100%',
+    //    position: 'relative', //sitas!!!
+    //    width: '100%',
        height: '100%',
     //    background: '#CFD8DC',
       //  left: '4%',
       //  top: '10%',
     },
     buttons:{
-        width: '100%',
-        height: '15%',
-        // border: "2px dashed green",
+        // width: '100%',
+        // height: '15%',
+    //   border: '3px dashed red',
+
     },
-    content:{
-        // border: "2px dashed lime",
+    profileContent:{
+        // border: "2px dashed red",
         width: '100%',
-        height: '85%',
+        height: '100%',
     },
     container:{
         // border: "2px dashed lime",
@@ -62,7 +63,11 @@ const useStyles = makeStyles((theme: Theme) =>
         height:'72%'
     },
     selectProfileButton:{
-        margin: 'auto',
+        position: 'relative',
+        left: '1%',
+        // border: '3px dashed red',
+        
+        // margin: 'auto',
         // border: "1px solid pink",
         width: '15%',
         // position: 'relative',
@@ -71,6 +76,9 @@ const useStyles = makeStyles((theme: Theme) =>
           }
     },
     resetProfileButtons:{
+        position: 'relative',
+        right: '1%',
+        // border: '3px dashed red',
         // border: "1px solid yellow",
         width: '50%',
         // position:'relative'
@@ -80,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
         [theme.breakpoints.down('md')]: {
             width: '13%'
           }
-    }
+    },
   }),
 );
 
@@ -145,19 +153,19 @@ const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({curren
     }
     // ()=>{resetSelectedProfile(profile.profile)}
   return (
-    <Grid container className={classes.main}  direction="column" justifyContent="center" alignItems="center" >
+    <Grid container className={classes.mainContainer}  direction="column" justifyContent="center" alignItems="center" padding={1}>
         {currentState.xaiFeatures.selectedProfile ? <XaiFeaturesOverlay xaiFeaturesState={currentState.xaiFeatures} homeLabel={homeLabel}/> : null }
         {profileToReset ? <ConfirmOverlay profileToReset={profileToReset} setProfileToReset={setProfileToReset} resetProfileOrAllProfiles={resetProfileOrAllProfiles} loadingRequestToTheServer={loadingRequestToTheServer}/> : null }
         {allProfiles.length !== 0 ? 
-                        <Grid container className={classes.container} direction="column" justifyContent="flex-start" alignItems="center">
-                            <Grid item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
-                                <Grid item className={classes.selectProfileButton}>
+                        <Grid container xs={12} className={classes.container} direction="column" justifyContent="flex-start" alignItems="center" >
+                            <Grid xs={1.4} item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
+                                <Grid item xs={3} className={classes.selectProfileButton}>
                                     {allProfiles?
                                         <SelectProfileButton allProfiles={allProfiles} profile={profile} setProfile={setProfile}/>
                                     :null}
                                 </Grid>
-                                <Grid item className={classes.spaceBetweenButtons}></Grid>
-                                <Grid item className={classes.resetProfileButtons} direction="row" justifyContent="flex-end" alignItems="center">
+                                {/* <Grid item className={classes.spaceBetweenButtons}></Grid> */}
+                                <Grid item xs={9} className={classes.resetProfileButtons} direction="row" justifyContent="flex-end" alignItems="center">
                                     <Grid item container direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
                                         <Grid  item>
                                             {profile? <Button variant="outlined" color='secondary' size='small' onClick={()=>{openConfirmOverlay(profile.profileName)}}>Reset this profile</Button> : null}
@@ -168,8 +176,8 @@ const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({curren
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item className={classes.content}>
-                                {profile ? <Profile profile={profile} homeLabel={homeLabel}/> : null}
+                            <Grid item xs={10.2} className={classes.profileContent}>
+                                {profile ? <Profile profile={profile} homeLabel={homeLabel}/> : <h1>No selected profile. Please select a profile.</h1>}
                             </Grid>
                         </Grid>
                      : 

@@ -62,13 +62,13 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%', //cia buvo height, ir jeigu nuskrolindavau main screen i virsu!
       marginLeft: 'auto',
       marginRight: 'auto',
-      minHeight:  '840px',
+      // minHeight:  '840px',
       width: '100vw',
       maxWidth: '1400px',
       // overflow: 'hidden',
       // border: "5px dashed purple",
       [theme.breakpoints.down('md')]: {
-        minHeight:  '100%',
+        // minHeight:  '100%',
         height: '100%',
         // minHeight: '0%',
         // height: '600px',
@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     mainWindowContainer:{
       height:'100%',
+      padding: '1px',
       // width: '100%',
       // width: '10px',
       // border: "2px dashed yellow",
@@ -108,6 +109,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     mainWindow:{
       height:'100%',
+      // padding: '1px',
+      // width: '99%',
       // minHeight: '790px',
       // border: '1px solid red',
       border: '1px solid #5ACBCC',
@@ -163,7 +166,10 @@ const useStyles = makeStyles((theme: Theme) =>
     containerAll:{
       // border: "5px dashed orange",
       [theme.breakpoints.down('md')]: {
-        height: '70%', //buvo 85%
+        height: '82%', //buvo 85%
+      },
+      [theme.breakpoints.down('sm')]: {
+        height: '85%', //buvo 85%
       }
     }
   }),
@@ -287,7 +293,7 @@ useEffect(()=>{
         </Backdrop>
       </div> */}
       <CssBaseline/>
-      <NavbarTop handleBackDrop={handleBackDrop}/>
+      <NavbarTop handleBackDrop={handleBackDrop} homeLabel={homeLabel}/>
         <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.centerContainer}>
           <Grid item container direction="row" className={classes.containerAll}>
             <Grid xl={12} item container direction="row" justifyContent="space-between" className={classes.mainWindowAndQuickAccessContainer}>
@@ -298,7 +304,7 @@ useEffect(()=>{
               </Grid>
               <Grid xs={3.3} sm={3.3} md={3.3} lg={3.3} xl={3.3} item >
                 <Paper className={classes.quickAccess}>
-                  <QuickAccess/>
+                  <QuickAccess homeLabel={homeLabel}/>
                 </Paper>
               </Grid>
             </Grid>

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appbar: {
       // height: '50px',
-      zIndex: 2
+      zIndex: 4
     },
     drawer:{
 
@@ -42,30 +42,36 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logoContainer:{
       position: 'fixed',
-      zIndex: 3,
+      zIndex: 4,
       // height: '50px',
-      // border: "2px dashed pink",
+      // width: '500px',
+      // border: "2px dashed lime",
       [theme.breakpoints.up('lg')]: {
         display: 'none',
       }
     },
     logo:{
       height: '50px',
+      // border: "2px dashed pink",
+
       [theme.breakpoints.down('lg')]: {
-        margin: '5px',
+        marginTop: '5px',
+        marginLeft: '-35px',
         height: '35px',
       }
     },
     navigationMenuIcons:{
+      // height: '35px',
       width: '10px',
       position: 'fixed',
-      zIndex: 3,
+      marginLeft: '15px',
+      zIndex: 4,
             // border: "2px dashed pink",
     }
   }),
 );
 
-const NavbarTop: React.FC<{handleBackDrop:(event:any) => void}> = ({handleBackDrop}) => {
+const NavbarTop: React.FC<{handleBackDrop:(event:any) => void, homeLabel:String | null}> = ({handleBackDrop, homeLabel}) => {
 
   const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false)
     const classes = useStyles();
@@ -96,7 +102,7 @@ const NavbarTop: React.FC<{handleBackDrop:(event:any) => void}> = ({handleBackDr
         </AppBar> */}
         <Grid container xs={2} sm={1} md={1} lg={1} direction="row" justifyContent="flex-start" className={classes.navigationMenuIcons}>
           <Grid item xs={5} className={classes.menuButton}>
-            <IconButton size='small' edge='start' color='primary' onClick={() => setDrawerOpenState(!drawerOpenState)}>
+            <IconButton size='medium' edge='start' color='primary' onClick={() => setDrawerOpenState(!drawerOpenState)}>
               {drawerOpenState ? <CloseIcon/> : <MenuIcon/> }
             </IconButton>
           </Grid>
@@ -108,12 +114,12 @@ const NavbarTop: React.FC<{handleBackDrop:(event:any) => void}> = ({handleBackDr
         </Grid>
         <Grid container direction="row" justifyContent="flex-end">
           <Grid item xs={3} sm={2} md={1.5} lg={1} className={classes.logoContainer}>
-            <Link href="/">
+            {/* <Link href="/"> */}
               <img className={classes.logo} src={Logo}></img>
-            </Link>
+            {/* </Link> */}
           </Grid>
         </Grid>
-        <DrawerComponent drawerOpenState={drawerOpenState}/>
+        <DrawerComponent drawerOpenState={drawerOpenState} homeLabel={homeLabel}/>
     </div>
   );
 };

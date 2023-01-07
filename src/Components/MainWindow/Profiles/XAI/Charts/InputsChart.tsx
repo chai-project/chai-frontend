@@ -13,36 +13,21 @@ import {Scatter} from 'react-chartjs-2'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    main: {
-      //  boxSizing: 'border-box',
-       position: 'relative', //sitas!!!
-       width: '100%',
-       height: '100%',
-      //  background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
-    },
-    container:{
-        // border: "2px dashed lime",
-        height: '100%',
-        width: '100%',
-        // position: 'relative'
-    },
-    info:{
-        height: '20%',
-        // border: "2px dashed pink",
-    },
-    label:{
-        border: "2px dashed yellow",
-        height: '100%',
-        width: '100%',
-    },
     chart:{
         height: '25vh',
         width: '95%',
+        // [theme.breakpoints.down('md')]: {
+        //   height: '28vh',
+        // }
+        [theme.breakpoints.up('md')]: {
+          height: '25vh',
+        },
         [theme.breakpoints.down('md')]: {
-          height: '28vh',
-        }
+          height: '32vh',
+        },
+        [theme.breakpoints.down('sm')]: {
+            height: '36vh',
+          },
         // border: "2px dashed purple",
     }
   }),

@@ -49,12 +49,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     datepickerContainer:{
       height: '100%',
-      // border: '3px dashed orange',
+      // border: '1px dashed orange',
     },
     datepickerbuttons:{
       position: 'relative',
-      left: '1%'
+      left: '1%',
       // border: '3px dashed red',
+    },
+    checkboxButtons:{
+      position: 'relative',
+      right: '1%',
+      // border: '3px dashed green',
     },
     main: {
       //  boxSizing: 'border-box',
@@ -79,11 +84,11 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: 'auto',
       marginRight: 'auto',
       height: '90%',
-      width: '99%',
+      width: '100%',
       // top: '10%',
       // overflowY: 'scroll',
       // overflowX: 'hidden',
-      // border: '3px dashed red',
+      // border: '1px dashed red',
       [theme.breakpoints.down('md')]: {
         height:'25px',
       }
@@ -145,19 +150,20 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
     },[uniquefilterValues])
 
   return (
-    <Grid container direction='column' justifyContent='center' alignItems='center' className={classes.mainContainer}>
+    <Grid container direction='column' justifyContent='center' alignItems='center' className={classes.mainContainer} padding={0}>
     <Grid item xs={1.4}className={classes.buttons}>
       <Grid container xs={12} direction="row" justifyContent='flex-start' alignItems='center' className={classes.datepickerContainer}>
-        <Grid item xs={9} className={classes.datepickerbuttons}> 
+        <Grid item xs={8} className={classes.datepickerbuttons}> 
           <DatePickerComponent valueFrom={valueFrom} setValueFrom={setValueFrom} valueTo={valueTo} setValueTo={setValueTo} homeLabel={homeLabel} logs={logs} setLogs={setLogs} page={page} setPage={setPage}/>
         </Grid>
-        <Grid xs={3} item>
+        <Grid xs={4} item container className={classes.checkboxButtons} direction="row" justifyContent='flex-end' alignItems='center'>
           <Checkboxes logs={logs} setLogs={setLogs} uniquefilterValues={uniquefilterValues} setUniquefilterValues={setUniquefilterValues}/>
         </Grid>
       </Grid>
     </Grid>
-    <Grid item xs={10.5}className={classes.logs}>
-      <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} />
+    <Grid item xs={10.2}className={classes.logs}>
+      {logs ? <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> : <h1>Error</h1>}
+      {/* <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> */}
     </Grid>
   </Grid>
   );

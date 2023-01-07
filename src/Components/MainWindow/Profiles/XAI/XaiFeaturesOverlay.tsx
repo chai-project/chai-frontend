@@ -4,7 +4,8 @@ import dayjs from 'dayjs'
 
 
 //mui
-import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
         // left: "-0.01px",
         height: '100%',
         width: '100%',
-        zIndex: 10,
+        zIndex: 2,
         borderRadius: 5,
           //  background: '#CFD8DC',
           background: 'rgba(0,0,0,0.4)',
@@ -86,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
     infoLabel:{
         fontSize: '13px',
         marginLeft: '10px',
-        zIndex: 10,
+        // zIndex: 10,
     },
     closeButton:{
         // border: "1px solid orange",
@@ -94,7 +95,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // position:'absolute',
     },
     chartsComponent:{
-      // border: "1px solid pink",
+      // border: "1px dashed pink",
 
     },
     charts:{
@@ -102,7 +103,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     navbarTop:{
-      // border: "1px solid red",
+      // border: "2px dashed red",
 
     }
   }),
@@ -111,7 +112,9 @@ const useStyles = makeStyles((theme: Theme) =>
 const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeaturesState, homeLabel}) => { // timeslots type timeslot[] | null
 
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const theme = useTheme();
+    const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
 
     // const blbblbl = () => {
     //   const profilePeriodStart = dayjs().set('hour', 0).set('minutes',15).set('seconds', 0);
@@ -137,8 +140,8 @@ const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xa
 
   return (
     <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
-      <CssBaseline/>
-          <Grid xs={0.5} item container direction="row" alignItems="center" justifyContent="center" className={classes.navbarTop}>
+          <CssBaseline/>
+          <Grid xs={breakpoint ? 1 : 0.5} item container direction="row" alignItems="center" justifyContent="center" className={classes.navbarTop}>
             <Grid item xs={0.5}></Grid>
             <Grid item xs={10.5} container direction="row" alignItems="center" justifyContent="flex-start"><b>{xaiFeaturesState.selectedProfile.profileName}</b></Grid>
             <Grid item xs={1} container direction="row" alignItems="center" justifyContent="center">
@@ -147,7 +150,7 @@ const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xa
               </IconButton>
             </Grid>
           </Grid>
-          <Grid xs={11} item container direction="column" justifyContent="center" alignItems="center" className={classes.chartsComponent}>
+          <Grid xs={breakpoint ? 11 : 10.8} item container direction="column" justifyContent="center" alignItems="center" className={classes.chartsComponent}>
             <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} />
           </Grid>
     </Grid>

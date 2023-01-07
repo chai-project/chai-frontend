@@ -22,9 +22,18 @@ const useStyles = makeStyles((theme: Theme) =>
     chart:{
         height: '25vh',
         width: '95%',
+        // [theme.breakpoints.down('md')]: {
+        //     height: '28vh',
+        //   }
+        [theme.breakpoints.up('md')]: {
+          height: '25vh',
+        },
         [theme.breakpoints.down('md')]: {
-            height: '28vh',
-          }
+          height: '32vh',
+        },
+        [theme.breakpoints.down('sm')]: {
+            height: '36vh',
+          },
         // border: "2px dashed purple",
     }
   }),

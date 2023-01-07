@@ -19,13 +19,13 @@ const useStyles = makeStyles({
     label: {
       "&.MuiOutlinedInput-root": {
         "& fieldset": {
-          borderColor: "#5ACBCC" // sia spalva pakeisti i balta arba jouda priklauso nuo app temos.
+          borderColor: "white" // sia spalva pakeisti i balta arba jouda priklauso nuo app temos.
         },
         "&:hover fieldset": {
           // borderColor: "yellow"
         },
         "&.Mui-focused fieldset": {
-          // borderColor: "green"
+          borderColor: "#5ACBCC"
         },
       },
       "&.Mui-focused": {
@@ -34,7 +34,7 @@ const useStyles = makeStyles({
       
     },
     icon:{
-      color:"#5ACBCC !important"
+      color:"#5ACBCC !important",
     }
   });
 
@@ -79,6 +79,7 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
           label="Profile"
           onChange={handleChange}
           className={classes.label}
+          size="small"
           inputProps={{
             classes: {
               icon: classes.icon,

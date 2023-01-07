@@ -23,21 +23,8 @@ const Checkboxes: React.FC<{logs:any, setLogs:any, uniquefilterValues:any, setUn
     <FormControl component="fieldset">
       <FormGroup aria-label="position" row>
         {filterKeyValues.map((value:any)=>{
-            return         <FormControlLabel value={value} control={<Checkbox checked={uniquefilterValues[value]} onChange={handleChange}/>} label={value} labelPlacement="start" />
+            return         <FormControlLabel value={value} control={<Checkbox checked={uniquefilterValues[value]} onChange={handleChange}/>} label={value} labelPlacement="end" />
         })}
-        
-        {/* <FormControlLabel
-          value="start"
-          control={<Checkbox />}
-          label="Start"
-          labelPlacement="start"
-        />
-        <FormControlLabel
-          value="start"
-          control={<Checkbox />}
-          label="Start"
-          labelPlacement="start"
-        /> */}
       </FormGroup>
     </FormControl>
   );

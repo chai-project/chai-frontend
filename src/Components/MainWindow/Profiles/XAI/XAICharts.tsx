@@ -41,69 +41,71 @@ import ProgressCircular from '../../../ProgressBar/ProgressCircular';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    container:{
-        // border: "2px dashed red",
-        // width: '80%',
-        position:'absolute',
-        top:'4px',
-        height: '100%',
-        width: '100%',
-        zIndex: 10,
-        borderRadius: 5,
-          //  background: '#CFD8DC',
-          // background: 'rgba(0,0,0,0.5)',
-          backdropFilter: 'blur(50px)',
-        //    borderRadius:'25px'
-    },
-    schedule:{
-        // border: "1px solid red",
-        height: '95%',
-        borderRadius: '25px',
-        overflow: 'hidden',
-        // height: '12%',
-        // width: '100%',
+    // container:{
+    //     // border: "2px dashed red",
+    //     // width: '80%',
+    //     position:'absolute',
+    //     top:'4px',
+    //     height: '100%',
+    //     width: '100%',
+    //     zIndex: 10,
+    //     borderRadius: 5,
+    //       //  background: '#CFD8DC',
+    //       // background: 'rgba(0,0,0,0.5)',
+    //       backdropFilter: 'blur(50px)',
+    //     //    borderRadius:'25px'
+    // },
+    // schedule:{
+    //     // border: "1px solid red",
+    //     height: '95%',
+    //     borderRadius: '25px',
+    //     overflow: 'hidden',
+    //     // height: '12%',
+    //     // width: '100%',
 
-    },
-    timeslot:{
-        // border: "1px solid lime",
-        // borderRight: "1px solid #57CBCC",
-        height: '100%',
-        "&:hover, &:focus": {
-            // borderRight: "10px solid red",
-            background : "#57CBCC",
-            cursor: 'pointer'
+    // },
+    // timeslot:{
+    //     // border: "1px solid lime",
+    //     // borderRight: "1px solid #57CBCC",
+    //     height: '100%',
+    //     "&:hover, &:focus": {
+    //         // borderRight: "10px solid red",
+    //         background : "#57CBCC",
+    //         cursor: 'pointer'
             
-        },
-        "& .timeslotInfo": {
-            display: "none"
-          },
-          "&:hover .timeslotInfo": {
-            display: "flex"
-          }
-    },
-    labels: {
-        // border: "1px solid orange",
-        height: '40%',
-        // background:'pink'
-    },
-    timeLabel:{
-        fontSize: '9px',
-    },
-    temperatureLabel:{
-        fontSize: '14px',
-    },
-    infoLabel:{
-        fontSize: '13px',
-        marginLeft: '10px',
-        zIndex: 10,
-    },
+    //     },
+    //     "& .timeslotInfo": {
+    //         display: "none"
+    //       },
+    //       "&:hover .timeslotInfo": {
+    //         display: "flex"
+    //       }
+    // },
+    // labels: {
+    //     // border: "1px solid orange",
+    //     height: '40%',
+    //     // background:'pink'
+    // },
+    // timeLabel:{
+    //     fontSize: '9px',
+    // },
+    // temperatureLabel:{
+    //     fontSize: '14px',
+    // },
+    // infoLabel:{
+    //     fontSize: '13px',
+    //     marginLeft: '10px',
+    //     zIndex: 10,
+    // },
     navigateButtons:{
+        // width: '10%',
+        // height: '10%',
         // border: "1px solid orange",
 
       // position:'absolute',
     },
     chartsComponent:{
-    //   border: "1px solid red",
+    //   border: "1px solid lime",
     //   height: '100%',
     //   flex: 0,
 
@@ -141,9 +143,18 @@ const useStyles = makeStyles((theme: Theme) =>
     //   border: "1px solid lime",
       height: '25vh',
       width: '95%',
+      [theme.breakpoints.up('md')]: {
+        height: '25vh',
+      },
       [theme.breakpoints.down('md')]: {
-          height: '29vh',
-        }
+        height: '32vh',
+      },
+      [theme.breakpoints.down('sm')]: {
+          height: '36vh',
+        },
+        
+    
+        
 
     }
   }),
@@ -154,7 +165,9 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     const classes = useStyles();
     const dispatch = useDispatch();
     const theme = useTheme();
-    const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
+    const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
+    const breakpointMedium = useMediaQuery(theme.breakpoints.down("sm"));
+
     //inputs chart 
     const [dataSetForInputsChart, setDataSetForInputsChart] = useState<any>([]);
     const [mappedDataForInputsChart, setMappedDataForInputsChart] = useState<any>([]);
@@ -261,7 +274,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
 
   return (
     <Grid xs={12} item container className={classes.chartsComponent} direction="column" justifyContent="center" alignItems="center">
-        <Grid item container xs={breakpoint ? 10.9 : 11} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
+        <Grid item container xs={breakpoint ? 11.1 : 10.4} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
                     {xaiFeaturesState.xaiScatterDataError ? <Typography>No data</Typography> :
@@ -328,12 +341,3 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
 };
 
 export default XAICharts;
-
-// {!dataSetForInputsChart  ? <ProgressCircular size={40}/> :
-// !xaiFeaturesState.xaiBandData?.data ? <ProgressCircular size={40}/> : 
-// !xaiFeaturesState.xaiRegionData || !xaiFeaturesState.periodPriceData ? <ProgressCircular size={40}/>
-
-
-// jeigu sufeilina requestai uzdeti error i redux ir rodyti no data vietoj to kad suktusi iki begalybes! cia rytojuj
-//useffect errorui butent jeigu jis yra parodyti useriui kas sufeilino
-// yra pavyzdys su chertais for timeslots!

@@ -127,9 +127,8 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
   };
 
   return (
-    <div className={classes.chart}>
+
       <Line data={data} options={options}/>
-    </div>
   )
 }
 

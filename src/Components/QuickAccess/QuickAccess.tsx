@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 //JSX
-const QuickAccess: React.FC = () => {
+const QuickAccess: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
   const actualTheme = useTheme()
 
     const classes = useStyles();
@@ -63,7 +63,7 @@ const QuickAccess: React.FC = () => {
         <img className={classes.logo} src={Logo}></img>
       </Grid >
       <Grid item className={classes.gridItem} >
-        <HeatingQATEST/>
+        <HeatingQATEST homeLabel={homeLabel}/>
       </Grid>
       {/* <Grid item className={classes.gridItem}>
         <BatteryQA/>

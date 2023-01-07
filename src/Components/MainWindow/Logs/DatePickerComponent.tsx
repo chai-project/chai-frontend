@@ -110,7 +110,7 @@ const DatePickerComponent: React.FC<{valueFrom:any, setValueFrom:any, valueTo:an
                 handleSetFrom(newValue);
                 // setValueFrom(newValue);
               }}
-              renderInput={(params) => <TextField className={classes.textfield} sx={{svg:{color:'#5ACBCC'}}} {...params} />}
+              renderInput={(params) => <TextField  size='small' className={classes.textfield} sx={{svg:{color:'#5ACBCC'}}} {...params} />}
             />
           </Grid>
           <Grid item>
@@ -126,7 +126,7 @@ const DatePickerComponent: React.FC<{valueFrom:any, setValueFrom:any, valueTo:an
               // console.log(newValue.toISOString(),'wtf???')
               handleSetTo(newValue);
             }}
-            renderInput={(params) => <TextField className={classes.textfield} sx={{svg:{color:'#5ACBCC'}}} {...params} />}
+            renderInput={(params) => <TextField  size='small' className={classes.textfield} sx={{svg:{color:'#5ACBCC'}}} {...params} />}
           />
           </Grid>
         </Grid>

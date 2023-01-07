@@ -16,6 +16,8 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
 //components
 import QuickAccess from '../QuickAccess/QuickAccess';
+import HeatingQATEST from '../QuickAccess/Heating/HeatingQATEST';
+import EnergyQA from '../QuickAccess/Energy/EnergyQA';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100vw',
       // minHeight:'100vh', // nezinau ka cia padariau bet veleu pataisysi nes dabar du scroll barai yra!
       flexShrink: 0,
-      zIndex: 2
+      zIndex: 3
     },
     drawerPaper: {
       height: 'calc(100% - 64px)',
@@ -43,22 +45,22 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     drawerContainer: {
-      minheight: '100vh', //ir cia del scroll barsu!
+      // minheight: '100vh', //ir cia del scroll barsu!
       // position: 'relative',
       // border: '2px solid red',
-      // overflow: 'auto',
+      // overflow: 'hidden',
       // alignItems: 'center',
       // width: '100vw',
 
     },
     content: {
-      // border: '1px solid pink',
+      border: '1px solid pink',
       // position: 'relative',
-      // height: '100vh', // cia buvo klaida!!!
-      width: '380px',
+      height: '85%', // cia buvo klaida!!!
+      width: '400px', // 380px
       boxShadow: "none",
-      alignItems: 'center',
-      justifyContent:"center",
+      // alignItems: 'center',
+      // justifyContent:"center",
       // left: '50%',
       // top: '50%',
       // WebkitTransform: 'translate(-50%, -50%)',
@@ -73,21 +75,25 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
     },
+    heating:{
+      width: '40%',
+      [theme.breakpoints.down('sm')]: {
+          width: '70%',
+        },
+    },
+    energy:{
+      width: '40%',
+      [theme.breakpoints.down('sm')]: {
+          width: '70%',
+        },
+    }
   }),
 );
 
-// interface Props { //instead of any in props
-//   data:CVE_Item[] | undefined;
-//   cveItemsToShow:CVE_Item[] | undefined;
-//   setCveItemsToShow:any;
-//   drawerOpenState: boolean;
-//   dates:string[];
-// }
 
 
 const DrawerComponent: React.FC<any> = (props: any) => {
   const classes = useStyles();
-//   const { data, cveItemsToShow, setCveItemsToShow, drawerOpenState, dates, } = props;
 
   
 
@@ -103,16 +109,17 @@ const DrawerComponent: React.FC<any> = (props: any) => {
           paper: classes.drawerPaper,
         }}
       >
-        <Grid container xs={12} direction="column" alignItems="center" justifyContent="center"> {/* //  className={classes.drawerContainer}*/}
-          <Grid item className={classes.content}>
-            <QuickAccess/>
+        <Grid container xs={12} direction="column" alignItems="center" justifyContent="center" className={classes.drawerContainer} > {/* //  className={classes.drawerContainer}*/}
+          <Grid xs={3} item className={classes.heating} >
+            <HeatingQATEST homeLabel={props.homeLabel}/>
           </Grid>
+          <Grid xs={3} item className={classes.energy} >
+            <EnergyQA/>
+          </Grid>
+          {/* <Grid item container direction="row" alignItems="center" justifyContent="center" className={classes.content}> */}
+            {/* <QuickAccess homeLabel={props.homeLabel}/> */}
+          {/* </Grid> */}
         </Grid>
-        {/* <div className={classes.drawerContainer}>
-          <div className={classes.content}>
-            <QuickAccess/>
-          </div>
-        </div> */}
       </Drawer>
     </div>
   );

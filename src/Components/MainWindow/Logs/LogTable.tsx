@@ -91,11 +91,12 @@ const useStyles = makeStyles((theme: Theme) =>
       height:'640px', //600fullscreen
       zIndex:0,
       [theme.breakpoints.down('md')]: {
-        height: '780px',
+        height: '315px', //780px
+        // height: "100%"
         // minHeight: '650px',
       },
       [theme.breakpoints.down('sm')]: {
-        height: '460px',
+        height: '630px',
         // minHeight: '650px',
       }
       // overflow: 'hidden'
@@ -239,6 +240,7 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
         rowsPerPageOptions={[25, 50, 100]}
         component="div"
         count={logs?.length} //-1 or 0 logs?.length
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to}`}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -250,162 +252,3 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
 
 
 export default LogTable
-
-// import * as React from 'react';
-// import Paper from '@mui/material/Paper';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TablePagination from '@mui/material/TablePagination';
-// import TableRow from '@mui/material/TableRow';
-
-// interface Column {
-//   id: 'date' | 'time' | 'description';
-//   label: string;
-//   minWidth?: number;
-//   align?: 'right';
-//   format?: (value: number) => string;
-// }
-
-// const columns: readonly Column[] = [
-//   { id: 'date', label: 'Date', minWidth: 170 },
-//   { id: 'time', label: 'Time', minWidth: 100 },
-//   { id: 'description', label: 'Description', minWidth: 100 },
-// ];
-
-// interface Data {
-//   date: string;
-//   time: string;
-//   description: string;
-// }
-
-// function createData(
-//   date: string,
-//   time: string,
-//   description: string,
-// ): Data {
-//   return { date, time, description };
-// }
-
-// // const rows = [
-// //   createData('2002-04-12', '14:22', "SWX1"),
-// //   createData('2002-04-12', '14:22', "SWX2"),
-// //   createData('2002-04-12', '14:22', "SWX3"),
-// //   createData('2002-04-12', '14:22', "SWX4"),
-// //   createData('2002-04-12', '14:22', "SWX5"),
-// //   createData('2002-04-12', '14:22', "SWX6"),
-// //   createData('2002-04-12', '14:22', "SWX7"),
-// //   createData('2002-04-12', '14:22', "SWX8"),
-// //   createData('2002-04-12', '14:22', "SWX9"),
-// //   createData('2002-04-12', '14:22', "SWX10"),
-// //   createData('2002-04-12', '14:22', "SWX11"),
-// //   createData('2002-04-12', '14:22', "SWX12"),
-// //   createData('2002-04-12', '14:22', "SWX13"),
-// //   createData('2002-04-12', '14:22', "SWX14"),
-// //   createData('2002-04-12', '14:22', "SWX15"),
-// //   createData('2002-04-12', '14:22', "SWX16"),
-// //   createData('2002-04-12', '14:22', "SWX17"),
-// //   createData('2002-04-12', '14:22', "SWX18"),
-// //   createData('2002-04-12', '14:22', "SWX19"),
-// //   createData('2002-04-12', '14:22', "SWX20"),
-// //   createData('2002-04-12', '14:22', "SWX21"),
-// //   createData('2002-04-12', '14:22', "SWX22"),
-// //   createData('2002-04-12', '14:22', "SWX23"),
-// //   createData('2002-04-12', '14:22', "SWX24"),
-// //   createData('2002-04-12', '14:22', "SWX25"),
-
-// // ];
-// const rows = [
-//   { id: 1, date: 'Snow', time: 'Jon', description: '35' },
-//   { id: 2, date: 'Lannister', time: 'Cersei', description: '42' },
-//   { id: 3, date: 'Lannister', time: 'Jaime', description: '45' },
-//   { id: 4, date: 'Stark', time: 'Arya', description: '16' },
-//   { id: 5, date: 'Targaryen', time: 'Daenerys', description: 'null' },
-//   { id: 6, date: 'Melisandre', time: 'null', description: '150' },
-//   { id: 7, date: 'Clifford', time: 'Ferrara', description: '44' },
-//   { id: 8, date: 'Frances', time: 'Rossini', description: '56' },
-//   { id: 9, date: 'Roxie', time: 'Harvey', description: '65' },
-//   { id: 10, date: 'Roxie', time: 'Harvey', description: '65' },
-//   { id: 11, date: 'Roxie', time: 'Harvey', description: '65' },
-// ];
-
-// interface Log {
-//   date:string;
-//   time: string;
-//   description: string;
-
-// }
-// interface Props {
-//   logs: Log[] | []
-// }
-// const StickyHeadTable: React.FC<Props>= (props:Props) => {
-//   const {logs} = props;
-//   console.log("SWX", rows)
-//   console.log("SWX", logs)
-//   const [page, setPage] = React.useState(0);
-//   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-//   const handleChangePage = (event: unknown, newPage: number) => {
-//     setPage(newPage);
-//   };
-
-//   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     setRowsPerPage(+event.target.value);
-//     setPage(0);
-//   };
-
-//   return (
-//     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-//       <TableContainer sx={{ maxHeight: 440 }}>
-//         <Table stickyHeader aria-label="sticky table">
-//           <TableHead>
-//             <TableRow>
-//               {columns.map((column) => (
-//                 <TableCell
-//                   key={column.id}
-//                   align={column.align}
-//                   style={{ minWidth: column.minWidth }}
-//                 >
-//                   {column.label}
-//                 </TableCell>
-//               ))}
-//             </TableRow>
-//           </TableHead>
-//           <TableBody>
-//             {rows
-//               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-//               .map((row) => {
-//                 return (
-//                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}> 
-//                     {columns.map((column) => {
-//                       const value = row[column.id];
-//                       return (
-//                         <TableCell key={column.id} align={column.align}>
-//                           {column.format && typeof value === 'number'
-//                             ? column.format(value)
-//                             : value}
-//                         </TableCell>
-//                       );
-//                     })}
-//                   </TableRow>
-//                 );
-//               })}
-//           </TableBody>
-//         </Table>
-//       </TableContainer>
-//       <TablePagination
-//         rowsPerPageOptions={[10, 25, 100]}
-//         component="div"
-//         count={rows.length}
-//         rowsPerPage={rowsPerPage}
-//         page={page}
-//         onPageChange={handleChangePage}
-//         onRowsPerPageChange={handleChangeRowsPerPage}
-//       />
-//     </Paper>
-//   );
-// }
-
-// export default StickyHeadTable

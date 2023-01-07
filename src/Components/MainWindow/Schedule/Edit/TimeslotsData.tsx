@@ -297,6 +297,7 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
         setWeekdayScheduleToEdit(noDuplicates);
     };
 
+
   return (
     <Grid className={classes.main} item container direction="column" alignItems="center" justifyContent="flex-start" > 
         <Grid xs={1} item className={classes.labels} >
