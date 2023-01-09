@@ -76,7 +76,7 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
     labels: price,
     datasets: [
       {
-        label: "Most likely",
+        label: "Best guess",
         data: xaiBandData?.prediction,
         fill: false,
         backgroundColor: "rgba(75,192,192,0.8)",
