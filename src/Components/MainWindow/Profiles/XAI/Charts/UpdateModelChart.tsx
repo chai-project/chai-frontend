@@ -111,7 +111,7 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
     // labels: price,
     datasets: [
       {
-        label: "Most likely",
+        label: "Best guess",
         data: [{x,y}],
         // fill: true,
         backgroundColor: "rgba(75,192,192,0.8)",
