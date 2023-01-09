@@ -13,6 +13,9 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setTemperature} from '../../Redux-reducers/heatingComponentReducer'
 import { initializeHeatingComponentData, setActiveProfile } from '../../Redux-reducers/heatingComponentReducer';
 
+//utils
+import utils from '../Utils/utils'
+
 // import { initializeData } from './Redux-reducers/dataReducer';
 
 
@@ -23,7 +26,7 @@ import chartDataType from '../../Types/types'
 import SwitchButton from '../Buttons/SwitchButton';
 import Logs from './Logs/Logs';
 import Profiles from './Profiles/Profiles';
-import Schedule from './Schedule/Schedule';
+import ScheduleComponent from './Schedule/ScheduleComponent';
 import EditWeekdaySchedule from './Schedule/Edit/EditWeekdaySchedule';
 import ErrorComponent from '../ErrorPages/ErrorComponent';
 import { Backdrop } from '@material-ui/core';
@@ -42,31 +45,34 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const MainWindow: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
+const MainWindow: React.FC<{homeLabel:String | null, currentState:any}> = ({homeLabel, currentState}) => {
 
     const classes = useStyles();
     const dispatch = useDispatch()
 
-    const currentState:any = useSelector((state:any)=>{
-      return(
-        state
-      )
-    })
+    // const currentState:any = useSelector((state:any)=>{
+    //   return(
+    //     state
+    //   )
+    // })
 
     useEffect(()=>{
       if(currentState.heatingSchedule){
-        const activeProfile =  currentState.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
-          const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-          if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-            if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-              return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-            } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-              return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-            } else {
-              return profile
-            }
-          }
-        })
+        // console.log(currentState.heatingSchedule)
+        // const activeProfile =  currentState.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
+        //   const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
+        //   if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
+        //     if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
+        //       return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
+        //     } else if (timeNow[1] === profile.profileStart.split(":")[0]){
+        //       return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
+        //     } else {
+        //       return profile
+        //     }
+        //   }
+        // })
+        //padaryti kad ant end time atnaujintu!
+        const activeProfile:any = utils.getActiveProfile(currentState.heatingSchedule[0])
         dispatch(setActiveProfile(activeProfile))
       }
 
@@ -76,7 +82,7 @@ const MainWindow: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
     <div className={classes.main}>
         <Routes>
           <Route path='/' element={<p>Home</p>}/>
-          <Route path='schedule' element={<Schedule weekSchedule={currentState.heatingSchedule} heatingProfiles={currentState.heatingProfiles}/>}/>
+          <Route path='schedule' element={<ScheduleComponent weekSchedule={currentState.heatingSchedule} heatingProfiles={currentState.heatingProfiles} homeLabel={homeLabel}/>}/>
           <Route path='schedule/:weekday' element={<EditWeekdaySchedule />}/>
           <Route path='profiles' element={<Profiles currentState={currentState} homeLabel={homeLabel}/>}/>
           <Route path='notifications' element={<Logs currentState={currentState} homeLabel={homeLabel}/>}/>

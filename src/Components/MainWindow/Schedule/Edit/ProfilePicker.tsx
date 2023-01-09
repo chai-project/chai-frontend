@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         // color: "green",
       },
       [theme.breakpoints.down('md')]: {
-        height:'30px',
+        height:'35px',
         // width:'70px',
       }
       

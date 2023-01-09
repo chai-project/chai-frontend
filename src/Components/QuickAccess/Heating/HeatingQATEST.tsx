@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     main:{
-      height: '190px', // was 180
+      height: '180px', // was 190
       minWidth: '90%',
       borderRadius: '25px',
       // border: "7px solid orange",
@@ -157,7 +157,7 @@ const HeatingQATEST: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
   const [isSetTargetTemperature, setIsSetTargetTemperature] = useState<boolean>(false)
   const [requestTargetTemperatureValue , setRequestTargetTemperature] = useState<number | null>(null)
   const [valveStatus, setValveStatus] = useState<boolean|null>(null)
-  const [timerID, setTimerID] = useState<any>()
+
 
   const classes = useStyles();
   const dispatch = useDispatch();

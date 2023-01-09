@@ -42,11 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         '&.Mui-focused fieldset': {
           borderColor: '#5ACBCC',
-        },
-        '& MuiSvgIcon': {
-        color: 'red',
-        },
-
+        }
       },
       
     },

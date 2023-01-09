@@ -35,7 +35,8 @@ const Notification: React.FC<{notificationState:any}> = ({notificationState}) =>
 
     const theme = useTheme();
     const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
-    const vertical:any = breakpoint ? "top" : "bottom";
+    // const vertical:any = breakpoint ? "top" : "bottom";
+    const vertical:any = "bottom";
     const horizontal: any = "right";
 
     useEffect(()=>{

@@ -120,6 +120,7 @@ const DrawerComponent: React.FC<any> = (props: any) => {
             {/* <QuickAccess homeLabel={props.homeLabel}/> */}
           {/* </Grid> */}
         </Grid>
+        {/* <button onClick={()=>{console.log(props.state.heatingComponent)}}>state</button> */}
       </Drawer>
     </div>
   );

@@ -38,11 +38,17 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '15px',
         width: '14%',
         [theme.breakpoints.down('md')]: {
-            width: '35%',
-            fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
-          }
+          width: '15%',
+          fontSize: '14px',
+          // marginLeft: 'auto',
+          // marginRight: 'auto',
+        },
+        [theme.breakpoints.down('sm')]: {
+          width: '35%',
+          fontSize: '14px',
+          // marginLeft: 'auto',
+          // marginRight: 'auto',
+        }
     },
     setpoint:{
         // border: "1px solid red",
@@ -60,11 +66,34 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '35%',
         fontSize: '15px',
         [theme.breakpoints.down('md')]: {
-            width: '42%',
-            fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
-          }
+          width: '35%',
+          fontSize: '14px',
+          // marginLeft: 'auto',
+          // marginRight: 'auto',
+        },
+        [theme.breakpoints.down('sm')]: {
+          width: '40%',
+          fontSize: '14px',
+          // marginLeft: 'auto',
+          // marginRight: 'auto',
+        }
+    },
+    delete:{
+      // border: "1px solid red",
+      // width: '35%',
+      // fontSize: '15px',
+      // [theme.breakpoints.down('md')]: {
+      //   width: '25%',
+      //   fontSize: '14px',
+      //   // marginLeft: 'auto',
+      //   // marginRight: 'auto',
+      // },
+      // [theme.breakpoints.down('sm')]: {
+      //   width: '20%',
+      //   fontSize: '14px',
+      //   // marginLeft: 'auto',
+      //   // marginRight: 'auto',
+      // }
     },
     estimatedCosts:{
         // border: "1px solid red",
@@ -75,12 +104,25 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '14px',
             // marginLeft: 'auto',
             // marginRight: 'auto',
-          }
+        },
+        [theme.breakpoints.down('sm')]: {
+          width: '20%',
+          fontSize: '14px',
+          // marginLeft: 'auto',
+          // marginRight: 'auto',
+        }
+        // [theme.breakpoints.down('md')]: {
+        //   height: '25px', //780px
+        // },
+        // [theme.breakpoints.down('sm')]: {
+        //   height: '100%',
+        //   // minHeight: '650px',
+        // }
     }
   }),
 );
 
-const Labels: React.FC<{first:String, second:String}> = ({first, second}) => {
+const Labels: React.FC<{first:String, second:String, third:String}> = ({first, second, third}) => {
     const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(null); //define type
 
     const classes = useStyles();
@@ -94,6 +136,7 @@ const Labels: React.FC<{first:String, second:String}> = ({first, second}) => {
         <Grid  className={classes.profile}>{first}</Grid>
         {/* <Grid  className={classes.setpoint}>Setpoint</Grid> */}
         <Grid  className={classes.period}>{second}</Grid>
+        {/* <Grid  className={classes.delete}>{third}</Grid> */}
         {/* <Grid  className={classes.estimatedCosts}>Estimated cost</Grid> */}
     </Grid> 
   );

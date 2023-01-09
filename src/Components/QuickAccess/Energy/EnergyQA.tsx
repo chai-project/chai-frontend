@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     container:{
-      height: '190px', //visi buvo 180
+      height: '180px', //visi buvo 190
       minWidth: '90%',
       borderRadius: '25px'
     },

@@ -67,15 +67,6 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
         }
       }else {
         if(!newMode){
-          // const response = await services.setHeatingDeviceMode(label, 'auto'); // gal toks ir yra desirable pagalvoti veleu
-          // if(response === 200){
-          //   setMode('auto')
-          //   dispatch(initializeHeatingComponentData(label));
-          //   dispatch(setNotification(`The mode is set to AUTO`,5000))
-          // }else{
-          //   setMode(heatingComponentState.mode)
-          //   dispatch(setErrorMessage(`Failed to set the mode to AUTO`, 5000))
-          // }
           if(heatingComponentState.mode === 'override'){
             const response = await services.setHeatingDeviceMode(label, 'auto');
             if(response === 200){
@@ -99,15 +90,6 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
 
           }
         }
-        // const response = await services.setTemperature(label, newMode, heatingComponentState.target_temperature ? heatingComponentState.target_temperature : 17  ); //buvo
-        // const response = await services.setHeatingDeviceMode(label, newMode);
-        // if(response === 200) {
-        //   setMode(newMode)
-        //   //200 is servo update redux, jei ne tada atgal sustatyti kaip buvo, dabar laikinai kadangi servas off updatinu redux!!!!
-        //   dispatch(initializeHeatingComponentData(label));
-        // }else{
-        //   setMode(heatingComponentState.mode)
-        // }
       }
   };
 

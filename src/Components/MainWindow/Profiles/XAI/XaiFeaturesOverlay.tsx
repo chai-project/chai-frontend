@@ -143,8 +143,8 @@ const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xa
           <CssBaseline/>
           <Grid xs={breakpoint ? 1 : 0.5} item container direction="row" alignItems="center" justifyContent="center" className={classes.navbarTop}>
             <Grid item xs={0.5}></Grid>
-            <Grid item xs={10.5} container direction="row" alignItems="center" justifyContent="flex-start"><b>{xaiFeaturesState.selectedProfile.profileName}</b></Grid>
-            <Grid item xs={1} container direction="row" alignItems="center" justifyContent="center">
+            <Grid item xs={11} container direction="row" alignItems="center" justifyContent="flex-start"><b>{xaiFeaturesState.selectedProfile.profileName}</b></Grid>
+            <Grid item xs={0.5} container direction="row" alignItems="center" justifyContent="center">
               <IconButton size='medium' edge='start' color='primary' onClick={closeOverlay}>
                 <HighlightOffIcon/>
               </IconButton>

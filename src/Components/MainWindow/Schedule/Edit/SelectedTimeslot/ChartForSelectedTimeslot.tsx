@@ -90,8 +90,8 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
     ]
   };
   const options:any = {
-    // responsive: true,
-    // maintainAspectRatio: false,
+    responsive: true,
+    maintainAspectRatio: false,
     animation: {
       duration: 0
     },

@@ -29,15 +29,16 @@ import TimeslotTimeLabel from './TimeslotTimeLabel';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container:{
-        // border: "2px dashed red",
+        // border: "1px dashed lime",
+        height: '100%',
         // width: '80%',
-        height: '75%',
+        // height: '75%',
         //    background: '#CFD8DC',
         //    borderRadius:'25px'
     },
     schedule:{
         // border: "1px solid lime",
-        height: '95%',
+        height: '75%',
         borderRadius: '25px',
         overflow: 'hidden',
         // height: '12%',
@@ -64,11 +65,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     labels: {
         // border: "1px solid orange",
-        height: '40%',
+        // height: '40%',
         // background:'pink'
     },
     timeLabel:{
         fontSize: '9px',
+        [theme.breakpoints.down('md')]: {
+            fontSize: '8px', //780px
+          },
+          [theme.breakpoints.down('sm')]: {
+            fontSize: '9px',
+            // minHeight: '650px',
+          }
     },
     temperatureLabel:{
         fontSize: '10px',

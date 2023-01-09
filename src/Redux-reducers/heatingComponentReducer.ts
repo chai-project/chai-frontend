@@ -15,8 +15,10 @@ interface heatingComponent {
 const heatingComponentReducer = (state = {mode:null, target_temperature: null, temperature: null, valve_open: null, activeProfile: null, isValid:null} , action:any) => {
     switch(action.type) {
         case "SET_HEATING_COMPONENT_DATA":
-            return state = action.data
+            state = {...state, ...action.data}
+            return state
         case "SET_HEATING_MODE":
+            // console.log(action.data)
             state = {...state, ...action.data}
             // state.mode = action.data
             return state
@@ -56,8 +58,9 @@ export const initializeHeatingComponentData = (label:String) => {
 };
 
 
-export const setHeatingComponentMode = (mode:boolean | String) => { //boolean nutrinti.
-    // console.log(mode)
+export const setHeatingComponentMode = (mode: String) => { //boolean nutrinti.
+
+    // console.log(mode,'tema')
     return async (dispatch : Dispatch) => {
             dispatch({
                 type:"SET_HEATING_MODE",

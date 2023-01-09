@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
         // color: "green",
       },
       [theme.breakpoints.down('md')]: {
-        height:'25px',
+        height:'35px',
         width: '60px',
         "&.MuiOutlinedInput-root": {
           fontSize:'11px',
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
         // color: "green",
       },
       [theme.breakpoints.down('md')]: {
-        height:'25px',
+        height:'35px',
         width: '60px',
         "&.MuiOutlinedInput-root": {
           fontSize:'11px',
@@ -199,7 +199,8 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
 
   const classes = useStyles();
   const theme = useTheme();
-  const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
+  const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
+  // const breakpointSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   // const hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
   // // const hours:any[] = Array.from(Array(7).keys())
@@ -339,7 +340,7 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
   };
   
   return (
-    <Grid container className={classes.main} direction={breakpoint ? "column" : "row"} justifyContent="center" alignItems="center">
+    <Grid container className={classes.main} direction={breakpoint ? "column" : "row"} justifyContent="center" alignItems="center"> {/**{breakpoint ? "column" : "row"} */}
       <Grid item container xs={6} className={classes.from} direction="column" justifyContent="center" alignItems="flex-start">
         {/* <Grid item className={classes.textLabel}>From: </Grid> */}
         <Grid item container direction="row" justifyContent="flex-start" alignItems="center">

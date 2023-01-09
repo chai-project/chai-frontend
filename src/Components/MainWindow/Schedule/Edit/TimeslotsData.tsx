@@ -52,9 +52,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     timeslots:{
         // height: '55%',
-        maxHeight: '60%',
+        maxHeight: '65%',
         // width: '100%',
-        // border: "3px solid red",
+        // border: "2px solid red",
         overflow: 'auto'
     },
     labels:{
@@ -79,22 +79,34 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: '15px',
         width: '14%',
         [theme.breakpoints.down('md')]: {
+            width: '15%',
+            fontSize: '14px',
+            // marginLeft: 'auto',
+            // marginRight: 'auto',
+        },
+        [theme.breakpoints.down('sm')]: {
             width: '35%',
             fontSize: '14px',
             // marginLeft: 'auto',
             // marginRight: 'auto',
-          }
+        }
     },
     period:{
         // border: "1px solid red",
         width: '36%',
         fontSize: '15px',
         [theme.breakpoints.down('md')]: {
-            width: '50%',
+            width: '35%',
             fontSize: '14px',
             // marginLeft: 'auto',
             // marginRight: 'auto',
-          }
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '40%',
+            fontSize: '14px',
+            // marginLeft: 'auto',
+            // marginRight: 'auto',
+        }
     },
     deleteButton:{
         // border: "1px solid red",
@@ -107,18 +119,18 @@ const useStyles = makeStyles((theme: Theme) =>
             // marginRight: 'auto',
           }
     },
-    // '@global': {
-    //     '*::-webkit-scrollbar': {
-    //       width: '0.4em'
-    //     },
-    //     '*::-webkit-scrollbar-track': {
-    //       '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-    //     },
-    //     '*::-webkit-scrollbar-thumb': {
-    //       backgroundColor: '#5ACBCC',
-    //       outline: '1px solid slategrey'
-    //     }
-    //   },
+    '@global': {
+        '*::-webkit-scrollbar': {
+          width: '0.4em'
+        },
+        '*::-webkit-scrollbar-track': {
+          '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: '#5ACBCC',
+          outline: '1px solid slategrey'
+        }
+      },
   }),
 );
 
@@ -299,37 +311,33 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
 
 
   return (
-    <Grid className={classes.main} item container direction="column" alignItems="center" justifyContent="flex-start" > 
+    <Grid className={classes.main} container direction="column" alignItems="center" justifyContent="flex-start" > 
         <Grid xs={1} item className={classes.labels} >
-            <Labels first={'Profile'} second={'Period'}/>
+            <Labels first={'Profile'} second={'Period'} third={'Delete'}/>
         </Grid>
-        <Grid  className={classes.timeslots} container direction="row" alignItems="flex-start" justifyContent="flex-start">
+        <Grid className={classes.timeslots} item container direction="row" alignItems="flex-start" justifyContent="flex-start">
             {timeslots?.map((timeslot:any)=>{
-                return (
-                    <Box className={classes.timeslot} bgcolor="background.default">
-                        <Grid item container direction="row" alignItems="center" justifyContent="center">
-                            <Grid item className={classes.profile}>
-                                <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/> 
+                    return (
+                        <Box className={classes.timeslot} bgcolor="background.default">
+                            <Grid item container direction="row" alignItems="center" justifyContent="center">
+                                <Grid item className={classes.profile}>
+                                    <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/> 
+                                </Grid>
+                                <Grid item className={classes.period}>
+                                    <TimeslotPeriodFromTo timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/>
+                                </Grid>
+                                <Grid item className={classes.deleteButton} >
+                                    <IconButton size='small' edge='end' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
+                                        <DeleteForeverIcon/>
+                                    </IconButton>
+                                </Grid>
                             </Grid>
-                            <Grid item className={classes.period}>
-                                <TimeslotPeriodFromTo timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/>
-                            </Grid>
-                            <Grid item className={classes.deleteButton} >
-                                <IconButton size='small' edge='end' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
-                                    <DeleteForeverIcon/>
-                                </IconButton>
-                            </Grid>
-                            {/* <Grid item xs={0.1}></Grid> */}
-                        </Grid>
-                    </Box>
-                )
+                        </Box>
+                    )
             })}
         </Grid>
-        <Grid xs={1} item className={classes.labels} >
-            <Labels first={'Assign new profile'} second={''}/>
-        </Grid>
-        <Grid xs={2} item className={classes.addNew} >
-            <Box className={classes.timeslot} bgcolor="primary.secondary">
+        <Grid  xs={2} item className={classes.addNew}>
+        <Box className={classes.timeslot} bgcolor="primary.secondary">
                 <Grid item container direction="row" alignItems="center" justifyContent="center">
                     <Grid item className={classes.profile}>
                         <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslotToAdd} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={true}/> 
@@ -345,6 +353,47 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                 </Grid>
             </Box>
         </Grid>
+        {/* <Grid  className={classes.timeslots} container direction="row" alignItems="flex-start" justifyContent="flex-start">
+            {timeslots?.map((timeslot:any)=>{
+                return (
+                    <Box className={classes.timeslot} bgcolor="background.default">
+                        <Grid item container direction="row" alignItems="center" justifyContent="center">
+                            <Grid item className={classes.profile}>
+                                <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/> 
+                            </Grid>
+                            <Grid item className={classes.period}>
+                                <TimeslotPeriodFromTo timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/>
+                            </Grid>
+                            <Grid item className={classes.deleteButton} >
+                                <IconButton size='small' edge='end' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
+                                    <DeleteForeverIcon/>
+                                </IconButton>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                )
+            })}
+        </Grid> */}
+        {/* <Grid xs={1} item className={classes.labels} >
+            <Labels first={'Assign new profile'} second={''}/>
+        </Grid> */}
+        {/* <Grid xs={2} item className={classes.addNew} >
+            <Box className={classes.timeslot} bgcolor="primary.secondary">
+                <Grid item container direction="row" alignItems="center" justifyContent="center">
+                    <Grid item className={classes.profile}>
+                        <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslotToAdd} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={true}/> 
+                    </Grid>
+                    <Grid item className={classes.period}>
+                                <TimeslotPeriodFromTo  timeslots={timeslots} asignedTimeslot={timeslotToAdd} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={true}/>
+                    </Grid>
+                    <Grid className={classes.deleteButton}>
+                        <IconButton size='small' edge='start' color='primary' disabled={!timeslotToAdd.profileName} onClick={addNewTimeslot}>
+                            <AddIcon/>
+                        </IconButton>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Grid> */}
     </Grid> 
   );
 };
