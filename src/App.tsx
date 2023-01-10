@@ -627,7 +627,7 @@ useEffect(() => {
         dispatch(initializeEnergyPriceData())
       }, 1800000);
       return () => clearInterval(id);
-    }, minutesToNextHalfHourPeriod * 1000);
+    }, minutesToNextHalfHourPeriod * 1000 + 5000);
   }
 }, [currentState.heatingComponent.isValid]);
 
