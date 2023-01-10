@@ -16,6 +16,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setHeatingComponentMode} from '../../../Redux-reducers/heatingComponentReducer'
 import { setTemperature } from '../../../Redux-reducers/heatingComponentReducer';
 import { setNotification, setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
+import {refreshLogState} from '../../../Redux-reducers/logsReducer'
 
 
 //components
@@ -177,9 +178,10 @@ const confirmYes = async () => {
     if(response === 200){
       dispatch(setTemperature(requestTargetTemperatureValue));
       dispatch(setHeatingComponentMode('override'));
-      setNotification(`Target temperature is set sucessfully to ${requestTargetTemperatureValue}`,5000)
+      dispatch(setNotification(`Target temperature is set sucessfully to ${requestTargetTemperatureValue}°C`, 5000))
+      dispatch(refreshLogState(homeLabel!, null, null))
     }else{
-      setErrorMessage(`Failed to set target temperature to ${requestTargetTemperatureValue}`,5000)
+      dispatch(setErrorMessage(`Failed to set target temperature to ${requestTargetTemperatureValue}°C`, 5000))
     }
   };
   setIsSetTargetTemperature(false);

@@ -9,6 +9,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {useSelector, useDispatch} from 'react-redux'
 import { initializeHeatingComponentData, setHeatingComponentMode } from '../../../Redux-reducers/heatingComponentReducer';
 import { setNotification, setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
+import {refreshLogState} from '../../../Redux-reducers/logsReducer'
 import services from '../../../Services/services';
 import { Typography } from '@material-ui/core';
 
@@ -60,7 +61,8 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
         if(response === 200) {
           setMode(newMode)
           dispatch(setHeatingComponentMode(newMode));
-          dispatch(setNotification(`The mode is set to ${newMode.toLocaleUpperCase()}`,5000))
+          dispatch(setNotification(`The mode is set to ${newMode.toLocaleUpperCase()}`,5000));
+          dispatch(refreshLogState(label!, null, null))
         }else{
           setMode(heatingComponentState.mode)
           dispatch(setErrorMessage(`Failed to set the mode to ${newMode}`, 5000))
@@ -73,6 +75,7 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
               setMode('auto')
               dispatch(initializeHeatingComponentData(label));
               dispatch(setNotification(`The mode is set to AUTO`,5000))
+              dispatch(refreshLogState(label!, null, null))
             }else{
               setMode(heatingComponentState.mode)
               dispatch(setErrorMessage(`Failed to set the mode to AUTO`, 5000))
@@ -84,6 +87,8 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
             setMode(newMode)
             dispatch(initializeHeatingComponentData(label));
             dispatch(setNotification(`The mode is set to ${newMode.toLocaleUpperCase()}`,5000))
+            dispatch(refreshLogState(label!, null, null))
+
           }else{
             setMode(heatingComponentState.mode)
             dispatch(setErrorMessage(`Failed to set the mode to ${newMode}`, 5000))

@@ -622,8 +622,6 @@ useEffect(() => {
   if(currentState.heatingComponent.isValid === true && homeLabel && userToken){
     const date = new Date();
     const minutesToNextHalfHourPeriod = date.getMinutes() < 31 ? 30 - date.getMinutes() : 60 - date.getMinutes()
-
-
     setTimeout(() => {
       let id = setInterval(() => {
         dispatch(initializeEnergyPriceData())

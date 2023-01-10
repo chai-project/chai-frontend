@@ -125,7 +125,17 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
             }
             return   state = {...state, logs: state.logs.concat(action.data.logs) ,skip:action.data.skip, lastValveSetTypeRawLog: {rawLog: action.data.lastValveSetTypeRawLog.rawLog ? action.data.lastValveSetTypeRawLog.rawLog : state.lastValveSetTypeRawLog.rawLog , index: action.data.lastValveSetTypeRawLog.index ? state.logs.length + action.data.lastValveSetTypeRawLog.index : state.lastValveSetTypeRawLog.index} } //state.logs.length + action.data.lastValveSetTypeRawLog.index
         case "REFRESH_LOG_STATE":
-            const newLogs = action.data.logs
+            // let newLogs = action.data.logs 
+            let newLogs:any = []
+            if(utils.areEqualArray(action.data.lastValveSetTypeRawLog.rawLog.parameters, state.firstValveSetTypeRawLog.rawLog.parameters)){
+              action.data.logs.forEach((log:any,index:any)=>{
+                if(index !== action.data.lastValveSetTypeRawLog.index){
+                  newLogs.push(log)
+                }
+              })
+            }else{
+              newLogs = action.data.logs 
+            }
             let newLogsToAdd:any = [];
             newLogs.forEach((log:any,index:any)=>{
               let found:any = false
