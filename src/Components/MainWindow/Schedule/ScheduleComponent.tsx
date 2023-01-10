@@ -396,18 +396,18 @@ const ScheduleComponent: React.FC<{weekSchedule:any, heatingProfiles:any, homeLa
 
   return (
     //atkreipk demesi i spacing ant container class
-    <Grid container direction="column" className={classes.main}>
+    <Grid container direction="column" justifyContent="center" className={classes.main}>
         {heatingProfiles.selectedTimeslot ? <TimeslotMoreInfoOverlay heatingProfiles={heatingProfiles}/> : null}
-      <Grid item xs={11} container direction="row" justifyContent={weekSchedule ? "center" : "center"} alignItems="center" className={classes.schedule}>
+      <Grid item xs={10.9} container direction="row" justifyContent={weekSchedule ? "center" : "center"} alignItems="center" className={classes.schedule}>
         {weekSchedule ? <Schedule weekSchedule={weekSchedule} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} scheduleToCopy={scheduleToCopy} weekdaysToPasteSchedule={weekdaysToPasteSchedule} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} /> : <ProgressCircular size={40}/>}
 
         {/* <Grid item container direction="row" xs={12}>
           {weekSchedule ? <Schedule weekSchedule={weekSchedule} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} scheduleToCopy={scheduleToCopy} weekdaysToPasteSchedule={weekdaysToPasteSchedule} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} /> : <ProgressCircular size={40}/>}
         </Grid> */}
       </Grid>
-      <Grid item xs={0.9} container className={classes.confirmButtons}>
+      <Grid item xs={0.8} container className={classes.confirmButtons}>
         {copyWeekdaySchedule? 
-                            <Grid item container direction="row" justifyContent="flex-end" alignItems="center" >
+                            <Grid item container direction="row" justifyContent="flex-end" alignItems="flex-end" >
                               <Grid item>
                                 <Button variant="contained" size="small" color="primary" className={classes.button} onClick={saveNewWeekSchedule}>Save</Button>
                               </Grid>

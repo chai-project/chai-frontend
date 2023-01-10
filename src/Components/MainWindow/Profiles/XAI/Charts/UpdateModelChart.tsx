@@ -94,10 +94,29 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
     const x = xaiRegionData?.data.centre_y;  // Assume that mean2 is on the x-axis
     const y = xaiRegionData?.data.centre_x;  // Assume that mean1 is on the y-axis
     const angle =  xaiRegionData?.data.angle
-    const height =  xaiRegionData?.data.height
-    const width =  xaiRegionData?.data.width
+    const height =  xaiRegionData?.data.height / 2
+    const width =  xaiRegionData?.data.width / 2
     // console.log(x,y,angle,height,width)
+    const rad_per_deg = Math.PI / 180;
+    const deg2rad = (deg:any) => {return deg * rad_per_deg};
+    const dotproduct = (a:any, b:any) => {return a.map((x:any, i:any) => a[i] * b[i]).reduce((m:any, n:any) => m + n)};
+    const transpose = (a:any) => { return a[0].map((x:any, i:any) => a.map((y:any) => y[i]))};
+    const mmultiply = (a:any, b:any) => {return a.map((x:any) => transpose(b).map((y:any) => dotproduct(x, y)))};
 
+    const theta = deg2rad(-angle);
+
+    const theta_cos = Math.cos(theta);
+    const theta_sin = Math.sin(theta);
+    const rotation_matrix = [[theta_cos, -theta_sin], [theta_sin, theta_cos]];
+
+    let ellipse = [];
+    for (let point_degrees = 0; point_degrees <= 360; point_degrees += 12) {  // increment can be any factor of 360
+        let point_radians = deg2rad(point_degrees);
+        let origin_matrix = mmultiply(rotation_matrix, [[height * Math.cos(point_radians)], [width * Math.sin(point_radians)]]);
+        ellipse.push({x: x + origin_matrix[0][0], y: y + origin_matrix[1][0]});
+    }
+
+    // console.log(ellipse)
 
 
 //   const calculateSetpoints = () => {
@@ -119,9 +138,13 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
       },
       {
         label: "Confidence region",
-        data: [{}],
+        data: ellipse,
         // fill: false,
-        backgroundColor: "rgba(246, 148, 107, 0.25)"
+        backgroundColor: "rgba(246, 148, 107, 0.25)",
+        showLine: true,
+        pointRadius: 0,
+        hitRadius: 0,
+        fill: 'shape',
       }
     ]
   };
@@ -141,6 +164,7 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
         legend:{
             display:true,
             position: 'chartArea',
+            // align: 'center',
             labels: {
                 color: '#FFFFFF'
               },
@@ -153,32 +177,19 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
             // fontColor: 'rgb(87, 203, 204,1)'
         },
         // annotation: {
-        //     annotations: [{
-        //             type: 'ellipse' as 'ellipse',
-        //             // mode: 'vertical',
+        //     annotations: {
+        //         ellipse1: {
+        //             type: 'ellipse',
         //             xMin: x - (width / 2),
         //             xMax: x + (width / 2),
         //             yMin: y - (height / 2),
         //             yMax: y + (height / 2),
         //             rotation: angle,
-        //             backgroundColor: 'rgba(255, 99, 132, 0.25)',
+        //             backgroundColor: 'rgba(246, 148, 107, 0.25)',
         //             borderWidth: 0
-        //     }]
+        //         }
+        //     }
         // }
-        annotation: {
-            annotations: {
-                ellipse1: {
-                    type: 'ellipse',
-                    xMin: x - (width / 2),
-                    xMax: x + (width / 2),
-                    yMin: y - (height / 2),
-                    yMax: y + (height / 2),
-                    rotation: angle,
-                    backgroundColor: 'rgba(246, 148, 107, 0.25)',
-                    borderWidth: 0
-                }
-            }
-        }
         // annotation: {
         //     events: ["onClick"],
         //     annotations: [
@@ -227,6 +238,8 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
           maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
+        min: -0.6,
+        max: 0.1
         
       },
       y: {
@@ -245,8 +258,10 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
           // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
-        min:7,
-        max:30,
+        min: 13,
+        max: 30
+        // min:7,
+        // max:30,
       },
     },
   };
@@ -261,6 +276,3 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
 
 export default UpdateModelChart
 
-
-// !xaiFeaturesState.xaiRegionData || !xaiFeaturesState.periodPriceData ? <ProgressCircular size={40}/>
-// plugins={[ChartDataLabels]}

@@ -81,7 +81,7 @@ const Schedule: React.FC<{weekSchedule:any,copyWeekdaySchedule:any, setCopyWeekd
 
 
   return (
-    <Grid xs={12} item container direction="column" className={classes.main}>
+    <Grid xs={12} item container direction="column" justifyContent="flex-end" alignItems="flex-end" className={classes.main}>
         {/* {weekSchedule?.map((weekday:any, index:number)=>{
             return (
                 <Grid className={classes.test} xs={1.71428571429} item>

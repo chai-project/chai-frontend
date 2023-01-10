@@ -3,27 +3,28 @@ import services from '../Services/services';
 import utils from '../Components/Utils/utils';
 import dayjs from 'dayjs';
 
+
 const currentTime = dayjs();
 const today = currentTime.startOf('day');
 
 
 const getPreviousNextAndLastValveSetTypeLog = (firstPart:any, secondPart:any) => {
-  let previousIndex:any =null
-  const previous = firstPart.findLast((rawLog:any, index:number)=>{
+  let previousIndex:any = null
+  const previous = firstPart?.findLast((rawLog:any, index:number)=>{
     if(rawLog.category === 'VALVE_SET'){
       previousIndex = index
       return rawLog
     }
   })
   let nextIndex:any = null
-  const next = secondPart.find((rawLog:any, index:number)=>{
+  const next = secondPart?.find((rawLog:any, index:number)=>{
     if(rawLog.category === 'VALVE_SET'){
       nextIndex = index
       return rawLog
     }
   })
   let lastIndex:any = null
-  const last = secondPart.findLast((rawLog:any, index:number, arr:any)=>{
+  const last = secondPart?.findLast((rawLog:any, index:number, arr:any)=>{
     if(rawLog.category === 'VALVE_SET'){
       lastIndex = index
       return rawLog
@@ -123,6 +124,21 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
               state.logs.splice(state.lastValveSetTypeRawLog.index,1) // buvo slice, taciau splcie iskerpa is previous array
             }
             return   state = {...state, logs: state.logs.concat(action.data.logs) ,skip:action.data.skip, lastValveSetTypeRawLog: {rawLog: action.data.lastValveSetTypeRawLog.rawLog ? action.data.lastValveSetTypeRawLog.rawLog : state.lastValveSetTypeRawLog.rawLog , index: action.data.lastValveSetTypeRawLog.index ? state.logs.length + action.data.lastValveSetTypeRawLog.index : state.lastValveSetTypeRawLog.index} } //state.logs.length + action.data.lastValveSetTypeRawLog.index
+        case "REFRESH_LOG_STATE":
+            const newLogs = action.data.logs
+            let newLogsToAdd:any = [];
+            newLogs.forEach((log:any,index:any)=>{
+              let found:any = false
+              for(let i=0; i < state.logs.length ;i++){
+                if(JSON.stringify(state.logs[i]) === JSON.stringify(log)){
+                  found = true
+                }
+              }
+              if(!found){
+                newLogsToAdd.push(log)
+              } 
+            })
+            return state = {...state, logs: newLogsToAdd.concat(state.logs) , firstValveSetTypeRawLog: action.data.firstValveSetTypeRawLog} 
         default:
             return state
     }
@@ -135,8 +151,8 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
     to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
   }
 
-  // console.log(period,'zeuru')
     return async (dispatch : Dispatch) => {
+
         let logs:any[] = []
         let skip = 0;
         let limit = 200;
@@ -148,6 +164,7 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
           }else{
             const rawLogs = getLogsNoDuplicates(rawLogsRequest);
             const previousNextAndLast = getPreviousNextAndLastValveSetTypeLog(logs, rawLogs)
+            const firstValveSetLog = getPreviousNextAndLastValveSetTypeLog(null, logs)
             if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
               logs.splice(previousNextAndLast.previous.index, 1);
             }
@@ -156,7 +173,7 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
             skip += limit;
             dispatch({
               type:"INITIALISE_LOGS",
-              data: {logs:transformedLogs, skip:skip, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to > today ? today : period.to }
+              data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to > today ? today : period.to }
             })
           };
         };
@@ -165,9 +182,7 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
 
 
 export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousLog:any, from:any, to:any) => { //cia bus datos nuo iki...
-
   return async (dispatch : Dispatch) => {
-
       let logs:any[] = []
       let skip = previousSkip;
       let limit:number|null = 200;
@@ -204,6 +219,49 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       }
   };
 };
+
+
+
+export const refreshLogState = (label:String, from:any, to:any) => {
+
+  // const period = {
+  //   from: from ? from : today.subtract(6,'day'),
+  //   to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
+  // }
+
+    return async (dispatch : Dispatch, getState: any) => {
+
+        const timeOfTheFirstLog = dayjs(getState().logs.logs[0].dateAndTime);
+
+        let logs:any[] = []
+        let skip = 0;
+        let limit = 200;
+        let previousIndex = 0
+        while (logs.length < limit + 1) {
+          const rawLogsRequest = await services.getLogs(label, skip, limit, timeOfTheFirstLog, currentTime.startOf('day').add(1,'day') );
+          if(rawLogsRequest.length === 0){
+            break;
+          }else{
+            const rawLogs = getLogsNoDuplicates(rawLogsRequest);
+            const previousNextAndLast = getPreviousNextAndLastValveSetTypeLog(logs, rawLogs)
+            if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
+              logs.splice(previousNextAndLast.previous.index, 1);
+            }
+            logs =  logs.concat(rawLogs);
+            const firstValveSetLog = getPreviousNextAndLastValveSetTypeLog(null, logs)
+            const transformedLogs = transformLogs(logs)
+            skip += limit;
+            dispatch({
+              type:"REFRESH_LOG_STATE",
+              data: {logs: transformedLogs, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog: firstValveSetLog.last.rawLog,  index:firstValveSetLog.last.index}}
+            })
+          };
+        };
+    };
+};
+
+
+
 
 
 

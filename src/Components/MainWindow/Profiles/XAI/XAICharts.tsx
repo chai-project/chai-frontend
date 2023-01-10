@@ -189,7 +189,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
     },[])
 
     useEffect(()=>{
-        const mappedData = xaiFeaturesState.xaiScatterData?.entries.map((entry:any)=>{return [entry.price,entry.temperature]})
+        const mappedData = xaiFeaturesState.xaiScatterData?.entries.map((entry:any)=>{return [entry.price,entry.temperature]}).reverse(); // because the first one is the latest
         // setDataSetForInputsChart([[xaiFeaturesState.inputsChart?.entries[0].price, xaiFeaturesState.inputsChart?.entries[0]?.temperature]]);
         setMappedDataForInputsChart(mappedData);
         setDataSetForInputsChart(mappedData)

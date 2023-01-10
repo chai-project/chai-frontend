@@ -88,8 +88,8 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
         // data:dataSet,
         fill: false,
         // borderColor: "red"
-        backgroundColor: "rgba(75,192,192,0.8)",
-        borderColor: "rgba(75,192,192,1)"
+        backgroundColor: dataSet?.length === 1 ? "#F6946B" : "rgba(75,192,192,0.8)",
+        borderColor:  dataSet?.length === 1 ? "#F6946B" : "rgba(75,192,192,1)"
       }
     ]
   };

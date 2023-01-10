@@ -55,14 +55,13 @@ const useStyles = makeStyles((theme: Theme) =>
 const NavBarBottom: React.FC<{homeLabel:string|null}> = ({homeLabel}) => {
 
     const [drawerOpenState, setDrawerOpenState] = useState<boolean>(false)
-    const cases = ['Home', 'Schedule', 'Profiles', 'Notifications'];
+    const cases = ['Schedule', 'Profiles', 'Notifications']; //'add home to the array if nescesary in the future!'
     const location = useLocation();
     const { search } = useLocation();
     const navigate = useNavigate();
     const notifications = 15;
     const classes = useStyles();
     const dispatch = useDispatch();
-
     
 
     const handleChange = (eachCase:any) => {

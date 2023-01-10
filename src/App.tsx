@@ -356,7 +356,7 @@ import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReduc
 import { initializeHeatingProfiles } from './Redux-reducers/heatingProfilesReduces';
 import { setErrorMessageForErrorComponentReducer } from './Redux-reducers/errorMessageForErrorComponentReducer';
 import { initializeEnergyPriceData } from './Redux-reducers/energyPriceDataReducer';
-import {initialiseLogs} from './Redux-reducers/logsReducer';
+import {initialiseLogs, refreshLogState} from './Redux-reducers/logsReducer';
 import {setNotification} from './Redux-reducers/notificationsReducer';
 
 
@@ -382,7 +382,8 @@ import { Blender } from '@mui/icons-material';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root:{
-      // position:"relative",
+      // position:"fixed",
+      // top:0,
       height: '100vh',
       width: '100vw',
       // overflow: 'auto',
@@ -474,10 +475,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     navBottom:{
       // border: "2px dashed pink",
+      backgroundColor: '#2B3648',
       [theme.breakpoints.down('md')]: {
         position: 'fixed',
         width: '100%',
-        bottom: '1%',
+        bottom: '0%',
         left: '0%',
         // top: '1%',
         // marginLeft: 'auto',
@@ -504,7 +506,19 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         height: '85%', //buvo 85%
       }
-    }
+    },
+    '@global': {
+        '*::-webkit-scrollbar': {
+          width: '0.4em'
+        },
+        '*::-webkit-scrollbar-track': {
+          '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: '#5ACBCC',
+          outline: '1px solid slategrey'
+        }
+      },
   }),
 );
 
@@ -533,15 +547,9 @@ const App: React.FC = () => {
   const currentTime = dayjs();
   const today = currentTime.startOf('day').add(1,'day');
   const sevenDaysBack = today.subtract(7,'day');
-  // console.log(today, sevenDaysBack)
 
   
   useEffect(() => {
-    // window.addEventListener("load", ()=>{
-    //   setTimeout(()=>{
-    //     window.scrollTo(0,1)
-    //   },0)
-    // })
     if(themeFromLocalStorage){
       if(themeFromLocalStorage === "true"){
         setTheme(true)
@@ -567,22 +575,58 @@ useEffect(()=>{
     dispatch(initializeHeatingProfiles(homeLabel))
     dispatch(initializeHeatingSchedule(homeLabel))
     dispatch(initialiseLogs(homeLabel, null, null)) //, from:any, to:any, sevenDaysBack, today
-  }else if(currentState.heatingComponent.isValid === true && homeLabel && userToken ){
+    if(location.pathname === "/"){
+      navigate(`/Schedule`)
+    }
+  }else if(currentState.heatingComponent.isValid === false || !homeLabel || !userToken ){
     dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
     navigate('/Error')
   }
 },[currentState.heatingComponent.isValid])
 
 
+// refresh heating component state 
+useEffect(() => {
+  if(currentState.heatingComponent.isValid === true && homeLabel && userToken){
+    let id = setInterval(() => {
+      dispatch(initializeHeatingComponentData(homeLabel));
+    }, 10000);
+    return () => clearInterval(id);
+  }
+}, [currentState.heatingComponent.isValid]);
+
+// refresh heating profiles state
+useEffect(() => {
+  if(currentState.heatingComponent.isValid === true && homeLabel && userToken){
+    let id = setInterval(() => {
+      dispatch(initializeHeatingProfiles(homeLabel))
+    }, 20000);
+    return () => clearInterval(id);
+  }
+}, [currentState.heatingComponent.isValid]);
+
+// refresh logs (in the notification tab) state
+
+useEffect(() => {
+  if(currentState.heatingComponent.isValid === true && homeLabel && userToken && currentState.logs.logs?.length > 0){
+    let id = setInterval(() => {
+      dispatch(refreshLogState(homeLabel, null, null)) //, from:any, to:any, sevenDaysBack, today
+    }, 10000);
+    return () => clearInterval(id);
+  }
+}, [currentState.heatingComponent.isValid, currentState.logs.logs?.length > 0]);
+
+
 
 
 // cia viskas ok, tik reike kad po kiekvieno update atsinaujintu 
-// const hmm = (value:any) => {
-//   console.log(value)
+// const hmm = () => {
+//   console.log('zeuru')
 
 //   }
-  // setTimeout(()=>{
-  //   console.log('update')
+  // setInterval(()=>{
+  //   // console.log('update')
+  //   utils.refreshState(homeLabel);
   // }, 5000);
 
   // hmm()
@@ -604,7 +648,7 @@ useEffect(()=>{
 
 // }
 
-// setInterval(hmm, 10000)
+// setInterval(utils.refreshState(homeLabel), 10000)
 
   const handleBackDrop = () => {
     setOpenBackdrop(!openBackdrop);
@@ -619,7 +663,7 @@ useEffect(()=>{
 
   return (
     <div className={classes.root}>
-      {/* <button onClick={()=>{dispatch(setNotification('karocia', 3000))}}>hmm</button> */}
+      {/* <button onClick={()=>{utils.refreshState(homeLabel)}}>hmm</button> */}
       {/* <button onClick={()=>{console.log(currentState.logs)}}>swx</button> */}
     <ThemeProvider theme={theme ? light : dark}>
       {/* <div>

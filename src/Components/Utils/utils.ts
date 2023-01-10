@@ -1,3 +1,8 @@
+import {initializeEnergyPriceData} from '../../Redux-reducers/energyPriceDataReducer';
+import store from '../../store'
+
+
+
 const getSegment = (slope:any, bias:any) => {
     const priceSensivityBoundaries = (bias:any ) => {
         const finiteIntervals = 4;
@@ -79,6 +84,14 @@ const getActiveProfile = (scheduleListForToday:any) => {
 }
 
 
-export default {getSegment, areEqualArray, getActiveProfile}
+const refreshState = (homeLabel:any) => {
+  // store.dispatch(initializeEnergyPriceData())
+  console.log("success")
+  // return 'success'
+
+};
+
+
+export default {getSegment, areEqualArray, getActiveProfile, refreshState}
 
 

@@ -99,6 +99,8 @@ const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) =
     const dispatch = useDispatch();
     const theme = useTheme();
     const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
+    const breakpointMd = useMediaQuery(theme.breakpoints.down("md"));
+
     // const url = createBrowserHistory()
     // const parameters = new URLSearchParams(url.location.search);
     // const homeLabel =  parameters.get('home');
@@ -121,9 +123,9 @@ const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) =
     };
 
   return (
-    <Grid xs={12} container className={classes.container} direction={breakpoint ? 'column' : 'row'} justifyContent="center" alignItems="center">
-      <Grid xs={breakpoint ? 4 : 5} className={classes.info} item container direction={breakpoint ? 'row' : 'column'} justifyContent="center" alignItems="center">
-        <Grid xs={breakpoint ? 8 : 4} item container className={classes.moreInfo} direction="column" justifyContent="center" alignItems="flex-start" padding={1}>
+    <Grid xs={12} container className={classes.container} direction={breakpoint ? 'column' : breakpointMd ? "row" : 'column'} justifyContent="center" alignItems="center">
+      <Grid xs={breakpoint ? 4 : breakpointMd ? 6 : 5} className={classes.info} item container direction={breakpoint ? 'row' : breakpointMd ? 'column' : "row"} justifyContent="center" alignItems="center">
+        <Grid xs={breakpoint ? 8 : breakpointMd ? 5 : 6} item container className={classes.moreInfo} direction="column" justifyContent="center" alignItems="flex-start" padding={2}>
           <Grid item>
             <Typography>Preferred temperature (if energy were free): {<b>{Math.round(profile.bias * 100)/100}°C</b>}</Typography>
           </Grid>
@@ -131,14 +133,14 @@ const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) =
             <Link onClick={openXAIOverlay}><b>Want to know more about this profile?</b></Link>
           </Grid>
         </Grid>
-        <Grid xs={breakpoint ? 4 : 8} item container className={classes.gaugeChart} direction="column" justifyContent="center" alignItems="center">
+        <Grid xs={breakpoint ? 4 : breakpointMd ? 7 : 6} item container className={classes.gaugeChart} direction="column" justifyContent="center" alignItems="center">
           <Grid item container={breakpoint ? true : false}>
             <PriceSensivityGauge profile={profile}/>
           </Grid>
           {/* <PriceSensivityGauge profile={profile}/> */}
         </Grid>
       </Grid>
-      <Grid item container xs={breakpoint ? 8 : 7} className={classes.profileChartContainer} direction="column" justifyContent="center" alignItems="center">
+      <Grid item container xs={breakpoint ? 8 : breakpointMd ? 6 : 7} className={classes.profileChartContainer} direction="column" justifyContent="center" alignItems="center">
         <Grid item  className={classes.profileChart}>
           {!profile ? <ProgressCircular size={40}/> : <Chart profile={profile}/> }
         </Grid >
