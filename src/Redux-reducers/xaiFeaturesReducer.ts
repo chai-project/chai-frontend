@@ -61,7 +61,7 @@ export const setXaiScatterData = (label:string, profile:number) => {
         }else{
             dispatch({
                 type:"SET_XAI_SCATTER_DATA",
-                data: {xaiScatterData: xaiScatterData}
+                data: {xaiScatterData: xaiScatterData, xaiScatterDataError: null}
             })
         }
 
@@ -98,7 +98,7 @@ export const setPeriodPriceData = (start:any, end:any) => {
             dispatch({
                 type:"SET_PERIOD_PRICE_DATA",
                 // data: {periodPriceData: null, periodPriceDataError: "Server error, failed to load heating price data" }
-                data: {periodPriceData: pricesForPeriod}
+                data: {periodPriceData: pricesForPeriod, periodPriceDataError: null}
             })
         }
         // const timeFrameToAdd = {...pricesForPeriod[pricesForPeriod.length - 1], start: pricesForPeriod[pricesForPeriod.length - 1].end, end: dayjs(pricesForPeriod[pricesForPeriod.length - 1].end).add(30,'minutes').format()}
@@ -126,7 +126,7 @@ export const setXaiRegionData = (label:string, profile:number, skip:number) => {
         }else{
             dispatch({
                 type:"SET_XAI_REGION_DATA",
-                data: {xaiRegionData: xaiRegionData}
+                data: {xaiRegionData: xaiRegionData, xaiRegionDataError: null}
             })
         }
         // const lastTimeframe = scheduleChartBiasAndSlope.data[scheduleChartBiasAndSlope.data.length-1];
@@ -155,7 +155,7 @@ export const setXaiBandData = (label:string, profile:number, skip:number) => {
         }else{
             dispatch({
                 type:"SET_XAI_BAND_DATA",
-                data: {xaiBandData: xaiBandData}
+                data: {xaiBandData: xaiBandData, xaiBandDataError: null}
             })
         }      
 

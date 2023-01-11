@@ -621,14 +621,50 @@ useEffect(() => {
 useEffect(() => {
   if(currentState.heatingComponent.isValid === true && homeLabel && userToken){
     const date = new Date();
-    const minutesToNextHalfHourPeriod = date.getMinutes() < 31 ? 30 - date.getMinutes() : 60 - date.getMinutes()
+
+
+    const minutes = date.getMinutes()
+    const minutesToNextHalfHour = minutes < 31 ? 30 - minutes : 60 - minutes
+
+    const seconds = date.getSeconds()
+    const secondsToNextMinute = 60 - seconds
+
+
+    // console.log(minutes, minutesToNextHalfHour, minutesToNextHalfHour === 0, "mins.")
+
+    // console.log(seconds ,secondsToNextMinute ,secondsToNextMinute > 49, "if this true ?  seconds * 1000 " )
+
+    let next:any
+
+    if((minutes === 0 || minutes === 30) && seconds < 10){
+      // console.log(`${seconds} secs left, pirmas`)
+      next = 10 - seconds * 1000
+    }else{
+      if((minutes === 0 || minutes === 30) && seconds >= 10){
+        // console.log(`${29} mins and ${secondsToNextMinute} secs left, antras`)
+        next = (29) * 60000 + (secondsToNextMinute * 1000) + 9000
+      }else {
+        // console.log(`${minutesToNextHalfHour -1} mins and ${secondsToNextMinute} secs left, trecias`)
+        next = (minutesToNextHalfHour - 1) * 60000 + (secondsToNextMinute * 1000) + 9000
+      }
+      // console.log(minutesToNextHour - 1, secondsToNextMinute,  '11sec' )
+    }
+    // console.log(next,'next')
+
+
+
+    // console.log(secondsToNextMinute, 60 - secondsToNextMinute )
+    // console.log(((minutesToNextHalfHourPeriod * 60000)+5000))
     setTimeout(() => {
+      // console.log('pavyko ???')
+      dispatch(initializeEnergyPriceData())
       let id = setInterval(() => {
         dispatch(initializeEnergyPriceData())
       }, 1800000);
       return () => clearInterval(id);
-    }, minutesToNextHalfHourPeriod * 1000 + 5000);
+    }, next );
   }
+  //minutesToNextHalfHourPeriod * 1000 + 5000
 }, [currentState.heatingComponent.isValid]);
 
 

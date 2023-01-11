@@ -12,6 +12,7 @@ import ReactDOM from 'react-dom';
 // components
 
 import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
+import ToolTip from './ToolTip';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,6 +36,24 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '36vh',
           },
         // border: "2px dashed purple",
+    },
+    tooltipButton:{
+      position: 'absolute',
+      // backgroundColor:'yellow',
+
+      [theme.breakpoints.up('md')]: {
+        // height: '25vh',
+        top: 386,
+        left: 960,
+      },
+      [theme.breakpoints.down('md')]: {
+        top: 235,
+        left: 945,
+      },
+      [theme.breakpoints.down('sm')]: {
+        top: 405,
+        left: 565,
+      },
     }
   }),
 );
@@ -206,6 +225,9 @@ const radius = (type: String) => {
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart} >
       {!xaiRegionData || !periodPriceData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/>}
+      <Grid item className={classes.tooltipButton}>
+        <ToolTip info={'This chart visualises the energy price shedule for a given day along with your target temperatures in auto mode for that schedule and this current profile. In reality your target temperatures in auto mode will depend on both the energy price schedule and your profile schedule: each profile has its own AI model with its own predictions, even if energy prices remain the same.'}/>
+      </Grid>
     </Grid>
   )
 }

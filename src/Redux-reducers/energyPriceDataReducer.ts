@@ -21,6 +21,7 @@ const energyPriceDataReducer = (state: energyPriceData | null = null , action:an
 }
 
 export const initializeEnergyPriceData = () => {
+    console.log("energy price update")
     return async (dispatch : Dispatch) => {
         const currentTime = dayjs();
         //PERIOD TODAY
@@ -49,6 +50,14 @@ export const initializeEnergyPriceData = () => {
         const avgEnergyPriceToday = await services.getAverageHeatingPricePeriod(periodToday);
         const avgEnergyPriceThisWeek = await services.getAverageHeatingPricePeriod(periodThisWeek);
         const avgEnergyPriceThisMonth = await services.getAverageHeatingPricePeriod(periodThisMonth);
+
+        // console.log("energy: ",energyPrice)
+        // console.log("avgEnergyPriceToday: ",avgEnergyPriceToday)
+
+        // console.log("avgEnergyPriceThisWeek: ",avgEnergyPriceThisWeek)
+        // console.log("avgEnergyPriceThisMonth: ",avgEnergyPriceThisMonth)
+
+
 
         dispatch({
             type:"SET_ENERGY_PRICE_DATA",

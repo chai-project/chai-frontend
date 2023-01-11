@@ -127,7 +127,7 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
         case "REFRESH_LOG_STATE":
             // let newLogs = action.data.logs 
             let newLogs:any = []
-            if(utils.areEqualArray(action.data.lastValveSetTypeRawLog.rawLog.parameters, state.firstValveSetTypeRawLog.rawLog.parameters)){
+            if(utils.areEqualArray(action.data.lastValveSetTypeRawLog.rawLog?.parameters, state.firstValveSetTypeRawLog.rawLog?.parameters)){
               action.data.logs.forEach((log:any,index:any)=>{
                 if(index !== action.data.lastValveSetTypeRawLog.index){
                   newLogs.push(log)

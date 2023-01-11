@@ -107,7 +107,7 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
       aria-label="device"
     >
       <ToggleButton size="small" value="on">On</ToggleButton>
-      <ToggleButton size="small" value="auto" classes={heatingComponentState.mode === 'override' ? {selected: classes.ovverride} : {selected: classes.standardColour}}>Auto</ToggleButton>
+      <ToggleButton size="small" value="auto" classes={heatingComponentState.mode === 'override' ? {selected: classes.ovverride} : {selected: classes.standardColour}}>{heatingComponentState.mode === 'override' ? "CANCEL" : "AUTO"}</ToggleButton>
       <ToggleButton size="small" value="off">Off</ToggleButton>
       {/* <ToggleButton size="small" value='novalue' disabled></ToggleButton> */}
     </ToggleButtonGroup>

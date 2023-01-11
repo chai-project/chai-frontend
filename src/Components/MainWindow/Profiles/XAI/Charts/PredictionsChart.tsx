@@ -5,6 +5,7 @@ import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 // components
 import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
+import ToolTip from './ToolTip';
 
 //chartjs 
 import 'chart.js/auto'
@@ -52,6 +53,25 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '36vh',
           },
         // border: "2px dashed purple",
+    },
+    tooltipButton:{
+      position: 'absolute',
+      // backgroundColor:'lime',
+
+      [theme.breakpoints.up('md')]: {
+        // height: '25vh',
+        top: 386,
+        left: 470,
+      },
+      [theme.breakpoints.down('md')]: {
+
+        top: 235,
+        left: 465,
+      },
+      [theme.breakpoints.down('sm')]: {
+        top: 405,
+        left: 267,
+      },
     }
   }),
 );
@@ -130,6 +150,7 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
       legend:{
         display:true,
         position: 'chartArea',
+        align: 'end',
         labels: {
             filter: function(item:any, chart:any) {
                 // Logic to remove a particular legend item goes here
@@ -204,8 +225,11 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
   };
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
+    <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.chart}>
       {!xaiBandData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/> }
+      <Grid item className={classes.tooltipButton}>
+        <ToolTip info={'This chart visualises your AI model predictions over time. The best guess is a learned estimation of your ideal target temperature relative to energy price. The confidence region represents uncertainty over the best guess: a larger confidence region means more uncertainty. The predictions are used in auto mode to choose your target temperature relative to the current energy price.'}/>
+      </Grid>
     </Grid>
   )
 }

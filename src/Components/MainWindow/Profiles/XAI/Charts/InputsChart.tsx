@@ -5,6 +5,7 @@ import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 //components
 import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
+import ToolTip from './ToolTip';
 
 //chartjs 
 import 'chart.js/auto'
@@ -29,6 +30,23 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '36vh',
           },
         // border: "2px dashed purple",
+    },
+    tooltipButton:{
+      // backgroundColor:'red',
+      position: 'absolute',
+      [theme.breakpoints.up('md')]: {
+        // height: '25vh',
+        top: 43,
+        left: 470,
+      },
+      [theme.breakpoints.down('md')]: {
+        top: 43,
+        left: 465,
+      },
+      [theme.breakpoints.down('sm')]: {
+        top: 66,
+        left: 267,
+      },
     }
   }),
 );
@@ -99,14 +117,17 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
     animation: {
       duration: 0
     },
+    
     plugins: {
+
       title: {
         display: true,
-        text: `After ${inputs} input${inputs !== 1 ? "s": ""}`, // put value of inputs
-        color: 'rgb(87, 203, 204,1)'
+        text: `After ${inputs} input${inputs !== 1 ? "s": ""} `, // put value of inputs
+        color: 'rgb(87, 203, 204,1)',
       },
       legend:{
-        display:false
+        display:false,
+        
       },
       // title: {
       //     display: true,
@@ -170,6 +191,9 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
   return (
     <Grid xs={12} item container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
       {!dataSet ? <ProgressCircular size={40}/> : <Scatter data={data} options={options}/> }
+      <Grid item className={classes.tooltipButton}>
+        <ToolTip info={'This chart visualises your profile inputs over time, since your last profile reset. Each input is comprised of a target temperature change and the energy price when the change was made. Each input serves to update your AI model.'}/>
+      </Grid>
     </Grid>
   )
 }

@@ -237,6 +237,7 @@ const addLogEntry = async (homeLabel:string, timestamp:string, category:string, 
 // XAI features
 //XAI scatter
 const getXaiScatterData = async (label:any, profile:any) => {
+    // console.log('blblbl')
     const request = await axios.get(`${baseURL}/xai/scatter/?label=${label}&profile=${profile}`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
@@ -255,6 +256,7 @@ const getXaiScatterData = async (label:any, profile:any) => {
 
 //XAI region
 const getXaiRegionData = async (label:any, profile:any, skip:number) => {
+    // console.log('pavyko?')
     const request = await axios.get(`${baseURL}/xai/region/?label=${label}&profile=${profile}&skip=${skip}`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
@@ -263,8 +265,8 @@ const getXaiRegionData = async (label:any, profile:any, skip:number) => {
         // console.log('status text: ',res.statusText)
         return {status: res.status, data: res.data}
 }).catch((error) => {
-    // console.error('error',error);
-    return {error: "Server error, failed to load XAI region data"}
+    console.error('error',error);
+    // return {error: "Server error, failed to load XAI region data"}
 })
     return request // atcomentuoti sita!!!!
     // return {error: "Server error, failed to load XAI region data"}

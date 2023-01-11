@@ -5,6 +5,7 @@ import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 //components
 import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
+import ToolTip from './ToolTip';
 
 //chartjs 
 
@@ -82,6 +83,25 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '36vh',
           },
         // border: "2px dashed purple",
+    },
+    tooltipButton:{
+      position: 'absolute',
+      // backgroundColor:'green',
+
+      [theme.breakpoints.up('md')]: {
+        // height: '25vh',
+        top: 43,
+        left: 960,
+      },
+      [theme.breakpoints.down('md')]: {
+        top: 43,
+        left: 945,
+      },
+      [theme.breakpoints.down('sm')]: {
+        top: 66,
+        left: 565,
+
+      },
     }
   }),
 );
@@ -164,7 +184,7 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
         legend:{
             display:true,
             position: 'chartArea',
-            // align: 'center',
+            align: 'end',
             labels: {
                 color: '#FFFFFF'
               },
@@ -269,6 +289,9 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
       { !xaiRegionData ? <ProgressCircular size={40}/> : <Scatter data={data} options={options} plugins={[annotationPlugin]}/>}
+      <Grid item className={classes.tooltipButton}>
+        <ToolTip info={'	This chart visualises your AI model over time. The best guess is a learned estimation of your preferred temperature (if energy were free) and your price sensitivity. The confidence region represents uncertainty over the best guess: a larger confidence region means more uncertainty. The AI model is used to make predictions about your ideal target temperature relative to energy price.'}/>
+      </Grid>
     </Grid>
   )
 }

@@ -35,6 +35,7 @@ import UpdateModelChart from './Charts/UpdateModelChart';
 import PredictionsChart from './Charts/PredictionsChart';
 import SetpointScheduleChart from './Charts/SetpointScheduleChart';
 import ProgressCircular from '../../../ProgressBar/ProgressCircular';
+import RefreshRequest from '../../../RefreshRequest/RefreshRequest';
 
 
 // Styles 
@@ -277,24 +278,24 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         <Grid item container xs={breakpoint ? 11.1 : 10.4} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    {xaiFeaturesState.xaiScatterDataError ? <Typography>No data</Typography> :
+                    {xaiFeaturesState.xaiScatterDataError ? <RefreshRequest showError={"Error"}  action={()=>{dispatch(setXaiScatterData(homeLabel, xaiFeaturesState.selectedProfile.profile));}}/> :
                         <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount}/>
                     }
                 </Grid>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    {xaiFeaturesState.xaiRegionDataError  ? <Typography>No data</Typography> :
+                    {xaiFeaturesState.xaiRegionDataError  ? <RefreshRequest showError={"Error"} action={()=>{dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiRegionData));}}/>:
                         <UpdateModelChart xaiRegionData={xaiFeaturesState.xaiRegionData}/>
                     }
                 </Grid>
             </Grid>
             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    {xaiFeaturesState.xaiBandDataError ? <Typography>No data</Typography> : 
+                    {xaiFeaturesState.xaiBandDataError ? <RefreshRequest showError={"Error"} action={()=>{dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiBandData));}}/> : 
                         <PredictionsChart xaiBandData={xaiFeaturesState.xaiBandData?.data}/>
                     }
                 </Grid>
                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    {xaiFeaturesState.periodPriceDataError || xaiFeaturesState.xaiRegionDataError ? <Typography>No data</Typography> : 
+                    {xaiFeaturesState.periodPriceDataError || xaiFeaturesState.xaiRegionDataError ? <RefreshRequest showError={"Error"} action={()=>{dispatch(setPeriodPriceData(startOfTheDay,startOfTheNextDay)); dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiRegionData)) }}/>: 
                         <SetpointScheduleChart xaiRegionData={xaiFeaturesState.xaiRegionData} periodPriceData={xaiFeaturesState.periodPriceData}/>
                     }
                 </Grid>
