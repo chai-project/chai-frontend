@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     standardColour:{
       // backgroundColor: "red!important"
+    },
+    ovverrideCancelButton:{
+      backgroundColor: 'transparent!important'
     }
   }),
 );
@@ -107,9 +110,10 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
       aria-label="device"
     >
       <ToggleButton size="small" value="on">On</ToggleButton>
-      <ToggleButton size="small" value="auto" classes={heatingComponentState.mode === 'override' ? {selected: classes.ovverride} : {selected: classes.standardColour}}>{heatingComponentState.mode === 'override' ? "CANCEL" : "AUTO"}</ToggleButton>
+      <ToggleButton size="small" value="auto" classes={heatingComponentState.mode === 'override' ? {selected: classes.ovverride} : {selected: classes.standardColour}}>AUTO</ToggleButton>
       <ToggleButton size="small" value="off">Off</ToggleButton>
-      {/* <ToggleButton size="small" value='novalue' disabled></ToggleButton> */}
+      {heatingComponentState.mode === 'override' ? <ToggleButton size="small" value='auto' classes={heatingComponentState.mode === 'override' ? {selected: classes.ovverrideCancelButton} : {selected: classes.standardColour}}>Cancel</ToggleButton> : null }
+      {/* <ToggleButton size="small" value='auto'>Cancel</ToggleButton> */}
     </ToggleButtonGroup>
   );
 }

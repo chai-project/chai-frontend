@@ -67,7 +67,7 @@ export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
             end: end.format()
         }
 
-        const pricesForPeriod = await services.getAverageHeatingPricePeriod(period);
+        const pricesForPeriod:any = await services.getAverageHeatingPricePeriod(period);
         if(pricesForPeriod.error){
             dispatch({
                 type:"SET_ENERGY_PRICES_FOR_SELECTED_PROFILE",
@@ -94,7 +94,7 @@ export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
             })
             dispatch({
                 type:"SET_ENERGY_PRICES_FOR_SELECTED_PROFILE",
-                data: {energyPriceForSelectedTimeslot: pricePeriodWithSubIntervals}
+                data: {energyPriceForSelectedTimeslot: pricePeriodWithSubIntervals, error: null}
             })
         };
     }

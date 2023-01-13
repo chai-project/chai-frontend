@@ -66,6 +66,8 @@ const EnergyPrice: React.FC<{energyPrice:any}> = ({energyPrice}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  // console.log(energyPrice, 'blbl')
+
   return (
     <div className={classes.root}>
         <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">

@@ -63,7 +63,10 @@ const getHeatingComponentData = async (label:String) => {
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
         return res.data
+        // return {error: 'Server error, failed to load heating component data'}
+
 }).catch((error) => {
+    return {error: 'Server error, failed to load heating component data'}
     // console.log('error',error);
     
 })
@@ -84,6 +87,7 @@ const getAverageHeatingPricePeriod = async (period:any) => {
         // console.log('status text: ',res.statusText)
         
         return res.data
+        // return {error: 'Server error, failed to load heating price data'}
     }).catch((error) => {
         // console.log(error)
         return {error: 'Server error, failed to load heating price data'}
@@ -247,10 +251,10 @@ const getXaiScatterData = async (label:any, profile:any) => {
         return res.data
 }).catch((error) => {
     // console.error('error',error);
-    return {error: "Server error, failed to load XAI scatter data"}
+    return {error: "Server error, failed to load data for Chart 1"}
 })
     return request
-    // return {error: "Server error, failed to load XAI scatter data"}
+    // return {error: "Server error, failed to load data for Chart 1"}
 
 };
 
@@ -266,10 +270,10 @@ const getXaiRegionData = async (label:any, profile:any, skip:number) => {
         return {status: res.status, data: res.data}
 }).catch((error) => {
     console.error('error',error);
-    // return {error: "Server error, failed to load XAI region data"}
+    return {error: "Server error, failed to load data for Chart 2 and Chart 4"}
 })
     return request // atcomentuoti sita!!!!
-    // return {error: "Server error, failed to load XAI region data"}
+    // return {error: "Server error, failed to load data for Chart 2 and Chart 4"}
 
 };
 
@@ -284,10 +288,10 @@ const getXaiBandData = async (label:any, profile:any, skip:number) => {
         return {status: res.status, data: res.data}
 }).catch((error) => {
     // console.error('error',error);
-    return {error: "Server error, failed to load XAI band data"}
+    return {error: "Server error, failed to load data for Chart 3"}
 })
     return request
-    // return {error: "Server error, failed to load XAI band data"}
+    // return {error: "Server error, failed to load data for Chart 3"}
 };
 // getSetpointScheduleChartData('test_home_kim', 2, 0);
 // https://api.project-chai.org/xai/region/?label=[label]&profile=1&skip=1'

@@ -629,34 +629,20 @@ useEffect(() => {
     const seconds = date.getSeconds()
     const secondsToNextMinute = 60 - seconds
 
-
-    // console.log(minutes, minutesToNextHalfHour, minutesToNextHalfHour === 0, "mins.")
-
-    // console.log(seconds ,secondsToNextMinute ,secondsToNextMinute > 49, "if this true ?  seconds * 1000 " )
-
     let next:any
 
     if((minutes === 0 || minutes === 30) && seconds < 10){
-      // console.log(`${seconds} secs left, pirmas`)
       next = 10 - seconds * 1000
     }else{
       if((minutes === 0 || minutes === 30) && seconds >= 10){
-        // console.log(`${29} mins and ${secondsToNextMinute} secs left, antras`)
         next = (29) * 60000 + (secondsToNextMinute * 1000) + 9000
       }else {
-        // console.log(`${minutesToNextHalfHour -1} mins and ${secondsToNextMinute} secs left, trecias`)
         next = (minutesToNextHalfHour - 1) * 60000 + (secondsToNextMinute * 1000) + 9000
       }
-      // console.log(minutesToNextHour - 1, secondsToNextMinute,  '11sec' )
     }
-    // console.log(next,'next')
 
 
-
-    // console.log(secondsToNextMinute, 60 - secondsToNextMinute )
-    // console.log(((minutesToNextHalfHourPeriod * 60000)+5000))
     setTimeout(() => {
-      // console.log('pavyko ???')
       dispatch(initializeEnergyPriceData())
       let id = setInterval(() => {
         dispatch(initializeEnergyPriceData())
@@ -664,42 +650,9 @@ useEffect(() => {
       return () => clearInterval(id);
     }, next );
   }
-  //minutesToNextHalfHourPeriod * 1000 + 5000
 }, [currentState.heatingComponent.isValid]);
 
 
-
-
-// cia viskas ok, tik reike kad po kiekvieno update atsinaujintu 
-// const hmm = () => {
-//   console.log('zeuru')
-
-//   }
-  // setInterval(()=>{
-  //   // console.log('update')
-  //   utils.refreshState(homeLabel);
-  // }, 5000);
-
-  // hmm()
-
-  // hmm(2)
-  // function startTimer() {
-  //   setTimeout(() => {
-  //     // Call the function here:
-  //     // console.log('krw');
-  //     hmm(1)
-  //     // Call startTimer() again to schedule the next call:
-  //     startTimer();
-  //   }, 2000);
-  // }
-  
-  // startTimer();
-  
-
-
-// }
-
-// setInterval(utils.refreshState(homeLabel), 10000)
 
   const handleBackDrop = () => {
     setOpenBackdrop(!openBackdrop);
@@ -734,7 +687,7 @@ useEffect(() => {
                   <MainWindow homeLabel={homeLabel} currentState={currentState}/>
                 </Paper>
               </Grid>
-              <Grid xs={3.3} sm={3.3} md={3.3} lg={3.3} xl={3.3} item >
+              <Grid xs={3.3} sm={3.3} md={3.3} lg={3.3} xl={3.4} item >
                 <Paper className={classes.quickAccess}>
                   <QuickAccess homeLabel={homeLabel}/>
                 </Paper>

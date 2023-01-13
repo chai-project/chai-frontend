@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeaturesState, homeLabel}) => { // timeslots type timeslot[] | null
+const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:boolean}> = ({xaiFeaturesState, homeLabel, userChanged}) => { // timeslots type timeslot[] | null
 
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -151,7 +151,7 @@ const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xa
             </Grid>
           </Grid>
           <Grid xs={breakpoint ? 11 : 10.8} item container direction="column" justifyContent="center" alignItems="center" className={classes.chartsComponent}>
-            <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} />
+            <XAICharts xaiFeaturesState={xaiFeaturesState} homeLabel={homeLabel} userChanged={userChanged} />
           </Grid>
     </Grid>
   );

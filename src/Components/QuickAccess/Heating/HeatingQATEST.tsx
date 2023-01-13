@@ -27,6 +27,7 @@ import ToggleButtons from './ToogleButtons';
 import services from '../../../Services/services';
 
 
+
 import { createBrowserHistory } from 'history';
 
 
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     main:{
-      height: '180px', // was 190
+      height: '200px', // was 190
       minWidth: '90%',
       borderRadius: '25px',
       // border: "7px solid orange",
@@ -81,8 +82,11 @@ const useStyles = makeStyles((theme: Theme) =>
     actualTemperatureContainer:{
       // border: "2px dashed yellow",
       position: 'relative',
-      top: '-70px', //was 65 change because of leter C
-      left:'3px' //was 10 change because of leter C
+      top: '-65px', //was 65 change because of leter C
+      left:'5px', //was 10 change because of leter C
+      [theme.breakpoints.down('md')]: {
+      top: '-60px', //was 65 change because of leter C
+      },
       // top: '%'
     },
     actualTemperature:{
@@ -152,28 +156,26 @@ const HeatingQATEST: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
     return  state.heatingComponent
   })
 
-  const [heatingAutoMode, setHeatingAutoMode] = useState<boolean>(true)
-  const [heatingManualMode, setHeatingManualMode] = useState<String|null>(null)
   const [targetTemperature, setTargetTemperature] = useState<number>(17)
   const [isSetTargetTemperature, setIsSetTargetTemperature] = useState<boolean>(false)
   const [requestTargetTemperatureValue , setRequestTargetTemperature] = useState<number | null>(null)
-  const [valveStatus, setValveStatus] = useState<boolean|null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
+
+  useEffect(()=>{
+    if(heatingComponentState.error){
+      dispatch(setErrorMessage(heatingComponentState.error, 5000))
+    }
+  },[heatingComponentState.error])
 
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const url = createBrowserHistory()
-  const parameters = new URLSearchParams(url.location.search);
-  // const homeLabel =  parameters.get('home')
-
-  
 
 //confirm buttons actions
 
 const confirmYes = async () => {
   if(requestTargetTemperatureValue){
-
+    setLoading(true)
     const response = await services.setTemperature(homeLabel! , heatingComponentState.mode, requestTargetTemperatureValue );
     if(response === 200){
       dispatch(setTemperature(requestTargetTemperatureValue));
@@ -184,6 +186,7 @@ const confirmYes = async () => {
       dispatch(setErrorMessage(`Failed to set target temperature to ${requestTargetTemperatureValue}°C`, 5000))
     }
   };
+  setLoading(false)
   setIsSetTargetTemperature(false);
   setRequestTargetTemperature(null);
 }
@@ -193,17 +196,28 @@ const confirmCancel = () => {
 }
 
 
+
 const confirmComponent = () => {
   return(
     <Grid item container direction="row" justifyContent="center" alignItems="flex-start" className={classes.infoAndSwitchButtonsContainer}>
       <Grid item xs={10} className={classes.confirmQuestion}>Are you sure you wish to set the target temperature to <b>{requestTargetTemperatureValue}°C</b> ?</Grid>
       <Grid item xs={8} container direction="row" justifyContent='center' alignItems='center' className={classes.confirmButtons} >
-        <Grid item xs={4}>
+        { loading ? <ProgressCircular size={30}/> : 
+          <Grid item container direction="row" justifyContent='center' alignItems='center'>
+            <Grid item xs={4}>
+              <Button variant="contained" color='primary' size='small' onClick={()=>{confirmYes()}}>Yes</Button>
+            </Grid>
+            <Grid item xs={4}>
+              <Button variant="contained" color='secondary' size='small' onClick={()=>{confirmCancel()}}>Cancel</Button>
+            </Grid>
+          </Grid>
+        }
+        {/* <Grid item xs={4}>
           <Button variant="contained" color='primary' size='small' onClick={()=>{confirmYes()}}>Yes</Button>
         </Grid>
         <Grid item xs={4}>
           <Button variant="contained" color='secondary' size='small' onClick={()=>{confirmCancel()}}>Cancel</Button>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   )
@@ -212,11 +226,11 @@ const confirmComponent = () => {
 const valvelStatusAndToogleButtonsComponent = () => {
     return (
         <Grid item container direction="row" justifyContent="center" alignItems="center" className={classes.valveStatusAndToogleButtons}>
-            <Grid item container xs={6} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
-                <Typography  variant="inherit" className={classes.valveStatus}>Valve: <b>{heatingComponentState.valve_open === true ? "Open" : "Closed"}</b></Typography>
-                {heatingComponentState.mode === "auto" || heatingComponentState.mode === "override"?  <Typography variant="inherit"className={classes.valveStatus}>Active profile: <b>{heatingComponentState.activeProfile?.profileName}</b></Typography> : null}
+            <Grid item container xs={5.5} direction="column" justifyContent="center" alignItems="flex-start" className={classes.valveStatusContainer}>
+                <Typography  variant="subtitle2" className={classes.valveStatus}>Valve: <b>{heatingComponentState.valve_open === true ? "Open" : "Closed"}</b></Typography>
+                {heatingComponentState.mode === "auto" || heatingComponentState.mode === "override"?  <Typography variant="subtitle2"className={classes.valveStatus}>Active profile: <b>{heatingComponentState.activeProfile?.profileName}</b></Typography> : null}
             </Grid>
-            <Grid item container xs={6} direction="column" justifyContent="center" alignItems="center">
+            <Grid item container xs={6.5} direction="column" justifyContent="center" alignItems="center">
                 <Grid item spacing={1}>
                     <ToggleButtons label={homeLabel!} heatingComponentState={heatingComponentState}/>
                 </Grid>
@@ -250,6 +264,7 @@ const valvelStatusAndToogleButtonsComponent = () => {
                                     :
                                     <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
                                         <Grid item>
+                                          {/* {heatingComponentState.error ? <p>{heatingComponentState.error}</p> : <ProgressCircular size={40}/>} */}
                                          <ProgressCircular size={40}/>
                                         </Grid>
                                     </Grid>

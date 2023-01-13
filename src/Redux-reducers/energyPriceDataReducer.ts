@@ -6,10 +6,11 @@ interface energyPriceData {
     currentEnergyPrice: any,
     averagePriceToday: any,
     averagePriceThisWeek: any,
-    averagePriceThisMonth: any
-
-
+    averagePriceThisMonth: any,
+    error: any
 }
+
+// energyPriceData | null = null
 
 const energyPriceDataReducer = (state: energyPriceData | null = null , action:any) => {
     switch(action.type) {
@@ -21,7 +22,7 @@ const energyPriceDataReducer = (state: energyPriceData | null = null , action:an
 }
 
 export const initializeEnergyPriceData = () => {
-    console.log("energy price update")
+    // console.log("energy price update")
     return async (dispatch : Dispatch) => {
         const currentTime = dayjs();
         //PERIOD TODAY
@@ -58,16 +59,25 @@ export const initializeEnergyPriceData = () => {
         // console.log("avgEnergyPriceThisMonth: ",avgEnergyPriceThisMonth)
 
 
-
-        dispatch({
-            type:"SET_ENERGY_PRICE_DATA",
-            data: {
-                currentEnergyPrice: energyPrice,
-                averagePriceToday: avgEnergyPriceToday,
-                averagePriceThisWeek: avgEnergyPriceThisWeek,
-                averagePriceThisMonth: avgEnergyPriceThisMonth
-            }
-        })
+        if(avgEnergyPriceToday.error || avgEnergyPriceThisWeek.error || avgEnergyPriceThisMonth.error){
+            dispatch({
+                type:"SET_ENERGY_PRICE_DATA",
+                data: {
+                    error: "Server error, failed to load heating price data",
+                }
+            })
+        }else{
+            dispatch({
+                type:"SET_ENERGY_PRICE_DATA",
+                data: {
+                    currentEnergyPrice: energyPrice,
+                    averagePriceToday: avgEnergyPriceToday,
+                    averagePriceThisWeek: avgEnergyPriceThisWeek,
+                    averagePriceThisMonth: avgEnergyPriceThisMonth,
+                    error: null
+                }
+            })
+        }
     };
 };
 

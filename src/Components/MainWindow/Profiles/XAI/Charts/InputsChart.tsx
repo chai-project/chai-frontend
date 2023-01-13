@@ -34,6 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
     tooltipButton:{
       // backgroundColor:'red',
       position: 'absolute',
+      top: '8%',
+
       [theme.breakpoints.up('md')]: {
         // height: '25vh',
         top: 43,

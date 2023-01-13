@@ -49,7 +49,7 @@ export const setSelectedProfile = (profile:any) => {
 //1st chart
 export const setXaiScatterData = (label:string, profile:number) => {
 
-    // console.log(label, profile)
+    // console.log('zeuru!!')
     return async (dispatch : Dispatch) => {
 
         const xaiScatterData = await services.getXaiScatterData(label,profile);
@@ -86,11 +86,11 @@ export const setPeriodPriceData = (start:any, end:any) => {
     return async (dispatch : Dispatch) => {
 
         // const scheduleChartData = await services.getSetpointScheduleChartData(label,profile,skip);
-        let pricesForPeriod = await services.getAverageHeatingPricePeriod(period);
+        let pricesForPeriod:any = await services.getAverageHeatingPricePeriod(period);
         if(pricesForPeriod.error){
             dispatch({
                 type:"SET_PERIOD_PRICE_DATA",
-                data: {periodPriceData: null, periodPriceDataError: pricesForPeriod.error }
+                data: {periodPriceData: null, periodPriceDataError: "Server error, failed to load data for Chart 4" }
             })
         }else{
             const timeFrameToAdd = {...pricesForPeriod[pricesForPeriod.length - 1], start: pricesForPeriod[pricesForPeriod.length - 1].end, end: dayjs(pricesForPeriod[pricesForPeriod.length - 1].end).add(30,'minutes').format()}
@@ -101,13 +101,7 @@ export const setPeriodPriceData = (start:any, end:any) => {
                 data: {periodPriceData: pricesForPeriod, periodPriceDataError: null}
             })
         }
-        // const timeFrameToAdd = {...pricesForPeriod[pricesForPeriod.length - 1], start: pricesForPeriod[pricesForPeriod.length - 1].end, end: dayjs(pricesForPeriod[pricesForPeriod.length - 1].end).add(30,'minutes').format()}
-        // pricesForPeriod.push(timeFrameToAdd)
-        
-        // dispatch({
-        //     type:"SET_PERIOD_PRICE_DATA",
-        //     data: {periodPriceData: pricesForPeriod}
-        // })
+
     };
 };
 

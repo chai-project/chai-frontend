@@ -151,10 +151,11 @@ const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({curren
         // setConfirmOverlayMessage(null)
         setLoadingRequestToTheServer(false)
     }
+
     // ()=>{resetSelectedProfile(profile.profile)}
   return (
     <Grid container className={classes.mainContainer}  direction="column" justifyContent="center" alignItems="center" padding={1}>
-        {currentState.xaiFeatures.selectedProfile ? <XaiFeaturesOverlay xaiFeaturesState={currentState.xaiFeatures} homeLabel={homeLabel}/> : null }
+        {currentState.xaiFeatures.selectedProfile ? <XaiFeaturesOverlay xaiFeaturesState={currentState.xaiFeatures} homeLabel={homeLabel} userChanged={currentState.heatingComponent.userChanged}/> : null }
         {profileToReset ? <ConfirmOverlay profileToReset={profileToReset} setProfileToReset={setProfileToReset} resetProfileOrAllProfiles={resetProfileOrAllProfiles} loadingRequestToTheServer={loadingRequestToTheServer}/> : null }
         {allProfiles.length !== 0 ? 
                         <Grid container xs={12} className={classes.container} direction="column" justifyContent="flex-start" alignItems="center" >

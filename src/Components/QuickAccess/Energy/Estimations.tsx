@@ -70,13 +70,13 @@ const Estimations: React.FC<{periodState:any, energyPrice:any ,type:any}> = ({pe
         case 'avg':
           switch(periodState) {
             case 'Today':
-              setPrice(energyPrice.averagePriceToday.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceToday.length)
+              setPrice(energyPrice.averagePriceToday?.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceToday.length)
               break;
             case 'This week':
-              setPrice(energyPrice.averagePriceThisWeek.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisWeek.length)
+              setPrice(energyPrice.averagePriceThisWeek?.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisWeek.length)
               break;
             case 'This month':
-              setPrice(energyPrice.averagePriceThisMonth.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisMonth.length)
+              setPrice(energyPrice.averagePriceThisMonth?.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisMonth.length)
               break;
             default:
               setPrice(null)
@@ -111,6 +111,7 @@ const Estimations: React.FC<{periodState:any, energyPrice:any ,type:any}> = ({pe
             default:
               setPrice(null)
           }
+          
       }
       // switch(periodState) {
       //   case 'Today':
@@ -131,31 +132,6 @@ const Estimations: React.FC<{periodState:any, energyPrice:any ,type:any}> = ({pe
 
   return (
     <Typography variant="inherit"><b>{price?.toFixed(2)}</b></Typography>
-    // <div className={classes.root}>
-    //     <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
-    //         <Grid item xs={1}>
-    //             <CurrencyPoundIcon fontSize='small' color='primary'/>
-    //         </Grid>
-    //         <Grid item xs={7} fontSize={15}><Typography variant="inherit"> Average price:</Typography></Grid>
-    //         <Grid item xs={4} fontSize={15}>
-    //         {avgPrice !== null ?  <Typography variant="inherit"><b>{avgPrice.toFixed(3)}</b> p/kWh</Typography> : <ProgressCircular size={20}/>}
-    //         </Grid>
-    //     </Grid>
-    //     {/* <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
-    //         <Grid item xs={1}>
-    //             <TrendingDownIcon fontSize='small' color='primary'/>
-    //         </Grid>
-    //         <Grid item xs={7}> Estimated consumption:</Grid>
-    //         <Grid item xs={3} fontSize={15}><b>22</b> kWh</Grid>
-    //     </Grid>
-    //     <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
-    //         <Grid item xs={1}>
-    //             <CurrencyPoundIcon fontSize='small' color='primary'/>
-    //         </Grid>
-    //         <Grid item xs={7}> Estimated cost:</Grid>
-    //         <Grid item xs={3} fontSize={15}><b>0.22</b> p </Grid>
-    //     </Grid> */}
-    // </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -21,6 +21,7 @@ import { CssBaseline, Box, Divider, Grid, Button, AppBar, Toolbar, IconButton, S
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
+import { setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
 
 
 //components
@@ -31,6 +32,7 @@ import MinimumPrice from './MinimumPrice';
 import MaximumPrice from './MaximumPrice';
 import Estimations from './Estimations';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
+import RefreshRequest from '../../RefreshRequest/RefreshRequest';
 
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     container:{
-      height: '180px', //visi buvo 190
+      height: '200px', //visi buvo 190
       minWidth: '90%',
       borderRadius: '25px'
     },
@@ -82,6 +84,13 @@ const EnergyQA: React.FC = () => {
   const dispatch = useDispatch()
   const energyPrice:any = useSelector((state: any) => state.energyPriceData);
 
+
+  useEffect(()=>{
+    if(energyPrice?.error!){
+      dispatch(setErrorMessage(energyPrice.error, 5000))
+    }
+  },[energyPrice])
+
 //   const getData = () => {
 //     dispatch(initializeData())
 //   }
@@ -90,37 +99,26 @@ const EnergyQA: React.FC = () => {
     <div>
       <Divider className={classes.divider} textAlign='left'><b>Energy</b></Divider>
       <Box className={classes.container} bgcolor="background.default">
-        <Grid container className={classes.columns} direction="column" justifyContent="center" alignItems="center">
-          <Grid item xs={1} className={classes.column}></Grid>
-          <Grid item xs={2} className={classes.column}>
-            <EnergyPrice energyPrice={energyPrice} />
+        {energyPrice && energyPrice.error ? 
+          <Grid container className={classes.columns} direction="column" justifyContent="center" alignItems="center">
+            <RefreshRequest showError={"Error"} action={()=>{console.log('refresh')}}/>
+          </Grid> :
+          <Grid container className={classes.columns} direction="column" justifyContent="center" alignItems="center">
+            <Grid item xs={1} className={classes.column}></Grid>
+            <Grid item xs={2} className={classes.column}>
+              <EnergyPrice energyPrice={energyPrice} />
+            </Grid>
+            <Grid item xs={3} className={classes.column}>
+              <ButtonsForEnergyQA state={periodState} setState={setPeriodState} cases={periods}/>
+            </Grid>
+            <Grid item xs={6} container className={classes.estimation} direction="column" justifyContent="flex-start" alignItems="center">
+              <AveragePrice periodState={periodState} energyPrice={energyPrice} />
+              <MinimumPrice periodState={periodState} energyPrice={energyPrice} />
+              <MaximumPrice periodState={periodState} energyPrice={energyPrice} />
+            </Grid>
           </Grid>
-          <Grid item xs={3} className={classes.column}>
-            <ButtonsForEnergyQA state={periodState} setState={setPeriodState} cases={periods}/>
-          </Grid>
-          <Grid item xs={6} container className={classes.estimation} direction="column" justifyContent="flex-start" alignItems="center">
-            <AveragePrice periodState={periodState} energyPrice={energyPrice} />
-            <MinimumPrice periodState={periodState} energyPrice={energyPrice} />
-            <MaximumPrice periodState={periodState} energyPrice={energyPrice} />
-
-            {/* <Grid item container direction="row" justifyContent="center" alignItems="flex-start">
-              <Grid item xs={1}>
-                  <CurrencyPoundIcon fontSize='small' color='primary'/>
-              </Grid>
-              <Grid item xs={7} fontSize={15}><Typography variant="inherit"> Average price:</Typography></Grid>
-              <Grid item xs={1.7} fontSize={15}>
-                {energyPrice !== null ?  <Estimations periodState={periodState} energyPrice={energyPrice}/> : <ProgressCircular size={20}/>}
-              </Grid>
-              <Grid item xs={2.3} fontSize={15}><Typography variant="inherit">p/kWh</Typography></Grid>
-            </Grid> */}
-            {/* <Estimations periodState={periodState} energyPrice={energyPrice!}/> */}
-          </Grid>
-        </Grid>
-        {/* <EnergyPrice/> */}
-        {/* <ButtonsForEnergyQA state={periodState} setState={setPeriodState} cases={periods}/> */}
-        {/* <ButtonsForEnergyQA state={deviceState} setState={setDeviceState} cases={devices}/> */}
-        {/* <Estimations/> */}
-      </Box>
+        }
+        </Box>
     </div>
   );
 };

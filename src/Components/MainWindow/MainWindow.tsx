@@ -58,20 +58,6 @@ const MainWindow: React.FC<{homeLabel:String | null, currentState:any}> = ({home
 
     useEffect(()=>{
       if(currentState.heatingSchedule){
-        // console.log(currentState.heatingSchedule)
-        // const activeProfile =  currentState.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
-        //   const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-        //   if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-        //     if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-        //       return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-        //     } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-        //       return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-        //     } else {
-        //       return profile
-        //     }
-        //   }
-        // })
-        //padaryti kad ant end time atnaujintu!
         const activeProfile:any = utils.getActiveProfile(currentState.heatingSchedule[0])
         dispatch(setActiveProfile(activeProfile))
       }
@@ -81,7 +67,7 @@ const MainWindow: React.FC<{homeLabel:String | null, currentState:any}> = ({home
   return (
     <div className={classes.main}>
         <Routes>
-          <Route path='/' element={<p>Home</p>}/>
+          <Route path='/' element={null}/>
           <Route path='schedule' element={<ScheduleComponent weekSchedule={currentState.heatingSchedule} heatingProfiles={currentState.heatingProfiles} homeLabel={homeLabel}/>}/>
           <Route path='schedule/:weekday' element={<EditWeekdaySchedule />}/>
           <Route path='profiles' element={<Profiles currentState={currentState} homeLabel={homeLabel}/>}/>

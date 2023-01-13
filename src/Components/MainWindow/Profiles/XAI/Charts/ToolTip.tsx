@@ -21,44 +21,37 @@ const useStyles = makeStyles((theme: Theme) =>
     // zIndex: 3,
 
     //    position: 'fixed', //sitas!!!
-       width: '100%',
-       height: '100%',
+    //    width: '100%',
+    //    height: '100%',
     //    background: '#CFD8DC',
       //  left: '4%',
       //  top: '10%',
+
     },
     button:{
 
     },
     info:{
-        // display:'none'
         
-    //    background: '#CFD8DC',
-       position:'fixed',
-       zIndex: 3,
-       borderRadius: 5,
-        //   background: '#CFD8DC',
-         background: 'rgba(43, 54, 72 ,0.9)',
+        position:'fixed',
+        zIndex: 3,
+        borderRadius: 5,
+        background: 'rgba(43, 54, 72 ,0.9)',
          backdropFilter: 'blur(4px)',
-       left: 0,
-       top: 45,
-    //    height: '100vh',
-    //    width: '100vw',
-       [theme.breakpoints.up('md')]: {
+        left: 0,
+        top: 45,
+        [theme.breakpoints.up('md')]: {
         height: '50vh',
         // width: '71.5vh'
-      },
-      [theme.breakpoints.down('md')]: {
+        },
+        [theme.breakpoints.down('md')]: {
         height: '64vh',
         // width: '161.1vh'
-      },
-      [theme.breakpoints.down('sm')]: {
+        },
+        [theme.breakpoints.down('sm')]: {
           height: '72vh',
         //   width: '62.7vh'
-
         },
-    //    height: '100%',
-    //    width: '100%'
     },
     text:{
         // border: '1px solid red'
@@ -73,14 +66,14 @@ const ToolTip: React.FC<{info:any}> = ({info}) => {
 
 
   return (
-    <Grid container direction="row" className={classes.main}>
+    <Grid container className={classes.main}>
         <Grid xs={1} item className={classes.button}>
             <IconButton size='medium' edge='start' color='primary' onClick={()=>{setShowToolTip(true)}}>
                 <InfoIcon/>
             </IconButton>
         </Grid>
         {showToolTip ? 
-            <Grid item className={classes.info}>
+            <Grid xs={12}className={classes.info}>
                 <Grid item container direction="row" justifyContent="center" alignItems="center">
                     <Grid item container direction="column" justifyContent="flex-end" alignItems="flex-end" padding={0}>
                         <IconButton size='medium' edge='start' color='primary' onClick={()=>{setShowToolTip(false)}}>

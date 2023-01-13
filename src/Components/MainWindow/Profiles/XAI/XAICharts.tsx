@@ -19,6 +19,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
 import { setXaiScatterData, setPeriodPriceData, setXaiRegionData, setXaiBandData } from '../../../../Redux-reducers/xaiFeaturesReducer';
 import { setErrorMessage } from '../../../../Redux-reducers/notificationsReducer';
+import { setUserChangedBackToFalse } from '../../../../Redux-reducers/heatingComponentReducer';
 // import { initializeData } from './Redux-reducers/dataReducer';
 // import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
 
@@ -161,7 +162,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeaturesState, homeLabel}) => { // timeslots type timeslot[] | null
+const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:boolean}> = ({xaiFeaturesState, homeLabel, userChanged}) => { // timeslots type timeslot[] | null
 
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -188,6 +189,22 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any}> = ({xaiFeatures
         dispatch(setPeriodPriceData(startOfTheDay,startOfTheNextDay));
         // setMappedDataForInputsChart(xaiFeaturesState.inputsChart.entries?.map((entry:any)=>{return [entry.price,entry.temperature]}))
     },[])
+
+
+    //refresh xai chaerts on user change
+    useEffect(()=>{
+        // console.log(userChanged)
+        if(userChanged){
+            setTimeout(() => {
+                dispatch(setXaiScatterData(homeLabel, xaiFeaturesState.selectedProfile.profile));
+                dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiRegionData));
+                dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiBandData));
+                dispatch(setPeriodPriceData(startOfTheDay,startOfTheNextDay));
+                dispatch(setUserChangedBackToFalse())
+              }, 10000 );
+        }
+
+    },[userChanged])
 
     useEffect(()=>{
         const mappedData = xaiFeaturesState.xaiScatterData?.entries.map((entry:any)=>{return [entry.price,entry.temperature]}).reverse(); // because the first one is the latest
