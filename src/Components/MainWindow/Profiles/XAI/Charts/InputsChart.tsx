@@ -153,7 +153,7 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
         beginAtZero: true,
         title: {
           display: true,
-          text: 'p/kWh',
+          text: 'Price (p/kWh)',
           // text: 'Price (p/kWh)',
           color: 'rgb(87, 203, 204,1)',
           stepped: 'before',
@@ -176,7 +176,7 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
         beginAtZero: true,
         title: {
           display: true,
-          text: '°C',
+          text: 'Target temperature (°C)',
           // text: 'Setpoint (°C)',
           color: 'rgb(87, 203, 204,1)',
         },
