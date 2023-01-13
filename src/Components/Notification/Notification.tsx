@@ -9,6 +9,14 @@ import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styl
 
 
 
+const useStyles = makeStyles({
+  success: {
+    backgroundColor: "#5ACBCC!important"
+  },
+  error: {
+    backgroundColor: "#F6946B!important"
+  }
+});
 
 
 
@@ -32,6 +40,8 @@ const Notification: React.FC<{notificationState:any}> = ({notificationState}) =>
     const [open, setOpen] = useState<any>(true);
     const [notificationContent, setNotificationContent] = useState<any>();
     const [severity, setSeverity] = useState<any>(null);
+
+    const classes = useStyles();
 
     const theme = useTheme();
     const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
@@ -66,7 +76,7 @@ const Notification: React.FC<{notificationState:any}> = ({notificationState}) =>
   return (
     <Box sx={{ display: 'flex' }}> {/* in Snackbar autoHideDuration={6000} to hide, but it is implemented in the reducer*/}
         <Snackbar open={open} onClose={handleClose} TransitionComponent={TransitionRight} anchorOrigin={{ vertical, horizontal }}  key={"top" + "center"}> 
-            <Alert onClose={handleClose} severity={severity ? severity : undefined} sx={{ width: '100%' }}>
+            <Alert onClose={handleClose} severity={severity ? severity : undefined} sx={{ width: '100%' }} className={severity === "success" ? classes.success : classes.error }>
                 {notificationContent} 
             </Alert>
         </Snackbar>
