@@ -63,11 +63,36 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
   const data:any = {
     labels: pricesList?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
     datasets: [
+      // {
+      //   label: "Target temperature (°C)",
+      //   yAxisID: 'y1',
+      //   type:'line',
+      //   data: setpoint,
+      //   radius: radius('radius'),
+      //   hitRadius: radius('hitradius'),
+      //   fill: false,
+      //   backgroundColor: "#F6946B",
+      //   borderColor: "#F6946B",
+      //   stepped: 'before',
+      // },
+      // {
+      //   label: "Price (p/kWh)",
+      //   yAxisID: 'y2',
+      //   type:'line',
+      //   data: pricesList?.map((timeframe:any)=>{return timeframe.rate}),
+      //   radius: radius('radius'),
+      //   hitRadius: radius('hitradius'),
+      //   fill: true,
+      //   backgroundColor: "rgb(87, 203, 204,0.8)",
+      //   borderColor: "rgb(87, 203, 204,1)",
+      //   stepped: 'before',
+      // }
       {
-        label: "Target temperature (°C)",
+        label: "Price (p/kWh)",
         yAxisID: 'y1',
         type:'line',
-        data: setpoint,
+        // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
+        data: pricesList?.map((timeframe:any)=>{return timeframe.rate}),
         radius: radius('radius'),
         hitRadius: radius('hitradius'),
         fill: false,
@@ -76,10 +101,11 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
         stepped: 'before',
       },
       {
-        label: "Price (p/kWh)",
+        label: "Target temperature (°C)",
         yAxisID: 'y2',
         type:'line',
-        data: pricesList?.map((timeframe:any)=>{return timeframe.rate}),
+        // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
+        data: setpoint,
         radius: radius('radius'),
         hitRadius: radius('hitradius'),
         fill: true,
@@ -102,7 +128,7 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
                 // color:'red'
                 // usePointStyle: true,
                 generateLabels: (chart:any) => {
-                    const labels = chart.data.datasets.map((label:any)=>{return{...label,text:label.label,fillStyle: label.borderColor, fontColor: label.borderColor, onclick: label.onClick}})
+                    const labels = chart.data.datasets.map((label:any)=>{return{...label,text:label.label,fillStyle: label.borderColor, fontColor: label.borderColor, onclick: label.onClick}}).reverse()
                     return labels
                 },
             },
@@ -140,24 +166,45 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
         }
       },
       y1: {
+        // grid: {
+        //   drawBorder: true,
+        //   color: 'grey',
+        // },
+        // position:'left',
+        // stacked: false,
+        // title: {
+        //   display: true,
+        //   text: 'Target temperature (°C)',
+        //   // color:'#F6946B',
+        //   color:'rgb(87, 203, 204,1)'
+
+        // },
+        // min:7,
+        // max:30,
+        // ticks: {
+        //     // color: '#F6946B',
+        //   color:'rgb(87, 203, 204,1)'
+        //     // beginAtZero: true,
+        //     // maxTicksLimit:12,
+            
+        //   }
         grid: {
           drawBorder: true,
           color: 'grey',
         },
         position:'right',
         stacked: false,
+        fontColor:'rgb(87, 203, 204,1)',
         title: {
           display: true,
-          text: 'Target temperature (°C)',
+          text: 'Price (p/kWh)',
+          // color:'rgb(87, 203, 204,1)'
           color:'#F6946B',
+
         },
-        min:7,
-        max:30,
         ticks: {
+            // color: 'rgb(87, 203, 204,1)',
             color: '#F6946B',
-            // beginAtZero: true,
-            // maxTicksLimit:12,
-            
           }
       },
       y2: {
@@ -167,15 +214,40 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
         },
         position:'left',
         stacked: false,
-        fontColor:'rgb(87, 203, 204,1)',
         title: {
           display: true,
-          text: 'Price (p/kWh)',
+          text: 'Target temperature (°C)',
+          // color:'#F6946B',
           color:'rgb(87, 203, 204,1)'
+
         },
+        min:7,
+        max:30,
         ticks: {
-            color: 'rgb(87, 203, 204,1)',
-          }
+            // color: '#F6946B',
+          color:'rgb(87, 203, 204,1)'
+            // beginAtZero: true,
+            // maxTicksLimit:12,
+            
+        }
+        // grid: {
+        //   drawBorder: true,
+        //   color: 'grey',
+        // },
+        // position:'right',
+        // stacked: false,
+        // fontColor:'rgb(87, 203, 204,1)',
+        // title: {
+        //   display: true,
+        //   text: 'Price (p/kWh)',
+        //   // color:'rgb(87, 203, 204,1)'
+        //   color:'#F6946B',
+
+        // },
+        // ticks: {
+        //     // color: 'rgb(87, 203, 204,1)',
+        //     color: '#F6946B',
+        //   }
       },
     },
   };

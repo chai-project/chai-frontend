@@ -146,15 +146,20 @@ const setHeatingSchedule = async (homeLabel:any, mask:any, schedule:any) => { //
 //Heating profiles
 
 const getHeatingProfiles = async (label:String) => {
+
     const request = await axios.get(`${baseURL}/heating/profile/?label=${label}&schema=5`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
+        // return {error: 'Server error, failed to load profiles data'}
+
         return res.data
 }).catch((error) => {
-    console.error('error',error);
+    // console.error('error',error);
+    return {error: 'Server error, failed to load heating component data'}
+
 })
     // console.log(request)
     return request

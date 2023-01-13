@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
         left: 960,
       },
       [theme.breakpoints.down('md')]: {
-        top: 43,
+        top: 40,
         left: 945,
       },
       [theme.breakpoints.down('sm')]: {
@@ -196,6 +196,13 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
             },
             // fontColor: 'rgb(87, 203, 204,1)'
         },
+        tooltip: {
+          // title: false,
+          callbacks: {
+            title: (title:any) => {return `${title[0].label}`},
+            label : (label:any)=>{return `${label.parsed.y.toFixed(1)} °C`},
+          }
+        }
         // annotation: {
         //     annotations: {
         //         ellipse1: {

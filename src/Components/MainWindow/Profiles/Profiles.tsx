@@ -28,6 +28,8 @@ import Profile from './Profile';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 import XaiFeaturesOverlay from './XAI/XaiFeaturesOverlay';
 import ConfirmOverlay from './ConfirmOverlay';
+import RefreshRequest from '../../RefreshRequest/RefreshRequest';
+import { initializeHeatingProfiles, setUserResetProfile } from '../../../Redux-reducers/heatingProfilesReduces';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -93,20 +95,27 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({currentState, homeLabel}) => {
+const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLabel}) => {
     const [profile, setProfile] = useState<profile|null>(null);
     const [profileToReset, setProfileToReset] = useState<String|null>()
     const [loadingRequestToTheServer, setLoadingRequestToTheServer] = useState<boolean>(false)
 
 
+    useEffect(()=>{
+        if(currentState.heatingProfiles.error){
+            dispatch(setErrorMessage(currentState.heatingProfiles.error, 5000))
+        }
+    },[currentState.heatingProfiles.error])
+
+
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const allProfiles = useSelector((state:any)=>{
-        return(
-          state.heatingProfiles.heatingProfiles
-        )
-      })
+    // const allProfiles = useSelector((state:any)=>{
+    //     return(
+    //       state.heatingProfiles.heatingProfiles
+    //     )
+    //   })
 
     const openConfirmOverlay = (profile:String) => {
         setProfileToReset(profile)
@@ -120,6 +129,7 @@ const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({curren
                 if(request === 200){
                     dispatch(setNotification(`All profiles were successfully reset.`, 5000));
                     dispatch(initialiseLogs(homeLabel, null, null))
+                    dispatch(setUserResetProfile(true))
                     //update notifications!!!
                     // break;
                 }else {
@@ -132,6 +142,7 @@ const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({curren
                     if(request === 200){
                         dispatch(setNotification(`Profile ${profile?.profileName} was successfully reset.`, 5000));
                         dispatch(initialiseLogs(homeLabel, null, null))
+                        dispatch(setUserResetProfile(true))
                         //update notifications!!!
                         // break;
                     }else{
@@ -157,12 +168,12 @@ const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({curren
     <Grid container className={classes.mainContainer}  direction="column" justifyContent="center" alignItems="center" padding={1}>
         {currentState.xaiFeatures.selectedProfile ? <XaiFeaturesOverlay xaiFeaturesState={currentState.xaiFeatures} homeLabel={homeLabel} userChanged={currentState.heatingComponent.userChanged}/> : null }
         {profileToReset ? <ConfirmOverlay profileToReset={profileToReset} setProfileToReset={setProfileToReset} resetProfileOrAllProfiles={resetProfileOrAllProfiles} loadingRequestToTheServer={loadingRequestToTheServer}/> : null }
-        {allProfiles.length !== 0 ? 
+        {currentState.heatingProfiles.heatingProfiles.length !== 0 ? 
                         <Grid container xs={12} className={classes.container} direction="column" justifyContent="flex-start" alignItems="center" >
                             <Grid xs={1.4} item container className={classes.buttons} direction="row" justifyContent="center" alignItems="center">
                                 <Grid item xs={3} className={classes.selectProfileButton}>
-                                    {allProfiles?
-                                        <SelectProfileButton allProfiles={allProfiles} profile={profile} setProfile={setProfile}/>
+                                    {currentState.heatingProfiles.heatingProfiles?
+                                        <SelectProfileButton allProfiles={currentState.heatingProfiles.heatingProfiles} profile={profile} setProfile={setProfile}/>
                                     :null}
                                 </Grid>
                                 {/* <Grid item className={classes.spaceBetweenButtons}></Grid> */}
@@ -184,7 +195,7 @@ const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({curren
                      : 
                         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
                             <Grid item>
-                                <ProgressCircular size={40}/>
+                                {currentState.heatingProfiles.error ? <RefreshRequest showError={"Error"} action={()=>{dispatch(initializeHeatingProfiles(homeLabel))}}/> : <ProgressCircular size={40}/>}
                             </Grid>
                         </Grid>
         }
@@ -193,3 +204,5 @@ const Profiles: React.FC<{currentState:any, homeLabel:String | null}> = ({curren
 };
 
 export default Profiles;
+
+{/* <RefreshRequest showError={"Error"} action={()=>{dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiBandData));}}/> */}

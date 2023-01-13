@@ -76,6 +76,13 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
     plugins: {
       legend:{
         display:false
+      },
+      tooltip: {
+        // title: false,
+        callbacks: {
+          title: (title:any) => {return `${title[0].label} p/kWh`},
+          label : (label:any)=>{return `${label.parsed.y.toFixed(2)} °C`},
+        }
       }
       // title: {
       //     display: true,

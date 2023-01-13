@@ -351,9 +351,9 @@ import {useSelector, useDispatch} from 'react-redux';
 //chart data
 import { initializeChartData } from './Redux-reducers/chartDataReducer';
 //heating component data
-import { initializeHeatingComponentData, setActiveProfile } from './Redux-reducers/heatingComponentReducer';
+import { initializeHeatingComponentData, setActiveProfile, setUserChangedBackToFalse } from './Redux-reducers/heatingComponentReducer';
 import { initializeHeatingSchedule } from './Redux-reducers/heatingScheduleReducer';
-import { initializeHeatingProfiles } from './Redux-reducers/heatingProfilesReduces';
+import { initializeHeatingProfiles, setUserResetProfile } from './Redux-reducers/heatingProfilesReduces';
 import { setErrorMessageForErrorComponentReducer } from './Redux-reducers/errorMessageForErrorComponentReducer';
 import { initializeEnergyPriceData } from './Redux-reducers/energyPriceDataReducer';
 import {initialiseLogs, refreshLogState} from './Redux-reducers/logsReducer';
@@ -597,13 +597,21 @@ useEffect(() => {
 
 // refresh heating profiles state
 useEffect(() => {
-  if(currentState.heatingComponent.isValid === true && homeLabel && userToken){
-    let id = setInterval(() => {
+  if(currentState.heatingComponent.isValid === true && homeLabel && userToken && (currentState.heatingProfiles.userResetProfile === true || currentState.heatingComponent.userChanged )){
+    setTimeout(() => {
       dispatch(initializeHeatingProfiles(homeLabel))
-    }, 20000);
-    return () => clearInterval(id);
+      dispatch(setUserResetProfile(false))
+      dispatch(setUserChangedBackToFalse())
+    }, 10000 );
+
+    // let id = setInterval(() => {
+    //   dispatch(initializeHeatingProfiles(homeLabel))
+    // }, 20000);
+    // return () => clearInterval(id);
   }
-}, [currentState.heatingComponent.isValid]);
+  // dispatch(setUserResetProfile(false))
+}, [currentState.heatingComponent.isValid, currentState.heatingProfiles.userResetProfile, currentState.heatingComponent.userChanged ]);
+
 
 // refresh logs (in the notification tab) state
 
@@ -652,6 +660,19 @@ useEffect(() => {
   }
 }, [currentState.heatingComponent.isValid]);
 
+// // update profiles when user change 
+
+// useEffect(()=>{
+//   // console.log(userChanged)
+//   if(currentState.heatingComponent.userChanged && currentState.heatingComponent.isValid === true && homeLabel && userToken ){
+//       setTimeout(() => {
+//           dispatch(initializeHeatingProfiles(homeLabel))
+//           dispatch(setUserChangedBackToFalse())
+//         }, 10000 );
+//   }
+
+// },[currentState.heatingComponent.userChanged])
+
 
 
   const handleBackDrop = () => {
@@ -670,13 +691,6 @@ useEffect(() => {
       {/* <button onClick={()=>{utils.refreshState(homeLabel)}}>hmm</button> */}
       {/* <button onClick={()=>{console.log(currentState.logs)}}>swx</button> */}
     <ThemeProvider theme={theme ? light : dark}>
-      {/* <div>
-        <Backdrop open={openBackdrop} onClick={()=>{{setOpenBackdrop(false)}}} sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-          <div>
-            <SwitchButton status={theme} labelLeft={"Dark"} labelRight={"Light"} action={toogleTheme}/>
-          </div>
-        </Backdrop>
-      </div> */}
       <CssBaseline/>
       <NavbarTop handleBackDrop={handleBackDrop} homeLabel={homeLabel} state={currentState}/>
         <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.centerContainer}>

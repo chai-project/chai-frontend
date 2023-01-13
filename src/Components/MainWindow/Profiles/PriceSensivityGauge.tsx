@@ -56,65 +56,7 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
 
     const classes = useStyles()
     const dispatch = useDispatch();
-
-    // useEffect(()=>{
-    //   const needle = document.getElementsByClassName('needle');
-    //   // needle.style.display= "none";
-      
-    //   console.log(typeof needle)
-    // },[])
-
-    // useEffect(()=>{
-    //   const priceSensivityBoundaries = (bias:any ) => {
-    //     const finiteIntervals = 4;
-    //     const minSetpoint = 7;
-    //     const maxPrice = 35;
-    //     const upperBound = (bias - minSetpoint) / maxPrice;
-    //     const intervalWidth = upperBound / finiteIntervals;
-    //     let boundaries:any[] = []
-  
-    //     for(let i:number = 0; i<finiteIntervals+1; i++  ){
-    //       boundaries.push(intervalWidth*i)
-    //     }
-    //     return boundaries
-    //   };
-    //   let segment = 0
-    //   const boundaries = priceSensivityBoundaries(profile.bias);
-    //   for(let i:number = 0; i<boundaries.length; i++){
-    //     if(-profile.slope >= boundaries[i]){
-    //       segment = i+1
-    //     }
-    //   };
-    //   setGaugeValue(segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.416666667 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : 0 )
-    // },[profile])
-
-
-    // const priceSensivityBoundaries = (bias:any ) => {
-    //   const finiteIntervals = 4;
-    //   const minSetpoint = 7;
-    //   const maxPrice = 35;
-    //   const upperBound = (bias - minSetpoint) / maxPrice;
-    //   const intervalWidth = upperBound / finiteIntervals;
-    //   let boundaries:any[] = []
-
-    //   for(let i:number = 0; i<finiteIntervals+1; i++  ){
-    //     boundaries.push(intervalWidth*i)
-    //   }
-    //   return boundaries
-    // };
-    // const priceSensivitySegment = (bias: any, slope:any) => {
-    //   let segments = 0
-    //   const boundaries = priceSensivityBoundaries(bias);
-    //   console.log(boundaries);
-    //   for(let i:number = 0; i<boundaries.length; i++){
-    //     if(slope >= boundaries[i]){
-    //       segments = i+1
-    //     }
-    //   };
-    //   return segments;
-    // };
-
-    // console.log(profile)
+    
   return (
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
           <Typography>Price sensitivity</Typography>

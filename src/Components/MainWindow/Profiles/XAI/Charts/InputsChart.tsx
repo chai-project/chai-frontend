@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
         left: 470,
       },
       [theme.breakpoints.down('md')]: {
-        top: 43,
+        top: 40,
         left: 465,
       },
       [theme.breakpoints.down('sm')]: {
@@ -124,13 +124,20 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
 
       title: {
         display: true,
-        text: `After ${inputs} input${inputs !== 1 ? "s": ""} `, // put value of inputs
+        text: `After ${inputs} input${inputs !== 1 ? "s": ""}...`, // put value of inputs
         color: 'rgb(87, 203, 204,1)',
       },
       legend:{
         display:false,
         
       },
+      tooltip: {
+        // title: false,
+        callbacks: {
+          title: (title:any) => {return `${title[0].label} p/kWh`},
+          label : (label:any)=>{return `${label.parsed.y.toFixed(1)} °C`},
+        }
+      }
       // title: {
       //     display: true,
       //     text: 'Inputs',
