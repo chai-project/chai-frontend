@@ -138,23 +138,8 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
         setListHoursToSelectFrom(Array.from(Array(parseInt(asignedTimeslot.profileEnd.split(':')[0])).keys()))
         setListMinutesToSelectFrom(asignedTimeslotMinutesFrom === 0 ? [0,15,30,45] : asignedTimeslotMinutesFrom === 15 ? [15,30,45] : asignedTimeslotMinutesFrom === 30 ? [30,45] : asignedTimeslotMinutesFrom === 45 ? [45] : null)
       }
-
-
-
-        // setListHoursToSelectFrom(Array.from(Array(parseInt(asignedTimeslot.profileEnd.split(':')[0])+1).keys()))
-        // if(asignedTimeslotHoursFrom !== asignedTimeslotHoursTo ){
-        //   setListMinutesToSelectFrom([0,15,30,45])
-        // }else if(asignedTimeslotHoursFrom === asignedTimeslotHoursTo){
-        //   setListMinutesToSelectFrom(asignedTimeslotMinutesTo === 0 ? [0, 15,30,45] :asignedTimeslotMinutesTo === 15 ? [0] : asignedTimeslotMinutesTo === 30 ? [0,15] : asignedTimeslotMinutesTo === 45 ? [0,15,30] : null )
-        // }else{
-        //   setListMinutesToSelectFrom([0,15,30,45])
-        // }
-      // }
-
-
-
-
     }
+    
     let hourList:any[] = []
     for(let i = asignedTimeslotHoursFrom; i<= 24; i++){
       hourList.push(i)
@@ -170,29 +155,6 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
       }
     }
 
-    // console.log(listMinutesToSelectTo)
-    // if(asignedTimeslotMinutesFrom > 0){
-    //   for(let i = asignedTimeslotHoursFrom; i<= 24; i++){
-    //     hourList.push(i)
-    //   }
-    //   if(asignedTimeslotHoursTo === asignedTimeslotHoursFrom){
-    //     setListMinutesToSelectTo([1,2,3,4,5,6])
-    //   }else{
-    //     setListMinutesToSelectTo([0,15,30,45])
-    //   }
-    //   // minutesList.push([15,30,45])
-    //   setListMinutesToSelectTo([0,15,30,45])
-    // }else{
-    //   for(let i = asignedTimeslotHoursFrom; i<= 24; i++){
-    //     hourList.push(i)
-    //   }
-    //   // minutesList.push([0,15,30,45])
-    //   setListMinutesToSelectTo([0,15,30,45])
-    // }
-    // // console.log(hourList, minutes,'naxui')
-    // setListHoursToSelectTo(hourList)
-    // // setListMinutesToSelectTo(minutesList)
-
   },[asignedTimeslot]);
 
   // console.log(asignedTimeslot,'blblb', timeslots)
@@ -200,11 +162,6 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
   const classes = useStyles();
   const theme = useTheme();
   const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
-  // const breakpointSm = useMediaQuery(theme.breakpoints.down("sm"));
-
-  // const hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
-  // // const hours:any[] = Array.from(Array(7).keys())
-  // const minutes= [0,15,30,45]
 
   const newTimeslotsTest = (period:any) => {
     const newTimeslots: any[] = []

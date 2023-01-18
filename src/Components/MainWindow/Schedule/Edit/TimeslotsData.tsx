@@ -46,7 +46,7 @@ import Setpoint from './Setpoint';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main:{
-    //   border: "5px solid pink",
+    //   border: "1px solid pink",
       height: '100%',
       width: '100%',
     },
@@ -202,16 +202,6 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                     if(timeslots[i].profileEnd <= newTimeslots[newTimeslots.length -1]?.profileEnd){
                         //do nothing
                     }else{
-                        // console.log('wyf???',i, timeslots[i])
-                        // newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
-                        // if(newTimeslots[newTimeslots.length - 1]){
-                        //     newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
-                        //     newTimeslots.push(timeslots[i])
-                        // }else{
-                        //     newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
-                        //     newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}` })
-
-                        // }
                         newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}` })
                     }
                 }
@@ -220,71 +210,10 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
         }
         sortTimeslots(newTimeslots)
         setTimeslotToAdd(emptyTimeslot)
-        // console.log(emptyTimeslot)
-        // setWeekdayScheduleToEdit(newTimeslots)
     };
-
-    // const addNewTimeslot = () => {
-    //     let newTimeslots:any[] = []
-    //     let biggerTimeslotSpaceIsAlreadyUsed = 0
-    //     for(let i = 0; i<timeslots.length;i++){ 
-    //         const alreadyInArray = newTimeslots.indexOf(timeslotToAdd)
-    //         const fromPlus15Min = timeslots[i-1] ? dayjs().set('hour', newTimeslots[i].profileEnd.split(":")[0]).set('minute', newTimeslots[i].profileEnd.split(":")[1]).set('second', 0) : dayjs().set('hour', timeslots[i].profileStart.split(":")[0]).set('minute', timeslots[i].profileStart.split(":")[1]).set('second', 0) // cia laikai kazkas pisasi ???
-    //         const hoursFrom:string = fromPlus15Min.hour() < 10 ? `0${fromPlus15Min.hour()}` : `${fromPlus15Min.hour()}`
-    //         const minutesFrom:string = fromPlus15Min.minute() < 10 ? `0${fromPlus15Min.minute()}` : `${fromPlus15Min.minute()}` 
-    //         const toPlus15Min = dayjs().set('hour', timeslots[i].profileEnd.split(":")[0]).set('minute', timeslots[i].profileEnd.split(":")[1]).set('second', 0).add(15,'minutes')
-    //         const hoursTo:string = toPlus15Min.hour() < 10 ? `0${toPlus15Min.hour()}` : `${toPlus15Min.hour()}`
-    //         const minutesTo:string = toPlus15Min.minute() < 10 ? `0${toPlus15Min.minute()}` : `${toPlus15Min.minute()}` 
-    //         // console.log(timeslots[i].profileName, timeslots[i].profileStart, "previous", hoursFrom, minutesFrom)
-    //         console.log(timeslots[i].profileName, ": ", newTimeslots[i]?.profileName , newTimeslots[i]?.profileEnd)
-    //         // console.log(i, timeslots.length -1 )
-
-    //         //check if timeslot has 15min space
-    //         const from = dayjs().set('hour', timeslots[i].profileStart.split(":")[0]).set('minute', timeslots[i].profileStart.split(":")[1]).set('second', 0);
-    //         const to = dayjs().set('hour', timeslots[i].profileEnd.split(":")[0]).set('minute', timeslots[i].profileEnd.split(":")[1]).set('second', 0);
-    //         if(i == timeslots.length - 1 ){
-    //             // console.log(timeslots[i].profileName, ": ", newTimeslots[i].profileEnd)
-    //             console.log('zeuru')
-    //             // const addAnother15MinFrom = fromPlus15Min.add(15,'minutes');
-    //             newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `24:00`})
-    //         }else 
-    //         if(timeslotToAdd.profileStart <= timeslots[i].profileStart && alreadyInArray < 0){
-    //             newTimeslots.push(timeslotToAdd)
-    //             const extra15MinAdd = fromPlus15Min.add(15,'minutes')
-    //             const hoursFromExtra15Add:string = extra15MinAdd.hour() < 10 ? `0${extra15MinAdd.hour()}` : `${extra15MinAdd.hour()}`
-    //             const minutesFromExtra15Add:string = extra15MinAdd.minute() < 10 ? `0${extra15MinAdd.minute()}` : `${extra15MinAdd.minute()}` 
-    //             newTimeslots.push({...timeslots[i], profileStart: `${hoursFromExtra15Add}:${minutesFromExtra15Add}`, profileEnd: `${hoursTo}:${minutesTo}`})
-    //         }else{
-    //             if(to.diff(from,'minutes') > 15 && biggerTimeslotSpaceIsAlreadyUsed < 1){
-    //                 biggerTimeslotSpaceIsAlreadyUsed++
-    //                 const addAnother15MinFrom = toPlus15Min.subtract(15,'minutes');
-    //                 const hoursFromExtraAnother15min:string = addAnother15MinFrom.hour() < 10 ? `0${addAnother15MinFrom.hour()}` : `${addAnother15MinFrom.hour()}`
-    //                 const minutesFromExtraAnother15min:string = addAnother15MinFrom.minute() < 10 ? `0${addAnother15MinFrom.minute()}` : `${addAnother15MinFrom.minute()}` 
-    //                 newTimeslots.push({...timeslots[i],profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `${hoursFromExtraAnother15min}:${minutesFromExtraAnother15min}`})
-    //             }else{
-    //                 // console.log(i, timeslots.length -1 )
-    //                 // if(i == timeslots.length - 1 ){
-    //                 //     // console.log(timeslots[i].profileName, ": ", newTimeslots[i].profileEnd)
-    //                 //     console.log('zeuru')
-    //                 //     // const addAnother15MinFrom = fromPlus15Min.add(15,'minutes');
-    //                 //     newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `24:00`})
-    //                 // }else{
-    //                 //     // console.log(timeslots[i].profileName)
-
-    //                 //     newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `${hoursTo}:${minutesTo}`})
-    //                 // }
-    //                 newTimeslots.push({...timeslots[i], profileStart: `${hoursFrom}:${minutesFrom}`, profileEnd: `${hoursTo}:${minutesTo}`})
-
-    //             }
-    //         }
-    //     }
-    //     console.log(newTimeslots,'zeuru')
-    //     setWeekdayScheduleToEdit(newTimeslots)
-    // };
 
     const sortTimeslots = (newTimeslots:any) => { //define types later
         let noDuplicates: any[] = []
-        // console.log(newTimeslots,'newtimeslots!!')
         for(let i =0; i<newTimeslots.length; i++){
             if(i===0){
                 if(i === newTimeslots.length -1 && (timeslots[i].profileEnd !== "24:00" || timeslots[i].profileStart !== "00:00" )){
@@ -353,47 +282,6 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
                 </Grid>
             </Box>
         </Grid>
-        {/* <Grid  className={classes.timeslots} container direction="row" alignItems="flex-start" justifyContent="flex-start">
-            {timeslots?.map((timeslot:any)=>{
-                return (
-                    <Box className={classes.timeslot} bgcolor="background.default">
-                        <Grid item container direction="row" alignItems="center" justifyContent="center">
-                            <Grid item className={classes.profile}>
-                                <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslot} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/> 
-                            </Grid>
-                            <Grid item className={classes.period}>
-                                <TimeslotPeriodFromTo timeslots={timeslots} asignedTimeslot={timeslot} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={false}/>
-                            </Grid>
-                            <Grid item className={classes.deleteButton} >
-                                <IconButton size='small' edge='end' color='primary' disabled={timeslots.length <= 1 ? true : false} onClick={()=>{deleteTimeslot(timeslot.id)}}>
-                                    <DeleteForeverIcon/>
-                                </IconButton>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                )
-            })}
-        </Grid> */}
-        {/* <Grid xs={1} item className={classes.labels} >
-            <Labels first={'Assign new profile'} second={''}/>
-        </Grid> */}
-        {/* <Grid xs={2} item className={classes.addNew} >
-            <Box className={classes.timeslot} bgcolor="primary.secondary">
-                <Grid item container direction="row" alignItems="center" justifyContent="center">
-                    <Grid item className={classes.profile}>
-                        <ProfilePicker timeslots={timeslots} asignedTimeslot={timeslotToAdd} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={true}/> 
-                    </Grid>
-                    <Grid item className={classes.period}>
-                                <TimeslotPeriodFromTo  timeslots={timeslots} asignedTimeslot={timeslotToAdd} sortTimeslots={sortTimeslots} setTimeslotToAdd={setTimeslotToAdd} timeslotToAdd={timeslotToAdd} isForAddingATimeslot={true}/>
-                    </Grid>
-                    <Grid className={classes.deleteButton}>
-                        <IconButton size='small' edge='start' color='primary' disabled={!timeslotToAdd.profileName} onClick={addNewTimeslot}>
-                            <AddIcon/>
-                        </IconButton>
-                    </Grid>
-                </Grid>
-            </Box>
-        </Grid> */}
     </Grid> 
   );
 };

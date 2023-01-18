@@ -17,15 +17,14 @@ import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
 import {setNewHeatingSchedule} from '../../../../Redux-reducers/heatingScheduleReducer'
 
+//utils
+import utils from '../../../Utils/utils';
+
 
 //types
 import timeslot from '../../../../Types/types';
 
 //components
-import Weekday from '../Weekday';
-import WeekdayPaste from '../WeekdayPaste';
-import ProgressCircular from '../../../ProgressBar/ProgressCircular';
-import Labels from './Labels';
 import TimeslotsData from './TimeslotsData';
 // Styles 
 
@@ -63,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
     timeslotsData:{
       // position:'relative',
       // border: "1px dashed red",
-      // maxHeight:'45%',
+      maxHeight:'83%',
       // width: '100%',
       // overflow: 'auto',
       [theme.breakpoints.down('md')]: {
@@ -102,7 +101,6 @@ const EditWeekdaySchedule: React.FC = () => {
   const {weekday} = useParams();
 
   const weekdaySchedule = useSelector((state:any)=>{//define type
-    // console.log(state)
     return(
       state.heatingSchedule?.find((weekdaySchedule:any)=>{ //define type
         return weekdaySchedule.weekday.toLowerCase() === weekday?.toLowerCase() ? weekdaySchedule : null
@@ -114,59 +112,23 @@ const EditWeekdaySchedule: React.FC = () => {
     setWeekdayScheduleToEdit(weekdaySchedule?.schedule);
   },[weekdaySchedule?.schedule]);
   
-  // useEffect(()=>{
-  //   console.log('zerutu?')
-  //   if(weekdayScheduleToEdit){
-  //     for (let i = 0; i < weekdaySchedule.schedule.length; ++i) {
-  //       if (weekdaySchedule.schedule[i] !== weekdayScheduleToEdit[i]){
-  //         console.log('blblb')
-  //         setSchedulesAreEqual(false)
-  //         break;
-  //       }
-  //     }
-  //     if(weekdaySchedule?.schedule.length !== weekdayScheduleToEdit.length){
-  //       console.log('blblb')
 
-  //       setSchedulesAreEqual(false)
-  //     }
-  //   }
-  // },[weekdayScheduleToEdit]);
-
-    // const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(weekdaySchedule.schedule); //define type
     const classes = useStyles();
     const dispatch = useDispatch()
-    // const {weekday} = useParams();
     const navigate = useNavigate();
-    
-    // const weekdaySchedule = useSelector((state:any)=>{//define type
-    //   // console.log(state)
-    //   return(
-    //     state.heatingSchedule?.find((weekdaySchedule:any)=>{ //define type
-    //       return weekdaySchedule.weekday.toLowerCase() === weekday?.toLowerCase() ? weekdaySchedule : null
-    //     })
-    //   )
-    // })
-    // const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(weekdaySchedule.schedule); //define type
-
-    // console.log('swx:',weekdayScheduleToEdit)
 
     const closeEditWeekdayPage = () => {
       navigate('/Schedule')
     }
 
     const saveWeekdayScheduleChanges = () => {
-      // console.log(weekdayScheduleToEdit, 'blbbll')
       dispatch(setNewHeatingSchedule(homeLabel, [weekday], weekdayScheduleToEdit))
-      // console.log('save')
     };
 
     const cancelWeekdayScheduleChanges = () => {
       setWeekdayScheduleToEdit(weekdaySchedule.schedule);
     };
-    // console.log(weekdayScheduleToEdit, weekdaySchedule?.schedule)
-    // console.log(JSON.stringify(weekdayScheduleToEdit) === JSON.stringify(weekdaySchedule?.schedule))
-    // console.log(weekdaySchedule.schedule, 'redux');
-    // console.log(weekdayScheduleToEdit, 'local')
+
   return (
       <Grid container className={classes.main} direction="column" alignItems="center" justifyContent="flex-start">
         <Grid xs={1} item container  direction="row" alignItems="center" justifyContent="flex-end" className={classes.titleAndCloseButton}>
@@ -178,26 +140,11 @@ const EditWeekdaySchedule: React.FC = () => {
               </IconButton>
             </Grid>
         </Grid>
-      {/* <Grid xs={1} item container direction="row" alignItems="center" justifyContent="center" className={classes.titleAndCloseButton}> cia anksciau toks buvo!
-          <Grid xs={1.5}item ></Grid>
-          <Grid xs={8} item container direction="row" alignItems="center" justifyContent="center">
-            <Typography><b>{weekdaySchedule?.weekday}</b></Typography>
-          </Grid>
-          <Grid xs={1} item container direction="row" alignItems="center" justifyContent="flex-end">
-              <Grid xs={1} item></Grid>
-              <Grid xs={1} item>
-                <IconButton className={classes.closePageButton} size='small' edge='start' color='primary' onClick={closeEditWeekdayPage}>
-                  <HighlightOffIcon/>
-                </IconButton>
-              </Grid>
-          </Grid>
-          <Grid xs={0.5} item></Grid>
-        </Grid> */}
         <Grid xs={10} item container className={classes.timeslotsData}>
           <TimeslotsData timeslots={weekdayScheduleToEdit} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} />
         </Grid>
-        <Grid xs={0.9} className={classes.saveAndCancelButtons} item container direction="row" alignItems="center" justifyContent="flex-end">
-          {weekdayScheduleToEdit !== weekdaySchedule?.schedule || weekdayScheduleToEdit?.length !== weekdaySchedule?.schedule.length ? 
+        <Grid xs={1} className={classes.saveAndCancelButtons} item container direction="row" alignItems="center" justifyContent="flex-end">
+          {utils.areEqualArray(weekdaySchedule?.schedule, weekdayScheduleToEdit) === false || weekdayScheduleToEdit?.length !== weekdaySchedule?.schedule.length ? 
                                                                       <Grid xs={5} item  container  direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
                                                                         <Grid item>
                                                                           <Button variant="contained" color='primary' size='small' className={classes.button} onClick={saveWeekdayScheduleChanges}>Save</Button>
@@ -210,25 +157,6 @@ const EditWeekdaySchedule: React.FC = () => {
                                                                       :null 
           }
         </Grid>
-
-        {/* <Grid xs={10.25} item container className={classes.timeslotsData}> 
-          <TimeslotsData timeslots={weekdayScheduleToEdit} setWeekdayScheduleToEdit={setWeekdayScheduleToEdit} />
-        </Grid> */}
-        {/* <Grid xs={0} item className={classes.XAIcharts}>* XAI CHARTS *</Grid> */}
-        {/* <Grid xs={0.75} className={classes.saveAndCancelButtons} item container direction="row" alignItems="flex-start" justifyContent="flex-end">
-          {weekdayScheduleToEdit !== weekdaySchedule?.schedule || weekdayScheduleToEdit?.length !== weekdaySchedule?.schedule.length ? 
-                                                                    <Grid xs={5} item className={classes.saveAndCancelButtons} container  direction="row" alignItems="flex-start" justifyContent="flex-end" spacing={1}>
-                                                                      <Grid item>
-                                                                        <Button variant="contained" color='primary' size='small' onClick={saveWeekdayScheduleChanges}>Save</Button>
-                                                                      </Grid>
-                                                                      <Grid item>
-                                                                        <Button variant="contained" color='secondary' size='small' onClick={cancelWeekdayScheduleChanges}>Cancel</Button>
-                                                                      </Grid>
-                                                                      <Grid xs={0.5}></Grid>
-                                                                    </Grid>
-                                                                    :null 
-          }
-        </Grid> */}
       </Grid>
   );
 };
