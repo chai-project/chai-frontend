@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import dayjs from 'dayjs' 
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 //mui
-import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -98,6 +99,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const WeekdayScheduleView: React.FC<{timeslots:any, indexOfaWeekday:number, weekday:String}>= ({timeslots, indexOfaWeekday, weekday}) => { // timeslots type timeslot[] | null
 
+    const theme = useTheme();
+    const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
+
     const getSizeOfTheTimeslot = (start:any, end:any) => {
         let startTime = dayjs().set('hour',start.split(':')[0]).set('minutes', start.split(':')[1]).set('seconds', 10)
         let endTime = dayjs().set('hour',end.split(':')[0]).set('minutes', end.split(':')[1] ).set('seconds', 0)
@@ -135,7 +139,7 @@ const WeekdayScheduleView: React.FC<{timeslots:any, indexOfaWeekday:number, week
                 return ( // Time Label
                     <Grid container xs={sizeOfTheTimeslot.sizeOfTheTimeslot}>
                         <Grid item xs={1}>
-                            <Typography className={classes.timeLabel}>{sizeOfTheTimeslot.sizeOfTheTimeslot < 0.6 ? null : profile.profileStart}</Typography>
+                            <Typography className={classes.timeLabel}>{breakpoint && sizeOfTheTimeslot.sizeOfTheTimeslot < 1.4 ? null : sizeOfTheTimeslot.sizeOfTheTimeslot < 0.6 ? null : profile.profileStart}</Typography>
                         </Grid>
                         <Grid item style={{ flexGrow: "1" }}></Grid>
                         <Grid item xs={0}>

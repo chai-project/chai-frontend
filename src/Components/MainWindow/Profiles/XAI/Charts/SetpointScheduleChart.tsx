@@ -226,7 +226,7 @@ const radius = (type: String) => {
     <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart} >
       {!xaiRegionData || !periodPriceData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/>}
       <Grid item className={classes.tooltipButton}>
-        <ToolTip info={'This chart visualises the energy price shedule for a given day along with your target temperatures in auto mode for that schedule and this current profile. In reality your target temperatures in auto mode will depend on both the energy price schedule and your profile schedule: each profile has its own AI model with its own predictions, even if energy prices remain the same.'}/>
+        <ToolTip info={'setpointScheduleChart'}/>
       </Grid>
     </Grid>
   )

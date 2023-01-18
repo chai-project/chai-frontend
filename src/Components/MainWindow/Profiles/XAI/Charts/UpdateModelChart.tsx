@@ -297,7 +297,7 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
     <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
       { !xaiRegionData ? <ProgressCircular size={40}/> : <Scatter data={data} options={options} plugins={[annotationPlugin]}/>}
       <Grid item className={classes.tooltipButton}>
-        <ToolTip info={'	This chart visualises your AI model over time. The best guess is a learned estimation of your preferred temperature (if energy were free) and your price sensitivity. The confidence region represents uncertainty over the best guess: a larger confidence region means more uncertainty. The AI model is used to make predictions about your ideal target temperature relative to energy price.'}/>
+        <ToolTip info={'updatedModeChart'}/>
       </Grid>
     </Grid>
   )

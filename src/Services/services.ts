@@ -51,6 +51,7 @@ const setHeatingDeviceMode = async (label:String, mode:String) => {
     }).catch((e)=>{
         console.error(e.errorMessage)
     });
+    //200
     return response
 
 };
@@ -92,7 +93,7 @@ const getAverageHeatingPricePeriod = async (period:any) => {
         // console.log(error)
         return {error: 'Server error, failed to load heating price data'}
     })
-
+    
     return request
 
 };
@@ -102,6 +103,7 @@ const getCurrentHeatingPriceLimit = async () => {
       const response = await axios.get('https://api.project-chai.org/electricity/prices/?limit=1').then((res)=>{
         return res.data
       });
+    //   console.log(response)
       return response
 
 };
@@ -140,6 +142,8 @@ const setHeatingSchedule = async (homeLabel:any, mask:any, schedule:any) => { //
     }).catch((e)=>{
             // console.error(e.errorMessage)
     });
+    // console.log(response)
+    //200
     return response 
 };
 
@@ -176,6 +180,7 @@ const resetProfile = async (label:any ,profile:any) => {
 }).catch((error) => {
     console.error('error',error);
 })
+    //200
     return request
 };
 
@@ -190,6 +195,7 @@ const resetAllprofiles = async (label:any) => {
 }).catch((error) => {
     console.error('error',error);
 })
+    //200
     return request
 };
 
@@ -237,6 +243,7 @@ const addLogEntry = async (homeLabel:string, timestamp:string, category:string, 
     }).catch((e)=>{
             // console.error(e.errorMessage)
     });
+    //200
     return response 
 };
 

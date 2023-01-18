@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import dayjs from 'dayjs' 
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 //mui
-import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -68,7 +70,8 @@ const useStyles = makeStyles((theme: Theme) =>
     timeLabel:{
         position:'absolute',
         fontSize: '9px',
-        bottom: '11px'
+        bottom: '11px',
+        // border: "1px solid orange",
         
     },
     temperatureLabel:{
@@ -92,7 +95,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const TimeslotTimeLabel: React.FC<{indexOfaWeekday:any, weekday:any, profile:any, index:number, timeslots:any}>= ({indexOfaWeekday, weekday, profile, index, timeslots}) => { // timeslots type timeslot[] | null
     const [sizeOfATimeslot, setSizeOfATimeslot] = useState<number>(0);
-    const [timeIntervals, setTimeIntervals] = useState<any|null>(null)
+    const [timeIntervals, setTimeIntervals] = useState<any|null>(null);
+    const theme = useTheme();
+    const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
+
 
     useEffect(()=>{
         let startTime = dayjs().set('hour',profile.profileStart.split(':')[0]).set('minutes', profile.profileStart.split(':')[1]).set('seconds', 10);
@@ -120,11 +126,11 @@ const TimeslotTimeLabel: React.FC<{indexOfaWeekday:any, weekday:any, profile:any
   return (
     <Grid container xs={sizeOfATimeslot}>
         <Grid item xs={1}>
-            <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.4 ? null : profile.profileStart}</Typography>
+            {/* <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.4 ? null : profile.profileStart}</Typography> */}
         </Grid>
         <Grid item style={{ flexGrow: "1" }}></Grid>
         <Grid item xs={0}>
-            <Typography className={classes.timeLabel}>{timeslots.length === index + 1 ?  profile.profileEnd : null}</Typography>
+            {/* <Typography className={classes.timeLabel}>{timeslots.length === index + 1 ?  profile.profileEnd : null}</Typography> */}
         </Grid>
     </Grid>
 );

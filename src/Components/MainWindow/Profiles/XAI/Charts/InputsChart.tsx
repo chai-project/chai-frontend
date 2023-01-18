@@ -201,7 +201,7 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
     <Grid xs={12} item container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
       {!dataSet ? <ProgressCircular size={40}/> : <Scatter data={data} options={options}/> }
       <Grid item className={classes.tooltipButton}>
-        <ToolTip info={'This chart visualises your profile inputs over time, since your last profile reset. Each input is comprised of a target temperature change and the energy price when the change was made. Each input serves to update your AI model.'}/>
+        <ToolTip info={'inputsChart'}/>
       </Grid>
     </Grid>
   )

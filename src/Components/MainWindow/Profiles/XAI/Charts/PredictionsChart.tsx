@@ -228,7 +228,7 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
     <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.chart}>
       {!xaiBandData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/> }
       <Grid item className={classes.tooltipButton}>
-        <ToolTip info={'This chart visualises your AI model predictions over time. The best guess is a learned estimation of your ideal target temperature relative to energy price. The confidence region represents uncertainty over the best guess: a larger confidence region means more uncertainty. The predictions are used in auto mode to choose your target temperature relative to the current energy price.'}/>
+        <ToolTip info={'predictionsChart'}/>
       </Grid>
     </Grid>
   )
