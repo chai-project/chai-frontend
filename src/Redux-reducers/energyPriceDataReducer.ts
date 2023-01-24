@@ -52,12 +52,6 @@ export const initializeEnergyPriceData = () => {
         const avgEnergyPriceThisWeek = await services.getAverageHeatingPricePeriod(periodThisWeek);
         const avgEnergyPriceThisMonth = await services.getAverageHeatingPricePeriod(periodThisMonth);
 
-        // console.log("energy: ",energyPrice)
-        // console.log("avgEnergyPriceToday: ",avgEnergyPriceToday)
-
-        // console.log("avgEnergyPriceThisWeek: ",avgEnergyPriceThisWeek)
-        // console.log("avgEnergyPriceThisMonth: ",avgEnergyPriceThisMonth)
-
 
         if(avgEnergyPriceToday.error || avgEnergyPriceThisWeek.error || avgEnergyPriceThisMonth.error){
             dispatch({

@@ -7,10 +7,8 @@ import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/mate
 //chartjs 
 import 'chart.js/auto'
 import {Line} from 'react-chartjs-2'
-import ReactDOM from 'react-dom';
-// import Chart from 'chart.js';
-// components
 
+// components
 import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
 import ToolTip from './ToolTip';
 
@@ -48,10 +46,12 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.down('md')]: {
         top: 205,
-        left: 945,
+        // left: 945,
+        // left: 970,
+        left: 975,
       },
       [theme.breakpoints.down('sm')]: {
-        top: 405,
+        top: 400,
         left: 565,
       },
     }
@@ -59,47 +59,30 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const SetpointScheduleChart: React.FC<{periodPriceData:any, xaiRegionData:any}> = ({periodPriceData, xaiRegionData}) => {
+  
   const classes = useStyles();
 
   const profile =  xaiRegionData?.data.profile
   const centre_x =  xaiRegionData?.data.centre_x
   const centre_y =  xaiRegionData?.data.centre_y
 
-//   const {profile, centre_x, centre_y, angle, height} = setpointScheduleChartData.biasAndSlope?.data ;
-
-    // console.log(setpointScheduleChartData.period[0].start, setpointScheduleChartData.period[setpointScheduleChartData.period.length -1].end )
-// console.log(setpointScheduleChartData.biasAndSlope.data)
-//  const swx =  setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe})
-// console.log(setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[0] + " " + timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}))
-
 const setpoint = periodPriceData?.map((timeframe:any)=>{
-    // const {profile, centre_x, centre_y, angle, height} = setpointScheduleChartData.biasAndSlope?.data ;
-    // const prediction = centre_x * centre_y * timeframe.rate
-
     return Math.round((centre_x + centre_y * timeframe.rate)*2)/2;
 });
 const radius = (type: String) => {
   const radius = periodPriceData?.map((item:any, index:any)=>{
     return index === periodPriceData?.length -1 ? 0 : type === 'radius' ? 3 : 1
   });
-  // console.log(type, radius)
   return radius
 }      
-//setpointScheduleChartData.period[setpointScheduleChartData.period.length -1].end.split(/(?=[A-Z])/)[0]
-//setpointScheduleChartData.period[0].start.split(/(?=[A-Z])/)[0]
-// timeframe.start.split(/(?=[A-Z])/)[0] + " " +
+
   const data:any = {
     labels: periodPriceData?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
-    // labels: setpointScheduleChartData.period.map((timeframe:any)=>{return timeframe.start}),
-
-    // radius: 3,
-    // hitRadius: 1,
     datasets: [
       {
         label: "Price (p/kWh)",
         yAxisID: 'y1',
         type:'line',
-        // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
         data: periodPriceData?.map((timeframe:any)=>{return timeframe.rate}),
         radius: radius('radius'),
         hitRadius: radius('hitradius'),
@@ -112,7 +95,6 @@ const radius = (type: String) => {
         label: "Target temperature (°C)",
         yAxisID: 'y2',
         type:'line',
-        // data: setpointScheduleChartData.period?.map((timeframe:any)=>{return timeframe.rate}),
         data: setpoint,
         radius: radius('radius'),
         hitRadius: radius('hitradius'),
@@ -133,14 +115,12 @@ const radius = (type: String) => {
         title: {
             display: true,
             text: `Target temperature schedule for ${ periodPriceData ? periodPriceData[0].start.split(/(?=[A-Z])/)[0] : null }`,
-            color: 'rgb(87, 203, 204,1)'
+            color: 'rgb(87, 203, 204,1)',
+            fullSize:false,
         },
         legend:{
-            // position:'left',
             display: false,
             labels:{
-                // color:'red'
-                // usePointStyle: true,
                 generateLabels: (chart:any) => {
                     const labels = chart.data.datasets.map((label:any)=>{return{...label,text:label.label,fillStyle: label.borderColor, fontColor: label.borderColor, onclick: label.onClick}})
                     return labels
@@ -148,19 +128,10 @@ const radius = (type: String) => {
             },
             onClick: (click:any,legenItem:any,legend:any)=>{
                 // console.log(click);
-                // legend.chart.update();
                 return;
 
             },
         },
-      // title: {
-      //     display: true,
-      //     text: 'Custom Chart Title',
-      //     padding: {
-      //         top: 10,
-      //         bottom: 30
-      //     }
-      // },
   },
     scales: {
       x: {
@@ -194,10 +165,7 @@ const radius = (type: String) => {
             color: 'grey',
           },
         ticks: {
-            color: '#F6946B',
-            // beginAtZero: true,
-            // maxTicksLimit:12,
-            
+            color: '#F6946B',            
           }
       },
       y2: {

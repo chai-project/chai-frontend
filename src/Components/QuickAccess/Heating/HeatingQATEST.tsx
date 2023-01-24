@@ -3,21 +3,14 @@ import React, {useState, useEffect} from 'react';
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, Box, Grid, Divider, Slider, AppBar, Toolbar, IconButton, Stack, Link, Button, Typography} from '@mui/material/';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
-import {setHeatingComponentMode} from '../../../Redux-reducers/heatingComponentReducer'
+import {initializeHeatingComponentData,setHeatingComponentMode} from '../../../Redux-reducers/heatingComponentReducer'
 import { setTemperature } from '../../../Redux-reducers/heatingComponentReducer';
 import { setNotification, setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
 import {refreshLogState} from '../../../Redux-reducers/logsReducer'
-
 
 //components
 import TemperatureSlider from './TemperatureSlider';
@@ -25,12 +18,7 @@ import SwitchButton from '../../Buttons/SwitchButton';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 import ToggleButtons from './ToogleButtons';
 import services from '../../../Services/services';
-
-
-
-import { createBrowserHistory } from 'history';
-
-
+import RefreshRequest from '../../RefreshRequest/RefreshRequest';
 
 
 
@@ -212,12 +200,6 @@ const confirmComponent = () => {
             </Grid>
           </Grid>
         }
-        {/* <Grid item xs={4}>
-          <Button variant="contained" color='primary' size='small' onClick={()=>{confirmYes()}}>Yes</Button>
-        </Grid>
-        <Grid item xs={4}>
-          <Button variant="contained" color='secondary' size='small' onClick={()=>{confirmCancel()}}>Cancel</Button>
-        </Grid> */}
       </Grid>
     </Grid>
   )
@@ -264,8 +246,8 @@ const valvelStatusAndToogleButtonsComponent = () => {
                                     :
                                     <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.container}>
                                         <Grid item>
-                                          {/* {heatingComponentState.error ? <p>{heatingComponentState.error}</p> : <ProgressCircular size={40}/>} */}
-                                         <ProgressCircular size={40}/>
+                                          {heatingComponentState.error ? <RefreshRequest showError={"Error"} action={()=>{if(homeLabel){dispatch(initializeHeatingComponentData(homeLabel))}}}/> : <ProgressCircular size={40}/>}
+                                         {/* <ProgressCircular size={40}/> */}
                                         </Grid>
                                     </Grid>
         }
@@ -276,4 +258,3 @@ const valvelStatusAndToogleButtonsComponent = () => {
 
 export default HeatingQATEST;
 
-//<ToggleButtons heatingComponentMode={heatingComponentState.mode}/>

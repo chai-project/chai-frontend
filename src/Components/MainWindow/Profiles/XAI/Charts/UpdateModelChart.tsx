@@ -8,7 +8,6 @@ import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
 import ToolTip from './ToolTip';
 
 //chartjs 
-
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -33,11 +32,6 @@ import {
     Legend,
     annotationPlugin
   );
-// import 'chart.js/auto'
-// import {Scatter} from 'react-chartjs-2'
-// import 'chartjs-plugin-annotation';
-// import annotationPlugin from 'chartjs-plugin-annotation';
-// Scatter.pluginService.register({annotationPlugin});
 
 
 
@@ -95,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.down('md')]: {
         top: 40,
-        left: 945,
+        left: 975,
       },
       [theme.breakpoints.down('sm')]: {
         top: 66,
@@ -109,14 +103,12 @@ const useStyles = makeStyles((theme: Theme) =>
 const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
     const classes = useStyles();
 
-    // const x = 0.10579808810668156;  // Assume that mean2 is on the x-axis
-    // const y = 21.96713444650198;  // Assume that mean1 is on the y-axis
+
     const x = xaiRegionData?.data.centre_y;  // Assume that mean2 is on the x-axis
     const y = xaiRegionData?.data.centre_x;  // Assume that mean1 is on the y-axis
     const angle =  xaiRegionData?.data.angle
     const height =  xaiRegionData?.data.height / 2
     const width =  xaiRegionData?.data.width / 2
-    // console.log(x,y,angle,height,width)
     const rad_per_deg = Math.PI / 180;
     const deg2rad = (deg:any) => {return deg * rad_per_deg};
     const dotproduct = (a:any, b:any) => {return a.map((x:any, i:any) => a[i] * b[i]).reduce((m:any, n:any) => m + n)};
@@ -136,30 +128,16 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
         ellipse.push({x: x + origin_matrix[0][0], y: y + origin_matrix[1][0]});
     }
 
-    // console.log(ellipse)
-
-
-//   const calculateSetpoints = () => {
-//     const setpoints: any [] = price.map((price:any)=>{return profile.bias + profile.slope * price });
-//     return setpoints
-//   };
-
-  // calculateSetpoints()
-
   const data = {
-    // labels: price,
     datasets: [
       {
         label: "Best guess",
         data: [{x,y}],
-        // fill: true,
         backgroundColor: "rgba(75,192,192,0.8)",
-        // borderColor: "rgba(75,192,192,1)"
       },
       {
         label: "Confidence region",
         data: ellipse,
-        // fill: false,
         backgroundColor: "rgba(246, 148, 107, 0.25)",
         showLine: true,
         pointRadius: 0,
@@ -179,7 +157,9 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
         title: {
             display: true,
             text: `AI model`,
-            color: 'rgb(87, 203, 204,1)'
+            color: 'rgb(87, 203, 204,1)',
+            fullSize:false,
+
         },
         legend:{
             display:true,
@@ -190,62 +170,16 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
               },
             onClick: (click:any,legenItem:any,legend:any)=>{
                 // console.log(click);
-                // legend.chart.update();
                 return;
 
             },
-            // fontColor: 'rgb(87, 203, 204,1)'
         },
         tooltip: {
-          // title: false,
           callbacks: {
             title: (title:any) => {return `${title[0].label}`},
             label : (label:any)=>{return `${label.parsed.y.toFixed(1)} °C`},
           }
         }
-        // annotation: {
-        //     annotations: {
-        //         ellipse1: {
-        //             type: 'ellipse',
-        //             xMin: x - (width / 2),
-        //             xMax: x + (width / 2),
-        //             yMin: y - (height / 2),
-        //             yMax: y + (height / 2),
-        //             rotation: angle,
-        //             backgroundColor: 'rgba(246, 148, 107, 0.25)',
-        //             borderWidth: 0
-        //         }
-        //     }
-        // }
-        // annotation: {
-        //     events: ["onClick"],
-        //     annotations: [
-        //         {
-        //             drawTime: "afterDatasetsDraw" as "afterDatasetsDraw",
-        //             type: "box" as "box",
-        //             // xScaleID: "x-axis-0",
-        //             // yScaleID: "y-axis-0",
-        //             xMin: 0.01,
-        //             xMax: 0.02,
-        //             yMin: 4,
-        //             yMax: 14,
-        //             backgroundColor: "green",
-        //             borderColor: "red",
-        //             borderWidth: 1,
-        //             onClick: function (e: any) {
-        //                 // console.log("Box", e.type, this);
-        //             },
-        //         },
-        //     ],
-        // },
-        // title: {
-        //     display: true,
-        //     text: 'Custom Chart Title',
-        //     padding: {
-        //         top: 10,
-        //         bottom: 30
-        //     }
-        // },
     },
     scales: {
       x: {
@@ -281,14 +215,10 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
             color: 'grey',
           },
         ticks: {
-          // autoSkip: true,
-          // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
         min: 13,
         max: 30
-        // min:7,
-        // max:30,
       },
     },
   };

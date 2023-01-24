@@ -229,19 +229,20 @@ import { CssBaseline, Button, Paper, Grid , Box} from '@mui/material/';
 // redux
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
-import {setNewHeatingSchedule} from '../../../Redux-reducers/heatingScheduleReducer'
+import {initializeHeatingSchedule,setNewHeatingSchedule} from '../../../Redux-reducers/heatingScheduleReducer'
 import { setActiveProfile } from '../../../Redux-reducers/heatingComponentReducer';
+import { setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
 
 
 //types
 import timeslot from '../../../Types/types';
 
 //components
-import Weekday from './Weekday';
-import WeekdayPaste from './WeekdayPaste';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 import TimeslotMoreInfoOverlay from './Edit/SelectedTimeslot/TimeslotMoreInfoOverlay';
 import Schedule from './Schedule';
+import RefreshRequest from '../../RefreshRequest/RefreshRequest';
+
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -298,69 +299,20 @@ const useStyles = makeStyles((theme: Theme) =>
 const ScheduleComponent: React.FC<{weekSchedule:any, heatingProfiles:any, homeLabel:any}> = ({weekSchedule, heatingProfiles, homeLabel}) => {
     //copy schedule
     const [copyWeekdaySchedule, setCopyWeekdaySchedule] = useState<string | null>(null);
-    const [scheduleToCopy, setScheduleToCopy] = useState<any>(null); // define type was timeslot[]|null
+    const [scheduleToCopy, setScheduleToCopy] = useState<any>(null); 
     const [weekdaysToPasteSchedule, setWeekdaysToPasteSchedule] = useState<String[]>([]);
-
-    const url = createBrowserHistory()
-    const parameters = new URLSearchParams(url.location.search);
-    // const homeLabel =  parameters.get('home')
-
-    // useEffect(()=>{
-    //   // console.log(weekSchedule[0], 'zeuri temele')
-    //   const activeProfile =  weekSchedule[0].schedule.find((profile:any)=>{//define type later
-    //     const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-    //     if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-    //       if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-    //         return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-    //       } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-    //         return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-    //       } else {
-    //         return profile
-    //       }
-    //     }
-    //   });
-    //   dispatch(setActiveProfile(activeProfile))
-
-    //   // const activeProfile = useSelector( (state:any)=>{ //define type later 
-    //   //   if(state.heatingSchedule){
-    //       // const activeProfile =  state.heatingSchedule[0]?.schedule.find((profile:any)=>{//define type later
-    //       //   const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-    //       //   if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-    //       //     if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-    //       //       return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-    //       //     } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-    //       //       return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-    //       //     } else {
-    //       //       return profile
-    //       //     }
-    //       //   }
-    //       // });
-    //       // dispatch(setActiveProfile(activeProfile))
-    //   //   };
-    //   // });
-    // },[])
-
-    
-    
 
     const classes = useStyles();
     const dispatch = useDispatch()
 
+    useEffect(()=>{
+      if(weekSchedule?.error){
+        dispatch(setErrorMessage(weekSchedule.error, 5000))
+      }
+    },[weekSchedule])
+
     //save&cancel buttons
     const saveNewWeekSchedule = () => {
-      //define here new schedule/ send to reeducer and assign over there
-      // console.log('saving new week schedule')
-      // let newWeekSchedule:any = weekSchedule;
-      // weekdaysToPasteSchedule.forEach((weekday)=>{
-      //   newWeekSchedule.map((weekdaySchedule:any)=>{
-      //     return weekdaySchedule.weekday === weekday ? weekdaySchedule.schedule = scheduleToCopy.schedule : weekdaySchedule
-      //   })
-      //   // console.log(weekdaysToPasteSchedule,'conkretu')
-      //   //send to the server if 200, update redux
-      //   dispatch(setNewHeatingSchedule(weekdaysToPasteSchedule, scheduleToCopy.schedule ));
-      //   setWeekdaysToPasteSchedule([]);
-      //   setCopyWeekdaySchedule(null);
-      // });
       dispatch(setNewHeatingSchedule(homeLabel, weekdaysToPasteSchedule, scheduleToCopy.schedule ));
       setWeekdaysToPasteSchedule([]);
       setCopyWeekdaySchedule(null);
@@ -371,39 +323,11 @@ const ScheduleComponent: React.FC<{weekSchedule:any, heatingProfiles:any, homeLa
       
     };
 
-
-    // const activeProfile = ()=>{ //define type later 
-    //   if(weekSchedule){
-    //     const activeProfile =  weekSchedule[0]?.schedule.find((profile:any)=>{//define type later
-    //       const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-    //       if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-    //         if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-    //           return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-    //         } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-    //           return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-    //         } else {
-    //           return profile
-    //         }
-    //       }
-    //     });
-    //     dispatch(setActiveProfile(activeProfile))
-    //     return activeProfile
-    //   };
-    // };
-    // activeProfile()
-
-    //prsto reikalai seni :D
-
   return (
-    //atkreipk demesi i spacing ant container class
     <Grid container direction="column" justifyContent="center" className={classes.main}>
         {heatingProfiles.selectedTimeslot ? <TimeslotMoreInfoOverlay heatingProfiles={heatingProfiles}/> : null}
       <Grid item xs={10.9} container direction="row" justifyContent={weekSchedule ? "center" : "center"} alignItems="center" className={classes.schedule}>
-        {weekSchedule ? <Schedule weekSchedule={weekSchedule} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} scheduleToCopy={scheduleToCopy} weekdaysToPasteSchedule={weekdaysToPasteSchedule} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} /> : <ProgressCircular size={40}/>}
-
-        {/* <Grid item container direction="row" xs={12}>
-          {weekSchedule ? <Schedule weekSchedule={weekSchedule} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} scheduleToCopy={scheduleToCopy} weekdaysToPasteSchedule={weekdaysToPasteSchedule} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} /> : <ProgressCircular size={40}/>}
-        </Grid> */}
+        { !weekSchedule ? <ProgressCircular size={40}/> : weekSchedule.error ? <RefreshRequest showError={"Error"} action={()=>{dispatch(initializeHeatingSchedule(homeLabel))}}/> : <Schedule weekSchedule={weekSchedule} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} scheduleToCopy={scheduleToCopy} weekdaysToPasteSchedule={weekdaysToPasteSchedule} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} />}
       </Grid>
       <Grid item xs={0.8} container className={classes.confirmButtons}>
         {copyWeekdaySchedule? 
@@ -420,51 +344,6 @@ const ScheduleComponent: React.FC<{weekSchedule:any, heatingProfiles:any, homeLa
                             :null
         }
       </Grid>
-        {/* <Grid container xs={12} className={classes.container} direction="row" justifyContent={weekSchedule ? "center" : "center"} alignItems="center"> buvo justify content center */}
-            {/* {weekSchedule ? null :           
-                                  <Grid item>
-                                    <ProgressCircular size={40}/>
-                                  </Grid>
-            } */}
-              {/* {weekSchedule?.map((weekday:any, index:number)=>{
-                if(copyWeekdaySchedule){
-                  if(copyWeekdaySchedule === weekday.weekday){
-                    return (
-                      <Grid item className={classes.weekday}>
-                          <Weekday weekday={weekday.weekday} scheduleForAWeekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} indexOfASchedeule={index}/>
-                      </Grid>
-                    ) 
-                  }else{
-                    return (
-                      <Grid item className={classes.weekday}>
-                          <WeekdayPaste weekday={weekday.weekday} scheduleForAWeekday={weekday} setCopyWeekdaySchedule={setCopyWeekdaySchedule} scheduleToCopy={scheduleToCopy} setWeekdaysToPasteSchedule={setWeekdaysToPasteSchedule} weekdaysToPasteSchedule={weekdaysToPasteSchedule}  indexOfASchedeule={index}/>
-                      </Grid>
-                    )
-                  }
-                }else{
-                  return (
-                    <Grid item className={classes.weekday}>
-                        <Weekday weekday={weekday.weekday} scheduleForAWeekday={weekday} copyWeekdaySchedule={copyWeekdaySchedule} setCopyWeekdaySchedule={setCopyWeekdaySchedule} setScheduleToCopy={setScheduleToCopy} indexOfASchedeule={index}/>
-                    </Grid>
-                  )
-                }
-              })} */}
-              {/* <Grid item container className={classes.saveAndCancelButons} direction="row" justifyContent="flex-end" alignItems="center"> */}
-              {/* {copyWeekdaySchedule? 
-                          <Grid item container direction="row" justifyContent="flex-end" alignItems="center" >
-                            <Grid item>
-                              <Button variant="contained" size="small" color="primary" onClick={saveNewWeekSchedule}>Save</Button>
-                            </Grid>
-                            <Grid item xs={0.2}></Grid>
-                            <Grid item>
-                              <Button variant="contained" size="small" color="secondary" onClick={cancelWeekScheduleChanges}>Cancel</Button>
-                            </Grid>
-                            <Grid item xs={0.4}></Grid>
-                          </Grid>
-                          :null
-                } */}
-                {/* </Grid> */}
-        {/* </Grid> */}
     </Grid>
   );
 };

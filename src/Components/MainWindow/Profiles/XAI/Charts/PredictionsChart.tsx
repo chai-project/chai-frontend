@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
     tooltipButton:{
       position: 'absolute',
       // backgroundColor:'lime',
-
       [theme.breakpoints.up('md')]: {
         // height: '25vh',
         top: 386,
@@ -66,7 +65,8 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('md')]: {
 
         top: 205,
-        left: 465,
+        // left: 465,
+        left: 475,
       },
       [theme.breakpoints.down('sm')]: {
         top: 405,
@@ -77,20 +77,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
+  
   const classes = useStyles();
-    // console.log(Math.min(...xaiBandData?.prediction),'zeuru')
-    // const mean = xaiBandData?.prediction.reduce((sum:number, value:number)=>(sum+value),0) / xaiBandData?.prediction.length
-    // console.log(mean)
-
-
   const price = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
-
-//   const calculateSetpoints = () => {
-//     const setpoints: any [] = price.map((price:any)=>{return profile.bias + profile.slope * price });
-//     return setpoints
-//   };
-
-  // calculateSetpoints()
 
   const data = {
     labels: price,
@@ -108,13 +97,9 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
       {
         label: "Lower confidence",
         data: xaiBandData?.lower_confidence,
-        // fill: '-1',
         backgroundColor: "rgba(246, 148, 107, 0.25)",
-
-        // borderColor: "red",
         borderColor: "rgba(246, 148, 107, 0.5)",
         pointRadius: 0,
-        // fill: true,
         tension: 0,
       },
       {
@@ -123,12 +108,7 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
         fill: '-1',
         backgroundColor: "rgba(246, 148, 107, 0.25)",
         borderColor: "rgba(246, 148, 107, 0.5)",
-
-
-        // borderColor: "#742774",
-        // borderColor: "transparent",
         pointRadius: 0,
-        // fill: 0,
         tension: 0,
       },
 
@@ -145,7 +125,8 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
       title: {
         display: true,
         text: `AI predictions`,
-        color: 'rgb(87, 203, 204,1)'
+        color: 'rgb(87, 203, 204,1)',
+        fullSize:false,
       },
       legend:{
         display:true,
@@ -161,20 +142,10 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
           },
         onClick: (click:any,legenItem:any,legend:any)=>{
             // console.log(click);
-            // legend.chart.update();
             return;
 
         },
-        // fontColor: 'rgb(87, 203, 204,1)'
     },
-      // title: {
-      //     display: true,
-      //     text: 'Custom Chart Title',
-      //     padding: {
-      //         top: 10,
-      //         bottom: 30
-      //     }
-      // },
   },
     scales: {
       x: {
@@ -183,7 +154,6 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
         title: {
           display: true,
           text: 'Price (p/kWh)',
-        //   text: 'Price (p/kWh)',
           color: 'rgb(87, 203, 204,1)',
 
         },
@@ -199,12 +169,10 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
         
       },
       y: {
-        // stacked:true,
         beginAtZero: true,
         title: {
           display: true,
           text: 'Target temperature (°C)',
-        //   text: 'Setpoint (°C)',
           color: 'rgb(87, 203, 204,1)',
         },
         grid: {
@@ -212,8 +180,6 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
             color: 'grey',
           },
         ticks: {
-          // autoSkip: true,
-          // maxTicksLimit: 8,
           color: 'rgb(87, 203, 204,1)',
         },
         min:7,

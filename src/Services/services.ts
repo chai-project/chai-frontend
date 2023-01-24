@@ -71,7 +71,6 @@ const getHeatingComponentData = async (label:String) => {
     // console.log('error',error);
     
 })
-    // console.log(request)
     return request
 };
 
@@ -97,7 +96,7 @@ const getAverageHeatingPricePeriod = async (period:any) => {
     return request
 
 };
-// getAverageHeatingPricePeriod('2022-10-24T00:00:00+01:00', '2022-10-25T00:00:00+01:00')
+
 const getCurrentHeatingPriceLimit = async () => {
 
       const response = await axios.get('https://api.project-chai.org/electricity/prices/?limit=1').then((res)=>{
@@ -119,11 +118,11 @@ const getHeatingScheduleData = async (label:String) => {
         // console.log('status text: ',res.statusText)
         // console.log(res.data,'viduje')
         return res.data
+        // return {error: 'Server error, failed to load heating schedule'}
 }).catch((error) => {
-    // console.error('error',error);
-    return {error: 'Server error'}
+    return {error: 'Server error, failed to load heating schedule'}
+
 })
-    // console.log(request)
     return request
 };
 
@@ -162,7 +161,8 @@ const getHeatingProfiles = async (label:String) => {
         return res.data
 }).catch((error) => {
     // console.error('error',error);
-    return {error: 'Server error, failed to load heating component data'}
+    // return {error: 'Server error, failed to load heating component data'}
+    return {error: 'Server error, failed to load profiles data'}
 
 })
     // console.log(request)

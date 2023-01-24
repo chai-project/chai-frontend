@@ -9,9 +9,7 @@ interface heatingComponent {
     valve_open:boolean,
     expires_at:string
 }
-//state = {mode:null, target_temperature: null, temperature: null, valve_open: null}
-//state:heatingComponent|null  = null
-//Heating Component reducer
+
 const heatingComponentReducer = (state = {mode:null, target_temperature: null, temperature: null, valve_open: null, activeProfile: null, isValid:null, userChanged:false, error: null} , action:any) => {
     switch(action.type) {
         case "SET_HEATING_COMPONENT_DATA":
@@ -44,25 +42,9 @@ const heatingComponentReducer = (state = {mode:null, target_temperature: null, t
 }
 
 export const initializeHeatingComponentData = (label:String) => {
+
     return async (dispatch : Dispatch, getState: any) => {
         const heatingComponentData:any = await services.getHeatingComponentData(label);
-        // if(heatingComponentData){
-        //     dispatch({
-        //         type:"SET_HEATING_COMPONENT_DATA",
-        //         data: {...heatingComponentData, isValid:true, error:null}
-        //     })
-        // }else if(heatingComponentData.error && getState().heatingComponent.mode === null && getState().heatingComponent.target_temperature === null && getState().heatingComponent.temperature === null && getState().heatingComponent.valve_open === null ){
-        //     dispatch({
-        //         type:"SET_HEATING_COMPONENT_DATA",
-        //         data: {isValid:false, error: heatingComponentData.error}
-        //     })
-        // }else if(heatingComponentData.error){
-        //     console.log('krkkkrkrk')
-        //     dispatch({
-        //         type:"SET_HEATING_COMPONENT_DATA",
-        //         data: {error: 'Failed to update heating component data'}
-        //     })
-        // }
         if(heatingComponentData.error && getState().heatingComponent.mode === null && getState().heatingComponent.target_temperature === null && getState().heatingComponent.temperature === null && getState().heatingComponent.valve_open === null ){
             dispatch({
                 type:"SET_HEATING_COMPONENT_DATA",
@@ -79,21 +61,15 @@ export const initializeHeatingComponentData = (label:String) => {
                 data: {...heatingComponentData, isValid:true, error:null}
             })
         }
-        // dispatch({
-        //     type:"SET_HEATING_COMPONENT_DATA",
-        //     data: heatingComponentData
-        // })
     };
 };
 
 
 export const setHeatingComponentMode = (mode: String) => { //boolean nutrinti.
 
-    // console.log(mode,'tema')
     return async (dispatch : Dispatch) => {
             dispatch({
                 type:"SET_HEATING_MODE",
-                // data: mode === 'auto' ? "auto" : mode === false ? 'off' : 'on'
                 data: {mode: mode, userChanged:true}
             })
     };

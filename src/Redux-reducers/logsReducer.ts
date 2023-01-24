@@ -249,7 +249,7 @@ export const refreshLogState = (label:String, from:any, to:any) => {
         let previousIndex = 0
         while (logs.length < limit + 1) {
           const rawLogsRequest = await services.getLogs(label, skip, limit, timeOfTheFirstLog, currentTime.startOf('day').add(1,'day') );
-          if(rawLogsRequest.length === 0){
+          if(rawLogsRequest?.length === 0){
             break;
           }else{
             const rawLogs = getLogsNoDuplicates(rawLogsRequest);

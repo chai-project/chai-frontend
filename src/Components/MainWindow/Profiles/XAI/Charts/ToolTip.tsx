@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     button:{
-
+        // border: '1px solid lime',
     },
     info:{
+        // border: '1px solid yellow',
         position:'fixed',
         zIndex: 3,
         borderRadius: 5,
@@ -43,19 +44,23 @@ const useStyles = makeStyles((theme: Theme) =>
         // height: "75%",
 
         left: 0,
-        top: 45,
+        top: 0,
         [theme.breakpoints.up('md')]: {
-        height: '50vh',
+        // height: '50vh',
         // width: '71.5vh'
-        // height: "40%",
+        height: "100%",
+        // height: "87.5%",
         },
         [theme.breakpoints.down('md')]: {
-            // height: "80%",
-        height: '64vh',
+            top: 0,
+            height: "100%",
+        // height: '64vh',
         // width: '161.1vh'
         },
         [theme.breakpoints.down('sm')]: {
-          height: '72vh',
+            top: 0,
+        //   height: '72vh',
+            height: "100%",
         //   width: '62.7vh'
         },
         // top: '50%',
@@ -63,7 +68,11 @@ const useStyles = makeStyles((theme: Theme) =>
         // transform: 'translate(-50%, -50%)'
     },
     text:{
-        // border: '1px solid red'
+        // border: '1px solid red',
+        // fontSize: 20
+    },
+    closeButton:{
+        // border: '1px solid blue',
     }
   }),
 );
@@ -98,20 +107,32 @@ const ToolTip: React.FC<{info:any}> = ({info}) => {
                 </IconButton>
             </Grid>
             {showToolTip ? 
-                <Grid xs={12}className={classes.info}>
-                    <Grid item container direction="row" justifyContent="center" alignItems="center">
-                        <Grid item container direction="column" justifyContent="flex-end" alignItems="flex-end" padding={0}>
-                            <IconButton size='medium' edge='start' color='primary' onClick={()=>{setShowToolTip(false)}}>
-                                <HighlightOffIcon/>
-                            </IconButton>
-                        </Grid>
-                        <Grid xs={9} item container direction="row" justifyContent="flex-end" alignItems="flex-end" padding={6} className={classes.text}>
-                            {/* <Typography>{info}</Typography> */}
-                            {generateText()}
-                        </Grid>
-                    </Grid> 
-                </Grid> : 
-            null }
+                <Grid xs={12} container direction="column" justifyContent="center" alignItems="center" className={classes.info}>
+                    <Grid xs={1} item container direction="row" justifyContent="flex-end" alignItems="center" className={classes.closeButton}>
+                        <IconButton size='medium' edge='start' color='primary' onClick={()=>{setShowToolTip(false)}}>
+                            <HighlightOffIcon/>
+                        </IconButton>
+                    </Grid>
+                    <Grid xs={10.8} item container direction="row" justifyContent="center" alignItems="flex-start" padding={10} className={classes.text}>
+                        {generateText()}
+                    </Grid>
+                </Grid>
+                // <Grid xs={12} container direction="column" justifyContent="center" alignItems="center" className={classes.info}>
+                //         <Grid xs={0.5} item container direction="row" justifyContent="flex-end" alignItems="flex-end" padding={0} className={classes.closeButton}>
+                            // <IconButton size='medium' edge='start' color='primary' onClick={()=>{setShowToolTip(false)}}>
+                            //     <HighlightOffIcon/>
+                            // </IconButton>
+                //         </Grid>
+                //         <Grid xs={10} item container direction="row" justifyContent="center" alignItems="center" padding={10} className={classes.text}>
+                //             {/* <Typography>{info}</Typography> */}
+                //             <Grid item>
+                //                 {generateText()}
+                //             </Grid>
+                //             {/* {generateText()} */}
+                //         </Grid>
+
+                // </Grid> : 
+            : null }
         </Grid>
     )
 }

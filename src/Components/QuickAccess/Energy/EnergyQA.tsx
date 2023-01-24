@@ -22,6 +22,7 @@ import { CssBaseline, Box, Divider, Grid, Button, AppBar, Toolbar, IconButton, S
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
 import { setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
+import { initializeEnergyPriceData } from '../../../Redux-reducers/energyPriceDataReducer';
 
 
 //components
@@ -101,7 +102,7 @@ const EnergyQA: React.FC = () => {
       <Box className={classes.container} bgcolor="background.default">
         {energyPrice && energyPrice.error ? 
           <Grid container className={classes.columns} direction="column" justifyContent="center" alignItems="center">
-            <RefreshRequest showError={"Error"} action={()=>{console.log('refresh')}}/>
+            <RefreshRequest showError={"Error"} action={()=>{dispatch(initializeEnergyPriceData())}}/>
           </Grid> :
           <Grid container className={classes.columns} direction="column" justifyContent="center" alignItems="center">
             <Grid item xs={1} className={classes.column}></Grid>
