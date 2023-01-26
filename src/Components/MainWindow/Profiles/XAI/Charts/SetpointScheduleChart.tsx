@@ -11,13 +11,10 @@ import {Line} from 'react-chartjs-2'
 // components
 import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
 import ToolTip from './ToolTip';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    label:{
-        // border: "2px dashed pink",
-
-    },
     chart:{
         height: '25vh',
         width: '95%',
@@ -28,12 +25,19 @@ const useStyles = makeStyles((theme: Theme) =>
           height: '25vh',
         },
         [theme.breakpoints.down('md')]: {
-          height: '32vh',
+          height: '60vh',
+          // height: '46vh'
+
         },
         [theme.breakpoints.down('sm')]: {
             height: '36vh',
           },
         // border: "2px dashed purple",
+        // height: '100%'
+    },
+    tooltip:{
+      // border: "2px dashed purple",
+      height: '0vh'
     },
     tooltipButton:{
       position: 'absolute',
@@ -58,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const SetpointScheduleChart: React.FC<{periodPriceData:any, xaiRegionData:any}> = ({periodPriceData, xaiRegionData}) => {
+const SetpointScheduleChart: React.FC<{periodPriceData:any, xaiRegionData:any, breakpointMedium:any, breakpoint:any}> = ({periodPriceData, xaiRegionData, breakpointMedium, breakpoint}) => {
   
   const classes = useStyles();
 
@@ -79,18 +83,18 @@ const radius = (type: String) => {
   const data:any = {
     labels: periodPriceData?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
     datasets: [
-      {
-        label: "Price (p/kWh)",
-        yAxisID: 'y1',
-        type:'line',
-        data: periodPriceData?.map((timeframe:any)=>{return timeframe.rate}),
-        radius: radius('radius'),
-        hitRadius: radius('hitradius'),
-        fill: false,
-        backgroundColor: "#F6946B",
-        borderColor: "#F6946B",
-        stepped: 'before',
-      },
+      // {
+      //   label: "Price (p/kWh)",
+      //   yAxisID: 'y1',
+      //   type:'line',
+      //   data: periodPriceData?.map((timeframe:any)=>{return timeframe.rate}),
+      //   radius: radius('radius'),
+      //   hitRadius: radius('hitradius'),
+      //   fill: true,
+      //   backgroundColor: "#F6946B",
+      //   borderColor: "#F6946B",
+      //   stepped: 'before',
+      // },
       {
         label: "Target temperature (°C)",
         yAxisID: 'y2',
@@ -98,16 +102,29 @@ const radius = (type: String) => {
         data: setpoint,
         radius: radius('radius'),
         hitRadius: radius('hitradius'),
-        fill: true,
+        fill: false,
         backgroundColor: "rgb(87, 203, 204,0.8)",
         borderColor: "rgb(87, 203, 204,1)",
         stepped: 'before',
-      }
+      },
+      {
+        label: "Price (p/kWh)",
+        yAxisID: 'y1',
+        type:'line',
+        data: periodPriceData?.map((timeframe:any)=>{return timeframe.rate}),
+        radius: radius('radius'),
+        hitRadius: radius('hitradius'),
+        fill: true,
+        backgroundColor: "rgb(246, 148, 107,0.8)",
+        borderColor: "rgb(246, 148, 107,1)",
+        stepped: 'before',
+      },
     ]
   };
   const options:any = {
-    responsive: true,
-    maintainAspectRatio: false,
+    responsive: breakpoint ? true : breakpointMedium ? true : true,
+    // maintainAspectRatio: false,
+    maintainAspectRatio: breakpoint ? false : breakpointMedium ? false : false,
     animation: {
         duration: 0
       },
@@ -119,12 +136,15 @@ const radius = (type: String) => {
             fullSize:false,
         },
         legend:{
-            display: false,
+            display: true,
+            position: 'chartArea',
+            align: breakpoint ? 'center' : breakpointMedium ? 'center' : 'center',
             labels:{
-                generateLabels: (chart:any) => {
-                    const labels = chart.data.datasets.map((label:any)=>{return{...label,text:label.label,fillStyle: label.borderColor, fontColor: label.borderColor, onclick: label.onClick}})
-                    return labels
-                },
+              color: "#FFFFFF",
+              // boxWidth: 20,
+              // fontSize: 14,
+              usePointStyle: true,
+              // padding: 20,
             },
             onClick: (click:any,legenItem:any,legend:any)=>{
                 // console.log(click);
@@ -132,6 +152,20 @@ const radius = (type: String) => {
 
             },
         },
+        tooltip: {
+          callbacks: {
+            label: (tooltipItem:any, data:any) => {
+              switch(tooltipItem.datasetIndex){
+                case 0:
+                  return `Target temperature: ${tooltipItem.raw}°C`;
+                case 1:
+                  return `Price: ${tooltipItem.raw} p/kWh`;
+                default:
+                  return `${tooltipItem.raw}`;
+              }
+            }
+          }
+        }
   },
     scales: {
       x: {
@@ -191,12 +225,23 @@ const radius = (type: String) => {
   };
   
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart} >
-      {!xaiRegionData || !periodPriceData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/>}
-      <Grid item className={classes.tooltipButton}>
-        <ToolTip info={'setpointScheduleChart'}/>
+    <Grid xs={12} item container direction="row" justifyContent="center" alignItems="center" >
+      <Grid item xs={12} container className={classes.tooltip} direction="row" justifyContent="flex-end" alignItems="center">
+        <Grid item>
+          <ToolTip info={'setpointScheduleChart'}/>
+        </Grid>
       </Grid>
-    </Grid>
+      <Grid item xs={12} container className={classes.chart} direction="row" justifyContent="center" alignItems="center">
+        {!xaiRegionData || !periodPriceData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/>}
+      </Grid>
+    </Grid> 
+  //   <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart} >
+  //     {/* <Typography>setpointScheduleChart</Typography> */}
+    // {!xaiRegionData || !periodPriceData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/>}
+  //   {/* <Grid item className={classes.tooltipButton}>
+  //     <ToolTip info={'setpointScheduleChart'}/>
+  //   </Grid> */}
+  // </Grid>
   )
 }
 

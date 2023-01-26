@@ -1,64 +1,3 @@
-// import React, {useState} from 'react';
-// import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-
-// //mui
-// import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-// import { CssBaseline, Button, Paper, Box } from '@mui/material/';
-
-
-
-// // redux
-// import {useSelector, useDispatch} from 'react-redux'
-// // import { initializeData } from './Redux-reducers/dataReducer';
-
-
-// //types
-// import chartDataType from '../../../Types/types'
-
-// //components
-// import SwitchButton from '../../Buttons/SwitchButton';
-// import DatePickerComponent from './DatePickerComponent';
-
-// // Styles 
-
-// const useStyles = makeStyles((theme: Theme) =>
-//   createStyles({
-//     main: {
-//       //  boxSizing: 'border-box',
-//        position: 'relative', //sitas!!!
-//        width: '100%',
-//        height: '100%',
-//       //  background: '#CFD8DC',
-//       //  left: '4%',
-//       //  top: '10%',
-//     },
-//     datepicker:{
-//       position: 'absolute',
-//     }
-//   }),
-// );
-
-// const Logs: React.FC = () => {
-//     const color = "baxkground.default" // jeigu nauejs notifications tai kita spalva!
-//     const classes = useStyles();
-//     const dispatch = useDispatch()
-
-// //   const getData = () => {
-// //     dispatch(initializeData())
-// //   }
-
-//   return (
-//     <Box className={classes.main} bgcolor="background.default">
-
-//     </Box>
-//   );
-// };
-
-// export default Logs;
-
-// cia kita versija 
-
-// import * as React from 'react';
 import React, { useEffect, useRef } from "react";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -68,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { Grid, Typography } from "@material-ui/core";
 // import Box from 
 // import { withStyles } from '@mui/material/styles';
 import {makeStyles, Theme, createStyles, withStyles  } from '@material-ui/core/styles';
@@ -197,7 +137,7 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
 
   return (
     <Paper  sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer className={classes.tableContainer}>  
+      <TableContainer className={classes.tableContainer}>
         <Table  stickyHeader aria-label="sticky table">
           <TableHead ref={ref} >
             <TableRow>
@@ -235,6 +175,7 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
               })}
           </TableBody>
         </Table>
+        {logs.length === 0 ? <Grid xs={12} container direction="column" justifyContent="center" alignItems="center"><Typography>There are currently no logs.</Typography></Grid>  : null}
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[25, 50, 100]}

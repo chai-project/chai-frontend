@@ -10,33 +10,11 @@ import ToolTip from './ToolTip';
 //chartjs 
 import 'chart.js/auto'
 import {Line} from 'react-chartjs-2'
+import { Typography } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    main: {
-      //  boxSizing: 'border-box',
-       position: 'relative', //sitas!!!
-       width: '100%',
-       height: '100%',
-      //  background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
-    },
-    container:{
-        // border: "2px dashed lime",
-        height: '100%',
-        width: '100%',
-        // position: 'relative'
-    },
-    info:{
-        height: '20%',
-        // border: "2px dashed pink",
-    },
-    label:{
-        // border: "2px dashed pink",
-
-    },
     chart:{
         height: '25vh',
         width: '95%',
@@ -47,12 +25,19 @@ const useStyles = makeStyles((theme: Theme) =>
           height: '25vh',
         },
         [theme.breakpoints.down('md')]: {
-          height: '32vh',
+          height: '60vh',
+          // height: '46vh'
+
         },
         [theme.breakpoints.down('sm')]: {
             height: '36vh',
           },
         // border: "2px dashed purple",
+        // height: '100%',
+    },
+    tooltip:{
+      // border: "2px dashed purple",
+      height: '0vh'
     },
     tooltipButton:{
       position: 'absolute',
@@ -76,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
+const PredictionsChart: React.FC<{xaiBandData:any, breakpointMedium:any, breakpoint:any}> = ({xaiBandData, breakpointMedium, breakpoint}) => {
   
   const classes = useStyles();
   const price = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
@@ -116,8 +101,9 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
     ]
   };
   const options:any = {
-    responsive: true,
-    maintainAspectRatio: false,
+    responsive: breakpoint ? true : breakpointMedium ? true : true,
+    // maintainAspectRatio: false
+    maintainAspectRatio: breakpoint ? false : breakpointMedium ? false : false,
     animation: {
       duration: 0
     },
@@ -131,13 +117,14 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
       legend:{
         display:true,
         position: 'chartArea',
-        align: 'end',
+        align: breakpoint ? 'center' : breakpointMedium ? 'center' : 'center',
         labels: {
             filter: function(item:any, chart:any) {
                 // Logic to remove a particular legend item goes here
                 return !item.text.includes('Lower confidence');
             },
             color: '#FFFFFF',
+            usePointStyle: true,
             
           },
         onClick: (click:any,legenItem:any,legend:any)=>{
@@ -191,12 +178,23 @@ const PredictionsChart: React.FC<{xaiBandData:any}> = ({xaiBandData}) => {
   };
 
   return (
-    <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.chart}>
-      {!xaiBandData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/> }
-      <Grid item className={classes.tooltipButton}>
-        <ToolTip info={'predictionsChart'}/>
+    <Grid xs={12} item container direction="row" justifyContent="center" alignItems="center" >
+      <Grid item xs={12} container className={classes.tooltip} direction="row" justifyContent="flex-end" alignItems="center">
+        <Grid item>
+          <ToolTip info={'predictionsChart'}/>
+        </Grid>
       </Grid>
-    </Grid>
+      <Grid item xs={12} container className={classes.chart} direction="row" justifyContent="center" alignItems="center">
+        {!xaiBandData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/> }
+      </Grid>
+    </Grid> 
+    // <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.chart}>
+    //   {/* <Typography>predictionsChart</Typography> */}
+      // {!xaiBandData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/> }
+    //   {/* <Grid item className={classes.tooltipButton}>
+    //     <ToolTip info={'predictionsChart'}/>
+    //   </Grid> */}
+    // </Grid>
   )
 }
 

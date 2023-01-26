@@ -44,6 +44,9 @@
   }
 }
 
+.legend-class {
+  z-index: 100;
+}
 
 /* .MuiTablePagination-displayedRows{
   display:none

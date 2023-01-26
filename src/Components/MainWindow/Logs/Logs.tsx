@@ -27,6 +27,7 @@ import DatePickerComponent from './DatePickerComponent';
 import LogTable from './LogTable';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 import Checkboxes from './Checkboxes';
+import RefreshRequest from '../../RefreshRequest/RefreshRequest';
 
 import { profile } from 'console';
 
@@ -131,12 +132,6 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
 
   const classes = useStyles();
   const dispatch = useDispatch()
-  
-
-
-  // const url = createBrowserHistory()
-  // const parameters = new URLSearchParams(url.location.search);
-  // const homeLabel =  parameters.get('home')
 
     useEffect(()=>{
       setLogs(currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]}));
@@ -149,6 +144,7 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
       setPage(0)
     },[uniquefilterValues])
 
+    // console.log(currentState.logs.error)
   return (
     <Grid container direction='column' justifyContent='center' alignItems='center' className={classes.mainContainer} padding={0}>
     <Grid item xs={1.4}className={classes.buttons}>
@@ -163,6 +159,7 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
     </Grid>
     <Grid item container xs={10.2}className={classes.logs} direction="row" justifyContent='center' alignItems='center'>
       {logs ? <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> : <ProgressCircular size={40}/>}
+      {/* {logs ? <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> : currentState.logs.error ? <RefreshRequest showError={"Error"} action={()=>{dispatch(initialiseLogs(homeLabel, null, null))}}/>  : <ProgressCircular size={40}/>} */}
       {/* <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> */}
     </Grid>
   </Grid>

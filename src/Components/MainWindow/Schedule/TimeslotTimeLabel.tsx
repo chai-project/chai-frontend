@@ -126,11 +126,11 @@ const TimeslotTimeLabel: React.FC<{indexOfaWeekday:any, weekday:any, profile:any
   return (
     <Grid container xs={sizeOfATimeslot}>
         <Grid item xs={1}>
-            {/* <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.4 ? null : profile.profileStart}</Typography> */}
+            <Typography className={classes.timeLabel}>{sizeOfATimeslot < 0.4 ? null : profile.profileStart}</Typography>
         </Grid>
         <Grid item style={{ flexGrow: "1" }}></Grid>
         <Grid item xs={0}>
-            {/* <Typography className={classes.timeLabel}>{timeslots.length === index + 1 ?  profile.profileEnd : null}</Typography> */}
+            <Typography className={classes.timeLabel}>{timeslots.length === index + 1 ?  profile.profileEnd : null}</Typography>
         </Grid>
     </Grid>
 );

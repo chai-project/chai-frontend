@@ -202,7 +202,8 @@ const resetAllprofiles = async (label:any) => {
 
 //Logs
 
-const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) => {
+const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) => { // modify request
+    // console.log('bl')
     // console.log(start, end)
     const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT%2CWELCOME&skip=${skip}&limit=${limit}&start=${start.toISOString()}&end=${end.toISOString()}`).then((res)=>{ //&start=${start.toISOString()}&end=${end.toISOString()}
         // console.log('config: ',res.config)
@@ -211,8 +212,12 @@ const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) =>
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
         return res.data
+        // return {error: 'Server error, failed to load logs'}
+        // return []
 }).catch((error) => {
-    console.error('error',error);
+    // console.error('error',error);
+    return {error: 'Server error, failed to load logs, please try to reload the page.'}
+
 })
     // console.log(request)
     return request

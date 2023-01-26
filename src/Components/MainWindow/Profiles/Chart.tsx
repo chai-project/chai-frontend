@@ -55,16 +55,10 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
       {
         label: "Target temperature (°C)",
         data: calculateSetpoints(),
-        fill: true,
+        fill: false, //was true
         backgroundColor: "rgba(75,192,192,0.8)",
         borderColor: "rgba(75,192,192,1)"
       },
-      // {
-      //   label: "Second dataset",
-      //   data: [33, 25, 35, 51, 54, 76],
-      //   fill: false,
-      //   borderColor: "#742774"
-      // }
     ]
   };
   const options:any = {
@@ -78,20 +72,11 @@ const Chart: React.FC<{profile:any}> = ({profile}) => {
         display:false
       },
       tooltip: {
-        // title: false,
         callbacks: {
-          title: (title:any) => {return `${title[0].label} p/kWh`},
-          label : (label:any)=>{return `${label.parsed.y.toFixed(2)} °C`},
+          title: (title:any) => {return `Price: ${title[0].label} p/kWh`},
+          label : (label:any)=>{return `Target temperature: ${label.parsed.y.toFixed(2)}°C`},
         }
       }
-      // title: {
-      //     display: true,
-      //     text: 'Custom Chart Title',
-      //     padding: {
-      //         top: 10,
-      //         bottom: 30
-      //     }
-      // },
   },
     scales: {
       x: {

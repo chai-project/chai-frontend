@@ -251,7 +251,7 @@ useEffect(()=>{
     }
   }else if(currentState.heatingComponent.isValid === false || !homeLabel || !userToken ){
     dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
-    // navigate('/Error')
+    navigate('/Error')
   }
 },[currentState.heatingComponent.isValid])
 
@@ -287,7 +287,7 @@ useEffect(() => {
     }, 10000);
     return () => clearInterval(id);
   }
-}, [currentState.heatingComponent.isValid, currentState.logs.logs?.length > 0]);
+}, [currentState.heatingComponent.isValid, currentState.logs.logs?.length > 0]); //change to true
 
 // refresh energy price data!
 

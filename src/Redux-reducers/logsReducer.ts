@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 import services from '../Services/services';
 import utils from '../Components/Utils/utils';
 import dayjs from 'dayjs';
+import { setErrorMessage } from './notificationsReducer';
 
 
 const currentTime = dayjs();
@@ -115,7 +116,7 @@ const transformLogs = (rawLogs:any[]) => {
 };
 
 
-const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null} , action:any) => {
+const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null} , action:any) => {
     switch(action.type) {
         case "INITIALISE_LOGS":
             return  state = {...state, ...action.data}
@@ -125,7 +126,6 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
             }
             return   state = {...state, logs: state.logs.concat(action.data.logs) ,skip:action.data.skip, lastValveSetTypeRawLog: {rawLog: action.data.lastValveSetTypeRawLog.rawLog ? action.data.lastValveSetTypeRawLog.rawLog : state.lastValveSetTypeRawLog.rawLog , index: action.data.lastValveSetTypeRawLog.index ? state.logs.length + action.data.lastValveSetTypeRawLog.index : state.lastValveSetTypeRawLog.index} } //state.logs.length + action.data.lastValveSetTypeRawLog.index
         case "REFRESH_LOG_STATE":
-            // let newLogs = action.data.logs 
             let newLogs:any = []
             if(utils.areEqualArray(action.data.lastValveSetTypeRawLog.rawLog?.parameters, state.firstValveSetTypeRawLog.rawLog?.parameters)){
               action.data.logs.forEach((log:any,index:any)=>{
@@ -149,6 +149,8 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
               } 
             })
             return state = {...state, logs: newLogsToAdd.concat(state.logs) , firstValveSetTypeRawLog: action.data.firstValveSetTypeRawLog} 
+        case "SET_ERROR":
+          return state = {...state, ...action.data}
         default:
             return state
     }
@@ -161,31 +163,84 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
     to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
   }
 
-    return async (dispatch : Dispatch) => {
+    return async (dispatch : Dispatch, getState: any) => {
+      dispatch({
+        type:"SET_ERROR",
+        data: {error: null}
+        })
 
         let logs:any[] = []
         let skip = 0;
         let limit = 200;
         let previousIndex = 0
         while (logs.length < limit + 1) {
-          const rawLogsRequest = await services.getLogs(label, skip, limit, period.from, period.to );
-          if(rawLogsRequest.length === 0){
-            break;
-          }else{
-            const rawLogs = getLogsNoDuplicates(rawLogsRequest);
-            const previousNextAndLast = getPreviousNextAndLastValveSetTypeLog(logs, rawLogs)
-            const firstValveSetLog = getPreviousNextAndLastValveSetTypeLog(null, logs)
-            if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
-              logs.splice(previousNextAndLast.previous.index, 1);
-            }
-            logs =  logs.concat(rawLogs);
-            const transformedLogs = transformLogs(logs)
-            skip += limit;
-            dispatch({
-              type:"INITIALISE_LOGS",
-              data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to > today ? today : period.to }
-            })
-          };
+          
+          const rawLogsRequest:any = await services.getLogs(label, skip, limit, period.from, period.to );
+
+          // if(rawLogsRequest.error){
+          //   setErrorMessage(rawLogsRequest.error, 5000)(dispatch);
+          //   // dispatch({
+          //   //   type:"SET_ERROR",
+          //   //   data: {error: rawLogsRequest.error}
+          //   // })
+          //   // if(getState().logs.logs === null){
+          //   //   dispatch({
+          //   //     type:"INITIALISE_LOGS",
+          //   //     data: {logs: []}
+          //   //   })
+          //   // }
+          //   break;
+          // }else{
+            if(rawLogsRequest.length === 0){
+
+              // dispatch({
+              //   type:"INITIALISE_LOGS",
+              //   data: {logs: []}
+              // })
+              if(getState().logs.logs === null){
+                dispatch({
+                  type:"INITIALISE_LOGS",
+                  data: {logs: []}
+                })
+              }
+              break;
+            }else{
+              const rawLogs = getLogsNoDuplicates(rawLogsRequest);
+              const previousNextAndLast = getPreviousNextAndLastValveSetTypeLog(logs, rawLogs)
+              const firstValveSetLog = getPreviousNextAndLastValveSetTypeLog(null, logs)
+              if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
+                logs.splice(previousNextAndLast.previous.index, 1);
+              }
+              logs =  logs.concat(rawLogs);
+              const transformedLogs = transformLogs(logs)
+              skip += limit;
+              dispatch({
+                type:"INITIALISE_LOGS",
+                data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to > today ? today : period.to }
+              })
+            };
+          // }
+
+
+          // if(rawLogsRequest.length === 0){
+          //   break;
+          // }else{
+          //   const rawLogs = getLogsNoDuplicates(rawLogsRequest);
+          //   const previousNextAndLast = getPreviousNextAndLastValveSetTypeLog(logs, rawLogs)
+          //   const firstValveSetLog = getPreviousNextAndLastValveSetTypeLog(null, logs)
+          //   if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
+          //     logs.splice(previousNextAndLast.previous.index, 1);
+          //   }
+          //   logs =  logs.concat(rawLogs);
+          //   const transformedLogs = transformLogs(logs)
+          //   skip += limit;
+          //   dispatch({
+          //     type:"INITIALISE_LOGS",
+          //     data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to > today ? today : period.to }
+          //   })
+          // };
+
+        
         };
     };
 };
@@ -201,7 +256,13 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       let previousValveSetIndex:any
 
       while (logs.length < limit + 1) {
-        const rawLogsRequest = await services.getLogs(label, skip, limit, from, to.add(1,'day'), );
+        const rawLogsRequest:any = await services.getLogs(label, skip, limit, from, to.add(1,'day'), );
+        
+        
+        // if(rawLogsRequest.error){
+        //   setErrorMessage(rawLogsRequest.error, 5000)(dispatch);
+        //   // break;
+        // }else 
         if(rawLogsRequest.length === 0 ){
           limit = null
           lastRawLog = null
@@ -211,8 +272,6 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
           previousNextAndLast = getPreviousNextAndLastValveSetTypeLog(logs, rawLogs)
           if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
             logs.splice(previousNextAndLast.previous.index, 1)
-            // console.log(previousNextAndLast.previous)
-            // console.log(logs[previousNextAndLast.previous.index])
           }
           logs =  logs.concat(rawLogs);
           previousValveSetIndex =  rawLogs.length - previousNextAndLast.last.index
@@ -234,11 +293,6 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
 
 export const refreshLogState = (label:String, from:any, to:any) => {
 
-  // const period = {
-  //   from: from ? from : today.subtract(6,'day'),
-  //   to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
-  // }
-
     return async (dispatch : Dispatch, getState: any) => {
 
         const timeOfTheFirstLog = dayjs(getState().logs.logs[0].dateAndTime);
@@ -248,7 +302,13 @@ export const refreshLogState = (label:String, from:any, to:any) => {
         let limit = 200;
         let previousIndex = 0
         while (logs.length < limit + 1) {
-          const rawLogsRequest = await services.getLogs(label, skip, limit, timeOfTheFirstLog, currentTime.startOf('day').add(1,'day') );
+          const rawLogsRequest:any = await services.getLogs(label, skip, limit, timeOfTheFirstLog, currentTime.startOf('day').add(1,'day') );
+
+          // if(rawLogsRequest.error){
+          //   setErrorMessage(rawLogsRequest.error, 5000)(dispatch);
+          //   // break;
+          // }else 
+          
           if(rawLogsRequest?.length === 0){
             break;
           }else{

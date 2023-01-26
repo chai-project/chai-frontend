@@ -545,96 +545,6 @@ export const initializeHeatingSchedule = (label:String) => {
                 data: sortedScheduleByTheDay
             })
         }
-
-
-        
-        // let schedule: any[] = [];
-        // const profileLabels =[
-        //                         {
-        //                             id:1,
-        //                             name: "Nights",
-        //                             color: "#57A6F0"
-        //                         },
-        //                         {
-        //                             id:2,
-        //                             name: "Mornings",
-        //                             color: "#d1ca69"
-        //                         },
-        //                         {
-        //                             id:3,
-        //                             name: "Weekdays",
-        //                             color: "#F6946B" //E3E64E
-        //                         },
-        //                         {
-        //                             id:4,
-        //                             name: "Evenings",
-        //                             color: "#f03cdb"
-        //                         },
-        //                         {
-        //                             id:5,
-        //                             name: "Weekends",
-        //                             color: "#FE6262"
-        //                         },
-        //                     ]
-        // const findTimeFrame = (timeFrameRepresentation: String) => {
-        //     const actualTimeFrame = timeframes.find((timeframe:any)=>{ //define type later
-        //         if(timeFrameRepresentation === timeframe.timeframeRepresentation){
-        //             return timeframe
-        //         }
-        //     });
-        //     return actualTimeFrame?.timeframe;
-        // }
-
-        // heatingScheduleData.forEach((day:any, index:any, self:any)=>{ //define types later
-        //     interface weekdayScheduleType {
-        //         weekday:String,
-        //         id:number,
-        //         schedule: any[],
-        //     }
-        //     let weekdaySchedule:weekdayScheduleType =  {
-        //         weekday: day.day  === 1 ? "Monday" : day.day  === 2 ? "Tuesday" : day.day  === 4 ? "Wednesday" : day.day  === 8 ? "Thursday" : day.day  === 16 ? "Friday" : day.day  === 32 ? "Saturday" : day.day  === 64 ? "Sunday" : day.day ,
-        //         id: index,
-        //         schedule:[],
-        //     }
-        //     var i = 0;
-        //     for (const key in day.schedule) {
-        //         if(i === 0 && key !== "0"){
-        //             const emptyTimeslot = {
-        //                 id: i,
-        //                 profileName: Object.values(self[index-1].schedule).pop() === "1" ? profileLabels[1-1].name : Object.values(self[index-1].schedule).pop() === "2" ? profileLabels[2-1].name :Object.values(self[index-1].schedule).pop() === "3" ? profileLabels[3-1].name : Object.values(self[index-1].schedule).pop() === "4" ? profileLabels[4-1].name : profileLabels[5-1].name, //buvo 'Off'
-        //                 profileID: Object.values(self[index-1].schedule).pop() === "1" ? profileLabels[1-1].id : Object.values(self[index-1].schedule).pop() === "2" ? profileLabels[2-1].id :Object.values(self[index-1].schedule).pop() === "3" ? profileLabels[3-1].id : Object.values(self[index-1].schedule).pop() === "4" ? profileLabels[4-1].id : profileLabels[5-1].id,
-        //                 color: Object.values(self[index-1].schedule).pop() === "1" ? profileLabels[1-1].color : Object.values(self[index-1].schedule).pop() === "2" ? profileLabels[2-1].color :Object.values(self[index-1].schedule).pop() === "3" ? profileLabels[3-1].color : Object.values(self[index-1].schedule).pop() === "4" ? profileLabels[4-1].color : profileLabels[5-1].color,
-        //                 profileStart: "00:00",
-        //                 profileEnd: "",
-        //                 temperature: 0
-        //             };
-        //             weekdaySchedule.schedule.push(emptyTimeslot);
-        //             i++;
-        //         };
-        //         const timeslot = {
-        //             id: i,
-        //             profileName: profileLabels[day.schedule[key]-1].name,
-        //             profileID: profileLabels[day.schedule[key]-1].id,
-        //             color: profileLabels[day.schedule[key]-1].color,
-        //             profileStart: findTimeFrame(key),
-        //             profileEnd: "",
-        //         };
-        //         weekdaySchedule.schedule.push(timeslot)
-        //         i++;
-        //     }
-        //     weekdaySchedule.schedule.forEach((timeslot:any, index:any)=>{
-        //         index+1 === weekdaySchedule.schedule.length ? weekdaySchedule.schedule[index].profileEnd = "24:00" : weekdaySchedule.schedule[index].profileEnd = weekdaySchedule.schedule[index+1].profileStart //cia pakeisti kad butu 23:59
-        //     });
-        //     schedule.push(weekdaySchedule);
-        // });
-
-        // const dayOfTheWeek = new Date().getDay();
-        // const sortedScheduleByTheDay = schedule.slice(dayOfTheWeek-1).concat(schedule.slice(0,dayOfTheWeek-1))
-        
-        // dispatch({
-        //     type:"SET_HEATING_SCHEDULE_DATA",
-        //     data: sortedScheduleByTheDay
-        // })
     };
 };
 
@@ -672,7 +582,7 @@ export const setNewHeatingSchedule = (homeLabel:any, dayOrDaysToSet:any,newSched
                 })
             })
         }else {
-            setErrorMessage('Server error, failed to change the schedule',5000)(dispatch)
+            setErrorMessage('Server error, failed to change the schedule.',5000)(dispatch)
         }
     };
 };

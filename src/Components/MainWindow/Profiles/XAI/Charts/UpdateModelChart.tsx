@@ -21,6 +21,7 @@ import {
   import { Scatter } from "react-chartjs-2";
   
   import annotationPlugin from "chartjs-plugin-annotation";
+import { Typography } from '@material-ui/core';
   
   ChartJS.register(
     CategoryScale,
@@ -34,33 +35,8 @@ import {
   );
 
 
-
-
-const useStyles = makeStyles((theme: Theme) =>
+  const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    main: {
-      //  boxSizing: 'border-box',
-       position: 'relative', //sitas!!!
-       width: '100%',
-       height: '100%',
-      //  background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
-    },
-    container:{
-        // border: "2px dashed lime",
-        height: '100%',
-        width: '100%',
-        // position: 'relative'
-    },
-    info:{
-        height: '20%',
-        // border: "2px dashed pink",
-    },
-    label:{
-        // border: "2px dashed pink",
-
-    },
     chart:{
         height: '25vh',
         width: '95%',
@@ -71,13 +47,21 @@ const useStyles = makeStyles((theme: Theme) =>
           height: '25vh',
         },
         [theme.breakpoints.down('md')]: {
-          height: '32vh',
+          height: '60vh',
+          // height: '46vh'
+
         },
         [theme.breakpoints.down('sm')]: {
             height: '36vh',
           },
         // border: "2px dashed purple",
+        // border: "2px dashed purple",
+        // height: '100%',
     },
+    tooltip:{
+      // border: "2px dashed purple",
+      height: '0vh'
+    },  
     tooltipButton:{
       position: 'absolute',
       // backgroundColor:'green',
@@ -100,7 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
+const UpdateModelChart: React.FC<{xaiRegionData:any, inputs:number, breakpointMedium:any, breakpoint:any}> = ({xaiRegionData, inputs, breakpointMedium, breakpoint}) => {
     const classes = useStyles();
 
 
@@ -142,13 +126,15 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
         showLine: true,
         pointRadius: 0,
         hitRadius: 0,
+        borderColor: "rgba(246, 148, 107, 0.5)",
         fill: 'shape',
       }
     ]
   };
   const options:any = {
-    responsive: true,
-    maintainAspectRatio: false,
+    responsive: breakpoint ? true : breakpointMedium ? true : true,
+    // maintainAspectRatio: false,
+    maintainAspectRatio: breakpoint ? false : breakpointMedium ? false : false,
     animation: {
       duration: 0
     },
@@ -156,7 +142,7 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
         autocolors: false,
         title: {
             display: true,
-            text: `AI model`,
+            text: inputs === 1 ? `AI model for ${inputs} input` : `AI model for ${inputs} inputs`,
             color: 'rgb(87, 203, 204,1)',
             fullSize:false,
 
@@ -164,10 +150,11 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
         legend:{
             display:true,
             position: 'chartArea',
-            align: 'end',
+            align: breakpoint ? 'center' : breakpointMedium ? 'center' : 'center',
             labels: {
-                color: '#FFFFFF'
-              },
+              color: '#FFFFFF',
+              usePointStyle: true,
+            },
             onClick: (click:any,legenItem:any,legend:any)=>{
                 // console.log(click);
                 return;
@@ -176,8 +163,8 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
         },
         tooltip: {
           callbacks: {
-            title: (title:any) => {return `${title[0].label}`},
-            label : (label:any)=>{return `${label.parsed.y.toFixed(1)} °C`},
+            title: (title:any) => {return `Price sensitivity: ${title[0].label}`},
+            label : (label:any)=>{return `Preferred temperature (if energy were free): ${label.parsed.y.toFixed(1)}°C`},
           }
         }
     },
@@ -224,12 +211,23 @@ const UpdateModelChart: React.FC<{xaiRegionData:any}> = ({xaiRegionData}) => {
   };
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
-      { !xaiRegionData ? <ProgressCircular size={40}/> : <Scatter data={data} options={options} plugins={[annotationPlugin]}/>}
-      <Grid item className={classes.tooltipButton}>
+    <Grid xs={12} item container direction="row" justifyContent="center" alignItems="center" >
+    <Grid item xs={12} container className={classes.tooltip} direction="row" justifyContent="flex-end" alignItems="center">
+      <Grid item>
         <ToolTip info={'updatedModeChart'}/>
       </Grid>
     </Grid>
+    <Grid item xs={12} container className={classes.chart} direction="row" justifyContent="center" alignItems="center">
+      { !xaiRegionData ? <ProgressCircular size={40}/> : <Scatter data={data} options={options} plugins={[annotationPlugin]}/>}
+    </Grid>
+</Grid>
+    // <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
+    //   {/* <Typography>updatedModeChart</Typography> */}
+      // { !xaiRegionData ? <ProgressCircular size={40}/> : <Scatter data={data} options={options} plugins={[annotationPlugin]}/>}
+    //   {/* <Grid item className={classes.tooltipButton}>
+    //     <ToolTip info={'updatedModeChart'}/>
+    //   </Grid> */}
+    // </Grid>
   )
 }
 
