@@ -1,12 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import dayjs from 'dayjs' 
-
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CssBaseline, Button, Paper, Grid, Divider, IconButton, Typography } from '@mui/material/';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 
 
@@ -20,7 +16,6 @@ import {useSelector, useDispatch} from 'react-redux'
 
 //components
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
-import { profile } from 'console';
 
 // Styles 
 
@@ -61,8 +56,6 @@ const ConfirmOverlay: React.FC<{profileToReset:String, setProfileToReset:any, re
     <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
       <CssBaseline/>
       <Grid item xs={2} container direction='row'justifyContent="center" alignItems="center">
-        {/* <Typography>{confirmOverlayMessage}</Typography> */}
-        {/* <Typography>{profileToReset === "all" ? profileToReset : profileToReset ? `Are you sure you wish to reset profile` + profileToReset + `to default settings? This action cannot be undone.` : null }</Typography> */}
         <Typography>Are you sure you wish to reset {profileToReset !== "all" && profileToReset ? "profile" : null} <b className={classes.markedText}>{profileToReset === "all" ? "all profiles" : profileToReset ? `${profileToReset}` : null}</b> to default settings? <b className={classes.markedText}>This action cannot be undone.</b></Typography>
       </Grid>
       <Grid item container direction='row'justifyContent="center" alignItems="center" >

@@ -16,13 +16,10 @@ const heatingComponentReducer = (state = {mode:null, target_temperature: null, t
             state = {...state, ...action.data}
             return state
         case "SET_HEATING_MODE":
-            // console.log(action.data)
             state = {...state, ...action.data}
-            // state.mode = action.data
             return state
         case 'SET_TEMPERATURE':
             state = {...state, ...action.data}
-            // state.temperature = action.data
             return state
         case 'SET_ACTIVE_PROFILE':
             state = {...state, ...action.data}

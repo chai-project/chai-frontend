@@ -251,6 +251,7 @@ useEffect(()=>{
     }
   }else if(currentState.heatingComponent.isValid === false || !homeLabel || !userToken ){
     dispatch(setErrorMessageForErrorComponentReducer('Home label or user token is not valid.'));
+    // cia padaryti kad settintu ne null o error visiem componenta, tada nebus loadingo screeno
     navigate('/Error')
   }
 },[currentState.heatingComponent.isValid])

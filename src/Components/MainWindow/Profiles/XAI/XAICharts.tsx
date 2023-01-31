@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     },
     tooltipAndChart:{
-      border: "1px solid lime",
+    //   border: "1px solid lime",
     }
   }),
 );
@@ -124,13 +124,12 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:bool
         dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiRegionData));
         dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiBandData));
         dispatch(setPeriodPriceData(startOfTheDay,startOfTheNextDay));
-        // setMappedDataForInputsChart(xaiFeaturesState.inputsChart.entries?.map((entry:any)=>{return [entry.price,entry.temperature]}))
     },[])
 
 
     //refresh xai chaerts on user change
     useEffect(()=>{
-        // console.log(userChanged)
+
         if(userChanged){
             setTimeout(() => {
                 dispatch(setXaiScatterData(homeLabel, xaiFeaturesState.selectedProfile.profile));
@@ -145,11 +144,9 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:bool
 
     useEffect(()=>{
         const mappedData = xaiFeaturesState.xaiScatterData?.entries.map((entry:any)=>{return [entry.price,entry.temperature]}).reverse(); // because the first one is the latest
-        // setDataSetForInputsChart([[xaiFeaturesState.inputsChart?.entries[0].price, xaiFeaturesState.inputsChart?.entries[0]?.temperature]]);
         setMappedDataForInputsChart(mappedData);
         setDataSetForInputsChart(mappedData)
         setFrameCount(xaiFeaturesState.xaiScatterData?.entries.length)
-        // setDataSetForInputsChart(mappedDataForInputsChart?.slice(0,1));
 
     },[xaiFeaturesState.xaiScatterData])
 
@@ -166,11 +163,6 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:bool
             dispatch(setErrorMessage(xaiFeaturesState.xaiScatterDataError, 5000))
         }
     },[xaiFeaturesState.periodPriceDataError, xaiFeaturesState.xaiRegionDataError, xaiFeaturesState.xaiBandDataError, xaiFeaturesState.xaiScatterDataError])
-
-    // useEffect(()=>{
-    //     console.log(frameCount, skipXaiBandData, skipXaiRegionData)
-    // },[frameCount, skipXaiBandData, skipXaiRegionData])
-
     
     const previousFrame = () => {
         const newFrameCount = frameCount-1
@@ -178,7 +170,6 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:bool
         if(!xaiFeaturesState.xaiScatterDataError){
             setDataSetForInputsChart(mappedDataForInputsChart.slice(0,newFrameCount));
         }
-        // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,newFrameCount));
         if(xaiFeaturesState.xaiBandData?.status === 200 && !xaiFeaturesState.xaiBandDataError){
             const newSkipXaiBandData = skipXaiBandData + 1;
             setSkipXaiBandData(newSkipXaiBandData);
@@ -196,7 +187,6 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:bool
         if(!xaiFeaturesState.xaiScatterDataError){
             setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
         }
-        // setDataSetForInputsChart(mappedDataForInputsChart.slice(0,frameCount+1));
         if(skipXaiBandData > 0 && !xaiFeaturesState.xaiBandDataError){
             const newSkipXaiBandData = skipXaiBandData - 1;
             setSkipXaiBandData(newSkipXaiBandData);
@@ -232,15 +222,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:bool
             <Grid item container xs={breakpoint ? 11.1 : 10.4} className={classes.charts} direction={breakpoint ? "row" : breakpointMedium ? 'column' : 'row'} justifyContent="center" alignItems="center">
                 <Grid item xs={12} container direction="row" justifyContent="flex-start" alignItems="flex-start" className={classes.Chartcontainer}>
                     <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                        {/* <Grid item container direction="column" justifyContent="center" alignItems="center" className={classes.tooltipAndChart}></Grid> */}
                         {xaiFeaturesState.xaiScatterDataError ? <RefreshRequest showError={"Error"}  action={()=>{dispatch(setXaiScatterData(homeLabel, xaiFeaturesState.selectedProfile.profile));}}/> :
-                            // <Grid item container xs={12} direction="column" justifyContent="center" alignItems="center" className={classes.tooltipAndChart}>
-                            //     <Grid item>tip</Grid>
-                            //     <Grid item>
-                            //         <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount} breakpoint={breakpoint} breakpointMedium={breakpointMedium}/>
-                            //     </Grid>
-                            // </Grid>
-                            
                             <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount} breakpoint={breakpoint} breakpointMedium={breakpointMedium}/>
                         }
                     </Grid>

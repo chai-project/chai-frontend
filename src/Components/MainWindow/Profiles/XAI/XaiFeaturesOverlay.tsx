@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import dayjs from 'dayjs' 
 
 
 //mui
@@ -13,18 +11,9 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
-import { Typography } from '@material-ui/core';
-// import { initializeData } from './Redux-reducers/dataReducer';
-// import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
 import {setSelectedProfile} from '../../../../Redux-reducers/xaiFeaturesReducer'
 
-
-
-//types
-// import timeslot from "../../../../../Types/types"
-
-//components
-// import ChartForSelectedTimeslot from './ChartForSelectedTimeslot';
+//componenents
 import XAICharts from './XAICharts'
 
 // Styles 
@@ -116,25 +105,15 @@ const XaiFeaturesOverlay: React.FC<{xaiFeaturesState:any, homeLabel:any, userCha
     const theme = useTheme();
     const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
 
-    // const blbblbl = () => {
-    //   const profilePeriodStart = dayjs().set('hour', 0).set('minutes',15).set('seconds', 0);
-    //   const profilePeriodEnd = dayjs().set('hour', 0).set('minutes',45).set('seconds', 0);
-    //   dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
-    // }
-    // console.log(xaiFeaturesState.selectedProfile.profileName)
-    useEffect(()=>{
-      // const profilePeriodStart = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0)
-      // const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
-      // dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
+    // useEffect(()=>{
+    //   // const profilePeriodStart = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileStart.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileStart.split(':')[1]).set('seconds', 0)
+    //   // const profilePeriodEnd = heatingProfiles.selectedProfile.indexOfaWeekday === 0 ? dayjs().set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0) : dayjs().add(heatingProfiles.selectedProfile.indexOfaWeekday,'days').set('hour', heatingProfiles.selectedProfile.profileEnd.split(':')[0]).set('minutes', heatingProfiles.selectedProfile.profileEnd.split(':')[1]).set('seconds', 0)
+    //   // dispatch(setEnergyPriceForSelectedProfile(profilePeriodStart, profilePeriodEnd)) 
 
-    },[])
-    // console.log(heatingProfiles.energyPriceForSelectedProfile)
-
+    // },[])
 
     const closeOverlay = () => {
-      // dispatch(setSelectedProfile(null))
       dispatch(setSelectedProfile(null))
-      // console.log(xaiFeaturesState)
     }
 
 

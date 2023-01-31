@@ -111,12 +111,6 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    // const allProfiles = useSelector((state:any)=>{
-    //     return(
-    //       state.heatingProfiles.heatingProfiles
-    //     )
-    //   })
-
     const openConfirmOverlay = (profile:String) => {
         setProfileToReset(profile)
     }
@@ -133,7 +127,7 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
                     //update notifications!!!
                     // break;
                 }else {
-                    dispatch(setErrorMessage(`Server error`, 5000));
+                    dispatch(setErrorMessage(`Server error, failed to reset all profiles.`, 5000));
                 }
             }else {
                 if(profileToReset === profile?.profileName){
@@ -146,10 +140,10 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
                         //update notifications!!!
                         // break;
                     }else{
-                        dispatch(setErrorMessage(`Server error`, 5000));
+                        dispatch(setErrorMessage(`Server error, failed to reset ${profile?.profileName}.`, 5000));
                     }
                 }else{
-                    dispatch(setErrorMessage(`Profile to reset and selected profile does not match`, 5000));
+                    dispatch(setErrorMessage(`Profile to reset and selected profile does not match.`, 5000));
 
                 }
             }

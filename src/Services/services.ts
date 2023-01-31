@@ -14,17 +14,15 @@ const setBearerToken = (token: String, userAuthorizationHeader:String) => {
 //Heating Component
 
 const setTemperature = async (label:String, mode: String, target:number) => {
-    // console.log(label, mode, target, 'wtf???')
+
 const response = await axios.put(
     `${baseURL}/heating/mode/?label=${label}`,
-    // '{"mode": "auto", "target": 21.5}',
     {
         'mode': `${mode === "override" || mode === "auto" ? 'auto' : mode}`,
         'target': target
     },
     {
         headers: {
-            // 'Authorization': 'Bearer 8dbb9774-970c-4f9d-8992-65f88e501d0e,b7b100ed0a9e8e54af91ece8',
             'Content-Type': 'application/json'
         }
     }
@@ -46,7 +44,6 @@ const setHeatingDeviceMode = async (label:String, mode:String) => {
             }
         }
     ).then((res)=>{
-        // console.log(res);
         return res.status
     }).catch((e)=>{
         console.error(e.errorMessage)
@@ -77,6 +74,7 @@ const getHeatingComponentData = async (label:String) => {
 // Heating price 
 
 const getAverageHeatingPricePeriod = async (period:any) => {
+
     const encodedStart = encodeURIComponent(period.start);
     const encodedEnd = encodeURIComponent(period.end);
     const request = await axios.get(`${baseURL}/electricity/prices/?start=${encodedStart}&end=${encodedEnd}`).then((res)=>{
@@ -85,7 +83,6 @@ const getAverageHeatingPricePeriod = async (period:any) => {
         // console.log('request: ',res.request)
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
-        
         return res.data
         // return {error: 'Server error, failed to load heating price data'}
     }).catch((error) => {
@@ -102,7 +99,6 @@ const getCurrentHeatingPriceLimit = async () => {
       const response = await axios.get('https://api.project-chai.org/electricity/prices/?limit=1').then((res)=>{
         return res.data
       });
-    //   console.log(response)
       return response
 
 };
@@ -110,6 +106,7 @@ const getCurrentHeatingPriceLimit = async () => {
 //Heating schedule
 
 const getHeatingScheduleData = async (label:String) => {
+
     const request = await axios.get(`${baseURL}/schedule/?label=${label}&daymask=127`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
@@ -157,7 +154,6 @@ const getHeatingProfiles = async (label:String) => {
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
         // return {error: 'Server error, failed to load profiles data'}
-
         return res.data
 }).catch((error) => {
     // console.error('error',error);
@@ -203,8 +199,7 @@ const resetAllprofiles = async (label:any) => {
 //Logs
 
 const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) => { // modify request
-    // console.log('bl')
-    // console.log(start, end)
+
     const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT%2CWELCOME&skip=${skip}&limit=${limit}&start=${start.toISOString()}&end=${end.toISOString()}`).then((res)=>{ //&start=${start.toISOString()}&end=${end.toISOString()}
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
@@ -213,7 +208,7 @@ const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) =>
         // console.log('status text: ',res.statusText)
         return res.data
         // return {error: 'Server error, failed to load logs'}
-        // return []
+
 }).catch((error) => {
     // console.error('error',error);
     return {error: 'Server error, failed to load logs, please try to reload the page.'}
@@ -223,18 +218,10 @@ const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) =>
     return request
 };
 
-
-// console.log('zeuru',getWelcomeLog)
-
-
-
-
-
-
 // Log entry for user interation
 
 const addLogEntry = async (homeLabel:string, timestamp:string, category:string, parameters:String[]) => { //define types later // need labe over here!!
-    // console.log(homeLabel, timestamp, category,parameters,'blbl')
+
     const response = await axios.put(
         `https://api.project-chai.org/logs/?label=${homeLabel}&timestamp=${encodeURIComponent(timestamp)}&category=${category}`, {parameters: parameters},
         {
@@ -255,10 +242,10 @@ const addLogEntry = async (homeLabel:string, timestamp:string, category:string, 
 
 
 
-// XAI features
+//XAI features
 //XAI scatter
 const getXaiScatterData = async (label:any, profile:any) => {
-    // console.log('blblbl')
+
     const request = await axios.get(`${baseURL}/xai/scatter/?label=${label}&profile=${profile}`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
@@ -277,7 +264,7 @@ const getXaiScatterData = async (label:any, profile:any) => {
 
 //XAI region
 const getXaiRegionData = async (label:any, profile:any, skip:number) => {
-    // console.log('pavyko?')
+
     const request = await axios.get(`${baseURL}/xai/region/?label=${label}&profile=${profile}&skip=${skip}`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
@@ -296,6 +283,7 @@ const getXaiRegionData = async (label:any, profile:any, skip:number) => {
 
 //XAI band
 const getXaiBandData = async (label:any, profile:any, skip:number) => {
+    
     const request = await axios.get(`${baseURL}/xai/band/?label=${label}&profile=${profile}&skip=${skip}`).then((res)=>{
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
@@ -310,11 +298,9 @@ const getXaiBandData = async (label:any, profile:any, skip:number) => {
     return request
     // return {error: "Server error, failed to load data for Chart 3"}
 };
-// getSetpointScheduleChartData('test_home_kim', 2, 0);
-// https://api.project-chai.org/xai/region/?label=[label]&profile=1&skip=1'
 
-// https://api.project-chai.org/schedule/?label=test_home_kim&daymask=127
 
+//panaikinti situs
 
 const baseUrlWAS = 'http://94.237.58.28:8080';
 
@@ -336,5 +322,4 @@ const getBatteryData = async () => {
 
 export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile,resetAllprofiles, addLogEntry, getXaiScatterData, getXaiRegionData, getXaiBandData}
 
-//
 

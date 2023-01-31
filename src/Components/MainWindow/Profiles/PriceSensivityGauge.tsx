@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -9,16 +8,11 @@ import { CssBaseline, Button, Paper, Grid, Typography } from '@mui/material/';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
-// import {setPriceSensitivityAndPreferedTemperature} from '../../../Redux-reducers/heatingProfilesReduces'
-
 
 //types
 
-
 //gauge 
 import GaugeChart from "react-gauge-chart";
-
 
 // Styles 
 
@@ -56,7 +50,7 @@ const PriceSensivityGauge: React.FC<{profile:any}> = ({profile}) => {//define ty
 
     const classes = useStyles()
     const dispatch = useDispatch();
-    
+
   return (
         <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">
           <Typography>Price sensitivity</Typography>

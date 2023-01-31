@@ -22,13 +22,7 @@ import chartDataType from '../../Types/types'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
-      //  boxSizing: 'border-box',
-    //    position: 'relative', //sita iskelti i app.tsx css
-      //  width: '100%',
-    //    height: '800px',
-      //  background: '#CFD8DC', // Paper has to go to app
-      //  right: '4%',
-      //  top: '5%',
+
     }
   }),
 );

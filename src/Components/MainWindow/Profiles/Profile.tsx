@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import dayjs from 'dayjs';
 
@@ -23,11 +22,8 @@ import {setSelectedProfile} from '../../../Redux-reducers/xaiFeaturesReducer'
 
 
 //components
-import SelectProfileButton from './SelectProfileButton';
 import Chart from './Chart';
 import PriceSensivityGauge from './PriceSensivityGauge';
-import TimeslotMoreInfoOverlay from '../Schedule/Edit/SelectedTimeslot/TimeslotMoreInfoOverlay';
-import XaiFeaturesOverlay from './XAI/XaiFeaturesOverlay';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 // Styles 
 
@@ -93,7 +89,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) => {//define type
-    // const [profile, setProfile] = useState('');
 
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -101,25 +96,12 @@ const Profile: React.FC<{profile:any, homeLabel:any}> = ({profile, homeLabel}) =
     const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
     const breakpointMd = useMediaQuery(theme.breakpoints.down("md"));
 
-    // const url = createBrowserHistory()
-    // const parameters = new URLSearchParams(url.location.search);
-    // const homeLabel =  parameters.get('home');
-    // const hmm:any = 0 <= profile.slope && profile.slope  <= (profile.bias -7)/35
-    // const krc = (5 / 6) + (0.5 / 6)
-    // console.log('profile: ', profile)
-
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
-
     const openXAIOverlay = () => {
       if(homeLabel){
         const now = dayjs()
         services.addLogEntry(homeLabel, now.toISOString(), 'OVERLAY_VIEW', ['XAI']);
         dispatch(setSelectedProfile(profile))
       }
-      // services.addLogEntry(homeLabel, now.toISOString(), 'Timeslot', ['Scedule']) 
-      // dispatch(setSelectedProfile(profile))
     };
 
   return (

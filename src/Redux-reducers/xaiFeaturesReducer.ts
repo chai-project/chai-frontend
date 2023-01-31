@@ -8,12 +8,9 @@ const xaiFeaturesReducer = (state: any = { selectedProfile:null, xaiScatterData:
             return state = {...state, ...action.data} 
         case 'SET_XAI_SCATTER_DATA':
             return state = {...state, ...action.data} 
-            // return state = {...state, setpointSchdeuleChart:{...setpointSchdeuleChart, }}
         case 'SET_PERIOD_PRICE_DATA':
             return state = {...state, ...action.data} 
-            // return state = state = {...state, setpointScheduleChart:{...state.setpointScheduleChart, ...action.data}} 
         case 'SET_XAI_REGION_DATA':
-            // return state = state = {...state, setpointScheduleChart:{...state.setpointScheduleChart, ...action.data}} 
             return state = {...state, ...action.data} 
         case 'SET_XAI_BAND_DATA':
             return state = {...state, ...action.data} 
@@ -38,18 +35,12 @@ export const setSelectedProfile = (profile:any) => {
                 data: {selectedProfile: profile}
             })
         }
-
-        // dispatch({
-        //     type:"SET_SELECTED_PROFILE",
-        //     data: {selectedProfile: profile}
-        // })
     };
 };
 
 //1st chart
 export const setXaiScatterData = (label:string, profile:number) => {
 
-    // console.log('zeuru!!')
     return async (dispatch : Dispatch) => {
 
         const xaiScatterData = await services.getXaiScatterData(label,profile);
@@ -64,11 +55,6 @@ export const setXaiScatterData = (label:string, profile:number) => {
                 data: {xaiScatterData: xaiScatterData, xaiScatterDataError: null}
             })
         }
-
-        // dispatch({
-        //     type:"SET_XAI_SCATTER_DATA",
-        //     data: {xaiScatterData: xaiScatterData}
-        // })
     };
 };
 
@@ -82,10 +68,8 @@ export const setPeriodPriceData = (start:any, end:any) => {
         end: end.format()
     }
 
-    // console.log(label, profile)
     return async (dispatch : Dispatch) => {
 
-        // const scheduleChartData = await services.getSetpointScheduleChartData(label,profile,skip);
         let pricesForPeriod:any = await services.getAverageHeatingPricePeriod(period);
         if(pricesForPeriod.error){
             dispatch({
@@ -97,7 +81,6 @@ export const setPeriodPriceData = (start:any, end:any) => {
             pricesForPeriod.push(timeFrameToAdd)
             dispatch({
                 type:"SET_PERIOD_PRICE_DATA",
-                // data: {periodPriceData: null, periodPriceDataError: "Server error, failed to load heating price data" }
                 data: {periodPriceData: pricesForPeriod, periodPriceDataError: null}
             })
         }
@@ -106,7 +89,7 @@ export const setPeriodPriceData = (start:any, end:any) => {
 };
 
 export const setXaiRegionData = (label:string, profile:number, skip:number) => {
-    // console.log(label, profile, skip)
+
     return async (dispatch : Dispatch) => {
 
         const xaiRegionData:any = await services.getXaiRegionData(label,profile,skip);
@@ -123,24 +106,16 @@ export const setXaiRegionData = (label:string, profile:number, skip:number) => {
                 data: {xaiRegionData: xaiRegionData, xaiRegionDataError: null}
             })
         }
-        // const lastTimeframe = scheduleChartBiasAndSlope.data[scheduleChartBiasAndSlope.data.length-1];
-        // console.log()
-
-        // dispatch({
-        //     type:"SET_XAI_REGION_DATA",
-        //     data: {xaiRegionData: xaiRegionData}
-        // })
     };
 };
 
 
 export const setXaiBandData = (label:string, profile:number, skip:number) => {
-    // console.log(label, profile, skip)
+
     return async (dispatch : Dispatch) => {
 
         const xaiBandData:any = await services.getXaiBandData(label,profile,skip);
-        // const lastTimeframe = scheduleChartBiasAndSlope.data[scheduleChartBiasAndSlope.data.length-1];
-        // console.log(xaiBandData)
+
         if(xaiBandData.error){
             dispatch({
                 type:"SET_XAI_BAND_DATA",
@@ -152,17 +127,8 @@ export const setXaiBandData = (label:string, profile:number, skip:number) => {
                 data: {xaiBandData: xaiBandData, xaiBandDataError: null}
             })
         }      
-
-        // dispatch({
-        //     type:"SET_XAI_BAND_DATA",
-        //     data: {xaiBandData: xaiBandData}
-        // })
     };
 };
-// SET_SETPOINT_SCHEDULE_CHART_BIAS_AND_SLOPE
-
-
-
 
 
 export default xaiFeaturesReducer

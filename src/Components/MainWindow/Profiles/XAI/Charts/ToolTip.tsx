@@ -18,17 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
         // border : '1px dashed red',
-
-    //    boxSizing: 'border-box',
-    // zIndex: 3,
-
-    //    position: 'fixed', //sitas!!!
-    //    width: '100%',
-    //    height: '100%',
-    //    background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
-
     },
     button:{
         // border: '1px solid lime',
@@ -40,39 +29,27 @@ const useStyles = makeStyles((theme: Theme) =>
         borderRadius: 5,
         background: 'rgba(43, 54, 72 ,0.9)',
         backdropFilter: 'blur(4px)',
-        // width: "100%",
-        // height: "75%",
-
         left: 0,
         top: 0,
         [theme.breakpoints.up('md')]: {
-        // height: '50vh',
-        // width: '71.5vh'
         height: "100%",
-        // height: "87.5%",
         },
         [theme.breakpoints.down('md')]: {
             top: 0,
             height: "100%",
-        // height: '64vh',
-        // width: '161.1vh'
         },
         [theme.breakpoints.down('sm')]: {
             top: 0,
-        //   height: '72vh',
             height: "100%",
-        //   width: '62.7vh'
         },
-        // top: '50%',
-        // left: '50%',
-        // transform: 'translate(-50%, -50%)'
     },
     text:{
-        // border: '1px solid red',
-        // fontSize: 20
+        // border: '1px solid pink',
+
     },
     closeButton:{
-        // border: '1px solid blue',
+        // border: '1px solid lime',
+
     }
   }),
 );
@@ -117,21 +94,6 @@ const ToolTip: React.FC<{info:any}> = ({info}) => {
                         {generateText()}
                     </Grid>
                 </Grid>
-                // <Grid xs={12} container direction="column" justifyContent="center" alignItems="center" className={classes.info}>
-                //         <Grid xs={0.5} item container direction="row" justifyContent="flex-end" alignItems="flex-end" padding={0} className={classes.closeButton}>
-                            // <IconButton size='medium' edge='start' color='primary' onClick={()=>{setShowToolTip(false)}}>
-                            //     <HighlightOffIcon/>
-                            // </IconButton>
-                //         </Grid>
-                //         <Grid xs={10} item container direction="row" justifyContent="center" alignItems="center" padding={10} className={classes.text}>
-                //             {/* <Typography>{info}</Typography> */}
-                //             <Grid item>
-                //                 {generateText()}
-                //             </Grid>
-                //             {/* {generateText()} */}
-                //         </Grid>
-
-                // </Grid> : 
             : null }
         </Grid>
     )

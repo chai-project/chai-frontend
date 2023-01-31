@@ -89,7 +89,6 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
     },
     
     plugins: {
-
       title: {
         display: true,
         text: `After ${inputs} input${inputs !== 1 ? "s": ""}...`,

@@ -116,9 +116,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLabel}) => {
   const [valueFrom, setValueFrom] = React.useState<String | null>(null);
-  // const [valueTo, setValueTo] = React.useState<String | null>(new Date().toISOString()); // is visu surasti seniause!
-  const [valueTo, setValueTo] = React.useState<String | null>(null); // is visu surasti seniause!
-  const [isGettingMoreLogs, setIsGettingMoreLogs] = React.useState<boolean>(false); // is visu surasti seniause!
+  const [valueTo, setValueTo] = React.useState<String | null>(null);
+  const [isGettingMoreLogs, setIsGettingMoreLogs] = React.useState<boolean>(false);
 
 
   //pages and ref for logtable
@@ -129,14 +128,15 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
   // Filtering
   const [uniquefilterValues, setUniquefilterValues] = useState<any>({'System': true, 'User': true});
 
-
   const classes = useStyles();
   const dispatch = useDispatch()
 
     useEffect(()=>{
       setLogs(currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]}));
-      setValueFrom(currentState.logs.from);
-      setValueTo(currentState.logs.to);
+      // setValueFrom(currentState.logs.from);
+      // setValueTo(currentState.logs.to);
+      // setValueFrom(null);
+      // setValueTo(null);
       setIsGettingMoreLogs(false)
     },[currentState.logs, uniquefilterValues])
 
@@ -144,7 +144,7 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
       setPage(0)
     },[uniquefilterValues])
 
-    // console.log(currentState.logs.error)
+
   return (
     <Grid container direction='column' justifyContent='center' alignItems='center' className={classes.mainContainer} padding={0}>
     <Grid item xs={1.4}className={classes.buttons}>
@@ -159,8 +159,6 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
     </Grid>
     <Grid item container xs={10.2}className={classes.logs} direction="row" justifyContent='center' alignItems='center'>
       {logs ? <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> : <ProgressCircular size={40}/>}
-      {/* {logs ? <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> : currentState.logs.error ? <RefreshRequest showError={"Error"} action={()=>{dispatch(initialiseLogs(homeLabel, null, null))}}/>  : <ProgressCircular size={40}/>} */}
-      {/* <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> */}
     </Grid>
   </Grid>
   );

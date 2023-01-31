@@ -32,13 +32,7 @@ export const initializeHeatingProfiles = (label:String) => {
         const colors = ["#57A6F0", "#d1ca69", "#F6946B", "#f03cdb" , "#FE6262"  ]
 
         const heatingProfiles:any = await services.getHeatingProfiles(label);
-        // const profilesWithLabels = heatingProfiles?.map((profile:any)=>{ //define type later
-        //     const segment = utils.getSegment(profile.slope, profile.bias)
-        //     let gaugeValue = segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.58 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : null 
-        //     let priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" : segment === 5 ? "Very high" : "Unknown"
-        //     return {...profile, profileName: profileLabels[profile.profile-1], profileColor: colors[profile.profile-1], gaugeValue: gaugeValue, priceSensitivity: priceSensitivity, prefferedTemperature: Math.round(profile.bias * 100)/100 , segment: segment   }
-        // });
-        // console.log(heatingProfiles)
+
         if(heatingProfiles.error){
             dispatch({
                 type:"SET_HEATING_PROFILES",
@@ -56,10 +50,6 @@ export const initializeHeatingProfiles = (label:String) => {
                 data: {heatingProfiles: profilesWithLabels, error:null}
             })
         }
-        // dispatch({
-        //     type:"SET_HEATING_PROFILES",
-        //     data: {heatingProfiles: profilesWithLabels}
-        // })
     };
 };
 
@@ -123,7 +113,7 @@ export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
 };
 
 
-export const setUserResetProfile = (status:boolean) => { //define type later
+export const setUserResetProfile = (status:boolean) => {
     return async (dispatch : Dispatch) => {
         dispatch({
             type:"SET_USER_RESET_PROFILE",

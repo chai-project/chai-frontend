@@ -72,14 +72,12 @@ const IOSSwitch = styled((props: SwitchProps) => (
       width: '70px',
       opacity: '0.7',
       textAlign:'right',
-      // border: '2px solid red',
     },
     labelRight:{
       position: 'relative',
       width: '70px',
       opacity: '0.7',
       textAlign:'left',
-      // border: '2px solid red',
     }
   }),
 );
@@ -92,7 +90,6 @@ const IOSSwitch = styled((props: SwitchProps) => (
 
     const toogle = (event:any) =>{
       action(event)
-      // console.log(event.target.checked)
     }
 
   return (

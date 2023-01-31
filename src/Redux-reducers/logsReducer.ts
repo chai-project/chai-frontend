@@ -2,7 +2,6 @@ import { Dispatch } from 'redux';
 import services from '../Services/services';
 import utils from '../Components/Utils/utils';
 import dayjs from 'dayjs';
-import { setErrorMessage } from './notificationsReducer';
 
 
 const currentTime = dayjs();
@@ -159,7 +158,8 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
 export const initialiseLogs = (label:String, from:any, to:any) => {
 
   const period = {
-    from: from ? from : today.subtract(6,'day'),
+    // from: from ? from : today.subtract(6,'day'),
+    from: from ? from : dayjs('2021-01-01'),
     to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
   }
 
@@ -192,11 +192,6 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
           //   break;
           // }else{
             if(rawLogsRequest.length === 0){
-
-              // dispatch({
-              //   type:"INITIALISE_LOGS",
-              //   data: {logs: []}
-              // })
               if(getState().logs.logs === null){
                 dispatch({
                   type:"INITIALISE_LOGS",
@@ -258,11 +253,6 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       while (logs.length < limit + 1) {
         const rawLogsRequest:any = await services.getLogs(label, skip, limit, from, to.add(1,'day'), );
         
-        
-        // if(rawLogsRequest.error){
-        //   setErrorMessage(rawLogsRequest.error, 5000)(dispatch);
-        //   // break;
-        // }else 
         if(rawLogsRequest.length === 0 ){
           limit = null
           lastRawLog = null
@@ -303,12 +293,6 @@ export const refreshLogState = (label:String, from:any, to:any) => {
         let previousIndex = 0
         while (logs.length < limit + 1) {
           const rawLogsRequest:any = await services.getLogs(label, skip, limit, timeOfTheFirstLog, currentTime.startOf('day').add(1,'day') );
-
-          // if(rawLogsRequest.error){
-          //   setErrorMessage(rawLogsRequest.error, 5000)(dispatch);
-          //   // break;
-          // }else 
-          
           if(rawLogsRequest?.length === 0){
             break;
           }else{

@@ -10,7 +10,7 @@ interface energyPriceData {
     error: any
 }
 
-// energyPriceData | null = null
+
 
 const energyPriceDataReducer = (state: energyPriceData | null = null , action:any) => {
     switch(action.type) {
@@ -22,7 +22,7 @@ const energyPriceDataReducer = (state: energyPriceData | null = null , action:an
 }
 
 export const initializeEnergyPriceData = () => {
-    // console.log("energy price update")
+
     return async (dispatch : Dispatch) => {
         const currentTime = dayjs();
         //PERIOD TODAY

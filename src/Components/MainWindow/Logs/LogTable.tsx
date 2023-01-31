@@ -8,8 +8,6 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { Grid, Typography } from "@material-ui/core";
-// import Box from 
-// import { withStyles } from '@mui/material/styles';
 import {makeStyles, Theme, createStyles, withStyles  } from '@material-ui/core/styles';
 
 //redux 
@@ -20,60 +18,22 @@ import { getMoreLogsOnUserClick } from "../../../Redux-reducers/logsReducer";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     tableRow: {
-      // backgroundColor: 'red',
-      // color: 'yellow',
       "&:hover": {
         backgroundColor: '#5ACBCC'
       }
     },
     tableContainer: {
-      // position:'relative',
-      height:'640px', //600fullscreen
+      height:'640px',
       zIndex:0,
       [theme.breakpoints.down('md')]: {
-        height: '315px', //780px
-        // height: "100%"
-        // minHeight: '650px',
+        height: '315px',
       },
       [theme.breakpoints.down('sm')]: {
         height: '630px',
-        // minHeight: '650px',
       }
-      // overflow: 'hidden'
     }
   }),
 );
-
-// const StyledTableCell = withStyles(theme => ({
-//   head: {
-//     backgroundColor: theme.palette.common.black,
-//     color: theme.palette.common.white
-//   },
-//   body: {
-//     fontSize: 12
-//   }
-// }))(TableCell);
-// const styles = theme => ({
-//   root: {
-//     width: "100%",
-//     marginTop: theme.spacing.unit * 3,
-//     overflowX: "auto"
-//   },
-//   table: {
-//     minWidth: 700
-//   },
-//   tableRow: {
-//     "&$hover:hover": {
-//       backgroundColor: "blue"
-//     }
-//   },
-//   tableCell: {
-//     "$hover:hover &": {
-//       color: "pink"
-//     }
-//   },
-//   hover: {}
-// });
 
 interface Column {
   id: 'date' | 'time' | 'category' | 'description'
@@ -91,7 +51,6 @@ const columns: readonly Column[] = [
     id: 'description',
     label: 'Description',
     minWidth: 400,
-    // align: 'right', //atcomentuoti jeigu kevinas sutinka
     format: (value: number) => value.toLocaleString('en-US'),
   }
 ];
@@ -107,22 +66,18 @@ interface Props {
 }
 
 const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawLog:any, setIsGettingMoreLogs:any , isGettingMoreLogs:boolean, fromRedux:any, toRedux:any, page:number, setPage:any, fromDatePicker:any, toDatePicker:any}>= ({logs, label, previousSkip, lastRawLog, setIsGettingMoreLogs, isGettingMoreLogs, fromRedux, toRedux, page, setPage, fromDatePicker, toDatePicker}) => {
-  // const {logs} = props;
-  // const [page, setPage] = React.useState(0);
+
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const ref = useRef<any>(null);
 
   const classes = useStyles();
-  const dispatch = useDispatch() //redux
+  const dispatch = useDispatch();
 
   useEffect(()=>{
     ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
   },[page])
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    // ref.current.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
-    // ref.current && ref.current.scrollIntoView();
-    // console.log(from,to)
     if(newPage > page && !isGettingMoreLogs ){
       setIsGettingMoreLogs(true)
       dispatch(getMoreLogsOnUserClick(label, previousSkip, lastRawLog, fromRedux, toRedux));
@@ -156,10 +111,10 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
           </TableHead>
           <TableBody>
             {logs
-              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // cia probelema su duplication !
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((log:any) => {
                 return (
-                  <TableRow className={classes.tableRow} tabIndex={-1} > {/* key={log.id} cia ir buvo problema del to ir duplikuodavosi*/}
+                  <TableRow className={classes.tableRow} tabIndex={-1} >
                     {columns.map((column) => {
                       const value = log[column.id];
                       return (
@@ -180,7 +135,7 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
       <TablePagination
         rowsPerPageOptions={[25, 50, 100]}
         component="div"
-        count={logs?.length} //-1 or 0 logs?.length
+        count={logs?.length}
         labelDisplayedRows={({ from, to, count }) => `${from}-${to}`}
         rowsPerPage={rowsPerPage}
         page={page}
