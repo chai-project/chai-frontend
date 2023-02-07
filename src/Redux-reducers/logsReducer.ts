@@ -115,7 +115,7 @@ const transformLogs = (rawLogs:any[]) => {
 };
 
 
-const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null} , action:any) => {
+const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null, autoRefresh: true} , action:any) => {
     switch(action.type) {
         case "INITIALISE_LOGS":
             return  state = {...state, ...action.data}
@@ -162,6 +162,7 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
     from: from ? from : dayjs('2021-01-01'),
     to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
   }
+  // console.log(period)
 
     return async (dispatch : Dispatch, getState: any) => {
       dispatch({
@@ -211,7 +212,7 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
               skip += limit;
               dispatch({
                 type:"INITIALISE_LOGS",
-                data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to > today ? today : period.to }
+                data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to, autoRefresh: period.to > today ? true : false  } //to: period.to > today ? today : period.to
               })
             };
           // }

@@ -63,18 +63,23 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
 
   const classes = useStyles();
 
+  // console.log(dataSet.slice(dataSet.length - 1))
+
   const data = {
     datasets: [
       {
         label: "Previous inputs",
-        data:  dataSet?.length < 1 ? null : dataSet?.length < 2 ? mappedDataForInputsChart?.slice(0,1) : dataSet?.slice(0,dataSet.length - 1),
+        // data:  dataSet?.length < 1 ? null : dataSet?.length < 2 ? mappedDataForInputsChart?.slice(0,1) : dataSet?.slice(0,dataSet.length - 1),
+        data: dataSet?.length < 2 ? null : dataSet?.slice(0,dataSet.length - 1),
         fill: false,
-        backgroundColor: dataSet?.length === 1 ? "#F6946B" : "rgba(75,192,192,0.8)",
-        borderColor:  dataSet?.length === 1 ? "#F6946B" : "rgba(75,192,192,1)"
+        // backgroundColor: dataSet?.length === 1 ? "#F6946B" : "rgba(75,192,192,0.8)",
+        // borderColor:  dataSet?.length === 1 ? "#F6946B" : "rgba(75,192,192,1)"
+        backgroundColor:  "rgba(75,192,192,0.8)",
+        borderColor:  "rgba(75,192,192,1)"
       },
       {
         label: "Latest input",
-        data: dataSet?.length > 1 ? dataSet.slice(dataSet.length - 1) : null,
+        data: dataSet?.length > 0 ? dataSet.slice(dataSet.length - 1) : null, //buvo 1
         fill: true,
         borderColor: "#F6946B",
         backgroundColor: "#F6946B",
@@ -87,7 +92,6 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
     animation: {
       duration: 0
     },
-    
     plugins: {
       title: {
         display: true,
@@ -103,7 +107,6 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
             color: '#FFFFFF',
             usePointStyle: true,
           },
-        
       },
       tooltip: {
         callbacks: {
@@ -114,7 +117,6 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
   },
     scales: {
       x: {
-        
         beginAtZero: true,
         title: {
           display: true,

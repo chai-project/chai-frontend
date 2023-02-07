@@ -282,13 +282,13 @@ useEffect(() => {
 // refresh logs (in the notification tab) state
 
 useEffect(() => {
-  if(currentState.heatingComponent.isValid === true && homeLabel && userToken && currentState.logs.logs?.length > 0){
+  if(currentState.heatingComponent.isValid === true && homeLabel && userToken && currentState.logs.logs?.length > 0 && currentState.logs.autoRefresh === true ){
     let id = setInterval(() => {
       dispatch(refreshLogState(homeLabel, null, null)) //, from:any, to:any, sevenDaysBack, today
     }, 10000);
     return () => clearInterval(id);
   }
-}, [currentState.heatingComponent.isValid, currentState.logs.logs?.length > 0]); //change to true
+}, [currentState.heatingComponent.isValid, currentState.logs.logs?.length > 0, currentState.logs.autoRefresh]); //change to true
 
 // refresh energy price data!
 

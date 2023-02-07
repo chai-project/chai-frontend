@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import services from '../Services/services';
 
-import { setErrorMessage } from './notificationsReducer';
+import { setErrorMessage, setNotification } from './notificationsReducer';
 
 const timeframes =  [
     {
@@ -581,6 +581,7 @@ export const setNewHeatingSchedule = (homeLabel:any, dayOrDaysToSet:any,newSched
                     data: {weekday: day, schedule: newSchedule}
                 })
             })
+            setNotification(`The schedule for ${dayOrDaysToSet.join(', ')} was successfully changed.`,5000)(dispatch)
         }else {
             setErrorMessage('Server error, failed to change the schedule.',5000)(dispatch)
         }
