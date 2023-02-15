@@ -165,12 +165,15 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
     from: from ? from : dayjs('2021-01-01'),
     to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
   }
-  // console.log(period)
 
     return async (dispatch : Dispatch, getState: any) => {
-      dispatch({
-        type:"SET_ERROR",
-        data: {error: null}
+      // dispatch({
+      //   type:"SET_ERROR",
+      //   data: {error: null}
+      //   })
+        dispatch({
+          type:"SET_ERROR",
+          data: {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null, autoRefresh: true, allLogsRetrieved: false, initialiseFinished: false} //finished True , initialisation finished true
         })
 
         let logs:any[] = []
@@ -180,7 +183,11 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
         while (logs.length < limit + 1) {
           
           const rawLogsRequest:any = await services.getLogs(label, skip, limit, period.from, period.to );
-
+          // if(rawLogsRequest.error){
+          //   console.log('error')
+          // }
+          // console.log('rawLogsRequest',rawLogsRequest.length)
+          // console.log('blblb')
           // if(rawLogsRequest.error){
           //   setErrorMessage(rawLogsRequest.error, 5000)(dispatch);
           //   // dispatch({
@@ -197,14 +204,11 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
           // }else{
             if(rawLogsRequest.length === 0){
               if(getState().logs.logs === null){
-                // console.log('zeuru1')
-
                 dispatch({
                   type:"INITIALISE_LOGS",
                   data: {logs: [], allLogsRetrieved: true, initialiseFinished:true} //finished True, initialisation finished true
                 })
               }else{
-                // console.log('zeuru2')
                 dispatch({
                   type:"RETRIEVED_ALL_LOGS",
                   data: {allLogsRetrieved: true, initialiseFinished:true} //finished True , initialisation finished true
@@ -251,7 +255,6 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
         };
 
         if(logs.length >= 200){
-          // console.log('zeuru')
           dispatch({
             type:"INITIALISE_LOGS",
             data: {initialiseFinished:true} //finished True, initialisation finished true
@@ -273,12 +276,13 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
 
       while (logs.length < limit + 1) {
         const rawLogsRequest:any = await services.getLogs(label, skip, limit, from, to.add(1,'day'), );
-        // console.log(from, to)
+        // if(rawLogsRequest.error){
+        //   console.log('error')
+        // }
         
         if(rawLogsRequest.length === 0 ){
           limit = null
           lastRawLog = null
-          // console.log(rawLogsRequest)
           dispatch({
             type:"RETRIEVED_ALL_LOGS",
             data: {allLogsRetrieved: true}

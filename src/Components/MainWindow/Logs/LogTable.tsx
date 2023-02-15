@@ -130,7 +130,7 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
               })}
           </TableBody>
         </Table>
-        {logs.length === 0 ? <Grid xs={12} container direction="column" justifyContent="center" alignItems="center"><Typography>There are currently no logs.</Typography></Grid>  : null}
+        {logs?.length === 0 ? <Grid xs={12} container direction="column" justifyContent="center" alignItems="center"><Typography>There are currently no logs.</Typography></Grid>  : null}
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[25, 50, 100]}
