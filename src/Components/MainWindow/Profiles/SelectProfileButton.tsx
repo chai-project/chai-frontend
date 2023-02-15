@@ -46,7 +46,7 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
 
   const [selectedProfile, setSelectedProfile] = useState('');
   const classes = useStyles()
-  // console.log(allProfiles)
+
 
   useEffect(()=>{
     if(activeProfile  && allProfiles){ 

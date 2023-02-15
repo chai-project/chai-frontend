@@ -115,11 +115,12 @@ const transformLogs = (rawLogs:any[]) => {
 };
 
 
-const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null, autoRefresh: true} , action:any) => {
+const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null, autoRefresh: true, allLogsRetrieved: false, initialiseFinished: false} , action:any) => {
     switch(action.type) {
         case "INITIALISE_LOGS":
             return  state = {...state, ...action.data}
         case "GET_MORE_LOGS_ON_USER_CLICK":
+            // console.log(action.data.allLogsRetrieved === true)
             if(utils.areEqualArray(state.lastValveSetTypeRawLog.rawLog?.parameters, action.data.lastValveSetTypeRawLog.rawLog?.parameters) ){
               state.logs.splice(state.lastValveSetTypeRawLog.index,1) // buvo slice, taciau splcie iskerpa is previous array
             }
@@ -149,6 +150,8 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
             })
             return state = {...state, logs: newLogsToAdd.concat(state.logs) , firstValveSetTypeRawLog: action.data.firstValveSetTypeRawLog} 
         case "SET_ERROR":
+          return state = {...state, ...action.data}
+        case "RETRIEVED_ALL_LOGS":
           return state = {...state, ...action.data}
         default:
             return state
@@ -194,9 +197,17 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
           // }else{
             if(rawLogsRequest.length === 0){
               if(getState().logs.logs === null){
+                // console.log('zeuru1')
+
                 dispatch({
                   type:"INITIALISE_LOGS",
-                  data: {logs: []}
+                  data: {logs: [], allLogsRetrieved: true, initialiseFinished:true} //finished True, initialisation finished true
+                })
+              }else{
+                // console.log('zeuru2')
+                dispatch({
+                  type:"RETRIEVED_ALL_LOGS",
+                  data: {allLogsRetrieved: true, initialiseFinished:true} //finished True , initialisation finished true
                 })
               }
               break;
@@ -238,6 +249,15 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
 
         
         };
+
+        if(logs.length >= 200){
+          // console.log('zeuru')
+          dispatch({
+            type:"INITIALISE_LOGS",
+            data: {initialiseFinished:true} //finished True, initialisation finished true
+          })
+        }
+        // if logs length > 200 or skipe then dispatch initialised finished true
     };
 };
 
@@ -253,10 +273,16 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
 
       while (logs.length < limit + 1) {
         const rawLogsRequest:any = await services.getLogs(label, skip, limit, from, to.add(1,'day'), );
+        // console.log(from, to)
         
         if(rawLogsRequest.length === 0 ){
           limit = null
           lastRawLog = null
+          // console.log(rawLogsRequest)
+          dispatch({
+            type:"RETRIEVED_ALL_LOGS",
+            data: {allLogsRetrieved: true}
+          })
           break;
         }else {
           const rawLogs = getLogsNoDuplicates(rawLogsRequest);
@@ -271,12 +297,18 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       };
       const transformedLogs = transformLogs(logs)
       if(transformedLogs.length > 0){
-
         dispatch({
           type:"GET_MORE_LOGS_ON_USER_CLICK",
           data: {logs:transformedLogs, skip:skip, lastValveSetTypeRawLog: { rawLog: previousNextAndLast?.last ? previousNextAndLast.last.rawLog : null , index: previousNextAndLast?.last ? logs.length - previousValveSetIndex : null }}
         })
+      }else{
+        // dispatch({
+        //   type:"RETRIEVED_ALL_LOGS",
+        //   data: {allLogsRetrieved: true}
+        // })
       }
+
+      // else finished True
   };
 };
 

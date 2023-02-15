@@ -124,8 +124,6 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
                     dispatch(setNotification(`All profiles were successfully reset.`, 5000));
                     dispatch(initialiseLogs(homeLabel, null, null))
                     dispatch(setUserResetProfile(true))
-                    //update notifications!!!
-                    // break;
                 }else {
                     dispatch(setErrorMessage(`Server error, failed to reset all profiles.`, 5000));
                 }
@@ -137,8 +135,6 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
                         dispatch(setNotification(`Profile ${profile?.profileName} was successfully reset.`, 5000));
                         dispatch(initialiseLogs(homeLabel, null, null))
                         dispatch(setUserResetProfile(true))
-                        //update notifications!!!
-                        // break;
                     }else{
                         dispatch(setErrorMessage(`Server error, failed to reset ${profile?.profileName}.`, 5000));
                     }
@@ -153,11 +149,9 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
         }
         
         setProfileToReset(null)
-        // setConfirmOverlayMessage(null)
         setLoadingRequestToTheServer(false)
     }
 
-    // ()=>{resetSelectedProfile(profile.profile)}
   return (
     <Grid container className={classes.mainContainer}  direction="column" justifyContent="center" alignItems="center" padding={1}>
         {currentState.xaiFeatures.selectedProfile ? <XaiFeaturesOverlay xaiFeaturesState={currentState.xaiFeatures} homeLabel={homeLabel} userChanged={currentState.heatingComponent.userChanged}/> : null }
@@ -170,7 +164,6 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
                                         <SelectProfileButton allProfiles={currentState.heatingProfiles.heatingProfiles} profile={profile} setProfile={setProfile}/>
                                     :null}
                                 </Grid>
-                                {/* <Grid item className={classes.spaceBetweenButtons}></Grid> */}
                                 <Grid item xs={9} className={classes.resetProfileButtons} direction="row" justifyContent="flex-end" alignItems="center">
                                     <Grid item container direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
                                         <Grid  item>
@@ -199,4 +192,3 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
 
 export default Profiles;
 
-{/* <RefreshRequest showError={"Error"} action={()=>{dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiBandData));}}/> */}

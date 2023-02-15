@@ -16,6 +16,7 @@ import { CssBaseline, Button, Paper, TextField, Grid } from '@mui/material/';
 import {useSelector, useDispatch} from 'react-redux'
 // import { initializeData } from './Redux-reducers/dataReducer';
 import { initialiseLogs } from '../../../Redux-reducers/logsReducer';
+import { getMoreLogsOnUserClick } from '../../../Redux-reducers/logsReducer';
 
 
 //types
@@ -122,8 +123,12 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
 
   //pages and ref for logtable
   const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+
 
   const [logs, setLogs] = useState<any[]|null>(null);
+  const [logsLength, setLogsLength] = useState<number|null>(null);
+  
 
   // Filtering
   const [uniquefilterValues, setUniquefilterValues] = useState<any>({'System': true, 'User': true});
@@ -132,7 +137,10 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
   const dispatch = useDispatch()
 
     useEffect(()=>{
-      setLogs(currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]}));
+      const allLogs = currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]})
+      setLogs(allLogs)
+      setLogsLength(allLogs?.length)
+      // setLogs(currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]}));
       // setValueFrom(currentState.logs.from);
       // setValueTo(currentState.logs.to);
       // setValueFrom(null);
@@ -140,10 +148,37 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
       setIsGettingMoreLogs(false)
     },[currentState.logs, uniquefilterValues])
 
+
     useEffect(()=>{
       setPage(0)
     },[uniquefilterValues])
 
+
+    useEffect(()=>{
+      // console.log("wtf?", logsLength)
+      // console.log("wtf?", rowsPerPage * 2)
+      // console.log("all logs retrieved ??? ?", currentState.logs.allLogsRetrieved)
+
+      if( logsLength !== null && logsLength <= rowsPerPage * 2 && currentState.logs.allLogsRetrieved === false && currentState.logs.initialiseFinished === true){ // reike dar vieno kad butu initialised true
+        // console.log(logsLength)
+        // console.log("darom", uniquefilterValues)
+        // if(logsLength <= rowsPerPage * 2 && currentState.logs.allLogsRetrieved === true)
+        // while(logsLength <= rowsPerPage * 2){
+        //   if(currentState.logs.allLogsRetrieved === true){
+        //     break;
+        //   }else{
+        //     dispatch(getMoreLogsOnUserClick(homeLabel, currentState.logs.skip, currentState.logs.lastRawLog, currentState.logs.from, currentState.logs.to));
+        //   }
+        // }
+        dispatch(getMoreLogsOnUserClick(homeLabel, currentState.logs.skip, currentState.logs.lastRawLog, currentState.logs.from, currentState.logs.to));
+        setIsGettingMoreLogs(false)
+
+      }else{
+        // console.log("nieko nedarom", uniquefilterValues)
+      }
+    },[logsLength])
+
+    
 
   return (
     <Grid container direction='column' justifyContent='center' alignItems='center' className={classes.mainContainer} padding={0}>
@@ -158,7 +193,7 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
       </Grid>
     </Grid>
     <Grid item container xs={10.2}className={classes.logs} direction="row" justifyContent='center' alignItems='center'>
-      {logs ? <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} /> : <ProgressCircular size={40}/>}
+      {logs && logs.length >= rowsPerPage || currentState.logs.allLogsRetrieved === true ? <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} allLogsRetrieved={currentState.logs.allLogsRetrieved} /> : <ProgressCircular size={40}/>}
     </Grid>
   </Grid>
   );
