@@ -35,7 +35,7 @@ export const dark = createTheme({
         xs: 0,
         sm: 600,
         md: 900,
-        lg: 1280, // geras :D
+        lg: 1280, 
         xl: 1536,
       }
     },
@@ -93,7 +93,7 @@ export const light = createTheme({
         xs: 0,
         sm: 600,
         md: 900,
-        lg: 1280, // geras :D
+        lg: 1280, 
         xl: 1536,
       }
     },
@@ -103,7 +103,6 @@ export const light = createTheme({
           root: {
             color: "black",
             borderColor:'transparent',
-            // borderTopRightRadius: '25px',
             "&.Mui-selected": {
               color: "black",
               backgroundColor: '#5ACBCC'

@@ -115,7 +115,7 @@ const transformLogs = (rawLogs:any[]) => {
 };
 
 
-const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null, autoRefresh: true, allLogsRetrieved: false, initialiseFinished: false} , action:any) => {
+const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null, autoRefresh: true, allLogsRetrieved: false, initialiseFinished: false, categoryFilters: {'System': true, 'User': true}} , action:any) => {
     switch(action.type) {
         case "INITIALISE_LOGS":
             return  state = {...state, ...action.data}
@@ -153,20 +153,24 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
           return state = {...state, ...action.data}
         case "RETRIEVED_ALL_LOGS":
           return state = {...state, ...action.data}
+        case "SET_CATEGORY_FILTER_VALUES":
+          return state = {...state, ...action.data}
         default:
             return state
     }
 }
 
 export const initialiseLogs = (label:String, from:any, to:any) => {
-
   const period = {
     // from: from ? from : today.subtract(6,'day'),
     from: from ? from : dayjs('2021-01-01'),
     to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
   }
 
+
+
     return async (dispatch : Dispatch, getState: any) => {
+      // console.log(getState().logs.categoryFilters)
       // dispatch({
       //   type:"SET_ERROR",
       //   data: {error: null}
@@ -182,7 +186,7 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
         let previousIndex = 0
         while (logs.length < limit + 1) {
           
-          const rawLogsRequest:any = await services.getLogs(label, skip, limit, period.from, period.to );
+          const rawLogsRequest:any = await services.getLogs(label, skip, limit, period.from, period.to, getState().logs.categoryFilters );
           // if(rawLogsRequest.error){
           //   console.log('error')
           // }
@@ -227,7 +231,7 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
               skip += limit;
               dispatch({
                 type:"INITIALISE_LOGS",
-                data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to, autoRefresh: period.to > today ? true : false  } //to: period.to > today ? today : period.to
+                data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: to ? to :  currentTime.startOf('day').add(1,'day') , autoRefresh: period.to > today ? true : false  } //to: period.to > today ? today : period.to
               })
             };
           // }
@@ -266,7 +270,7 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
 
 
 export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousLog:any, from:any, to:any) => { //cia bus datos nuo iki...
-  return async (dispatch : Dispatch) => {
+  return async (dispatch : Dispatch, getState:any) => {
       let logs:any[] = []
       let skip = previousSkip;
       let limit:number|null = 200;
@@ -275,7 +279,7 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       let previousValveSetIndex:any
 
       while (logs.length < limit + 1) {
-        const rawLogsRequest:any = await services.getLogs(label, skip, limit, from, to.add(1,'day'), );
+        const rawLogsRequest:any = await services.getLogs(label, skip, limit, from, to.add(1,'day'), getState().logs.categoryFilters );
         // if(rawLogsRequest.error){
         //   console.log('error')
         // }
@@ -301,6 +305,7 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       };
       const transformedLogs = transformLogs(logs)
       if(transformedLogs.length > 0){
+        // console.log('puting more', transformedLogs)
         dispatch({
           type:"GET_MORE_LOGS_ON_USER_CLICK",
           data: {logs:transformedLogs, skip:skip, lastValveSetTypeRawLog: { rawLog: previousNextAndLast?.last ? previousNextAndLast.last.rawLog : null , index: previousNextAndLast?.last ? logs.length - previousValveSetIndex : null }}
@@ -329,7 +334,7 @@ export const refreshLogState = (label:String, from:any, to:any) => {
         let limit = 200;
         let previousIndex = 0
         while (logs.length < limit + 1) {
-          const rawLogsRequest:any = await services.getLogs(label, skip, limit, timeOfTheFirstLog, currentTime.startOf('day').add(1,'day') );
+          const rawLogsRequest:any = await services.getLogs(label, skip, limit, timeOfTheFirstLog, currentTime.startOf('day').add(1,'day'), getState().logs.categoryFilters );
           if(rawLogsRequest?.length === 0){
             break;
           }else{
@@ -349,6 +354,15 @@ export const refreshLogState = (label:String, from:any, to:any) => {
           };
         };
     };
+};
+
+export const setCategoryFiltersValue = (categories:any) => {
+  return async (dispatch : Dispatch, getState: any) => {
+    dispatch({
+      type:"SET_CATEGORY_FILTER_VALUES",
+      data: {categoryFilters: categories}
+    });
+  }
 };
 
 

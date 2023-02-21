@@ -1,15 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import { CssBaseline, Button, Paper, TextField, Grid,Checkbox, FormGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material/';
-
+import {useSelector, useDispatch} from 'react-redux'
+import { setCategoryFiltersValue } from '../../../Redux-reducers/logsReducer';
 
 const Checkboxes: React.FC<{logs:any, setLogs:any, uniquefilterValues:any, setUniquefilterValues:any}>  = ({logs, setLogs, uniquefilterValues, setUniquefilterValues}) => {
 
   const filterKeyValues  = Object.keys(uniquefilterValues)
+  const dispatch = useDispatch()
+
 
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
-    setUniquefilterValues({...uniquefilterValues,[event.target.value]: event.target.checked, })
+    dispatch(setCategoryFiltersValue({...uniquefilterValues,[event.target.value]: event.target.checked, }))
+    // setUniquefilterValues({...uniquefilterValues,[event.target.value]: event.target.checked, })
   };
 
   return (

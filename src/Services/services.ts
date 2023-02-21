@@ -197,10 +197,13 @@ const resetAllprofiles = async (label:any) => {
 
 
 //Logs
-
-const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) => { // modify request
-
-    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=VALVE_SET%2CSETPOINT_MODE%2CPROFILE_UPDATE%2CPROFILE_RESET%2CSCHEDULE_EDIT%2CWELCOME&skip=${skip}&limit=${limit}&start=${start.toISOString()}&end=${end.toISOString()}`).then((res)=>{ //&start=${start.toISOString()}&end=${end.toISOString()}
+// ${categoryFilter.System === true && categoryFilter.User === false ? system_categories : categoryFilter.System === false && categoryFilter.User === true ? user_categories : all_categories  }
+const getLogs = async (label:String, skip:any, limit:any, start:any, end:any, categoryFilter:any) => { // modify request
+    // console.log(categoryFilter)
+    const system_categories = "VALVE_SET,PROFILE_UPDATE,WELCOME"
+    const user_categories = "SETPOINT_MODE,PROFILE_RESET,SCHEDULE_EDIT" 
+    const all_categories = categoryFilter.System ? system_categories + (categoryFilter.User ? ',' + user_categories : '') : categoryFilter.User ? user_categories : '';
+    const request = await axios.get(`${baseURL}/logs/?label=${label}&category=${all_categories}&skip=${skip}&limit=${limit}&start=${start.toISOString()}&end=${end.toISOString()}`).then((res)=>{ //&start=${start.toISOString()}&end=${end.toISOString()}
         // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
@@ -209,11 +212,11 @@ const getLogs = async (label:String, skip:any, limit:any, start:any, end:any) =>
         return res.data
         // return {error: 'Server error, failed to load logs'}
 
-}).catch((error) => {
+    }).catch((error) => {
     // console.error('error',error);
-    return {error: 'Server error, failed to load logs, please try to reload the page.'}
+        return {error: 'Server error, failed to load logs, please try to reload the page.'}
 
-})
+    })
     // console.log(request)
     return request
 };

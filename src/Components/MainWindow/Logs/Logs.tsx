@@ -131,13 +131,14 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
   
 
   // Filtering
-  const [uniquefilterValues, setUniquefilterValues] = useState<any>({'System': true, 'User': true});
+  // const [uniquefilterValues, setUniquefilterValues] = useState<any>({'System': true, 'User': true});
+  // const uniquefilterValues = currentState.logs?.categoryFilters
 
   const classes = useStyles();
   const dispatch = useDispatch()
 
     useEffect(()=>{
-      const allLogs = currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]})
+      const allLogs = currentState.logs.logs?.filter((log:any)=>{return currentState.logs?.categoryFilters[log.category]})
       setLogs(allLogs)
       setLogsLength(allLogs?.length)
       // setLogs(currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]}));
@@ -146,21 +147,22 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
       // setValueFrom(null);
       // setValueTo(null);
       setIsGettingMoreLogs(false)
-    },[currentState.logs, uniquefilterValues])
+    },[currentState.logs])
 
 
     useEffect(()=>{
+      dispatch(initialiseLogs(homeLabel, currentState.logs.from, currentState.logs.to))
       setPage(0)
-    },[uniquefilterValues])
+    },[currentState.logs?.categoryFilters])
 
 
     useEffect(()=>{
-      if( logsLength !== null && logsLength < rowsPerPage * 2 && currentState.logs.allLogsRetrieved === false && currentState.logs.initialiseFinished === true){ // reike dar vieno kad butu initialised true
+      // dispatch(initialiseLogs(homeLabel, currentState.logs.from, currentState.logs.to))
+      if( logsLength !== null && logsLength <= rowsPerPage * 2 && currentState.logs.allLogsRetrieved === false && currentState.logs.initialiseFinished === true && !(!currentState.logs?.categoryFilters.User && !currentState.logs?.categoryFilters.System)){ // reike dar vieno kad butu initialised true
         dispatch(getMoreLogsOnUserClick(homeLabel, currentState.logs.skip, currentState.logs.lastRawLog, currentState.logs.from, currentState.logs.to));
-        setIsGettingMoreLogs(false)
-
+        setIsGettingMoreLogs(true)
       }
-    },[logsLength, currentState.logs.initialiseFinished])
+    },[logsLength, currentState.logs.logs, currentState.logs.initialiseFinished])
 
 
     
@@ -173,12 +175,12 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
           <DatePickerComponent valueFrom={valueFrom} setValueFrom={setValueFrom} valueTo={valueTo} setValueTo={setValueTo} homeLabel={homeLabel} logs={logs} setLogs={setLogs} page={page} setPage={setPage}/>
         </Grid>
         <Grid xs={4} item container className={classes.checkboxButtons} direction="row" justifyContent='flex-end' alignItems='center'>
-          <Checkboxes logs={logs} setLogs={setLogs} uniquefilterValues={uniquefilterValues} setUniquefilterValues={setUniquefilterValues}/>
+          <Checkboxes logs={logs} setLogs={setLogs} uniquefilterValues={currentState.logs?.categoryFilters} setUniquefilterValues={()=>{console.log('swx')}}/>
         </Grid>
       </Grid>
     </Grid>
     <Grid item container xs={10.2}className={classes.logs} direction="row" justifyContent='center' alignItems='center'>
-      {logs && logs.length > rowsPerPage || currentState.logs.allLogsRetrieved === true ? <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} allLogsRetrieved={currentState.logs.allLogsRetrieved} /> : <ProgressCircular size={40}/>}
+      {logs && logs.length > rowsPerPage || currentState.logs.allLogsRetrieved === true || (!currentState.logs?.categoryFilters.User && !currentState.logs?.categoryFilters.System) ?  <LogTable logs={logs} label={homeLabel!} previousSkip={currentState.logs.skip} lastRawLog={currentState.logs.lastRawLog} setIsGettingMoreLogs={setIsGettingMoreLogs} isGettingMoreLogs={isGettingMoreLogs} fromRedux={currentState.logs.from} toRedux={currentState.logs.to} page={page} setPage={setPage} fromDatePicker={valueFrom} toDatePicker={valueTo} rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} allLogsRetrieved={currentState.logs.allLogsRetrieved} /> : <ProgressCircular size={40}/>}
     </Grid>
   </Grid>
   );

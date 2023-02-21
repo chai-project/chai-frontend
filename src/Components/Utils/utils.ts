@@ -65,23 +65,30 @@ const  areEqualArray = (a:any[], b:any[]) => { //any[]
   //     a.every((val, index) => val === b[index]);
 }
 
+const getActiveProfile = (scheduleListForToday:any )=> {
 
-const getActiveProfile = (scheduleListForToday:any) => {
-  const activeProfile = scheduleListForToday?.schedule.find((profile:any)=>{//define type later
-    const timeNow = new Date().toString().split(" ")[4].split(":").splice(0,2);
-    if(timeNow[0] >= profile.profileStart.split(":")[0] && timeNow[0] <= profile.profileEnd.split(":")[0]){
-      if(timeNow[0] ===  profile.profileEnd.split(":")[0]){
-        return timeNow[1] <=  profile.profileEnd.split(":")[1] ? profile : null
-      } else if (timeNow[1] === profile.profileStart.split(":")[0]){
-        return timeNow[1] >= profile.profileStart.split(":")[1] ? profile : null
-      } else {
-        return profile
-      }
+  if (!scheduleListForToday) {
+    return undefined;
+  }
+  
+  const now = new Date();
+
+  const activeProfile = scheduleListForToday.schedule.find((profile:any) => {
+    const [startHours, startMinutes] = profile.profileStart.split(':').map(Number);
+    const [endHours, endMinutes] = profile.profileEnd.split(':').map(Number);
+
+    const startTime = new Date(now);
+    startTime.setHours(startHours, startMinutes, 0);
+    const endTime = new Date(now);
+    endTime.setHours(endHours, endMinutes, 0);
+    
+    if (startTime.getTime() <= now.getTime() && now.getTime() < endTime.getTime()) {
+      return profile;
     }
-  })
-  return activeProfile
+  });
 
-}
+  return activeProfile;
+};
 
 
 const refreshState = (homeLabel:any) => {

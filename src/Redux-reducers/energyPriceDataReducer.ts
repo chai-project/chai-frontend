@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import services from '../Services/services';
 import dayjs from 'dayjs' 
+import { setNotification } from './notificationsReducer';
 
 interface energyPriceData {
     currentEnergyPrice: any,
@@ -23,7 +24,7 @@ const energyPriceDataReducer = (state: energyPriceData | null = null , action:an
 
 export const initializeEnergyPriceData = () => {
 
-    return async (dispatch : Dispatch) => {
+    return async (dispatch : Dispatch, getState:any) => {
         const currentTime = dayjs();
         //PERIOD TODAY
         const startOfToday = currentTime.startOf('day');
@@ -51,6 +52,15 @@ export const initializeEnergyPriceData = () => {
         const avgEnergyPriceToday = await services.getAverageHeatingPricePeriod(periodToday);
         const avgEnergyPriceThisWeek = await services.getAverageHeatingPricePeriod(periodThisWeek);
         const avgEnergyPriceThisMonth = await services.getAverageHeatingPricePeriod(periodThisMonth);
+        
+
+        if(getState().energyPriceData){
+            if(getState().energyPriceData.currentEnergyPrice !== energyPrice ){
+                setNotification(`Current price is now ${energyPrice[0].rate.toFixed(2)} p/kWh`,5000)(dispatch)
+            }
+        }else{
+            setNotification(`Current price is now ${energyPrice[0].rate.toFixed(2)} p/kWh`,5000)(dispatch)
+        }
 
 
         if(avgEnergyPriceToday.error || avgEnergyPriceThisWeek.error || avgEnergyPriceThisMonth.error){
