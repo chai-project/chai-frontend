@@ -87,21 +87,34 @@ export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
             })
         }else {
             let pricePeriodWithSubIntervals:any[] = []
-            pricesForPeriod.forEach((interval:any, index:number)=>{
+            // console.log(pricesForPeriod)
+            pricesForPeriod.forEach((interval:any, index:number, arr:any)=>{
                 const subIntervalStart = dayjs(interval.start).add(15,'minutes').format()
                 const subIntervalEnd = dayjs(interval.start).add(30,'minutes').format()
+                // pricePeriodWithSubIntervals.push(interval)
+
                 if(index === 0 && interval.start !== start.format()){
                     pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
-                }else if(index === pricesForPeriod.length -1) {
-                    const lastIntervalStart = dayjs(subIntervalStart).add(15,'minutes').format();
-                    const lastIntervalEnd = dayjs(subIntervalStart).add(30,'minutes').format();
+                } // original was after these two and the last else is uncommented
+                else if (index === arr.length -1 && interval.end !== end.format() ){
                     pricePeriodWithSubIntervals.push(interval)
                     pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
-                    pricePeriodWithSubIntervals.push({start:lastIntervalStart, end:lastIntervalEnd, rate:interval.rate })
+                }else if (index === arr.length -1 ){
+                    const endOfLastInterval = dayjs(subIntervalEnd).add(30,'minutes').format()
+                    pricePeriodWithSubIntervals.push(interval)
+                    pricePeriodWithSubIntervals.push({start:subIntervalEnd, end:endOfLastInterval, rate:interval.rate })
+                }
+                // else if(index === pricesForPeriod.length -1) {
+                //     const lastIntervalStart = dayjs(subIntervalStart).add(15,'minutes').format();
+                //     const lastIntervalEnd = dayjs(subIntervalStart).add(30,'minutes').format();
+                //     pricePeriodWithSubIntervals.push(interval)
+                //     pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
+                //     pricePeriodWithSubIntervals.push({start:lastIntervalStart, end:lastIntervalEnd, rate:interval.rate })
                     
-                }else {
+                // }
+                else {
                     pricePeriodWithSubIntervals.push(interval)
-                    pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
+                    // pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
                 }
             })
             dispatch({

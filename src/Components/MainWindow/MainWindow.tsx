@@ -79,7 +79,7 @@ const MainWindow: React.FC<{homeLabel:String | null, currentState:any}> = ({home
           const activeProfile = utils.getActiveProfile(currentState.heatingSchedule[0]);
 
           if(activeProfile.profileID !== currentState.heatingComponent.activeProfile.profileID){
-            dispatch(setNotification(`Active profile is now ${activeProfile.profileName}`,5000))
+            dispatch(setNotification(`Active profile is ${activeProfile.profileName}`,5000))
           }
           dispatch(setActiveProfile(activeProfile))
 

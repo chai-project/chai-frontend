@@ -142,7 +142,8 @@ const UpdateModelChart: React.FC<{xaiRegionData:any, inputs:number, breakpointMe
         autocolors: false,
         title: {
             display: true,
-            text: inputs === 1 ? `AI model for ${inputs} input` : `AI model for ${inputs} inputs`,
+            // text: inputs === 1 ? `AI model for ${inputs} input` : `AI model for ${inputs} inputs`,
+            text: `AI model`,
             color: 'rgb(87, 203, 204,1)',
             fullSize:false,
 

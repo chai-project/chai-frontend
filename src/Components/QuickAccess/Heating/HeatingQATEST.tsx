@@ -168,7 +168,7 @@ const confirmYes = async () => {
     if(response === 200){
       dispatch(setTemperature(requestTargetTemperatureValue));
       dispatch(setHeatingComponentMode('override'));
-      dispatch(setNotification(`Target temperature is set sucessfully to ${requestTargetTemperatureValue}°C`, 5000))
+      dispatch(setNotification(`Target temperature is ${requestTargetTemperatureValue}°C`, 5000))
       dispatch(refreshLogState(homeLabel!, null, null))
     }else{
       dispatch(setErrorMessage(`Failed to set target temperature to ${requestTargetTemperatureValue}°C`, 5000))

@@ -321,6 +321,31 @@ useEffect(() => {
   }
 }, [currentState.heatingComponent.isValid]);
 
+// useEffect(() => {
+//   if (currentState.heatingComponent.isValid === true && homeLabel && userToken) {
+//     const date = new Date();
+//     const minutes = date.getMinutes();
+//     const seconds = date.getSeconds();
+//     let next:any;
+//     if (minutes < 30) {
+//       next = (30 - minutes - 1) * 60 + (10 - seconds);
+//     } else {
+//       next = (60 - minutes - 1) * 60 + (30 - seconds) + 10;
+//     }
+//     console.log("next: ",next*1000)
+//     setTimeout(() => {
+//       console.log("new price")
+
+//       dispatch(initializeEnergyPriceData());
+//       let id = setInterval(() => {
+//         dispatch(initializeEnergyPriceData());
+//       }, 1800000);
+//       return () => clearInterval(id);
+//     }, next * 1000);
+//   }
+// }, [currentState.heatingComponent.isValid]);
+
+
 // // update profiles when user change 
 
 // useEffect(()=>{

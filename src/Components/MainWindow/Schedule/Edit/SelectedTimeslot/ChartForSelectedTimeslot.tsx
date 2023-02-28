@@ -236,6 +236,7 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
     return radius
   }
 
+
   const data:any = {
     labels: pricesList?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
     datasets: [

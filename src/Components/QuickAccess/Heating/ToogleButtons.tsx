@@ -64,7 +64,7 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
         if(response === 200) {
           setMode(newMode)
           dispatch(setHeatingComponentMode(newMode));
-          dispatch(setNotification(`The mode is set to ${newMode.toLocaleUpperCase()}`,5000));
+          dispatch(setNotification(`System is in ${newMode.toLocaleUpperCase()} mode`,5000));
           dispatch(refreshLogState(label!, null, null))
         }else{
           setMode(heatingComponentState.mode)
@@ -77,7 +77,7 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
             if(response === 200){
               setMode('auto')
               dispatch(initializeHeatingComponentData(label));
-              dispatch(setNotification(`The mode is set to AUTO`,5000))
+              dispatch(setNotification(`System is in AUTO mode`,5000))
               dispatch(refreshLogState(label!, null, null))
             }else{
               setMode(heatingComponentState.mode)
@@ -89,7 +89,7 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
           if(response === 200) {
             setMode(newMode)
             dispatch(initializeHeatingComponentData(label));
-            dispatch(setNotification(`The mode is set to ${newMode.toLocaleUpperCase()}`,5000))
+            dispatch(setNotification(`System is in ${newMode.toLocaleUpperCase()} mode`,5000))
             dispatch(refreshLogState(label!, null, null))
 
           }else{

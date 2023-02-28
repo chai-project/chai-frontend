@@ -56,10 +56,10 @@ export const initializeEnergyPriceData = () => {
 
         if(getState().energyPriceData){
             if(getState().energyPriceData.currentEnergyPrice !== energyPrice ){
-                setNotification(`Current price is now ${energyPrice[0].rate.toFixed(2)} p/kWh`,5000)(dispatch)
+                setNotification(`Current price is ${energyPrice[0].rate.toFixed(2)} p/kWh`,5000)(dispatch)
             }
         }else{
-            setNotification(`Current price is now ${energyPrice[0].rate.toFixed(2)} p/kWh`,5000)(dispatch)
+            setNotification(`Current price is ${energyPrice[0].rate.toFixed(2)} p/kWh`,5000)(dispatch)
         }
 
 
