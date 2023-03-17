@@ -121,25 +121,25 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
             if(profileToReset === "all"){
                 const request = await services.resetAllprofiles(homeLabel)
                 if(request === 200){
-                    dispatch(setNotification(`All profiles were successfully reset.`, 5000));
+                    dispatch(setNotification(`All profiles are reset`, 5000));
                     dispatch(initialiseLogs(homeLabel, null, null))
                     dispatch(setUserResetProfile(true))
                 }else {
-                    dispatch(setErrorMessage(`Server error, failed to reset all profiles.`, 5000));
+                    dispatch(setErrorMessage(`Server error, failed to reset all profiles`, 5000));
                 }
             }else {
                 if(profileToReset === profile?.profileName){
                     const request = await services.resetProfile(homeLabel, profile?.profile)
                     //if 200 ad notification
                     if(request === 200){
-                        dispatch(setNotification(`Profile ${profile?.profileName} was successfully reset.`, 5000));
+                        dispatch(setNotification(`Profile ${profile?.profileName} is reset`, 5000));
                         dispatch(initialiseLogs(homeLabel, null, null))
                         dispatch(setUserResetProfile(true))
                     }else{
-                        dispatch(setErrorMessage(`Server error, failed to reset ${profile?.profileName}.`, 5000));
+                        dispatch(setErrorMessage(`Server error, failed to reset ${profile?.profileName}`, 5000));
                     }
                 }else{
-                    dispatch(setErrorMessage(`Profile to reset and selected profile does not match.`, 5000));
+                    dispatch(setErrorMessage(`Profile to reset and selected profile does not match`, 5000));
 
                 }
             }
