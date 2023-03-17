@@ -188,6 +188,8 @@ import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/mate
 import 'chart.js/auto'
 import {Chart} from 'react-chartjs-2'
 
+
+
 //components
 import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
 
@@ -222,41 +224,60 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, heatingProfiles:any}> = ({selectedTimeslot, pricesList, heatingProfiles}) => {
   const classes = useStyles();
+  //previously
+  // const setpoint = pricesList?.map((timeframe:any)=>{
+  //     const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
+  //         return profile.profile === selectedTimeslot.profileID
+  //     })
+  //     return Math.round((bias + slope * timeframe.rate)*2)/2;
+  // });
 
-  const setpoint = pricesList?.map((timeframe:any)=>{
-      const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
-          return profile.profile === selectedTimeslot.profileID
-      })
-      return Math.round((bias + slope * timeframe.rate)*2)/2;
+
+  // const radius = (type: String) => {
+  //   const radius = pricesList?.map((item:any, index:any)=>{
+
+  //     return index === pricesList.length - 1 ? 0 : type === 'radius' ? 3 : 1
+  //   });
+  //   return radius
+  // }
+
+  const processedData = pricesList?.map((timeframe:any, index: number, arr:any)=>{
+
+    const timeframeStart = timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)
+
+    const {bias, slope} = heatingProfiles.heatingProfiles.find((profile:any)=>{
+        return profile.profile === selectedTimeslot.profileID
+    })
+
+    const values = {
+      timeframe: timeframeStart,
+      temperature: Math.round((bias + slope * timeframe.rate)*2)/2,
+      price: timeframe.rate
+    }
+
+    return values
+});
+
+
+const radius = (type: String) => {
+  const radius = processedData?.map((item:any, index:any, arr:any)=>{
+    return index === arr.length - 1 ? 0 : item.timeframe.split(":")[1]%2 === 1 && index !== 0 ? 0 :  type === 'radius' ? 3 : 1
   });
-  const radius = (type: String) => {
-    const radius = pricesList?.map((item:any, index:any)=>{
-      return index === pricesList.length -1 ? 0 : type === 'radius' ? 3 : 1
-    });
-    return radius
-  }
 
+  return radius
+}
 
+  
   const data:any = {
-    labels: pricesList?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
+    labels: processedData?.map((timeframe:any, index:number, arr:any)=>{ return timeframe.timeframe}),
+    // labels: pricesList?.map((timeframe:any, index:number, arr:any)=>{ console.log(timeframe); return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
     datasets: [
-      // {
-      //   label: "Price (p/kWh)",
-      //   yAxisID: 'y1',
-      //   type:'line',
-      //   data: pricesList?.map((timeframe:any)=>{return timeframe.rate}),
-      //   radius: radius('radius'),
-      //   hitRadius: radius('hitradius'),
-      //   fill: false,
-      //   backgroundColor: "#F6946B",
-      //   borderColor: "#F6946B",
-      //   stepped: 'before',
-      // },
       {
         label: "Target temperature (°C)",
         yAxisID: 'y2',
         type:'line',
-        data: setpoint,
+        // data: setpoint,
+        data: processedData?.map((timeframe:any, index:number, arr:any)=>{ return timeframe.temperature}),
         radius: radius('radius'),
         hitRadius: radius('hitradius'),
         fill: false, //true buvo
@@ -268,7 +289,8 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
         label: "Price (p/kWh)",
         yAxisID: 'y1',
         type:'line',
-        data: pricesList?.map((timeframe:any)=>{return timeframe.rate}),
+        // data: pricesList?.map((timeframe:any)=>{return timeframe.rate}),
+        data: processedData?.map((timeframe:any, index:number, arr:any)=>{ return timeframe.price}),
         radius: radius('radius'),
         hitRadius: radius('hitradius'),
         fill: true,
@@ -337,8 +359,8 @@ const ChartForSelectedTimeslot: React.FC<{selectedTimeslot:any, pricesList:any, 
         ticks: {
           autoSkip: true,
           maxTicksLimit: 8,
-          color: 'rgb(87, 203, 204,1)'
-        }
+          color: 'rgb(87, 203, 204,1)',
+        },
       },
       y1: {
         grid: {
