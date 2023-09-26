@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 //mui
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
+import { Grid} from '@mui/material/';
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 //components
@@ -16,9 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
     chart:{
         height: '25vh',
         width: '95%',
-        // [theme.breakpoints.down('md')]: {
-        //   height: '28vh',
-        // }
         [theme.breakpoints.up('md')]: {
           height: '25vh',
         },
@@ -28,22 +25,13 @@ const useStyles = makeStyles((theme: Theme) =>
         [theme.breakpoints.down('sm')]: {
             height: '36vh',
           },
-        // position: 'absolute'
-        // border: "2px dashed purple",
-        // height: '60vh',
-        // top: '-10% !important'
     },
     tooltip:{
-        // border: "2px dashed purple",
         height: '0vh'
     },
     tooltipButton:{
-      // backgroundColor:'red',
       position: 'absolute',
-      // top: '8%',
-
       [theme.breakpoints.up('md')]: {
-        // height: '25vh',
         top: 43,
         left: 470,
       },
@@ -63,23 +51,18 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
 
   const classes = useStyles();
 
-  // console.log(dataSet.slice(dataSet.length - 1))
-
   const data = {
     datasets: [
       {
         label: "Previous inputs",
-        // data:  dataSet?.length < 1 ? null : dataSet?.length < 2 ? mappedDataForInputsChart?.slice(0,1) : dataSet?.slice(0,dataSet.length - 1),
         data: dataSet?.length < 2 ? null : dataSet?.slice(0,dataSet.length - 1),
         fill: false,
-        // backgroundColor: dataSet?.length === 1 ? "#F6946B" : "rgba(75,192,192,0.8)",
-        // borderColor:  dataSet?.length === 1 ? "#F6946B" : "rgba(75,192,192,1)"
         backgroundColor:  "rgba(75,192,192,0.8)",
         borderColor:  "rgba(75,192,192,1)"
       },
       {
         label: "Latest input",
-        data: dataSet?.length > 0 ? dataSet.slice(dataSet.length - 1) : null, //buvo 1
+        data: dataSet?.length > 0 ? dataSet.slice(dataSet.length - 1) : null,
         fill: true,
         borderColor: "#F6946B",
         backgroundColor: "#F6946B",
@@ -168,13 +151,6 @@ const InputsChart: React.FC<{dataSet:any, mappedDataForInputsChart:any, inputs:n
       <Grid item xs={12} container className={classes.chart} direction="row" justifyContent="center" alignItems="center">
         {!dataSet ? <ProgressCircular size={40}/> : <Scatter data={data} options={options}/> }
       </Grid>
-      {/* {!dataSet ? <ProgressCircular size={40}/> : <Scatter data={data} options={options}/> } */}
-      {/* <Grid item>
-        <ToolTip info={'inputsChart'}/>
-      </Grid> */}
-    {/* <Grid item className={classes.tooltipButton}>
-      <ToolTip info={'inputsChart'}/>
-    </Grid> */}
   </Grid>
   )
 }

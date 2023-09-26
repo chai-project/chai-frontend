@@ -1,45 +1,36 @@
 import React, {useEffect, useState} from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import dayjs from 'dayjs'
-import { CssBaseline, AppBar, Toolbar, IconButton, Stack, Link, Grid, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent} from '@mui/material/';
-// import Stack from '@mui/material/Stack';
-import {makeStyles, Theme, createStyles, withStyles, useTheme  } from '@material-ui/core/styles';
-import { profile, time } from 'console';
-// import { useTheme } from '@mui/material/styles';
+import { Grid, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent} from '@mui/material/';
+import {makeStyles, Theme, createStyles, useTheme  } from '@material-ui/core/styles';
 
 //styles 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main:{
-      // border: "5px solid red",
-      // width: '4px',
-      // width: '100%',
-      // height: '1px',
+
     },
     from:{
-      // border: "2px dashed pink",
-      // width: '50px'
-      // width: '200px'
+
     },
     to:{
-      // border: "2px dashed yellow",
+
     },
     labelHours: {
-      // height:'25px',
 
       "&.MuiOutlinedInput-root": {
         "& fieldset": {
-          borderColor: "#5ACBCC" // sia spalva pakeisti i balta arba jouda priklauso nuo app temos.
+          borderColor: "#5ACBCC" 
         },
         "&:hover fieldset": {
-          // borderColor: "yellow"
+
         },
         "&.Mui-focused fieldset": {
-          // borderColor: "green"
+
         },
       },
       "&.Mui-focused": {
-        // color: "green",
+
       },
       [theme.breakpoints.down('md')]: {
         height:'35px',
@@ -51,21 +42,20 @@ const useStyles = makeStyles((theme: Theme) =>
       
     },
     labelMinutes: {
-      // height:'25px',
       width:'70px',
       "&.MuiOutlinedInput-root": {
         "& fieldset": {
-          borderColor: "#5ACBCC" // sia spalva pakeisti i balta arba jouda priklauso nuo app temos.
+          borderColor: "#5ACBCC"
         },
         "&:hover fieldset": {
-          // borderColor: "yellow"
+
         },
         "&.Mui-focused fieldset": {
-          // borderColor: "green"
+
         },
       },
       "&.Mui-focused": {
-        // color: "green",
+
       },
       [theme.breakpoints.down('md')]: {
         height:'35px',
@@ -80,12 +70,9 @@ const useStyles = makeStyles((theme: Theme) =>
       color:"#5ACBCC !important"
     },
     textLabel: {
-      // width: '20px',
       fontSize:'10px',
       [theme.breakpoints.down('md')]: {
         fontSize:'9px',
-        // height:'25px',
-        // width: '65px',
       }
     }
   }),
@@ -108,24 +95,16 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
       setHoursTo(asignedTimeslot.profileEnd.split(':')[0]);
       setMinutesTo(asignedTimeslot.profileEnd.split(':')[1]);
     }
-    // setHoursFrom(asignedTimeslot.profileStart.split(':')[0]);
-    // setMinutesFrom(asignedTimeslot.profileStart.split(':')[1]);
-    // setHoursTo(asignedTimeslot.profileEnd.split(':')[0]);
-    // setMinutesTo(asignedTimeslot.profileEnd.split(':')[1]);
 
     let asignedTimeslotMinutesFrom = parseInt(asignedTimeslot.profileStart.split(':')[1])
     let asignedTimeslotMinutesTo = parseInt(asignedTimeslot.profileEnd.split(':')[1])
     let asignedTimeslotHoursFrom = parseInt(asignedTimeslot.profileStart.split(':')[0])
     let asignedTimeslotHoursTo = parseInt(asignedTimeslot.profileEnd.split(':')[0])
 
-    // console.log(timeslots.indexOf(asignedTimeslot))
-    const indexOfThisTimeslot = timeslots?.indexOf(asignedTimeslot)
-
     if(asignedTimeslot.profileName === null){
       setListHoursToSelectFrom(Array.from(Array(24).keys()))
       setListMinutesToSelectFrom([0,15,30,45])
     } else {
-      // setListHoursToSelectFrom(Array.from(Array(24).keys()))
       if( asignedTimeslotMinutesTo > 0){
         setListHoursToSelectFrom(Array.from(Array(parseInt(asignedTimeslot.profileEnd.split(':')[0])+1).keys()))
         if(asignedTimeslotHoursTo === asignedTimeslotHoursFrom){
@@ -133,7 +112,6 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
         }else{
           setListMinutesToSelectFrom([0,15,30,45])
         }
-        // setListMinutesToSelectFrom(asignedTimeslotHoursTo === asignedTimeslotHoursFrom ? [1] :null )
       }else{
         setListHoursToSelectFrom(Array.from(Array(parseInt(asignedTimeslot.profileEnd.split(':')[0])).keys()))
         setListMinutesToSelectFrom(asignedTimeslotMinutesFrom === 0 ? [0,15,30,45] : asignedTimeslotMinutesFrom === 15 ? [15,30,45] : asignedTimeslotMinutesFrom === 30 ? [30,45] : asignedTimeslotMinutesFrom === 45 ? [45] : null)
@@ -156,8 +134,6 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
     }
 
   },[asignedTimeslot]);
-
-  // console.log(asignedTimeslot,'blblb', timeslots)
 
   const classes = useStyles();
   const theme = useTheme();
@@ -197,7 +173,7 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
             }
           }
         }else
-        if(period.from <= newTimeslots[i-1].profileStart){ //check if the current timeslot is not earlier than previous
+        if(period.from <= newTimeslots[i-1].profileStart){
           let startOfPreviousTimeslotWith15MinExtra = dayjs().set('hour', newTimeslots[i-1].profileStart.split(":")[0]).set('minute', newTimeslots[i-1].profileStart.split(":")[1]).set('second', 0).add(15,'minutes')
           const hours:String = startOfPreviousTimeslotWith15MinExtra.hour() < 10 ? `0${startOfPreviousTimeslotWith15MinExtra.hour()}` : `${startOfPreviousTimeslotWith15MinExtra.hour()}`
           const minutes:String = startOfPreviousTimeslotWith15MinExtra.minute() < 10 ? `0${startOfPreviousTimeslotWith15MinExtra.minute()}` : `${startOfPreviousTimeslotWith15MinExtra.minute()}` 
@@ -209,13 +185,13 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
           const hours:String = nextTimeslotEndTime.hour() < 10 ? `0${nextTimeslotEndTime.hour()}` : `${nextTimeslotEndTime.hour()}`
           const minutes:String = nextTimeslotEndTime.minute() < 10 ? `0${nextTimeslotEndTime.minute()}` : `${nextTimeslotEndTime.minute()}` 
           newTimeslots.push({...timeslots[i], profileStart: period.from, profileEnd:  `${hours}:${minutes}` })
-        }else if(period.to <= period.from){// check if the timeslot end is not earlier than start
+        }else if(period.to <= period.from){
           let startOfTimeslotStart = dayjs().set('hour', period.from.split(":")[0]).set('minute', period.from.split(":")[1]).set('second', 0).add(15,'minutes')
           const hours:String = startOfTimeslotStart.hour() < 10 ? `0${startOfTimeslotStart.hour()}` : `${startOfTimeslotStart.hour()}`
           const minutes:String = startOfTimeslotStart.minute() < 10 ? `0${startOfTimeslotStart.minute()}` : `${startOfTimeslotStart.minute()}` 
           newTimeslots.push({...timeslots[i], profileStart: period.from, profileEnd: `${hours}:${minutes}` })
-        } else if(newTimeslots[i-1]){ //check if there is previous timeslot
-            if(period.from <= newTimeslots[i-1].profileStart){ //check if the current timeslot is not earlier than previous
+        } else if(newTimeslots[i-1]){ 
+            if(period.from <= newTimeslots[i-1].profileStart){
               let startOfPreviousTimeslotWith15MinExtra = dayjs().set('hour', newTimeslots[i-1].profileStart.split(":")[0]).set('minute', newTimeslots[i-1].profileStart.split(":")[1]).set('second', 0).add(15,'minutes')
               const hours:String = startOfPreviousTimeslotWith15MinExtra.hour() < 10 ? `0${startOfPreviousTimeslotWith15MinExtra.hour()}` : `${startOfPreviousTimeslotWith15MinExtra.hour()}`
               const minutes:String = startOfPreviousTimeslotWith15MinExtra.minute() < 10 ? `0${startOfPreviousTimeslotWith15MinExtra.minute()}` : `${startOfPreviousTimeslotWith15MinExtra.minute()}` 
@@ -249,14 +225,14 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
       const minutes:string = fromPlus15Min.minute() < 10 ? `0${fromPlus15Min.minute()}` : `${fromPlus15Min.minute()}` 
       setHoursTo(hours)
       setMinutesTo(minutes)
-      setTimeslotToAdd({...timeslotToAdd, profileStart: period.from, profileEnd: `${hours}:${minutes}` }) //add new profile needds to be updated!!!
+      setTimeslotToAdd({...timeslotToAdd, profileStart: period.from, profileEnd: `${hours}:${minutes}` })
     }else {
-      setTimeslotToAdd({...timeslotToAdd, profileStart: period.from, profileEnd: period.to }) //add new profile needds to be updated!!!
+      setTimeslotToAdd({...timeslotToAdd, profileStart: period.from, profileEnd: period.to })
     }
   };
 
   const handleSetHoursFrom = (event: SelectChangeEvent) => {
-    setHoursFrom(String(event.target.value)); //event.target.value as string buvo
+    setHoursFrom(String(event.target.value));
     const period = {from: `${event.target.value}:${minutesFrom}`, to: `${hoursTo}:${minutesTo}`} 
 
     if(!isForAddingATimeslot){
@@ -267,7 +243,7 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
   };
 
   const handleSetMinutesFrom = (event: SelectChangeEvent) => {
-    setMinutesFrom(String(event.target.value)); //event.target.value as string buvo
+    setMinutesFrom(String(event.target.value));
     const period = {from: `${hoursFrom}:${event.target.value}`, to: `${hoursTo}:${minutesTo}`} 
     if(!isForAddingATimeslot){
       newTimeslotsTest(period)
@@ -277,7 +253,7 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
   };
 
   const handleSetHoursTo = (event: SelectChangeEvent) => {
-    setHoursTo(String(event.target.value)); //event.target.value as string buvo
+    setHoursTo(String(event.target.value));
     const period = {from: `${hoursFrom}:${minutesFrom}`, to: `${event.target.value}:${minutesTo}`} 
     if(!isForAddingATimeslot){
       newTimeslotsTest(period)
@@ -287,7 +263,7 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
   };
 
   const handleSetMinutesTo = (event: SelectChangeEvent) => {
-    setMinutesTo(String(event.target.value)); //event.target.value as string buvo
+    setMinutesTo(String(event.target.value));
     const period = {from: `${hoursFrom}:${minutesFrom}`, to: `${hoursTo}:${event.target.value}`} 
     if(!isForAddingATimeslot){
       newTimeslotsTest(period)
@@ -299,7 +275,6 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
   return (
     <Grid container className={classes.main} direction={breakpoint ? "column" : "row"} justifyContent="center" alignItems="center"> {/**{breakpoint ? "column" : "row"} */}
       <Grid item container xs={6} className={classes.from} direction="column" justifyContent="center" alignItems="flex-start">
-        {/* <Grid item className={classes.textLabel}>From: </Grid> */}
         <Grid item container direction="row" justifyContent="flex-start" alignItems="center">
           <Grid item>
             <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
@@ -308,7 +283,6 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
                 labelId="demo-select-small"
                 id="demo-select-small"
                 value={hoursFrom}
-                // disabled={asignedTimeslot.profileStart==="00:00"}
                 label="HoursFrom"
                 onChange={handleSetHoursFrom}
                 className={classes.labelHours}
@@ -329,13 +303,10 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
           <Grid item className={classes.textLabel}>:</Grid>
           <Grid item>
             <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
-              {/* <InputLabel id="demo-select-small">Minutes</InputLabel> */}
               <Select
                 labelId="demo-select-small"
                 id="demo-select-small"
                 value={minutesFrom}
-                // disabled={asignedTimeslot.profileStart==="00:00"}
-                // label="minutesFrom"
                 onChange={handleSetMinutesFrom}
                 className={classes.labelMinutes}
                 inputProps={{
@@ -355,7 +326,6 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
         </Grid>
       </Grid>
       <Grid item container xs={6} className={classes.to} direction="column" justifyContent="flex-start" alignItems="flex-start">
-        {/* <Grid item className={classes.textLabel}>To: </Grid> */}
         <Grid item container direction="row" justifyContent="flex-start" alignItems="center">
           <Grid item>
             <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
@@ -366,7 +336,6 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
                 value={hoursTo}
                 label="HoursTo"
                 onChange={handleSetHoursTo}
-                // disabled={asignedTimeslot.profileEnd==="24:00"}
                 className={classes.labelHours}
                 inputProps={{
                   classes: {
@@ -385,14 +354,11 @@ const TimeslotPeriodFromTo: React.FC<{ timeslots:any, asignedTimeslot:any, sortT
           <Grid item className={classes.textLabel}>:</Grid>
           <Grid item>
             <FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
-              {/* <InputLabel id="demo-select-small">Minutes</InputLabel> */}
               <Select
                 labelId="demo-select-small"
                 id="demo-select-small"
                 value={minutesTo}
-                // label="MinutesTo"
                 onChange={handleSetMinutesTo}
-                // disabled={asignedTimeslot.profileEnd==="24:00"}
                 className={classes.labelMinutes}
                 inputProps={{
                   classes: {

@@ -2,21 +2,8 @@ import React, {useState, useEffect} from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Box, Divider, Slider, AppBar, Toolbar, IconButton, Stack, Link} from '@mui/material/';
+import { Slider} from '@mui/material/';
 import { styled } from '@mui/material/styles';
-import SliderThumb from "@material-ui/core/Slider";
-import clsx from "clsx";
-
-
-
-
-// redux
-import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
-
-
-//components
-
 
 
 // Styles 
@@ -34,8 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container:{
       height: '80px',
-      // top:'10px',
-      // position:'relative', 
       minWidth: '90%',
       borderRadius: '25px'
     },
@@ -286,17 +271,16 @@ const marks = [
 
 const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
     color: theme.palette.mode === 'dark' ? '#3880ff' : '#3880ff',
-    height: 52, // cia aukstis sliderio
+    height: 52,
     borderRadius: 25,
     padding: '15px 0',
     '& .MuiSlider-thumb': {
       height: 58,
-      width: 28, // buvo 25
+      width: 28,
       borderRadius: 25,
       backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' : '#57CBCC',
       boxShadow: iOSBoxShadow,
-    //   zIndex: 10000,
-      '&[data-index="0"]' : { // thumb pirmas
+      '&[data-index="0"]' : { // first thumb
         // border: "2px dashed purple",
         // top:'0%'
         // display: 'none !important',
@@ -304,25 +288,22 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
         // opacity : 0
         // zIndex: 1,
       },
-      '&[data-index="2"]' : { //thumb antras ir tt
-        // border: "2px dashed green",
+      '&[data-index="2"]' : { 
         display: 'none',
-        // zIndex: 1,
       },
-    //   "&.second-thumb": { //kaip ir veike betdabar atsirado extra on top
+    //   "&.second-thumb": {
     //     border: "2px dashed purple"
     //   },
       '&:focus, &:hover, &.Mui-active': {
         boxShadow:
           '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
-        // Reset on touch devices, it doesn't add specificity
         '@media (hover: none)': {
           boxShadow: iOSBoxShadow,
         },
         
       },
     },
-    '& .MuiSlider-valueLabel': { // value on the thumb.
+    '& .MuiSlider-valueLabel': { 
       fontSize: 12,
       fontWeight: 'normal',
       top: 43, 
@@ -336,10 +317,9 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
         color: theme.palette.mode === 'dark' ? '#fff' : '#000',
       },
     },
-    '& .MuiSlider-track': { // spalva pries thumb
+    '& .MuiSlider-track': { 
       border: 'none',
       borderRadius: '25px 0px 0px 25px',
-    //   background: 'linear-gradient(270deg, #57CBCC 0.91%, transparent 92.23%)',
       background: 'transparent'
 
     },
@@ -348,9 +328,8 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
       background: mode.heatingAutoMode === "override" ? 'linear-gradient(270deg, #F6946B 0.91%, transparent 92.23%)' :'linear-gradient(270deg, #57CBCC 0.91%, transparent 92.23%)', // cia buvo backgroundColor pakeiciau i backgorund.
     },
     '& .MuiSlider-markLabel':{ // temperature slider labels
-        // color: 'red',
-        top: '-9%', // was 9
-        fontSize: 11, //was 11
+        top: '-9%',
+        fontSize: 11,
         '&[data-index="1"]' : { //every label thats has .5 in it.
             display: 'none'
           },
@@ -482,7 +461,7 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
           },
       },
     '& .MuiSlider-mark': { // temperature  marks
-      backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' :'#57CBCC', //spalva po thumbo
+      backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' :'#57CBCC',
       height: '10px',
       width: '1px',
       top: '15%',
@@ -580,14 +559,14 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
       },
       '&.MuiSlider-markActive': {
         opacity: 1,
-        backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' :'#57CBCC', // spalva pries thumba.
+        backgroundColor: mode.heatingAutoMode === "override" ? '#F6946B' :'#57CBCC', 
       },
     },
     "&.Mui-disabled": {
         color: "#D0D2D4",
         '& .MuiSlider-rail': { // disabled color
             opacity: 1, // buvo 0.5 
-            background: 'linear-gradient(270deg, #D0D2D4 0.91%, transparent 92.23%)', // cia buvo backgroundColor pakeiciau i backgorund.
+            background: 'linear-gradient(270deg, #D0D2D4 0.91%, transparent 92.23%)', 
           },
           '& .MuiSlider-thumb': {
             display: 'none',
@@ -599,14 +578,13 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
             '&:focus, &:hover, &.Mui-active': {
               boxShadow:
                 '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
-              // Reset on touch devices, it doesn't add specificity
               '@media (hover: none)': {
                 boxShadow: iOSBoxShadow,
               },
             },
           },
           '& .MuiSlider-mark': { // temperature  marks
-            backgroundColor: '#D0D2D4', //spalva po thumbo
+            backgroundColor: '#D0D2D4',
             height: '10px',
             width: '2px',
             top: '15%',
@@ -644,7 +622,7 @@ const IOSSlider = styled(Slider)<{mode:any}>(({ theme, mode }) => ({
             },
             '&.MuiSlider-markActive': {
               opacity: 1,
-              backgroundColor: '#D0D2D4', // spalva pries thumba.
+              backgroundColor: '#D0D2D4',
             },
           },
       },
@@ -656,11 +634,10 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
 
   const [value, setValue] = useState<number | number[] >(11) // buvo 11 
   const classes = useStyles();
-  const dispatch = useDispatch()
 
   useEffect(()=>{
     if(!targetTemperature.isSetTargetTemperature){
-        const roundedTemperatureValue = Math.round(targetTemperature.targetTemperature * 2) /2
+        const roundedTemperatureValue = Math.round(targetTemperature.targetTemperature * 2) / 2
         const realValue = marks.find(mark => mark.realValue === roundedTemperatureValue)
         if(realValue){
           setValue(realValue.value)
@@ -680,9 +657,9 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
     const maxValue = 67
 
 
-    if(activeThumb === 0 ) { // prachekinti ar nera array
+    if(activeThumb === 0 ) {
       let realValue
-        if(newValue <= 23 ){
+        if(newValue <= 23){
             realValue = marks.find(mark => mark.value === minValue)
             setValue(minValue)
         }else if (newValue >= 68 ){
@@ -693,13 +670,11 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
             setValue(newValue)
         }
         targetTemperature.setRequestTargetTemperature(realValue?.realValue)
-        // karocia problema tame, kad uzupdeitina steita ir galu gale daugiau nebeupdeitina todel atnaujina temperatrua i esama po pirmo
         if(realValue?.realValue !== targetTemperature.targetTemperature){
           targetTemperature.setIsSetTargetTemperature(true)
         }else{
           targetTemperature.setIsSetTargetTemperature(false)
         }
-        // console.log(realValue, targetTemperature.targetTemperature)
     }
   };
 
@@ -715,7 +690,7 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
             let labelValue
             marks.forEach((mark)=>{
                 if(mark.value === value){
-                    labelValue = mark.label // label arba realvalue
+                    labelValue = mark.label
                 }
             })
             return(
@@ -736,5 +711,3 @@ const TemperatureSlider: React.FC<{ heatingAutoMode:boolean|string, targetTemper
 
 export default TemperatureSlider;
 
-//disabled={targetTemperature.heatingAutoMode === "auto"  ? false : true}
-//disabled={!targetTemperature.heatingAutoMode? true : false}

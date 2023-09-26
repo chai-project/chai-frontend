@@ -13,6 +13,7 @@ interface energyPriceData {
 
 
 
+//State of energy price data reducer
 const energyPriceDataReducer = (state: energyPriceData | null = null , action:any) => {
     switch(action.type) {
         case "SET_ENERGY_PRICE_DATA":
@@ -22,6 +23,8 @@ const energyPriceDataReducer = (state: energyPriceData | null = null , action:an
     }
 }
 
+
+// Initialise energy price data
 export const initializeEnergyPriceData = () => {
 
     return async (dispatch : Dispatch, getState:any) => {
@@ -84,10 +87,6 @@ export const initializeEnergyPriceData = () => {
         }
     };
 };
-
-
-
-
 
 
 

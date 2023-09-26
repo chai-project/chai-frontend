@@ -48,25 +48,20 @@ const setHeatingDeviceMode = async (label:String, mode:String) => {
     }).catch((e)=>{
         console.error(e.errorMessage)
     });
-    //200
     return response
 
 };
 
 const getHeatingComponentData = async (label:String) => {
     const request = await axios.get(`${baseURL}/heating/mode/?label=${label}`).then((res)=>{
-        // console.log('config: ',res.config)
         // console.log('data: ',res.data)
         // console.log('request: ',res.request)
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
         return res.data
-        // return {error: 'Server error, failed to load heating component data'}
-
 }).catch((error) => {
+    console.log('error',error);
     return {error: 'Server error, failed to load heating component data'}
-    // console.log('error',error);
-    
 })
     return request
 };
@@ -84,7 +79,6 @@ const getAverageHeatingPricePeriod = async (period:any) => {
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
         return res.data
-        // return {error: 'Server error, failed to load heating price data'}
     }).catch((error) => {
         // console.log(error)
         return {error: 'Server error, failed to load heating price data'}
@@ -115,7 +109,6 @@ const getHeatingScheduleData = async (label:String) => {
         // console.log('status text: ',res.statusText)
         // console.log(res.data,'viduje')
         return res.data
-        // return {error: 'Server error, failed to load heating schedule'}
 }).catch((error) => {
     return {error: 'Server error, failed to load heating schedule'}
 
@@ -133,12 +126,10 @@ const setHeatingSchedule = async (homeLabel:any, mask:any, schedule:any) => { //
             }
         }
     ).then((res)=>{
-            // console.log(res.status);
             return res.status
     }).catch((e)=>{
-            // console.error(e.errorMessage)
+            console.error(e.errorMessage)
     });
-    // console.log(response)
     //200
     return response 
 };
@@ -156,12 +147,9 @@ const getHeatingProfiles = async (label:String) => {
         // return {error: 'Server error, failed to load profiles data'}
         return res.data
 }).catch((error) => {
-    // console.error('error',error);
-    // return {error: 'Server error, failed to load heating component data'}
     return {error: 'Server error, failed to load profiles data'}
 
 })
-    // console.log(request)
     return request
 }
 
@@ -176,7 +164,6 @@ const resetProfile = async (label:any ,profile:any) => {
 }).catch((error) => {
     console.error('error',error);
 })
-    //200
     return request
 };
 
@@ -191,15 +178,13 @@ const resetAllprofiles = async (label:any) => {
 }).catch((error) => {
     console.error('error',error);
 })
-    //200
     return request
 };
 
 
 //Logs
-// ${categoryFilter.System === true && categoryFilter.User === false ? system_categories : categoryFilter.System === false && categoryFilter.User === true ? user_categories : all_categories  }
-const getLogs = async (label:String, skip:any, limit:any, start:any, end:any, categoryFilter:any) => { // modify request
-    // console.log(categoryFilter)
+
+const getLogs = async (label:String, skip:any, limit:any, start:any, end:any, categoryFilter:any) => {
     const system_categories = "VALVE_SET,PROFILE_UPDATE,WELCOME"
     const user_categories = "SETPOINT_MODE,PROFILE_RESET,SCHEDULE_EDIT" 
     const all_categories = categoryFilter.System ? system_categories + (categoryFilter.User ? ',' + user_categories : '') : categoryFilter.User ? user_categories : '';
@@ -210,14 +195,10 @@ const getLogs = async (label:String, skip:any, limit:any, start:any, end:any, ca
         // console.log('status: ',res.status)
         // console.log('status text: ',res.statusText)
         return res.data
-        // return {error: 'Server error, failed to load logs'}
-
     }).catch((error) => {
-    // console.error('error',error);
         return {error: 'Server error, failed to load logs, please try to reload the page.'}
 
     })
-    // console.log(request)
     return request
 };
 
@@ -233,12 +214,9 @@ const addLogEntry = async (homeLabel:string, timestamp:string, category:string, 
             }
             }
     ).then((res)=>{
-            // console.log(res.status);
             return res.status
     }).catch((e)=>{
-            // console.error(e.errorMessage)
     });
-    //200
     return response 
 };
 
@@ -257,12 +235,9 @@ const getXaiScatterData = async (label:any, profile:any) => {
         // console.log('status text: ',res.statusText)
         return res.data
 }).catch((error) => {
-    // console.error('error',error);
     return {error: "Server error, failed to load data for Chart 1"}
 })
     return request
-    // return {error: "Server error, failed to load data for Chart 1"}
-
 };
 
 //XAI region
@@ -276,12 +251,9 @@ const getXaiRegionData = async (label:any, profile:any, skip:number) => {
         // console.log('status text: ',res.statusText)
         return {status: res.status, data: res.data}
 }).catch((error) => {
-    console.error('error',error);
     return {error: "Server error, failed to load data for Chart 2 and Chart 4"}
 })
-    return request // atcomentuoti sita!!!!
-    // return {error: "Server error, failed to load data for Chart 2 and Chart 4"}
-
+    return request 
 };
 
 //XAI band
@@ -295,34 +267,11 @@ const getXaiBandData = async (label:any, profile:any, skip:number) => {
         // console.log('status text: ',res.statusText)
         return {status: res.status, data: res.data}
 }).catch((error) => {
-    // console.error('error',error);
     return {error: "Server error, failed to load data for Chart 3"}
 })
     return request
-    // return {error: "Server error, failed to load data for Chart 3"}
 };
 
-
-//panaikinti situs
-
-const baseUrlWAS = 'http://94.237.58.28:8080';
-
-//Chart Data
-const getPriceData = async () => {
-    const request = await axios.get(`${baseUrlWAS}/price`);
-     return request.data;
- };
-
-const getConsumptionData = async () => {
-    const request = await axios.get(`${baseUrlWAS}/consumption`);
-     return request.data;
- };
-
-const getBatteryData = async () => {
-    const request = await axios.get(`${baseUrlWAS}/battery`);
-     return request.data;
- };
-
-export default {getPriceData, getConsumptionData, getBatteryData, setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile,resetAllprofiles, addLogEntry, getXaiScatterData, getXaiRegionData, getXaiBandData}
+export default { setBearerToken, getHeatingComponentData, getHeatingScheduleData, getHeatingProfiles, setTemperature, setHeatingDeviceMode, getCurrentHeatingPriceLimit, getAverageHeatingPricePeriod, setHeatingSchedule, getLogs, resetProfile,resetAllprofiles, addLogEntry, getXaiScatterData, getXaiRegionData, getXaiBandData}
 
 

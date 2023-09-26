@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -11,7 +10,6 @@ import { initializeHeatingComponentData, setHeatingComponentMode } from '../../.
 import { setNotification, setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
 import {refreshLogState} from '../../../Redux-reducers/logsReducer'
 import services from '../../../Services/services';
-import { Typography } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -37,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "#F6946B!important"
     },
     standardColour:{
-      // backgroundColor: "red!important"
+
     },
     ovverrideCancelButton:{
       backgroundColor: 'transparent!important'
@@ -113,7 +111,6 @@ const ToggleButtons: React.FC<{heatingComponentState:any, label:String}> = ({hea
       <ToggleButton size="small" value="auto" classes={heatingComponentState.mode === 'override' ? {selected: classes.ovverride} : {selected: classes.standardColour}}>AUTO</ToggleButton>
       <ToggleButton size="small" value="off">Off</ToggleButton>
       {heatingComponentState.mode === 'override' ? <ToggleButton size="small" value='auto' classes={heatingComponentState.mode === 'override' ? {selected: classes.ovverrideCancelButton} : {selected: classes.standardColour}}>Cancel</ToggleButton> : null }
-      {/* <ToggleButton size="small" value='auto'>Cancel</ToggleButton> */}
     </ToggleButtonGroup>
   );
 }

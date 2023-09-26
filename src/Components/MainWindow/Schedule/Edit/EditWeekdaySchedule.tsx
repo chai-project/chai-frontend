@@ -7,22 +7,18 @@ import { createBrowserHistory } from 'history';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, IconButton, Typography, CircularProgress } from '@mui/material/';
+import { Button, Grid, IconButton } from '@mui/material/';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
 import {setNewHeatingSchedule} from '../../../../Redux-reducers/heatingScheduleReducer'
 
 //utils
 import utils from '../../../Utils/utils';
 
-
-//types
-import timeslot from '../../../../Types/types';
 
 //components
 import TimeslotsData from './TimeslotsData';
@@ -31,78 +27,48 @@ import TimeslotsData from './TimeslotsData';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
-      //  boxSizing: 'border-box',
-       position: 'absolute', //sitas!!!
+       position: 'absolute',
        width: '100%',
        height: '100%',
-      //  border: "1px solid pink",
-    //    background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
     },
     closePageButton:{
-      // position:'absolute',
-      // border: "1px solid lime",
 
     },
     saveAndCancelButtons:{
-      // border: "1px solid orange",
+
     },
     button:{
-      // height: '20px'
-      // height: '75%',
+
       [theme.breakpoints.down('md')]: {
-        height: '25px', //780px
+        height: '25px',
       },
       [theme.breakpoints.down('sm')]: {
         height: '100%',
-        // minHeight: '650px',
       }
     },
     timeslotsData:{
-      // position:'relative',
-      // border: "1px dashed red",
       maxHeight:'83%',
-      // width: '100%',
-      // overflow: 'auto',
       [theme.breakpoints.down('md')]: {
-        // maxHeight:'50%',
-        // width: '20%',
-        // fontSize: '14px',
-        // marginLeft: 'auto',
-        // marginRight: 'auto',
+
       },
-      // '@global': {
-      //   '*::-webkit-scrollbar': {
-      //     width: '0.4em'
-      //   },
-      //   '*::-webkit-scrollbar-track': {
-      //     '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-      //   },
-      //   '*::-webkit-scrollbar-thumb': {
-      //     backgroundColor: '#5ACBCC',
-      //     outline: '1px solid slategrey'
-      //   }
-      // },
     },
     titleAndCloseButton:{
-      // border: "1px dashed lime",
+
     }
   }),
 );
 
 const EditWeekdaySchedule: React.FC = () => {
-  const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(null); //define type
-  const [schedulesAreEqual, setSchedulesAreEqual] = useState<boolean>(true);
+  const [weekdayScheduleToEdit, setWeekdayScheduleToEdit] = useState<any>(null);
 
   const url = createBrowserHistory()
   const parameters = new URLSearchParams(url.location.search);
   const homeLabel =  parameters.get('home')
   const {weekday} = useParams();
 
-  const weekdaySchedule = useSelector((state:any)=>{//define type
+  const weekdaySchedule = useSelector((state:any)=>{
     return(
-      state.heatingSchedule?.find((weekdaySchedule:any)=>{ //define type
+      state.heatingSchedule?.find((weekdaySchedule:any)=>{
         return weekdaySchedule.weekday.toLowerCase() === weekday?.toLowerCase() ? weekdaySchedule : null
       })
     )
@@ -145,16 +111,16 @@ const EditWeekdaySchedule: React.FC = () => {
         </Grid>
         <Grid xs={1} className={classes.saveAndCancelButtons} item container direction="row" alignItems="center" justifyContent="flex-end">
           {utils.areEqualArray(weekdaySchedule?.schedule, weekdayScheduleToEdit) === false || weekdayScheduleToEdit?.length !== weekdaySchedule?.schedule.length ? 
-                                                                      <Grid xs={5} item  container  direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
-                                                                        <Grid item>
-                                                                          <Button variant="contained" color='primary' size='small' className={classes.button} onClick={saveWeekdayScheduleChanges}>Save</Button>
-                                                                        </Grid>
-                                                                        <Grid item>
-                                                                          <Button variant="contained" color='secondary' size='small' className={classes.button} onClick={cancelWeekdayScheduleChanges}>Cancel</Button>
-                                                                        </Grid>
-                                                                        <Grid xs={0.5}></Grid>
-                                                                      </Grid>
-                                                                      :null 
+            <Grid xs={5} item  container  direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
+              <Grid item>
+                <Button variant="contained" color='primary' size='small' className={classes.button} onClick={saveWeekdayScheduleChanges}>Save</Button>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" color='secondary' size='small' className={classes.button} onClick={cancelWeekdayScheduleChanges}>Cancel</Button>
+              </Grid>
+              <Grid xs={0.5}></Grid>
+            </Grid>
+            :null 
           }
         </Grid>
       </Grid>

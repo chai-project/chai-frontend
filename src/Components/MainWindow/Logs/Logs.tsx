@@ -1,80 +1,52 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import dayjs from 'dayjs'
-import moment from 'moment';
-
-import { createBrowserHistory } from 'history';
-
-
 //mui
-import {makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, TextField, Grid } from '@mui/material/';
+import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Grid } from '@mui/material/';
 
 
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
 import { initialiseLogs } from '../../../Redux-reducers/logsReducer';
 import { getMoreLogsOnUserClick } from '../../../Redux-reducers/logsReducer';
 
-
-//types
-import chartDataType from '../../../Types/types'
-
 //components
-import SwitchButton from '../../Buttons/SwitchButton';
 import DatePickerComponent from './DatePickerComponent';
 import LogTable from './LogTable';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 import Checkboxes from './Checkboxes';
-import RefreshRequest from '../../RefreshRequest/RefreshRequest';
-
-import { profile } from 'console';
 
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer:{
-      // border: '3px dashed red',
       height: '100%',
-      // overflow: 'hidden',
     },
     buttons:{
-      // border: '3px dashed lime',
       width:'100%'
     },
     table:{
-      // border: '3px dashed orange',
       width:'100%'
     },
     datepickerContainer:{
       height: '100%',
-      // border: '1px dashed orange',
     },
     datepickerbuttons:{
       position: 'relative',
       left: '1%',
-      // border: '3px dashed red',
     },
     checkboxButtons:{
       position: 'relative',
       right: '1%',
-      // border: '3px dashed green',
     },
     main: {
-      //  boxSizing: 'border-box',
-       position: 'relative', //sitas!!!
+       position: 'relative',
        marginLeft: 'auto',
        marginRight: 'auto',
        top: '2%',
        width: '99%',
        height: '97%',
-      //  border: '3px dashed #5ACBCC',
-      //  background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
     },
     datepicker:{
       position: 'absolute',
@@ -87,10 +59,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 'auto',
       height: '90%',
       width: '100%',
-      // top: '10%',
-      // overflowY: 'scroll',
-      // overflowX: 'hidden',
-      // border: '1px dashed red',
       [theme.breakpoints.down('md')]: {
         height:'25px',
       }
@@ -119,8 +87,7 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
   const [valueFrom, setValueFrom] = React.useState<String | null>(null);
   const [valueTo, setValueTo] = React.useState<String | null>(null);
   const [isGettingMoreLogs, setIsGettingMoreLogs] = React.useState<boolean>(false);
-
-
+  
   //pages and ref for logtable
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
@@ -130,10 +97,6 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
   const [logsLength, setLogsLength] = useState<number|null>(null);
   
 
-  // Filtering
-  // const [uniquefilterValues, setUniquefilterValues] = useState<any>({'System': true, 'User': true});
-  // const uniquefilterValues = currentState.logs?.categoryFilters
-
   const classes = useStyles();
   const dispatch = useDispatch()
 
@@ -141,11 +104,6 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
       const allLogs = currentState.logs.logs?.filter((log:any)=>{return currentState.logs?.categoryFilters[log.category]})
       setLogs(allLogs)
       setLogsLength(allLogs?.length)
-      // setLogs(currentState.logs.logs?.filter((log:any)=>{return uniquefilterValues[log.category]}));
-      // setValueFrom(currentState.logs.from);
-      // setValueTo(currentState.logs.to);
-      // setValueFrom(null);
-      // setValueTo(null);
       setIsGettingMoreLogs(false)
     },[currentState.logs])
 
@@ -157,15 +115,12 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
 
 
     useEffect(()=>{
-      // dispatch(initialiseLogs(homeLabel, currentState.logs.from, currentState.logs.to))
       if( logsLength !== null && logsLength <= rowsPerPage * 2 && currentState.logs.allLogsRetrieved === false && currentState.logs.initialiseFinished === true && !(!currentState.logs?.categoryFilters.User && !currentState.logs?.categoryFilters.System)){ // reike dar vieno kad butu initialised true
         dispatch(getMoreLogsOnUserClick(homeLabel, currentState.logs.skip, currentState.logs.lastRawLog, currentState.logs.from, currentState.logs.to));
         setIsGettingMoreLogs(true)
       }
     },[logsLength, currentState.logs.logs, currentState.logs.initialiseFinished])
 
-
-    
 
   return (
     <Grid container direction='column' justifyContent='center' alignItems='center' className={classes.mainContainer} padding={0}>
@@ -175,7 +130,7 @@ const Logs: React.FC<{currentState:any, homeLabel:any}> = ({currentState, homeLa
           <DatePickerComponent valueFrom={valueFrom} setValueFrom={setValueFrom} valueTo={valueTo} setValueTo={setValueTo} homeLabel={homeLabel} logs={logs} setLogs={setLogs} page={page} setPage={setPage}/>
         </Grid>
         <Grid xs={4} item container className={classes.checkboxButtons} direction="row" justifyContent='flex-end' alignItems='center'>
-          <Checkboxes logs={logs} setLogs={setLogs} uniquefilterValues={currentState.logs?.categoryFilters} setUniquefilterValues={()=>{console.log('swx')}}/>
+          <Checkboxes uniquefilterValues={currentState.logs?.categoryFilters}/>
         </Grid>
       </Grid>
     </Grid>

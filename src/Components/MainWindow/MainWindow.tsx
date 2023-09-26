@@ -4,44 +4,32 @@ import {useParams} from "react-router-dom";
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper } from '@mui/material/';
+
 
 
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
-import {setTemperature} from '../../Redux-reducers/heatingComponentReducer'
-import { initializeHeatingComponentData, setActiveProfile } from '../../Redux-reducers/heatingComponentReducer';
+import { setActiveProfile } from '../../Redux-reducers/heatingComponentReducer';
 import { setNotification } from '../../Redux-reducers/notificationsReducer';
 
 //utils
 import utils from '../Utils/utils'
 
-// import { initializeData } from './Redux-reducers/dataReducer';
-
-
-//types
-import chartDataType from '../../Types/types'
-
 //components
-import SwitchButton from '../Buttons/SwitchButton';
 import Logs from './Logs/Logs';
 import Profiles from './Profiles/Profiles';
 import ScheduleComponent from './Schedule/ScheduleComponent';
 import EditWeekdaySchedule from './Schedule/Edit/EditWeekdaySchedule';
 import ErrorComponent from '../ErrorPages/ErrorComponent';
-import { Backdrop } from '@material-ui/core';
+
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
-      //  boxSizing: 'border-box',
-       position: 'relative', //sitas!!!
+       position: 'relative',
        width: '100%',
        height: '100%',
-      //  background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
     },
   }),
 );
@@ -50,12 +38,6 @@ const MainWindow: React.FC<{homeLabel:String | null, currentState:any}> = ({home
 
     const classes = useStyles();
     const dispatch = useDispatch()
-
-    // const currentState:any = useSelector((state:any)=>{
-    //   return(
-    //     state
-    //   )
-    // })
 
     useEffect(()=>{
       if(currentState.heatingSchedule){

@@ -1,56 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import dayjs from 'dayjs' 
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 //mui
-import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {Grid } from '@mui/material/';
 
 
 
 // redux
-import {useSelector, useDispatch} from 'react-redux'
 import { Typography } from '@material-ui/core';
-// import { initializeData } from './Redux-reducers/dataReducer';
-import {setSelectedTimeslot} from '../../../Redux-reducers/heatingProfilesReduces'
-
-
-//types
-import timeslot from "../../../Types/types"
-import { profileEnd } from 'console';
-
-//components
 
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container:{
-        // border: "2px dashed red",
-        // width: '80%',
         height: '75%',
-        //    background: '#CFD8DC',
-        //    borderRadius:'25px'
     },
     schedule:{
-        // border: "1px solid lime",
         height: '95%',
         borderRadius: '25px',
         overflow: 'hidden',
-        // height: '12%',
-        // width: '100%',
-
     },
     timeslot:{
-        // border: "1px solid lime",
-        // borderRight: "1px solid #57CBCC",
-        // width: '10px',
         height: '100%',
         "&:hover, &:focus": {
-            // borderRight: "10px solid red",
             background : "#57CBCC",
             cursor: 'pointer'
             
@@ -63,28 +38,17 @@ const useStyles = makeStyles((theme: Theme) =>
           }
     },
     labels: {
-        // border: "1px solid orange",
         height: '40%',
-        // background:'pink'
     },
     timeLabel:{
         position:'absolute',
         fontSize: '9px',
         bottom: '11px',
-        // border: "1px solid orange",
-        
     },
     temperatureLabel:{
         position:'relative',
         fontSize: '10px',
     },
-    // timeslotInfo:{
-    //     // display: 'none',
-    //     border: "1px solid orange",
-    //     position:'absolute',
-    //     top:'-80%',
-    //     // height: '50px'
-    // },
     infoLabel:{
         fontSize: '13px',
         marginLeft: '10px',
@@ -93,11 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const TimeslotTimeLabel: React.FC<{indexOfaWeekday:any, weekday:any, profile:any, index:number, timeslots:any}>= ({indexOfaWeekday, weekday, profile, index, timeslots}) => { // timeslots type timeslot[] | null
+const TimeslotTimeLabel: React.FC<{indexOfaWeekday:any, weekday:any, profile:any, index:number, timeslots:any}>= ({indexOfaWeekday, weekday, profile, index, timeslots}) => { 
     const [sizeOfATimeslot, setSizeOfATimeslot] = useState<number>(0);
-    const [timeIntervals, setTimeIntervals] = useState<any|null>(null);
-    const theme = useTheme();
-    const breakpoint = useMediaQuery(theme.breakpoints.down("sm"));
+    // const [timeIntervals, setTimeIntervals] = useState<any|null>(null);
 
 
     useEffect(()=>{
@@ -106,23 +68,17 @@ const TimeslotTimeLabel: React.FC<{indexOfaWeekday:any, weekday:any, profile:any
         const intervals: any[] =[]
         let size = 0
         while(startTime < endTime){
-            console.log(startTime<endTime, startTime,endTime)
             intervals.push(startTime.format().split(/(?=[A-Z])/)[1].substr(1,5));
             size = size + 0.125
             startTime = startTime.add(15, 'minute');
         };
         setSizeOfATimeslot(size)
-        setTimeIntervals(intervals)
+        // setTimeIntervals(intervals)
     },[])
 
 
     const classes = useStyles();
-    const dispatch = useDispatch()
 
-
-    const setThisProfileAsSElectedProfile = (timeslot:any) => {
-        dispatch(setSelectedTimeslot({...timeslot, indexOfaWeekday: indexOfaWeekday, weekday:weekday}))
-    };
   return (
     <Grid container xs={sizeOfATimeslot}>
         <Grid item xs={1}>

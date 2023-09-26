@@ -1,48 +1,31 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton, Typography } from '@mui/material/';
-
-
-
-// redux
-import {useSelector, useDispatch} from 'react-redux'
-
-
-
-
-//types
+import { CssBaseline, Button, Grid, Typography } from '@mui/material/';
 
 //components
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 
 // Styles 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container:{
         flex: 1,
-        // border: "2px dashed red",
-        // width: '80%',
         position:'absolute',
-        // top:'4px',
-        // left: "-0.01px",
         height: '100%',
         width: '100%',
         zIndex: 10,
         borderRadius: 5,
-          //  background: '#CFD8DC',
           background: 'rgba(0,0,0,0.4)',
           backdropFilter: 'blur(50px)',
-        //    borderRadius:'25px'
     },
     message:{
         border: "2px dashed red",
 
     },
     markedText: {
-      // color: '#5ACBCC'
+
     }
   }),
 );
@@ -50,7 +33,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ConfirmOverlay: React.FC<{profileToReset:String, setProfileToReset:any, resetProfileOrAllProfiles:any, loadingRequestToTheServer:boolean}> = ({profileToReset, setProfileToReset, resetProfileOrAllProfiles, loadingRequestToTheServer}) => {
     const classes = useStyles();
-    const dispatch = useDispatch()
 
   return (
     <Grid container className={classes.container} direction="column" justifyContent="center" alignItems="center">

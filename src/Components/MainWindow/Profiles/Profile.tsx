@@ -1,25 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import dayjs from 'dayjs';
-
 
 //services
 import services from '../../../Services/services';
 
 //mui
 import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Typography, Link } from '@mui/material/';
-
-
+import { Grid, Typography, Link } from '@mui/material/';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
 import {setSelectedProfile} from '../../../Redux-reducers/xaiFeaturesReducer'
-
-
-//types
-
 
 //components
 import Chart from './Chart';
@@ -30,60 +22,39 @@ import ProgressCircular from '../../ProgressBar/ProgressCircular';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
-      //  boxSizing: 'border-box',
-       position: 'relative', //sitas!!!
+       position: 'relative',
        width: '100%',
        height: '100%',
-      //  background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
     },
     container:{
-        // border: "2px dashed lime",
         height: '100%',
         width: '100%',
-        // position: 'relative'
     },
     info:{
         height: '100%',
         width: '100%',
-        // border: "2px dashed pink",
     },
     moreInfo:{
-      // border: "1px dashed orange",
       height: '100%',
       width: '100%',
 
     },
     gaugeChart:{
-      // border: "1px dashed lime",
       height: '100%',
-      // width: '90%',
-
     },
     profileChartContainer:{
         height: '100%',
         width: '100%',
-        // border: "2px dashed red",
-        // position: 'relative',
-        // top: '1px',
-        // width: '90%'
     },
     profileChart:{
       height: '95%',
       width: '100%',
-      // border: "2px dashed red",
-      // position: 'relative',
-      // top: '1px',
-      // width: '90%'
   },
     gauge:{
-      // border: "2px dashed red",
+
     },
     moreInfoButton:{
-      // border: "2px dashed pink",
       cursor: 'pointer',
-
     }
   }),
 );

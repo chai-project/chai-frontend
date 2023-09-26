@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 //mui
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
+import {Grid} from '@mui/material/';
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 // components
@@ -10,7 +10,6 @@ import ToolTip from './ToolTip';
 //chartjs 
 import 'chart.js/auto'
 import {Line} from 'react-chartjs-2'
-import { Typography } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,39 +17,27 @@ const useStyles = makeStyles((theme: Theme) =>
     chart:{
         height: '25vh',
         width: '95%',
-        // [theme.breakpoints.down('md')]: {
-        //     height: '28vh',
-        //   }
         [theme.breakpoints.up('md')]: {
           height: '25vh',
         },
         [theme.breakpoints.down('md')]: {
           height: '60vh',
-          // height: '46vh'
-
         },
         [theme.breakpoints.down('sm')]: {
             height: '36vh',
           },
-        // border: "2px dashed purple",
-        // height: '100%',
     },
     tooltip:{
-      // border: "2px dashed purple",
       height: '0vh'
     },
     tooltipButton:{
       position: 'absolute',
-      // backgroundColor:'lime',
       [theme.breakpoints.up('md')]: {
-        // height: '25vh',
         top: 386,
         left: 470,
       },
       [theme.breakpoints.down('md')]: {
-
         top: 205,
-        // left: 465,
         left: 475,
       },
       [theme.breakpoints.down('sm')]: {
@@ -102,7 +89,6 @@ const PredictionsChart: React.FC<{xaiBandData:any, breakpointMedium:any, breakpo
   };
   const options:any = {
     responsive: breakpoint ? true : breakpointMedium ? true : true,
-    // maintainAspectRatio: false
     maintainAspectRatio: breakpoint ? false : breakpointMedium ? false : false,
     animation: {
       duration: 0
@@ -120,13 +106,14 @@ const PredictionsChart: React.FC<{xaiBandData:any, breakpointMedium:any, breakpo
         align: breakpoint ? 'center' : breakpointMedium ? 'center' : 'center',
         labels: {
             filter: function(item:any, chart:any) {
-                // Logic to remove a particular legend item goes here
+                // to remove a particular legend for lower confidence
                 return !item.text.includes('Lower confidence');
             },
             color: '#FFFFFF',
             usePointStyle: true,
             
           },
+        // dissable on click show/hide
         onClick: (click:any,legenItem:any,legend:any)=>{
             // console.log(click);
             return;
@@ -171,8 +158,6 @@ const PredictionsChart: React.FC<{xaiBandData:any, breakpointMedium:any, breakpo
         },
         min:7,
         max: 30
-        // min: xaiBandData ? Math.min(...xaiBandData.lower_confidence) - 5 : 7,
-        // max: xaiBandData ? Math.max(...xaiBandData.upper_confidence) + 5 : 30,
       },
     },
   };
@@ -188,13 +173,6 @@ const PredictionsChart: React.FC<{xaiBandData:any, breakpointMedium:any, breakpo
         {!xaiBandData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/> }
       </Grid>
     </Grid> 
-    // <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.chart}>
-    //   {/* <Typography>predictionsChart</Typography> */}
-      // {!xaiBandData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/> }
-    //   {/* <Grid item className={classes.tooltipButton}>
-    //     <ToolTip info={'predictionsChart'}/>
-    //   </Grid> */}
-    // </Grid>
   )
 }
 

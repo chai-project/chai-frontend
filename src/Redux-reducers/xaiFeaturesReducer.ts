@@ -2,6 +2,8 @@ import { Dispatch } from 'redux';
 import services from '../Services/services';
 import dayjs from 'dayjs';
 
+
+// state for XAI fetures (XAI charts) reducer.
 const xaiFeaturesReducer = (state: any = { selectedProfile:null, xaiScatterData:null, xaiScatterDataError:null, xaiRegionData:null, xaiRegionDataError:null, xaiBandData:null, xaiBandDataError:null, periodPriceData:null, periodPriceDataError:null} , action:any) => {
     switch(action.type) {
         case 'SET_SELECTED_PROFILE':
@@ -38,7 +40,6 @@ export const setSelectedProfile = (profile:any) => {
     };
 };
 
-//1st chart
 export const setXaiScatterData = (label:string, profile:number) => {
 
     return async (dispatch : Dispatch) => {
@@ -58,9 +59,6 @@ export const setXaiScatterData = (label:string, profile:number) => {
     };
 };
 
-// getSetpointScheduleChartData
-
-//4th chart
 export const setPeriodPriceData = (start:any, end:any) => {
 
     const period = {
@@ -95,7 +93,6 @@ export const setXaiRegionData = (label:string, profile:number, skip:number) => {
         const xaiRegionData:any = await services.getXaiRegionData(label,profile,skip);
 
         if(xaiRegionData.error){
-            // xaiRegionDataError
             dispatch({
                 type:"SET_XAI_REGION_DATA",
                 data: {xaiRegionData: null, xaiRegionDataError: xaiRegionData.error}

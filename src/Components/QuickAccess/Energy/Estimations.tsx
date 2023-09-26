@@ -2,31 +2,10 @@ import React, {useEffect, useState} from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Box, Divider, Grid, Button, AppBar, Toolbar, IconButton, Stack, Link, Typography} from '@mui/material/';
-    //icons
-    import FileDownloadIcon from '@mui/icons-material/FileDownload';
-    import FileUploadIcon from '@mui/icons-material/FileUpload';
-    import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
-
-    import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-    import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-    import LineAxisIcon from '@mui/icons-material/LineAxis';
-    import MovingIcon from '@mui/icons-material/Moving';
-    import ShowChartIcon from '@mui/icons-material/ShowChart';
-
-    import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-
-
+import {Typography} from '@mui/material/';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
-
-
-//components
-import ButtonsForEnergyQA from './ButtonsForEnergyQA';
-import ProgressCircular from '../../ProgressBar/ProgressCircular';
-
 
 
 // Styles 
@@ -43,9 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     columnContainer:{
-    //   height: '180px', //visi buvo 170
-    //   minWidth: '90%',
-    //   borderRadius: '25px'
     backgroundColor: 'red',
     border: '1px solid red'
     },
@@ -62,8 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Estimations: React.FC<{periodState:any, energyPrice:any ,type:any}> = ({periodState, energyPrice ,type}) => {
   const [price, setPrice] = useState<number|null>(null);
-  const classes = useStyles();
-  const dispatch = useDispatch();
   
   useEffect(()=>{
       switch(type){
@@ -113,19 +87,7 @@ const Estimations: React.FC<{periodState:any, energyPrice:any ,type:any}> = ({pe
           }
           
       }
-      // switch(periodState) {
-      //   case 'Today':
-      //     setPrice(energyPrice.averagePriceToday.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceToday.length)
-      //     break;
-      //   case 'This week':
-      //     setPrice(energyPrice.averagePriceThisWeek.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisWeek.length)
-      //     break;
-      //   case 'This month':
-      //     setPrice(energyPrice.averagePriceThisMonth.reduce((sum:any, period:any) => sum + period.rate, 0) / energyPrice.averagePriceThisMonth.length)
-      //     break;
-      //   default:
-      //     setPrice(null)
-      // }
+      
   },[periodState])
 
   

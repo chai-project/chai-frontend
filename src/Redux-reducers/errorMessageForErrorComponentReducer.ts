@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
-import services from '../Services/services';
 
 
+//State for error message for error component Reducer. IF error will be redirected to /error page and error will be displayed on the page 
 const errorMessageForErrorComponentReducer = (state: String|null = null , action:any) => {
     switch(action.type) {
         case "SET_ERROR_MESSAGE_FOR_ERROR_COMPONENT":

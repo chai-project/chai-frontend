@@ -2,15 +2,14 @@
 import * as React from 'react';
 //MUI
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Backdrop } from '@mui/material/';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { dark, light } from '../../Themes/themes'
+import {Grid, Typography} from '@mui/material/';
+
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 //Styles
-    //Logo
-    import Logo from '../../IMG/logo.png'
-import { Typography } from '@material-ui/core';
+//Logo
+import Logo from '../../IMG/logo.png'
+
 
   const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,10 +28,10 @@ import { Typography } from '@material-ui/core';
             }
     },
     error:{
-        // border: "1px dashed yellow",
+
     },
     empty:{
-        // border: "1px dashed red",
+
     }
   }),
 );
