@@ -9,8 +9,8 @@ interface heatingProfile {
 }
 
 
-//Heating Component reducer
-const heatingProfilesReducer = (state:any = {heatingProfiles:[], selectedTimeslot:null, selectedProfile: null, energyPriceForSelectedTimeslot: null, error: null, userResetProfile:false} , action:any) => { //buvo empty array startas  (state: []| null = null , action:any)  state = {heatingProfiles:[], selectedProfile:null}
+// State for heating profiles reducer
+const heatingProfilesReducer = (state:any = {heatingProfiles:[], selectedTimeslot:null, selectedProfile: null, energyPriceForSelectedTimeslot: null, error: null, userResetProfile:false} , action:any) => {
     switch(action.type) {
         case "SET_HEATING_PROFILES":
             return state = {...state, ...action.data}
@@ -29,7 +29,7 @@ export const initializeHeatingProfiles = (label:String) => {
 
     return async (dispatch : Dispatch) => {
         const profileLabels = ["Nights", "Mornings", "Weekdays", "Evenings", "Weekends"]
-        const colors = ["#57A6F0", "#d1ca69", "#F6946B", "#f03cdb" , "#FE6262"  ]
+        const colors = ["#57A6F0", "#d1ca69", "#F6946B", "#f03cdb" , "#FE6262" ]
 
         const heatingProfiles:any = await services.getHeatingProfiles(label);
 
@@ -39,7 +39,7 @@ export const initializeHeatingProfiles = (label:String) => {
                 data: {error: heatingProfiles.error}
             })
         }else if(heatingProfiles){
-            const profilesWithLabels = heatingProfiles?.map((profile:any)=>{ //define type later
+            const profilesWithLabels = heatingProfiles?.map((profile:any)=>{
                 const segment = utils.getSegment(profile.slope, profile.bias)
                 let gaugeValue = segment === 0 ? 0.083333333 : segment === 1 ? 0.25 : segment === 2 ? 0.416666667 : segment === 3 ? 0.58 : segment === 4 ? 0.75 : segment === 5 ? 0.916666667 : null 
                 let priceSensitivity =  segment === 0 ? "Negative" : segment === 1 ? "Very low" : segment === 2 ? "Low" : segment === 3 ? "Moderate" : segment === 4 ? "High" : segment === 5 ? "Very high" : "Unknown"
@@ -98,7 +98,7 @@ export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
                         const endOfLastInterval = dayjs(subIntervalEnd).add(15,'minutes').format()
                         pricePeriodWithSubIntervals.push({start:subIntervalEnd, end:endOfLastInterval, rate:interval.rate })
                     }
-                } // original was after these two and the last else is uncommented
+                }
                 else if (index === arr.length -1 && interval.end !== end.format() ){
                     pricePeriodWithSubIntervals.push(interval)
                     pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
@@ -107,16 +107,7 @@ export const setEnergyPriceForSelectedProfile = (start:any, end:any) => {
                     pricePeriodWithSubIntervals.push(interval)
                     pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
                     pricePeriodWithSubIntervals.push({start:subIntervalEnd, end:endOfLastInterval, rate:interval.rate })
-                }
-                // else if(index === pricesForPeriod.length -1 && interval.end !== end.format()){
-                //     const lastIntervalStart = dayjs(subIntervalStart).add(15,'minutes').format();
-                //     const lastIntervalEnd = dayjs(subIntervalStart).add(30,'minutes').format();
-                //     pricePeriodWithSubIntervals.push(interval)
-                //     pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
-                //     // pricePeriodWithSubIntervals.push({start:lastIntervalStart, end:lastIntervalEnd, rate:interval.rate })
-                    
-                // }
-                else {
+                }else {
                     pricePeriodWithSubIntervals.push(interval)
                     pricePeriodWithSubIntervals.push({start:subIntervalStart, end:subIntervalEnd, rate:interval.rate })
                 }

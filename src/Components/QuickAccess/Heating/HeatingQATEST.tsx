@@ -2,11 +2,10 @@ import React, {useState, useEffect} from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Box, Grid, Divider, Slider, AppBar, Toolbar, IconButton, Stack, Link, Button, Typography} from '@mui/material/';
+import { Box, Grid, Divider, Button, Typography} from '@mui/material/';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
 import {initializeHeatingComponentData,setHeatingComponentMode} from '../../../Redux-reducers/heatingComponentReducer'
 import { setTemperature } from '../../../Redux-reducers/heatingComponentReducer';
 import { setNotification, setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
@@ -14,7 +13,6 @@ import {refreshLogState} from '../../../Redux-reducers/logsReducer'
 
 //components
 import TemperatureSlider from './TemperatureSlider';
-import SwitchButton from '../../Buttons/SwitchButton';
 import ProgressCircular from '../../ProgressBar/ProgressCircular';
 import ToggleButtons from './ToogleButtons';
 import services from '../../../Services/services';
@@ -36,61 +34,45 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     main:{
-      height: '200px', // was 190
+      height: '200px',
       minWidth: '90%',
       borderRadius: '25px',
-      // border: "7px solid orange",
     },
     container:{
       height: '100%',
       width: '100%',
-      // minWidth: '90%',
-      // borderRadius: '25px',
-      // border: "2px dashed pink",
-      
     },
     slider:{
       position: 'relative',
       top: '10px',
       left: '5px',
       width: '97%',
-      // border: "2px dashed pink",
-      // right: '-3px' // buvo 5px
     },
     infoAndSwitchButtonsContainer:{
-      // border: "2px dashed lime",
       width: '100%',
       height:'50%'
     },
     sliderAndCurrentTemperatureContainer:{
-      // border: "2px dashed lime",
       width: '100%',
       height: '50%'
     },
     actualTemperatureContainer:{
-      // border: "2px dashed yellow",
       position: 'relative',
-      top: '-65px', //was 65 change because of leter C
-      left:'5px', //was 10 change because of leter C
+      top: '-65px',
+      left:'5px',
       [theme.breakpoints.down('md')]: {
-      top: '-60px', //was 65 change because of leter C
+      top: '-60px',
       },
-      // top: '%'
     },
     actualTemperature:{
-      fontSize:30, //was 32,, was 45 change because of leter C
-      // border: "2px dashed red",
-      height: '35px' //was 40
+      fontSize:30,
+      height: '35px'
     },
     actualTemperatureLabel:{
-      // border: "2px dashed red",
-      fontSize:20 //was 20
+      fontSize:20
     },
     valveStatusContainer:{
-      // border: "2px dashed red",
       height:'100%',
-      // position: 'relative',
-      // left:'3px'
     },
     valveStatus:{
       fontSize:15,
@@ -99,33 +81,25 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     switchButtonsContainer:{
       height:'100%',
-    //   border: "2px dashed red",
     },
     confirmQuestion:{
-      fontSize: 12, //buvo 13
-      // border: "2px dashed red",
+      fontSize: 12,
     },
     confirmButtons:{
-      // border: "2px dashed red",
+
     },
     switchButton:{
-      // border: "2px dashed red",
+
     },
     radioButton: {
-    //   border: "2px dashed lime",
+
     },
-    //vlvestatus&&tooglebuttons
     valveStatusAndToogleButtons: {
         width: '100%',
         height: '50%',
-        // border: '1px dashed lime',
-        // border: "2px dashed lime",
-        // width: '100%',
-        // height:'50%'
     },
     expiresAt:{
         fontSize:11,
-        // border: '1px dashed lime',
         height:'20px',
         position:'relative',
         right: '10px'
@@ -139,8 +113,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const HeatingQATEST: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
   
-  //main component state from redux
-  const heatingComponentState = useSelector( (state:any)=>{ // async await problemos, su switch button, reike giliau pasikapstyt, bet async await neupdeitina steito.
+  const heatingComponentState = useSelector( (state:any)=>{
     return  state.heatingComponent
   })
 
@@ -160,7 +133,6 @@ const HeatingQATEST: React.FC<{homeLabel:String | null}> = ({homeLabel}) => {
   const dispatch = useDispatch();
 
 //confirm buttons actions
-
 const confirmYes = async () => {
   if(requestTargetTemperatureValue){
     setLoading(true)
@@ -182,8 +154,6 @@ const confirmYes = async () => {
 const confirmCancel = () => {
   setIsSetTargetTemperature(false)
 }
-
-
 
 const confirmComponent = () => {
   return(

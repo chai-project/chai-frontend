@@ -2,16 +2,10 @@
 import * as React from 'react';
 //MUI
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup'; // cia bus visi switchai
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch, { SwitchProps } from '@mui/material/Switch';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 //icons
     //battery discharging
-    import BatteryAlertIcon from '@mui/icons-material/BatteryAlert';
     import Battery20Icon from '@mui/icons-material/Battery20';
     import Battery30Icon from '@mui/icons-material/Battery30';
     import Battery50Icon from '@mui/icons-material/Battery50';
@@ -37,7 +31,6 @@ import Typography from '@mui/material/Typography';
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
-        // border: '2px solid green',
     },
     icon:{
         transform: 'rotate(90deg)',
@@ -52,7 +45,6 @@ import Typography from '@mui/material/Typography';
         lineHeight:1,
         bottom: '-20%',
         margin: -5,
-        // border: '2px solid green',
     }
   }),
 );

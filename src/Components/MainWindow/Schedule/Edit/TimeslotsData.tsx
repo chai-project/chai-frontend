@@ -1,122 +1,71 @@
 import React, {useState} from 'react';
-
-import { useParams, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs'
 
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, IconButton, TextField, Box } from '@mui/material/';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { Grid, IconButton, Box } from '@mui/material/';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
-import CircularProgress from '@mui/material/';
-
-// import TimePicker from '@mui/x-date-pickers-pro/TimePicker';
-// or
-// import TimePicker from '@mui/x-date-pickers/TimePicker';
-// or
-// import { TimePicker } from '@mui/x-date-pickers-pro';
-// or
-import { TimePicker } from '@mui/x-date-pickers';
-
-
-
-// redux
-import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
-import {setNewHeatingSchedule} from '../../../../Redux-reducers/heatingScheduleReducer'
-
-
-//types
-import timeslot from '../../../../Types/types';
 
 //components
-import Weekday from '../Weekday';
-import WeekdayPaste from '../WeekdayPaste';
-import ProgressCircular from '../../../ProgressBar/ProgressCircular';
-import { Typography } from '@material-ui/core';
-import { profile, time } from 'console';
 import TimeslotPeriodFromTo from './TimeslotPeriodFromTo';
 import ProfilePicker from './ProfilePicker';
 import Labels from './Labels';
-import Setpoint from './Setpoint';
 // Styles 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main:{
-    //   border: "1px solid pink",
       height: '100%',
       width: '100%',
     },
     timeslots:{
-        // height: '55%',
         maxHeight: '65%',
-        // width: '100%',
-        // border: "2px solid red",
         overflow: 'auto'
     },
     labels:{
         height: '7%',
         width: '100%',
-        // border: "1px dashed white",
     },
     addNew:{
         height: '15%',
         width: '100%',
-        // border: "1px solid orange",
     },
     timeslot:{
         width: '100%',
         marginTop: '5px',
         borderBottom: '1px solid #5ACBCC',
         borderTop: '1px solid #5ACBCC',
-        // border: "3px solid lime",
     },
     profile:{
-        // border: "1px solid red",
         fontSize: '15px',
         width: '14%',
         [theme.breakpoints.down('md')]: {
             width: '15%',
             fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
         },
         [theme.breakpoints.down('sm')]: {
             width: '35%',
             fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
         }
     },
     period:{
-        // border: "1px solid red",
         width: '36%',
         fontSize: '15px',
         [theme.breakpoints.down('md')]: {
             width: '35%',
             fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
         },
         [theme.breakpoints.down('sm')]: {
             width: '40%',
             fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
         }
     },
     deleteButton:{
-        // border: "1px solid red",
-        // width: '6%',
-        // fontSize: '15px',
+
         [theme.breakpoints.down('md')]: {
-            // width: '10%',
-            // fontSize: '14px',
-            // marginLeft: 'auto',
-            // marginRight: 'auto',
+
           }
     },
     '@global': {
@@ -137,48 +86,34 @@ const useStyles = makeStyles((theme: Theme) =>
 const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = ({timeslots, setWeekdayScheduleToEdit}) => {
 
     const classes = useStyles();
-    const dispatch = useDispatch()
-    const {weekday} = useParams();
-    const navigate = useNavigate();
     const emptyTimeslot = {profileName: null, profileStart: "00:00", profileEnd: '24:00', profileID:null }
     const [timeslotToAdd, setTimeslotToAdd] = useState<any>(emptyTimeslot)
 
     const deleteTimeslot = (id:number) => {
-        // console.log(id)
         if(timeslots.length > 1){
             const newTimeslots = timeslots.filter((timeslot:any)=>{return(timeslot.id !== id)})
             sortTimeslots(newTimeslots)
         };
     };
-//  1 check if the last one 2 >check if less 3 check if difference 4 assisgn // pervadinti constus laiko !! 
+//  1 check if the last one 2 >check if less 3 check if difference 4 assisgn
     const addNewTimeslot = () => {
         let newTimeslots:any[] = []
-        let biggerTimeslotSpaceIsAlreadyUsed = 0
         for(let i = 0; i<timeslots.length;i++){ 
             const alreadyInArray = newTimeslots.indexOf(timeslotToAdd)
             const startTimeForATimeslot = newTimeslots.length !== 0 ? dayjs().set('hour', newTimeslots[newTimeslots.length -1].profileEnd.split(":")[0]).set('minute', newTimeslots[newTimeslots.length -1].profileEnd.split(":")[1]).set('second', 0) : dayjs().set('hour', timeslots[i].profileStart.split(":")[0]).set('minute', timeslots[i].profileStart.split(":")[1]).set('second', 0)
             const hoursFrom:string = startTimeForATimeslot.hour() < 10 ? `0${startTimeForATimeslot.hour()}` : `${startTimeForATimeslot.hour()}`
             const minutesFrom:string = startTimeForATimeslot.minute() < 10 ? `0${startTimeForATimeslot.minute()}` : `${startTimeForATimeslot.minute()}` 
-            const endTimeForATimeslot = dayjs().set('hour', timeslots[i].profileEnd.split(":")[0]).set('minute', timeslots[i].profileEnd.split(":")[1]).set('second', 0)
-            const hoursTo:string = endTimeForATimeslot.hour() < 10 ? `0${endTimeForATimeslot.hour()}` : `${endTimeForATimeslot.hour()}`
-            const minutesTo:string = endTimeForATimeslot.minute() < 10 ? `0${endTimeForATimeslot.minute()}` : `${endTimeForATimeslot.minute()}` 
-            // console.log(`${hoursFrom}:${minutesFrom} to ${hoursTo}:${minutesTo}`)
-            // newTimeslots.push({...timeslots[i]})
-            // console.log(newTimeslots.length !== 0  ?  timeslots[i].start : timeslots[i-1].profileEnd )
+ 
             if(timeslotToAdd.profileStart <= timeslots[i].profileStart && alreadyInArray < 0){
                 if(timeslotToAdd.profileEnd >= timeslots[i].profileEnd){
                     if(timeslotToAdd.profileEnd === "24:00"){
                         newTimeslots.push(timeslotToAdd)
                     }else if(i === 0){
                         newTimeslots.push(timeslotToAdd)
-                        // newTimeslots.push({...timeslots[i], profileStart: timeslotToAdd.profileEnd ,profileEnd: timeslots[i+1].profileStart  })
                     }else{
                         newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
                         newTimeslots.push(timeslotToAdd)
                     }
-                    // newTimeslots[newTimeslots.length -1].profileEnd = timeslotToAdd.profileStart
-                    // newTimeslots.push(timeslotToAdd)
-                    
                 }else if(newTimeslots[i-1]){
                     newTimeslots[i-1].profileEnd = timeslotToAdd.profileStart
                     newTimeslots.push(timeslotToAdd)
@@ -212,7 +147,7 @@ const TimeslotsData: React.FC<{timeslots:any, setWeekdayScheduleToEdit:any}> = (
         setTimeslotToAdd(emptyTimeslot)
     };
 
-    const sortTimeslots = (newTimeslots:any) => { //define types later
+    const sortTimeslots = (newTimeslots:any) => {
         let noDuplicates: any[] = []
         for(let i =0; i<newTimeslots.length; i++){
             if(i===0){

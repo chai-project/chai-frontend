@@ -1,31 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Box, Divider, Grid, Button, AppBar, Toolbar, IconButton, Stack, Link} from '@mui/material/';
-    //icons
-    import FileDownloadIcon from '@mui/icons-material/FileDownload';
-    import FileUploadIcon from '@mui/icons-material/FileUpload';
-    import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
-
-    import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-    import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-    import LineAxisIcon from '@mui/icons-material/LineAxis';
-    import MovingIcon from '@mui/icons-material/Moving';
-    import ShowChartIcon from '@mui/icons-material/ShowChart';
-
-    import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-
-
-
-// redux
-import {useSelector, useDispatch} from 'react-redux'
-// import { initializeData } from './Redux-reducers/dataReducer';
-
-
-//components
-
-
+import { Grid, Button} from '@mui/material/';
 
 // Styles 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,19 +27,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const ButtonsForEnergyQA: React.FC<{state:String, setState: any, cases: String[], }> = ({state , setState, cases}) => {
 
     const classes = useStyles();
-    const dispatch = useDispatch()
 
-//   const getData = () => {
-//     dispatch(initializeData())
-//   }
-
-const changeState = (eachCase: String) => {
-    setState(eachCase)
-}
+    const changeState = (eachCase: String) => {
+        setState(eachCase)
+    }
 
   return (
     <div className={classes.root}>
-    <Grid container direction="row" justifyContent="center" alignItems="flex-start"> {/* justifycontent flex-end man geriau atrodo zymei */}
+    <Grid container direction="row" justifyContent="center" alignItems="flex-start">
         {cases.map((eachCase)=>{
             return (
                 <Grid item >

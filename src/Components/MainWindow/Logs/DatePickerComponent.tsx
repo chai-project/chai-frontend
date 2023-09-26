@@ -1,20 +1,14 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
-// import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { styled } from '@mui/material/styles';
-import { CssBaseline, AppBar, Toolbar, IconButton, Stack, Link, Grid, TextField} from '@mui/material/';
-import {makeStyles, Theme, createStyles, withStyles  } from '@material-ui/core/styles';
-// import dayjs from 'dayjs';
 
-
-
+import {Grid, TextField} from '@mui/material/';
+import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 
 // redux
-import {useSelector, useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import { initialiseLogs } from '../../../Redux-reducers/logsReducer';
 
 //styles 

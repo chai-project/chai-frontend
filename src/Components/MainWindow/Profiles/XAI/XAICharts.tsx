@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import dayjs from 'dayjs' 
 
 
 //mui
 import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import {Grid, IconButton } from '@mui/material/';
 
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
@@ -20,22 +18,11 @@ import { Typography } from '@material-ui/core';
 import { setXaiScatterData, setPeriodPriceData, setXaiRegionData, setXaiBandData } from '../../../../Redux-reducers/xaiFeaturesReducer';
 import { setErrorMessage } from '../../../../Redux-reducers/notificationsReducer';
 import { setUserChangedBackToFalse } from '../../../../Redux-reducers/heatingComponentReducer';
-// import { initializeData } from './Redux-reducers/dataReducer';
-// import {setSelectedProfile, setEnergyPriceForSelectedProfile} from '../../../../../Redux-reducers/heatingProfilesReduces'
 
-
-
-//types
-// import timeslot from "../../../../../Types/types"
-
-//components
-// import ChartForSelectedTimeslot from './ChartForSelectedTimeslot';
-// import ScatterChart from './Charts/InputsChart';
 import InputsChart from './Charts/InputsChart';
 import UpdateModelChart from './Charts/UpdateModelChart';
 import PredictionsChart from './Charts/PredictionsChart';
 import SetpointScheduleChart from './Charts/SetpointScheduleChart';
-import ProgressCircular from '../../../ProgressBar/ProgressCircular';
 import RefreshRequest from '../../../RefreshRequest/RefreshRequest';
 
 
@@ -44,30 +31,18 @@ import RefreshRequest from '../../../RefreshRequest/RefreshRequest';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     navigateButtons:{
-        // width: '10%',
-        // height: '10%',
-        // border: "1px solid orange",
 
-      // position:'absolute',
     },
     chartsComponent:{
-    //   border: "1px solid lime",
-    //   height: '100%',
-    //   flex: 0,
-
 
     },
     charts:{
-    //   border: "1px solid red",
 
     [theme.breakpoints.up('md')]: {
-        // height: '25vh',
         overflow:'visible'
       },
       [theme.breakpoints.down('md')]: {
-        // height: '32vh',
         overflow:'auto'
-        // height: '100%'
       },
       [theme.breakpoints.down('sm')]: {
         overflow:'visible'
@@ -75,11 +50,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     Chartcontainer:{
-    //   border: "1px solid pink",
 
     },
     Chart:{
-    //   border: "1px solid lime",
       height: '25vh',
       width: '95%',
       [theme.breakpoints.up('md')]: {
@@ -87,14 +60,13 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.down('md')]: {
         height: '32vh',
-        // height: '100%'
       },
       [theme.breakpoints.down('sm')]: {
           height: '36vh',
         },
     },
     tooltipAndChart:{
-    //   border: "1px solid lime",
+
     }
   }),
 );
@@ -127,7 +99,7 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:bool
     },[])
 
 
-    //refresh xai chaerts on user change
+    //refresh xai charts on user change
     useEffect(()=>{
 
         if(userChanged){
@@ -288,69 +260,3 @@ const XAICharts: React.FC<{xaiFeaturesState:any, homeLabel:any, userChanged:bool
 export default XAICharts;
 
 
-// return (
-//     <Grid xs={12} item container className={classes.chartsComponent} direction="column" justifyContent="center" alignItems="center">
-//         <Grid item container xs={breakpoint ? 11.1 : 10.4} className={classes.charts} direction={breakpoint ? "column" : 'column'} justifyContent="center" alignItems="center">
-//             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
-//                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-//                     {xaiFeaturesState.xaiScatterDataError ? <RefreshRequest showError={"Error"}  action={()=>{dispatch(setXaiScatterData(homeLabel, xaiFeaturesState.selectedProfile.profile));}}/> :
-//                         <InputsChart dataSet={dataSetForInputsChart} mappedDataForInputsChart={mappedDataForInputsChart} inputs={frameCount}/>
-//                     }
-//                 </Grid>
-//                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    // {xaiFeaturesState.xaiRegionDataError  ? <RefreshRequest showError={"Error"} action={()=>{dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiRegionData));}}/>:
-                    //     <UpdateModelChart xaiRegionData={xaiFeaturesState.xaiRegionData}/>
-                    // }
-//                 </Grid>
-//             </Grid>
-//             <Grid item xs={6} container direction="row" justifyContent="center" alignItems="center" className={classes.Chartcontainer}>
-//                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    // {xaiFeaturesState.xaiBandDataError ? <RefreshRequest showError={"Error"} action={()=>{dispatch(setXaiBandData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiBandData));}}/> : 
-                    //     <PredictionsChart xaiBandData={xaiFeaturesState.xaiBandData?.data}/>
-                    // }
-//                 </Grid>
-//                 <Grid item xs={6} container className={classes.Chart} direction="row" justifyContent="center" alignItems="center">
-                    // {xaiFeaturesState.periodPriceDataError || xaiFeaturesState.xaiRegionDataError ? <RefreshRequest showError={"Error"} action={()=>{dispatch(setPeriodPriceData(startOfTheDay,startOfTheNextDay)); dispatch(setXaiRegionData(homeLabel, xaiFeaturesState.selectedProfile.profile,skipXaiRegionData)) }}/>: 
-                    //     <SetpointScheduleChart xaiRegionData={xaiFeaturesState.xaiRegionData} periodPriceData={xaiFeaturesState.periodPriceData}/>
-                    // }
-//                 </Grid>
-//             </Grid>
-//         </Grid>
-//         <Grid item container xs={0.5} className={classes.navigateButtons}  direction="row" justifyContent="center" alignItems="center">
-//             <Grid item container xs={6} direction="row" justifyContent="center" alignItems="center">
-//                 <Grid item container direction="row" justifyContent="center" alignItems="center">
-//                     <Grid item>
-//                         <IconButton disabled={frameCount === 0} size='large'  color='primary' onClick={previousFrame}>
-//                             <NavigateBeforeIcon/>
-//                         </IconButton>
-//                     </Grid>
-//                     <Grid item>
-//                         <Typography variant='subtitle2' >Inputs</Typography>
-//                     </Grid>
-//                     <Grid item>
-//                         <IconButton disabled={frameCount >= xaiFeaturesState.xaiScatterData?.count } size='large'  color='primary' onClick={nextFrame}>
-//                             <NavigateNextIcon/>
-//                         </IconButton>
-//                     </Grid>
-//                 </Grid>
-//             </Grid>
-//             <Grid item container xs={6} direction="row" justifyContent="center" alignItems="center">
-//                 <Grid item container direction="row" justifyContent="center" alignItems="center">
-//                     <Grid item>
-//                         <IconButton size='large'  color='primary' onClick={previousTimeslots}>
-//                             <NavigateBeforeIcon/>
-//                         </IconButton>
-//                     </Grid>
-//                     <Grid item>
-//                         <Typography variant='subtitle2' >Day</Typography>
-//                     </Grid>
-//                     <Grid item>
-//                         <IconButton size='large'  color='primary' onClick={nextTimeslots}>
-//                             <NavigateNextIcon/>
-//                         </IconButton>
-//                     </Grid>
-//                 </Grid>
-//             </Grid>
-//         </Grid>
-//     </Grid>
-//   );

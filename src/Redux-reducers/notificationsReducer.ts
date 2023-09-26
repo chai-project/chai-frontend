@@ -1,5 +1,7 @@
 import { Dispatch } from 'redux';
 
+
+//State for notifications (pop up messages) component reducer
 const notificationReducer = (state = null , action:any) => {
     switch(action.type) {
         case 'NOTIFICATION_SET':

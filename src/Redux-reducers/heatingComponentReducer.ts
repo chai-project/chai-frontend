@@ -10,6 +10,7 @@ interface heatingComponent {
     expires_at:string
 }
 
+// State for heating component reducer
 const heatingComponentReducer = (state = {mode:null, target_temperature: null, temperature: null, valve_open: null, activeProfile: null, isValid:null, userChanged:false, error: null} , action:any) => {
     switch(action.type) {
         case "SET_HEATING_COMPONENT_DATA":
@@ -62,7 +63,7 @@ export const initializeHeatingComponentData = (label:String) => {
 };
 
 
-export const setHeatingComponentMode = (mode: String) => { //boolean nutrinti.
+export const setHeatingComponentMode = (mode: String) => {
 
     return async (dispatch : Dispatch) => {
             dispatch({
@@ -81,7 +82,7 @@ export const setTemperature = (newTargetTemperature:number) => {
     };
 };
 
-export const setActiveProfile = (profile:any) => { //define type later
+export const setActiveProfile = (profile:any) => {
     return async (dispatch : Dispatch) => {
         dispatch({
             type:"SET_ACTIVE_PROFILE",
@@ -91,7 +92,7 @@ export const setActiveProfile = (profile:any) => { //define type later
 };
 
 
-export const setUserChangedBackToFalse = () => { //define type later
+export const setUserChangedBackToFalse = () => {
     return async (dispatch : Dispatch) => {
         dispatch({
             type:"SET_USER_CHANGED_BACK_TO_FALSE",
@@ -101,7 +102,7 @@ export const setUserChangedBackToFalse = () => { //define type later
 };
 
 
-export const setUserChangedTrue = () => { //define type later
+export const setUserChangedTrue = () => {
     return async (dispatch : Dispatch) => {
         dispatch({
             type:"SET_USER_CHANGED_TO_TRUE",

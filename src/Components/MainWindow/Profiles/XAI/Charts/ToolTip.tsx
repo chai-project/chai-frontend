@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
+import { Grid, IconButton } from '@mui/material/';
 
 
 import InfoIcon from '@mui/icons-material/Info';
@@ -10,20 +10,18 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 //chartjs 
 import 'chart.js/auto'
-import {Line} from 'react-chartjs-2'
 import { Typography } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     main: {
-        // border : '1px dashed red',
+
     },
     button:{
-        // border: '1px solid lime',
+
     },
     info:{
-        // border: '1px solid yellow',
         position:'fixed',
         zIndex: 3,
         borderRadius: 5,
@@ -44,11 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     },
     text:{
-        // border: '1px solid pink',
 
     },
     closeButton:{
-        // border: '1px solid lime',
 
     }
   }),

@@ -1,26 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { createBrowserHistory } from 'history';
 import services from '../../../Services/services'
-
-
 
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid } from '@mui/material/';
-
-
+import { Button, Grid } from '@mui/material/';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux';
 import { setNotification, setErrorMessage } from '../../../Redux-reducers/notificationsReducer';
 import { initialiseLogs } from '../../../Redux-reducers/logsReducer';
-// import { initializeData } from './Redux-reducers/dataReducer';
-
 
 //types
 import profile from '../../../Types/types'
-// 
 
 //components
 import SelectProfileButton from './SelectProfileButton';
@@ -35,44 +26,26 @@ import { initializeHeatingProfiles, setUserResetProfile } from '../../../Redux-r
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainContainer: {
-      //  boxSizing: 'border-box',
-    //    position: 'relative', //sitas!!!
-    //    width: '100%',
        height: '100%',
-    //    background: '#CFD8DC',
-      //  left: '4%',
-      //  top: '10%',
     },
     buttons:{
-        // width: '100%',
-        // height: '15%',
-    //   border: '3px dashed red',
 
     },
     profileContent:{
-        // border: "2px dashed red",
         width: '100%',
         height: '100%',
     },
     container:{
-        // border: "2px dashed lime",
         height: '100%',
         width: '100%',
-        // position: 'relative'
     },
     selectButton:{
-        // border: "2px dashed red",
         height:'72%'
     },
     selectProfileButton:{
         position: 'relative',
         left: '1%',
-        // border: '3px dashed red',
-        
-        // margin: 'auto',
-        // border: "1px solid pink",
         width: '15%',
-        // position: 'relative',
         [theme.breakpoints.down('md')]: {
             width: '35%',
           }
@@ -80,10 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
     resetProfileButtons:{
         position: 'relative',
         right: '1%',
-        // border: '3px dashed red',
-        // border: "1px solid yellow",
         width: '50%',
-        // position:'relative'
     },
     spaceBetweenButtons:{
         width: '30%',
@@ -130,7 +100,6 @@ const Profiles: React.FC<{currentState:any, homeLabel:any}> = ({currentState, ho
             }else {
                 if(profileToReset === profile?.profileName){
                     const request = await services.resetProfile(homeLabel, profile?.profile)
-                    //if 200 ad notification
                     if(request === 200){
                         dispatch(setNotification(`Profile ${profile?.profileName} is reset`, 5000));
                         dispatch(initialiseLogs(homeLabel, null, null))

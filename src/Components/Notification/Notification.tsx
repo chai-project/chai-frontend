@@ -4,8 +4,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
 import Grow, { GrowProps } from '@mui/material/Grow';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import {makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 
 
@@ -42,10 +41,6 @@ const Notification: React.FC<{notificationState:any}> = ({notificationState}) =>
     const [severity, setSeverity] = useState<any>(null);
 
     const classes = useStyles();
-
-    const theme = useTheme();
-    const breakpoint = useMediaQuery(theme.breakpoints.down("md"));
-    // const vertical:any = breakpoint ? "top" : "bottom";
     const vertical:any = "bottom";
     const horizontal: any = "right";
 
@@ -57,9 +52,7 @@ const Notification: React.FC<{notificationState:any}> = ({notificationState}) =>
 
         }else{
             setOpen(false)
-            // setSeverity(null)
             setNotificationContent(null)
-            // setSeverity(null)
         }
     },[notificationState])
 
@@ -74,7 +67,7 @@ const Notification: React.FC<{notificationState:any}> = ({notificationState}) =>
   
     
   return (
-    <Box sx={{ display: 'flex' }}> {/* in Snackbar autoHideDuration={6000} to hide, but it is implemented in the reducer*/}
+    <Box sx={{ display: 'flex' }}>
         <Snackbar open={open} onClose={handleClose} TransitionComponent={TransitionRight} anchorOrigin={{ vertical, horizontal }}  key={"top" + "center"}> 
             <Alert onClose={handleClose} severity={severity ? severity : undefined} sx={{ width: '100%' }} className={severity === "success" ? classes.success : classes.error }>
                 {notificationContent} 

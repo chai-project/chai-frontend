@@ -67,7 +67,6 @@ interface Props {
 
 const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawLog:any, setIsGettingMoreLogs:any , isGettingMoreLogs:boolean, fromRedux:any, toRedux:any, page:number, setPage:any, fromDatePicker:any, toDatePicker:any, rowsPerPage:any, setRowsPerPage:any, allLogsRetrieved:boolean}>= ({logs, label, previousSkip, lastRawLog, setIsGettingMoreLogs, isGettingMoreLogs, fromRedux, toRedux, page, setPage, fromDatePicker, toDatePicker, rowsPerPage, setRowsPerPage, allLogsRetrieved}) => {
 
-  // const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const ref = useRef<any>(null);
 
   const classes = useStyles();
@@ -141,13 +140,6 @@ const LogTable: React.FC <{logs:any, label:string, previousSkip:number, lastRawL
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        // nextIconButtonProps={
-        //   allLogsRetrieved
-        //   ? {
-        //       disabled: allLogsRetrieved
-        //     }
-        //   : undefined
-        // }
       />
     </Paper>
   );

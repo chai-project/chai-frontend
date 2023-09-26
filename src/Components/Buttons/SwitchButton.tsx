@@ -3,8 +3,6 @@ import * as React from 'react';
 //MUI
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup'; // cia bus visi switchai
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';

@@ -428,7 +428,7 @@ const  maskForADay = [
 
 
 
-//Heating Component reducer
+// State for Heating Schedule reducer
 const heatingScheduleReducer = (state:any = null , action:any) => { //define types
     switch(action.type) {
         case "SET_HEATING_SCHEDULE_DATA":

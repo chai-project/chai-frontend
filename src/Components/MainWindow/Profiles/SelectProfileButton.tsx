@@ -5,12 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-//types
-import profile from '../../../Types/types'
-
 //mui
-import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper } from '@mui/material/';
+import {makeStyles } from '@material-ui/core/styles';
 
 // redux
 import {useSelector, useDispatch} from 'react-redux'
@@ -19,17 +15,17 @@ const useStyles = makeStyles({
     label: {
       "&.MuiOutlinedInput-root": {
         "& fieldset": {
-          borderColor: "white" // sia spalva pakeisti i balta arba jouda priklauso nuo app temos.
+          borderColor: "white" // implement logic here for changing color on dark light theme selection
         },
         "&:hover fieldset": {
-          // borderColor: "yellow"
+
         },
         "&.Mui-focused fieldset": {
           borderColor: "#5ACBCC"
         },
       },
       "&.Mui-focused": {
-        // color: "green",
+
       },
       
     },
@@ -40,7 +36,7 @@ const useStyles = makeStyles({
 
 
 const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:any}> = ({allProfiles, profile, setProfile }) => {
-  const activeProfile = useSelector( (state:any)=>{ // async await problemos, su switch button, reike giliau pasikapstyt, bet async await neupdeitina steito.
+  const activeProfile = useSelector( (state:any)=>{
     return  state.heatingComponent.activeProfile
   })
 
@@ -86,7 +82,7 @@ const SelectProfileButton: React.FC<{allProfiles:any, profile:any, setProfile:an
                 },
             }}
         >
-          {allProfiles.map((profile:any)=>{ //define type
+          {allProfiles.map((profile:any)=>{
               return (
                 <MenuItem  value={profile.profileName}>{profile.profileName} </MenuItem>
               )

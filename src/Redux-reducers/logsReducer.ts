@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 const currentTime = dayjs();
 const today = currentTime.startOf('day');
 
-
+//utils for logs reducers
 const getPreviousNextAndLastValveSetTypeLog = (firstPart:any, secondPart:any) => {
   let previousIndex:any = null
   const previous = firstPart?.findLast((rawLog:any, index:number)=>{
@@ -95,7 +95,6 @@ const transformLogs = (rawLogs:any[]) => {
         }
         break;
       case "PROFILE_UPDATE":
-        
         return {dateAndTime: rawLog.timestamp ,date: date ,time: time , category: "System" , description: `Profile ${profileName} has been updated because you set the target temperature to ${setpoint}°C when the price was ${price} p/kWh where the AI now believes your price sensitivity is ${priceSensitivity} and your preferred temperature (if energy were free) is ${prefferedTemperature}°C.`}
         break;
       case "PROFILE_RESET":
@@ -114,15 +113,14 @@ const transformLogs = (rawLogs:any[]) => {
   })
 };
 
-
+// State for logs (notifications tab /notifications) reducer
 const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null, autoRefresh: true, allLogsRetrieved: false, initialiseFinished: false, categoryFilters: {'System': true, 'User': true}} , action:any) => {
     switch(action.type) {
         case "INITIALISE_LOGS":
             return  state = {...state, ...action.data}
         case "GET_MORE_LOGS_ON_USER_CLICK":
-            // console.log(action.data.allLogsRetrieved === true)
             if(utils.areEqualArray(state.lastValveSetTypeRawLog.rawLog?.parameters, action.data.lastValveSetTypeRawLog.rawLog?.parameters) ){
-              state.logs.splice(state.lastValveSetTypeRawLog.index,1) // buvo slice, taciau splcie iskerpa is previous array
+              state.logs.splice(state.lastValveSetTypeRawLog.index,1)
             }
             return   state = {...state, logs: state.logs.concat(action.data.logs) ,skip:action.data.skip, lastValveSetTypeRawLog: {rawLog: action.data.lastValveSetTypeRawLog.rawLog ? action.data.lastValveSetTypeRawLog.rawLog : state.lastValveSetTypeRawLog.rawLog , index: action.data.lastValveSetTypeRawLog.index ? state.logs.length + action.data.lastValveSetTypeRawLog.index : state.lastValveSetTypeRawLog.index} } //state.logs.length + action.data.lastValveSetTypeRawLog.index
         case "REFRESH_LOG_STATE":
@@ -162,7 +160,6 @@ const logsReducer = (state: any = {logs:null, skip:0, lastValveSetTypeRawLog:nul
 
 export const initialiseLogs = (label:String, from:any, to:any) => {
   const period = {
-    // from: from ? from : today.subtract(6,'day'),
     from: from ? from : dayjs('2021-01-01'),
     to: to ? to.add(1,'day') : currentTime.startOf('day').add(1,'day')
   }
@@ -170,11 +167,6 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
 
 
     return async (dispatch : Dispatch, getState: any) => {
-      // console.log(getState().logs.categoryFilters)
-      // dispatch({
-      //   type:"SET_ERROR",
-      //   data: {error: null}
-      //   })
         dispatch({
           type:"SET_ERROR",
           data: {logs:null, skip:0, lastValveSetTypeRawLog:null, from: null , to: null, error:null, autoRefresh: true, allLogsRetrieved: false, initialiseFinished: false} //finished True , initialisation finished true
@@ -183,39 +175,18 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
         let logs:any[] = []
         let skip = 0;
         let limit = 200;
-        let previousIndex = 0
         while (logs.length < limit + 1) {
-          
           const rawLogsRequest:any = await services.getLogs(label, skip, limit, period.from, period.to, getState().logs.categoryFilters );
-          // if(rawLogsRequest.error){
-          //   console.log('error')
-          // }
-          // console.log('rawLogsRequest',rawLogsRequest.length)
-          // console.log('blblb')
-          // if(rawLogsRequest.error){
-          //   setErrorMessage(rawLogsRequest.error, 5000)(dispatch);
-          //   // dispatch({
-          //   //   type:"SET_ERROR",
-          //   //   data: {error: rawLogsRequest.error}
-          //   // })
-          //   // if(getState().logs.logs === null){
-          //   //   dispatch({
-          //   //     type:"INITIALISE_LOGS",
-          //   //     data: {logs: []}
-          //   //   })
-          //   // }
-          //   break;
-          // }else{
             if(rawLogsRequest.length === 0){
               if(getState().logs.logs === null){
                 dispatch({
                   type:"INITIALISE_LOGS",
-                  data: {logs: [], allLogsRetrieved: true, initialiseFinished:true} //finished True, initialisation finished true
+                  data: {logs: [], allLogsRetrieved: true, initialiseFinished:true}
                 })
               }else{
                 dispatch({
                   type:"RETRIEVED_ALL_LOGS",
-                  data: {allLogsRetrieved: true, initialiseFinished:true} //finished True , initialisation finished true
+                  data: {allLogsRetrieved: true, initialiseFinished:true}
                 })
               }
               break;
@@ -231,45 +202,22 @@ export const initialiseLogs = (label:String, from:any, to:any) => {
               skip += limit;
               dispatch({
                 type:"INITIALISE_LOGS",
-                data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: to ? to :  currentTime.startOf('day').add(1,'day') , autoRefresh: period.to > today ? true : false  } //to: period.to > today ? today : period.to
+                data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: to ? to :  currentTime.startOf('day').add(1,'day') , autoRefresh: period.to > today ? true : false  }
               })
             };
-          // }
-
-
-          // if(rawLogsRequest.length === 0){
-          //   break;
-          // }else{
-          //   const rawLogs = getLogsNoDuplicates(rawLogsRequest);
-          //   const previousNextAndLast = getPreviousNextAndLastValveSetTypeLog(logs, rawLogs)
-          //   const firstValveSetLog = getPreviousNextAndLastValveSetTypeLog(null, logs)
-          //   if(utils.areEqualArray(previousNextAndLast.previous.rawLog?.parameters, previousNextAndLast.next.rawLog?.parameters)){
-          //     logs.splice(previousNextAndLast.previous.index, 1);
-          //   }
-          //   logs =  logs.concat(rawLogs);
-          //   const transformedLogs = transformLogs(logs)
-          //   skip += limit;
-          //   dispatch({
-          //     type:"INITIALISE_LOGS",
-          //     data: {logs:transformedLogs, skip:skip, firstValveSetTypeRawLog: { rawLog: firstValveSetLog.next.rawLog, index: firstValveSetLog.next.index}, lastValveSetTypeRawLog: { rawLog:previousNextAndLast.last.rawLog, index: logs.length - (rawLogs.length - previousNextAndLast.last.index) }, from: period.from, to: period.to > today ? today : period.to }
-          //   })
-          // };
-
-        
         };
 
         if(logs.length >= 200){
           dispatch({
             type:"INITIALISE_LOGS",
-            data: {initialiseFinished:true} //finished True, initialisation finished true
+            data: {initialiseFinished:true}
           })
         }
-        // if logs length > 200 or skipe then dispatch initialised finished true
     };
 };
 
 
-export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousLog:any, from:any, to:any) => { //cia bus datos nuo iki...
+export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousLog:any, from:any, to:any) => {
   return async (dispatch : Dispatch, getState:any) => {
       let logs:any[] = []
       let skip = previousSkip;
@@ -280,9 +228,6 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
 
       while (logs.length < limit + 1) {
         const rawLogsRequest:any = await services.getLogs(label, skip, limit, from, to.add(1,'day'), getState().logs.categoryFilters );
-        // if(rawLogsRequest.error){
-        //   console.log('error')
-        // }
         
         if(rawLogsRequest.length === 0 ){
           limit = null
@@ -305,19 +250,11 @@ export const getMoreLogsOnUserClick = (label:String, previousSkip:any, previousL
       };
       const transformedLogs = transformLogs(logs)
       if(transformedLogs.length > 0){
-        // console.log('puting more', transformedLogs)
         dispatch({
           type:"GET_MORE_LOGS_ON_USER_CLICK",
           data: {logs:transformedLogs, skip:skip, lastValveSetTypeRawLog: { rawLog: previousNextAndLast?.last ? previousNextAndLast.last.rawLog : null , index: previousNextAndLast?.last ? logs.length - previousValveSetIndex : null }}
         })
-      }else{
-        // dispatch({
-        //   type:"RETRIEVED_ALL_LOGS",
-        //   data: {allLogsRetrieved: true}
-        // })
       }
-
-      // else finished True
   };
 };
 
@@ -332,7 +269,6 @@ export const refreshLogState = (label:String, from:any, to:any) => {
         let logs:any[] = []
         let skip = 0;
         let limit = 200;
-        let previousIndex = 0
         while (logs.length < limit + 1) {
           const rawLogsRequest:any = await services.getLogs(label, skip, limit, timeOfTheFirstLog, currentTime.startOf('day').add(1,'day'), getState().logs.categoryFilters );
           if(rawLogsRequest?.length === 0){

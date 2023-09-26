@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 //mui
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
+import {Grid } from '@mui/material/';
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 //components
@@ -21,7 +21,6 @@ import {
   import { Scatter } from "react-chartjs-2";
   
   import annotationPlugin from "chartjs-plugin-annotation";
-import { Typography } from '@material-ui/core';
   
   ChartJS.register(
     CategoryScale,
@@ -40,34 +39,22 @@ import { Typography } from '@material-ui/core';
     chart:{
         height: '25vh',
         width: '95%',
-        // [theme.breakpoints.down('md')]: {
-        //     height: '28vh',
-        //   }
         [theme.breakpoints.up('md')]: {
           height: '25vh',
         },
         [theme.breakpoints.down('md')]: {
           height: '60vh',
-          // height: '46vh'
-
         },
         [theme.breakpoints.down('sm')]: {
             height: '36vh',
           },
-        // border: "2px dashed purple",
-        // border: "2px dashed purple",
-        // height: '100%',
     },
     tooltip:{
-      // border: "2px dashed purple",
       height: '0vh'
     },  
     tooltipButton:{
       position: 'absolute',
-      // backgroundColor:'green',
-
       [theme.breakpoints.up('md')]: {
-        // height: '25vh',
         top: 43,
         left: 960,
       },
@@ -133,7 +120,6 @@ const UpdateModelChart: React.FC<{xaiRegionData:any, inputs:number, breakpointMe
   };
   const options:any = {
     responsive: breakpoint ? true : breakpointMedium ? true : true,
-    // maintainAspectRatio: false,
     maintainAspectRatio: breakpoint ? false : breakpointMedium ? false : false,
     animation: {
       duration: 0
@@ -142,7 +128,6 @@ const UpdateModelChart: React.FC<{xaiRegionData:any, inputs:number, breakpointMe
         autocolors: false,
         title: {
             display: true,
-            // text: inputs === 1 ? `AI model for ${inputs} input` : `AI model for ${inputs} inputs`,
             text: `AI model`,
             color: 'rgb(87, 203, 204,1)',
             fullSize:false,
@@ -156,6 +141,7 @@ const UpdateModelChart: React.FC<{xaiRegionData:any, inputs:number, breakpointMe
               color: '#FFFFFF',
               usePointStyle: true,
             },
+            //dissable on click show/hide
             onClick: (click:any,legenItem:any,legend:any)=>{
                 // console.log(click);
                 return;
@@ -222,13 +208,6 @@ const UpdateModelChart: React.FC<{xaiRegionData:any, inputs:number, breakpointMe
       { !xaiRegionData ? <ProgressCircular size={40}/> : <Scatter data={data} options={options} plugins={[annotationPlugin]}/>}
     </Grid>
 </Grid>
-    // <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart}>
-    //   {/* <Typography>updatedModeChart</Typography> */}
-      // { !xaiRegionData ? <ProgressCircular size={40}/> : <Scatter data={data} options={options} plugins={[annotationPlugin]}/>}
-    //   {/* <Grid item className={classes.tooltipButton}>
-    //     <ToolTip info={'updatedModeChart'}/>
-    //   </Grid> */}
-    // </Grid>
   )
 }
 

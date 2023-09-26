@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 //mui
 import {makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { CssBaseline, Button, Paper, Grid, Divider, IconButton } from '@mui/material/';
+import {Grid} from '@mui/material/';
 
 
 //chartjs 
@@ -11,47 +11,33 @@ import {Line} from 'react-chartjs-2'
 // components
 import ProgressCircular from '../../../../ProgressBar/ProgressCircular';
 import ToolTip from './ToolTip';
-import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     chart:{
         height: '25vh',
         width: '95%',
-        // [theme.breakpoints.down('md')]: {
-        //     height: '28vh',
-        //   }
         [theme.breakpoints.up('md')]: {
           height: '25vh',
         },
         [theme.breakpoints.down('md')]: {
           height: '60vh',
-          // height: '46vh'
-
         },
         [theme.breakpoints.down('sm')]: {
             height: '36vh',
           },
-        // border: "2px dashed purple",
-        // height: '100%'
     },
     tooltip:{
-      // border: "2px dashed purple",
       height: '0vh'
     },
     tooltipButton:{
       position: 'absolute',
-      // backgroundColor:'yellow',
-
       [theme.breakpoints.up('md')]: {
-        // height: '25vh',
         top: 386,
         left: 960,
       },
       [theme.breakpoints.down('md')]: {
         top: 205,
-        // left: 945,
-        // left: 970,
         left: 975,
       },
       [theme.breakpoints.down('sm')]: {
@@ -66,7 +52,6 @@ const SetpointScheduleChart: React.FC<{periodPriceData:any, xaiRegionData:any, b
   
   const classes = useStyles();
 
-  const profile =  xaiRegionData?.data.profile
   const centre_x =  xaiRegionData?.data.centre_x
   const centre_y =  xaiRegionData?.data.centre_y
 
@@ -83,18 +68,6 @@ const radius = (type: String) => {
   const data:any = {
     labels: periodPriceData?.map((timeframe:any)=>{return timeframe.start.split(/(?=[A-Z])/)[1].substr(1,5)}),
     datasets: [
-      // {
-      //   label: "Price (p/kWh)",
-      //   yAxisID: 'y1',
-      //   type:'line',
-      //   data: periodPriceData?.map((timeframe:any)=>{return timeframe.rate}),
-      //   radius: radius('radius'),
-      //   hitRadius: radius('hitradius'),
-      //   fill: true,
-      //   backgroundColor: "#F6946B",
-      //   borderColor: "#F6946B",
-      //   stepped: 'before',
-      // },
       {
         label: "Target temperature (°C)",
         yAxisID: 'y2',
@@ -123,7 +96,6 @@ const radius = (type: String) => {
   };
   const options:any = {
     responsive: breakpoint ? true : breakpointMedium ? true : true,
-    // maintainAspectRatio: false,
     maintainAspectRatio: breakpoint ? false : breakpointMedium ? false : false,
     animation: {
         duration: 0
@@ -141,11 +113,9 @@ const radius = (type: String) => {
             align: breakpoint ? 'center' : breakpointMedium ? 'center' : 'center',
             labels:{
               color: "#FFFFFF",
-              // boxWidth: 20,
-              // fontSize: 14,
               usePointStyle: true,
-              // padding: 20,
             },
+            //dissable on click show/hide
             onClick: (click:any,legenItem:any,legend:any)=>{
                 // console.log(click);
                 return;
@@ -235,13 +205,6 @@ const radius = (type: String) => {
         {!xaiRegionData || !periodPriceData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/>}
       </Grid>
     </Grid> 
-  //   <Grid container direction="column" justifyContent="center" alignItems="center" className={classes.chart} >
-  //     {/* <Typography>setpointScheduleChart</Typography> */}
-    // {!xaiRegionData || !periodPriceData ? <ProgressCircular size={40}/> : <Line data={data} options={options}/>}
-  //   {/* <Grid item className={classes.tooltipButton}>
-  //     <ToolTip info={'setpointScheduleChart'}/>
-  //   </Grid> */}
-  // </Grid>
   )
 }
 
